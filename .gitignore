@@ -5,3 +5,7 @@
 # RStudio files
 .Rproj.user/
 
+# Compiled objects
+*.o
+*.so
+*.dll
