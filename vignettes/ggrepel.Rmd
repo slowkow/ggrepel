@@ -40,9 +40,8 @@ p <- ggplot(mtcars) +
   geom_text_repel(
     aes(wt, mpg, label = rownames(mtcars)),
     label.padding = unit(0.25, "lines"),
-    # size = 5, max.iter = 1e4,
-    step.size = 1 * 1e-6,
-    # step.size = NA,
+    # size = 8, max.iter = 1e4,
+    force = 1,
     segment.color = '#666666'
   ) +
   theme_classic()

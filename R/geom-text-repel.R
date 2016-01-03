@@ -6,8 +6,7 @@ geom_text_repel <- function(
   label.padding = unit(0.25, "lines"),
   segment.color = "#666666",
   segment.size = 0.5,
-  step.size = 0.01,
-  angle.size = 0.01,
+  force = 1,
   max.iter = 10000,
   na.rm = FALSE,
   show.legend = NA,
@@ -35,8 +34,7 @@ geom_text_repel <- function(
       label.padding = label.padding,
       segment.color = segment.color,
       segment.size = segment.size,
-      step.size = step.size,
-      angle.size = angle.size,
+      force = force,
       max.iter = max.iter,
       ...
     )
@@ -62,8 +60,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     label.padding = unit(0.25, "lines"),
     segment.color = "#666666",
     segment.size = 0.5,
-    step.size = 0.01,
-    angle.size = 0.01,
+    force = 1,
     max.iter = 10000
   ) {
     lab <- data$label
@@ -110,7 +107,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     ws <- repel_boxes(
       do.call(rbind, boxes),
       xlim = range(data$x), ylim = range(data$y),
-      force = step.size, maxiter = max.iter
+      force = force * 1e-6, maxiter = max.iter
     )
 
 #     cat("data$x", range(data$x), "\n")

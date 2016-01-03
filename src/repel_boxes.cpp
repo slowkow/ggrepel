@@ -131,10 +131,13 @@ DataFrame repel_boxes(
   int iter = 0;
   bool any_overlaps = true;
 
+  if (NumericVector::is_na(force)) {
+    force = 1e-6;
+  }
+
   // height over width
   NumericVector ratios(n);
   NumericVector b(4);
-  // lapply(boxes, function(b)  (b[4] - b[2]) / (b[3] - b[1]))
   for (int i = 0; i < n; i++) {
     b = boxes(i, _);
     ratios[i] = (b[3] - b[1]) / (b[2] - b[0]);
