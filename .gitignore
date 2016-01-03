@@ -2,10 +2,10 @@
 .Rhistory
 .Rapp.history
 
-# RStudio files
-.Rproj.user/
-
 # Compiled objects
 *.o
 *.so
 *.dll
+
+# Rstudio files
+.Rproj.user

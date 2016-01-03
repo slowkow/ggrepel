@@ -1,5 +1,5 @@
 #' @export
-geom_repel <- function(
+geom_text_repel <- function(
   mapping = NULL, data = NULL, stat = "identity",
   position = "identity", parse = FALSE, ...,
   nudge_x = 0, nudge_y = 0,
@@ -25,7 +25,7 @@ geom_repel <- function(
     data = data,
     mapping = mapping,
     stat = stat,
-    geom = GeomRepel,
+    geom = GeomTextRepel,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
@@ -43,11 +43,11 @@ geom_repel <- function(
   )
 }
 
-#' GeomRepel
+#' GeomTextRepel
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomRepel <- ggproto("GeomRepel", Geom,
+GeomTextRepel <- ggproto("GeomTextRepel", Geom,
   required_aes = c("x", "y", "label"),
 
   default_aes = aes(
@@ -137,7 +137,7 @@ GeomRepel <- ggproto("GeomRepel", Geom,
 
     grobs <- lapply(1:nrow(data), function(i) {
       row <- data[i, , drop = FALSE]
-      repelGrob(
+      textRepelGrob(
         lab[i],
         x = unit(ws$x[i], "native"),
         y = unit(ws$y[i], "native"),
@@ -160,13 +160,13 @@ GeomRepel <- ggproto("GeomRepel", Geom,
     })
     class(grobs) <- "gList"
 
-    ggname("geom_repel", grobTree(children = grobs))
+    ggname("geom_text_repel", grobTree(children = grobs))
   },
 
   draw_key = draw_key_text
 )
 
-repelGrob <- function(
+textRepelGrob <- function(
   label,
   x = unit(0.5, "npc"),
   y = unit(0.5, "npc"),
@@ -200,12 +200,12 @@ repelGrob <- function(
     text.gp = text.gp,
     segment.gp = segment.gp,
     vp = vp,
-    cl = "repelgrob"
+    cl = "textrepelgrob"
   )
 }
 
 #' @export
-makeContent.repelgrob <- function(x) {
+makeContent.textrepelgrob <- function(x) {
   hj <- resolveHJust(x$just, NULL)
   vj <- resolveVJust(x$just, NULL)
 
