@@ -1,0 +1,25 @@
+Package: ggrepel
+Version: 0.0.1
+Title: Text label Geoms for `ggplot2`
+Authors@R: c(person("Kamil", "Slowikowski", role = c("aut", "cre"),
+    email = "kslowikowski@fas.harvard.edu"))
+Depends:
+    R (>= 3.0.0),
+    ggplot2 (>= 1.0.0.9003)
+Imports:
+    ggplot2,
+    colorspace,
+    grid,
+    scales,
+    methods,
+    Rcpp
+Suggests:
+    knitr
+VignetteBuilder: knitr
+Description: Text label Geoms for `ggplot2`.
+    Provides `ggplot2` Geoms that help to avoid overlapping text labels.
+License: GPL-2
+URL: http://github.com/slowkow/ggrepel
+BugReports: http://github.com/slowkow/ggrepel/issues
+RoxygenNote: 5.0.1
+LinkingTo: Rcpp

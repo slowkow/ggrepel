@@ -1,0 +1,50 @@
+---
+title: "ggrepel"
+author: "Kamil Slowikowski"
+date: "December 22, 2015"
+output: html_document
+---
+
+```{r geom_wordcloud}
+library(ggrepel)
+
+ggplot(mtcars) +
+  # geom_point(aes(wt, mpg), color = 'red') +
+  geom_text(
+    aes(x = wt, y = mpg, label = rownames(mtcars)),
+    fontface = "bold", size = 5
+  )
+```
+
+```{r geom_wordcloud}
+library(ggrepel)
+
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg), color = 'red', size = 2) +
+  geom_wordcloud(
+    aes(x = wt, y = mpg, label = rownames(mtcars)),
+    # hjust = 1,
+    segment.size = 0.5,
+    fontface = "bold", size = 5,
+    step.size = 0.01, angle.size = 0.05,
+    max.iter = 1e4,
+    label.padding = unit(0.5, "lines")
+  )
+```
+
+```{r geom_wordcloud}
+library(ggrepel)
+system.time({
+p <- ggplot(mtcars) +
+  geom_point(aes(wt, mpg), color = 'red') +
+  geom_repel(aes(wt, mpg, label = rownames(mtcars)),
+             label.padding = unit(0.25, "lines"),
+             # size = 5, max.iter = 1e4,
+             step.size = 1 * 1e-6,
+             # step.size = NA,
+             segment.color = '#666666') +
+  theme_classic()
+print(p)
+})
+# https://github.com/slowkow/ggrepel
+```
