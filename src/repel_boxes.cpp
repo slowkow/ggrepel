@@ -203,9 +203,10 @@ DataFrame repel_boxes(
     }
   }
 
-  Rcout << "iter " << iter << std::endl;
-  Rcout << "max force x " << mx << std::endl;
-  Rcout << "max force y " << my << std::endl;
+  // Debug messages.
+  // Rcout << "iter " << iter << std::endl;
+  // Rcout << "max force x " << mx << std::endl;
+  // Rcout << "max force y " << my << std::endl;
 
   NumericVector xs(n);
   NumericVector ys(n);
