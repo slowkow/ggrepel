@@ -28,7 +28,7 @@ library(ggplot2)
 ggplot(mtcars) +
   geom_point(aes(wt, mpg), color = 'red') +
   geom_text(aes(wt, mpg, label = rownames(mtcars))) +
-  theme_classic()
+  theme_classic(base_size = 16)
 ```
 
 ## geom_text_repel
@@ -41,7 +41,7 @@ library(ggrepel)
 ggplot(mtcars) +
   geom_point(aes(wt, mpg), color = 'red') +
   geom_text_repel(aes(wt, mpg, label = rownames(mtcars))) +
-  theme_classic()
+  theme_classic(base_size = 16)
 ```
 
 We can adjust all the options available for `geom_text` such as `size` and
@@ -54,12 +54,12 @@ ggplot(mtcars) +
   geom_point(aes(wt, mpg), color = 'red') +
   geom_text_repel(
     aes(wt, mpg, label = rownames(mtcars)),
-    size = 4,
+    size = 5,
     fontface = 'bold',
     segment.color = 'red',
     label.padding = unit(0.5, "lines"),
     force = 2,
     max.iter = 1e4
   ) +
-  theme_classic()
+  theme_classic(base_size = 16)
 ```

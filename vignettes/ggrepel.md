@@ -13,7 +13,7 @@ library(ggplot2)
 ggplot(mtcars) +
   geom_point(aes(wt, mpg), color = 'red') +
   geom_text(aes(wt, mpg, label = rownames(mtcars))) +
-  theme_classic()
+  theme_classic(base_size = 16)
 ```
 
 ![plot of chunk geom_text](https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text-1.png) 
@@ -29,7 +29,7 @@ library(ggrepel)
 ggplot(mtcars) +
   geom_point(aes(wt, mpg), color = 'red') +
   geom_text_repel(aes(wt, mpg, label = rownames(mtcars))) +
-  theme_classic()
+  theme_classic(base_size = 16)
 ```
 
 ![plot of chunk geom_text_repel](https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel-1.png) 
@@ -45,14 +45,14 @@ ggplot(mtcars) +
   geom_point(aes(wt, mpg), color = 'red') +
   geom_text_repel(
     aes(wt, mpg, label = rownames(mtcars)),
-    size = 4,
+    size = 5,
     fontface = 'bold',
     segment.color = 'red',
     label.padding = unit(0.5, "lines"),
     force = 2,
     max.iter = 1e4
   ) +
-  theme_classic()
+  theme_classic(base_size = 16)
 ```
 
 ![plot of chunk geom_text_repel_options](https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_options-1.png) 
