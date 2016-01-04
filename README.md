@@ -46,11 +46,11 @@ labels from overlapping each other.
 > Force field simulation of interaction of set of points. Very useful for
 > placing text labels on graphs, such as scatterplots.
 
-I found that the functions in the `FField` package were not well-suited for
-the task of repelling overlapping rectangles, so I wrote my own.
+I found that functions in the `FField` package were not ideal for repelling
+overlapping rectangles, so I wrote my own.
 
 [ggplot2]: http://ggplot2.org/
-[vignette]: https://github.com/slowkow/proxysnps/blob/master/vignettes/proxysnps.md
+[vignette]: https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.md
 [wordcloud]: https://cran.r-project.org/web/packages/wordcloud/index.html
 [FField]: https://cran.r-project.org/web/packages/FField/index.html
 
