@@ -34,6 +34,8 @@ ggplot(mtcars) +
 
 ![plot of chunk geom_text_repel](https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel-1.png) 
 
+### Options
+
 We can adjust all the options available for `geom_text` such as `size` and
 `fontface`. We can also change the line segment color, the padding surrounding
 each text label, the force of repulsion between overlapping text labels, and

@@ -44,6 +44,8 @@ ggplot(mtcars) +
   theme_classic(base_size = 16)
 ```
 
+### Options
+
 We can adjust all the options available for `geom_text` such as `size` and
 `fontface`. We can also change the line segment color, the padding surrounding
 each text label, the force of repulsion between overlapping text labels, and
