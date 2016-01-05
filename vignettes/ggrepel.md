@@ -58,3 +58,21 @@ ggplot(mtcars) +
 ```
 
 ![plot of chunk geom_text_repel_options](https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_options-1.png) 
+
+## geom_label_repel
+
+`ggrepel` includes the `geom_label_repel` function to create rectangular labels:
+
+
+```r
+library(ggrepel)
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg)) +
+  geom_label_repel(
+    aes(wt, mpg, fill = factor(cyl), label = rownames(mtcars)),
+    fontface = 'bold', color = 'white'
+  ) +
+  theme_classic(base_size = 16)
+```
+
+![plot of chunk geom_label_repel](https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_label_repel-1.png) 

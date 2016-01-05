@@ -1,5 +1,5 @@
 Package: ggrepel
-Version: 0.0.1
+Version: 0.1.0
 Title: Text label Geoms for `ggplot2`
 Authors@R: c(person("Kamil", "Slowikowski", role = c("aut", "cre"),
     email = "kslowikowski@fas.harvard.edu"))

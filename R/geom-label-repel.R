@@ -1,11 +1,11 @@
 #' @export
-geom_text_repel <- function(
+geom_label_repel <- function(
   mapping = NULL, data = NULL, stat = "identity",
   position = "identity", parse = FALSE, ...,
   nudge_x = 0, nudge_y = 0,
   label.padding = unit(0.25, "lines"),
-  segment.color = "#666666",
-  segment.size = 0.5,
+  label.r = unit(0.15, "lines"),
+  label.size = 0.25,
   force = 1,
   max.iter = 10000,
   expand = TRUE,
@@ -25,16 +25,16 @@ geom_text_repel <- function(
     data = data,
     mapping = mapping,
     stat = stat,
-    geom = GeomTextRepel,
+    geom = GeomLabelRepel,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(
       parse = parse,
-      na.rm = na.rm,
       label.padding = label.padding,
-      segment.color = segment.color,
-      segment.size = segment.size,
+      label.r = label.r,
+      label.size = label.size,
+      na.rm = na.rm,
       force = force,
       max.iter = max.iter,
       expand = expand,
@@ -43,23 +43,27 @@ geom_text_repel <- function(
   )
 }
 
-#' GeomTextRepel
+#' GeomLabelRepel
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomTextRepel <- ggproto("GeomTextRepel", Geom,
+GeomLabelRepel <- ggproto(
+  "GeomLabelRepel", Geom,
   required_aes = c("x", "y", "label"),
 
   default_aes = aes(
-    colour = "black", size = 3.88, angle = 0, hjust = 0.5,
-    vjust = 0.5, alpha = NA, family = "", fontface = 1, lineheight = 1.2
+    colour = "black", fill = "white", size = 3.88, angle = 0,
+    hjust = 0.5, vjust = 0.5, alpha = NA, family = "", fontface = 1,
+    lineheight = 1.2
   ),
 
   draw_panel = function(
-    data, panel_scales, coord,
+    self, data, panel_scales, coord,
     parse = FALSE,
     na.rm = FALSE,
     label.padding = unit(0.25, "lines"),
+    label.r = unit(0.15, "lines"),
+    label.size = 0.25,
     segment.color = "#666666",
     segment.size = 0.5,
     force = 1,
@@ -68,7 +72,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
   ) {
     lab <- data$label
     if (parse) {
-      lab <- parse(text = lab)
+      lab <- parse(text = as.character(lab))
     }
 
     data <- coord$transform(data, panel_scales)
@@ -82,29 +86,50 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     pad.x <- convertWidth(label.padding, "npc", valueOnly = TRUE)
     pad.y <- convertHeight(label.padding, "npc", valueOnly = TRUE)
 
-    # Create a dataframe with x1 y1 x2 y2
+    # Create a dataframe with x y width height
     boxes <- lapply(1:nrow(data), function(i) {
       row <- data[i, , drop = FALSE]
-      tg <- textGrob(
+      hj <- resolveHJust(c(row$hjust, row$vjust), NULL)
+      vj <- resolveVJust(c(row$hjust, row$vjust), NULL)
+      t <- textGrob(
         lab[i],
-        row$x, row$y, default.units = "native",
-        hjust = row$hjust, vjust = row$vjust,
-        rot = row$angle,
+        unit(row$x, "native") + 2 * (0.5 - hj) * label.padding,
+        unit(row$y, "native") + 2 * (0.5 - vj) * label.padding,
+        just = c(hj, vj),
         gp = gpar(
-          col = alpha(row$colour, row$alpha),
+          col = row$colour,
           fontsize = row$size * .pt,
           fontfamily = row$family,
           fontface = row$fontface,
           lineheight = row$lineheight
         ),
-        check.overlap = FALSE
+        name = "text"
+      )
+      r <- roundrectGrob(
+        row$x, row$y, default.units = "native",
+        width = grobWidth(t) + 2 * label.padding,
+        height = grobHeight(t) + 2 * label.padding,
+        just = c(hj, vj),
+        r = label.r,
+        gp = gpar(
+        col = row$colour,
+        fill = alpha(row$fill, row$alpha),
+          lwd = label.size * .pt
+        ),
+        name = "box"
       )
       c(
-        "x1" = row$x + convertWidth(grobX(tg, "west"), "npc", TRUE) - pad.x,
-        "y1" = row$y - convertHeight(grobHeight(tg), "npc", TRUE) / 2 - pad.y,
-        "x2" = row$x + convertWidth(grobX(tg, "east"), "npc", TRUE) + pad.x,
-        "y2" = row$y + convertHeight(grobHeight(tg), "npc", TRUE) / 2 + pad.y
+        "x1" = row$x + convertWidth(grobX(r, "west"), "npc", TRUE) - pad.x,
+        "y1" = row$y - convertHeight(grobHeight(r), "npc", TRUE) / 2 - pad.y,
+        "x2" = row$x + convertWidth(grobX(r, "east"), "npc", TRUE) + pad.x,
+        "y2" = row$y + convertHeight(grobHeight(r), "npc", TRUE) / 2 + pad.y
       )
+#       c(
+#         "x1" = row$x + convertWidth(grobX(r, "west"), "npc", TRUE),
+#         "y1" = row$y - convertHeight(grobHeight(r), "npc", TRUE) / 2,
+#         "x2" = row$x + convertWidth(grobX(r, "east"), "npc", TRUE),
+#         "y2" = row$y + convertHeight(grobHeight(r), "npc", TRUE) / 2
+#       )
     })
 
     # Fudge factor to make each box slightly wider. This is useful when the
@@ -145,27 +170,14 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
 #     cat("ws$x", range(ws$x), "\n")
 #     cat("data$y", range(data$y), "\n")
 #     cat("ws$y", range(ws$y), "\n")
-
-#     grobs <- textGrob(
-#       lab,
-#       ws$x, ws$y, default.units = "native",
-#       hjust = data$hjust, vjust = data$vjust,
-#       rot = data$angle,
-#       gp = gpar(
-#         col = alpha(data$colour, data$alpha),
-#         fontsize = data$size * .pt,
-#         fontfamily = data$family,
-#         fontface = data$fontface,
-#         lineheight = data$lineheight
-#       ),
-#       check.overlap = FALSE
-#     )
-#
-#     grobs
+#     print("data")
+#     print(data[,c("x","y")])
+#     print("ws")
+#     print(ws)
 
     grobs <- lapply(1:nrow(data), function(i) {
       row <- data[i, , drop = FALSE]
-      textRepelGrob(
+      labelRepelGrob(
         lab[i],
         x = unit(ws$x[i], "native"),
         y = unit(ws$y[i], "native"),
@@ -173,12 +185,18 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
         y.orig = unit(data$y[i], "native"),
         just = c(row$hjust, row$vjust),
         padding = label.padding,
+        r = label.r,
         text.gp = gpar(
           col = row$colour,
           fontsize = row$size * .pt,
           fontfamily = row$family,
           fontface = row$fontface,
           lineheight = row$lineheight
+        ),
+        rect.gp = gpar(
+          col = row$colour,
+          fill = alpha(row$fill, row$alpha),
+          lwd = label.size * .pt
         ),
         segment.gp = gpar(
           col = segment.color,
@@ -188,27 +206,27 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     })
     class(grobs) <- "gList"
 
-    ggname("geom_text_repel", grobTree(children = grobs))
+    ggname("geom_label_repel", grobTree(children = grobs))
   },
-
-  draw_key = draw_key_text
+  draw_key = draw_key_label
 )
 
-textRepelGrob <- function(
+labelRepelGrob <- function(
   label,
   x = unit(0.5, "npc"),
   y = unit(0.5, "npc"),
   x.orig = unit(0.5, "npc"),
   y.orig = unit(0.5, "npc"),
-  default.units = "npc",
   just = "center",
   padding = unit(0.25, "lines"),
+  r = unit(0.1, "snpc"),
+  default.units = "npc",
   name = NULL,
   text.gp = gpar(),
+  rect.gp = gpar(fill = "white"),
   segment.gp = gpar(),
   vp = NULL
 ) {
-
   stopifnot(length(label) == 1)
 
   if (!is.unit(x))
@@ -224,16 +242,18 @@ textRepelGrob <- function(
     y.orig = y.orig,
     just = just,
     padding = padding,
+    r = r,
     name = name,
     text.gp = text.gp,
+    rect.gp = rect.gp,
     segment.gp = segment.gp,
     vp = vp,
-    cl = "textrepelgrob"
+    cl = "labelrepelgrob"
   )
 }
 
 #' @export
-makeContent.textrepelgrob <- function(x) {
+makeContent.labelrepelgrob <- function(x) {
   hj <- resolveHJust(x$just, NULL)
   vj <- resolveVJust(x$just, NULL)
 
@@ -245,32 +265,21 @@ makeContent.textrepelgrob <- function(x) {
     gp = x$text.gp,
     name = "text"
   )
-#   x1 <- convertWidth(x$x - 0.5 * grobWidth(t), "native", TRUE)
-#   x2 <- convertWidth(x$x + 0.5 * grobWidth(t), "native", TRUE)
-#   y1 <- convertHeight(x$y - 0.5 * grobHeight(t), "native", TRUE)
-#   y2 <- convertHeight(x$y + 0.5 * grobHeight(t), "native", TRUE)
-#   xo <- convertWidth(x$x.orig, "native", TRUE)
-#   yo <- convertHeight(x$y.orig, "native", TRUE)
-#
-#   if (!point_within_box(xo, yo, c(x1, x2, y1, y2))) {
-#     s <- segmentsGrob(
-#       x0 = x$x,
-#       y0 = x$y,
-#       x1 = x$x.orig,
-#       y1 = x$y.orig,
-#       default.units = "native",
-#       gp = x$segment.gp,
-#       name = "segment"
-#     )
-#     return(setChildren(x, gList(s, t)))
-#   }
-#
-#   return(setChildren(x, gList(t)))
 
-  x1 <- convertWidth(x$x - 0.5 * grobWidth(t), "native", TRUE)
-  x2 <- convertWidth(x$x + 0.5 * grobWidth(t), "native", TRUE)
-  y1 <- convertHeight(x$y - 0.5 * grobHeight(t), "native", TRUE)
-  y2 <- convertHeight(x$y + 0.5 * grobHeight(t), "native", TRUE)
+  r <- roundrectGrob(
+    x$x, x$y, default.units = "native",
+    width = grobWidth(t) + 2 * x$padding,
+    height = grobHeight(t) + 2 * x$padding,
+    just = c(hj, vj),
+    r = x$r,
+    gp = x$rect.gp,
+    name = "box"
+  )
+
+  x1 <- convertWidth(x$x - 0.5 * grobWidth(r), "native", TRUE)
+  x2 <- convertWidth(x$x + 0.5 * grobWidth(r), "native", TRUE)
+  y1 <- convertHeight(x$y - 0.5 * grobHeight(r), "native", TRUE)
+  y2 <- convertHeight(x$y + 0.5 * grobHeight(r), "native", TRUE)
   xo <- convertWidth(x$x.orig, "native", TRUE)
   yo <- convertHeight(x$y.orig, "native", TRUE)
 
@@ -288,5 +297,5 @@ makeContent.textrepelgrob <- function(x) {
     name = "segment"
   )
 
-  setChildren(x, gList(s, t))
+  setChildren(x, gList(s, r, t))
 }
