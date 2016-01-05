@@ -41,10 +41,6 @@ repository.
 The `wordcloud` package implements a spiraling algorithm to prevent text
 labels from overlapping each other.
 
-See how you can use the `wordcloud` package with `ggplot2` in [this gist][1].
-
-[1]: https://gist.github.com/slowkow/003b4d9f3f59cee8551c
-
 [FField]
 
 > Force field simulation of interaction of set of points. Very useful for
@@ -52,6 +48,12 @@ See how you can use the `wordcloud` package with `ggplot2` in [this gist][1].
 
 I found that functions in the `FField` package were not ideal for repelling
 overlapping rectangles, so I wrote my own.
+
+See [this gist][1] for examples of how to use the `wordcloud` and `FField`
+packages with `ggplot2`.
+
+[1]: https://gist.github.com/slowkow/003b4d9f3f59cee8551c
+
 
 [ggplot2]: http://ggplot2.org/
 [vignette]: https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.md
