@@ -4,7 +4,7 @@
 
 ## geom_text
 
-If we plot the data from `mtcars` with `geom_text`, some of the text labels
+If we plot the data from `mtcars` with [geom_text], some of the text labels
 overlap each other:
 
 
@@ -36,24 +36,37 @@ ggplot(mtcars) +
 
 ### Options
 
-We can adjust all the options available for `geom_text` such as `size` and
-`fontface`. We can also change the line segment color, the padding surrounding
-each text label, the force of repulsion between overlapping text labels, and
-the maximum number of iterations to attempt to resolve the overlap.
+We can adjust all the options available for [geom_text] such as `size` and
+`fontface`.
+
+We also have additional options for `geom_text_repel` and `geom_label_repel`:
+
+- `segment.color` is the line segment color
+- `label.padding` is the padding surrounding the text
+- `force` is the force of repulsion between overlapping text labels
+- `max.iter` is the maximum number of iterations to attempt to resolve overlaps
+- `expand` the text will be arranged in the expanded plot area if TRUE, or else
+  the text will be arranged within the range of the data points
 
 
 ```r
 ggplot(mtcars) +
   geom_point(aes(wt, mpg), color = 'red') +
   geom_text_repel(
-    aes(wt, mpg, label = rownames(mtcars)),
+    aes(
+      wt, mpg,
+      color = factor(cyl),
+      label = rownames(mtcars)
+    ),
     size = 5,
     fontface = 'bold',
     segment.color = 'red',
-    label.padding = unit(0.5, "lines"),
+    label.padding = unit(0.3, 'lines'),
     force = 2,
-    max.iter = 1e4
+    max.iter = 1e4,
+    expand = TRUE
   ) +
+  scale_color_discrete(name = 'cyl') +
   theme_classic(base_size = 16)
 ```
 
@@ -61,7 +74,8 @@ ggplot(mtcars) +
 
 ## geom_label_repel
 
-`ggrepel` includes the `geom_label_repel` function to create rectangular labels:
+`ggrepel` includes `geom_label_repel`, based on [geom_label], to repel
+rectangular labels:
 
 
 ```r
@@ -76,3 +90,6 @@ ggplot(mtcars) +
 ```
 
 ![plot of chunk geom_label_repel](https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_label_repel-1.png) 
+
+[geom_text]: http://docs.ggplot2.org/current/geom_text.html
+[geom_label]: http://docs.ggplot2.org/current/geom_text.html
