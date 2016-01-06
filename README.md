@@ -13,6 +13,8 @@ ggplot(mtcars) +
 
 ![geom_text_repel](https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel-1.png) 
 
+## Usage
+
 See the [vignette] for more usage examples.
 
 ## Installation
