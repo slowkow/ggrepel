@@ -36,6 +36,15 @@ repository.
 
 ## Related work
 
+[directlabels]
+
+> This package is an attempt to make direct labeling a reality in everyday
+> statistical practice by making available a body of useful functions that
+> make direct labeling of common plots easy to do with high-level plotting
+> systems such as lattice and ggplot2. The main function that the package
+> provides is direct.label(p), which takes a lattice or ggplot2 plot p and
+> adds direct labels.
+
 [wordcloud]
 
 > Pretty word clouds.
@@ -59,6 +68,7 @@ packages with `ggplot2`.
 
 [ggplot2]: http://ggplot2.org/
 [vignette]: https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.md
+[directlabels]: http://directlabels.r-forge.r-project.org/
 [wordcloud]: https://cran.r-project.org/web/packages/wordcloud/index.html
 [FField]: https://cran.r-project.org/web/packages/FField/index.html
 
