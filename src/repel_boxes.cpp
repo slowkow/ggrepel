@@ -54,11 +54,25 @@ using namespace Rcpp;
 //   return retval(imin, _);
 // }
 
+//' Euclidean distance between two numeric vectors.
+//' @param p1 A numeric vector.
+//' @param p2 A numeric vector.
 // [[Rcpp::export]]
 double euclid(NumericVector p1, NumericVector p2) {
-  return sqrt(pow(p2[1] - p1[1], 2) + pow(p2[0] - p1[0], 2));
+  double retval = 0;
+  int n = p1.size();
+  for (int i = 0; i < n; i++) {
+    retval += pow(p2[i] - p1[i], 2);
+  }
+  return sqrt(retval);
 }
 
+//' Move a box into the area specificied by x limits and y limits.
+//' @param b A numeric vector representing a box like \code{c(x1, y1, x2, y2)}
+//' @param xlim A numeric vector representing the limits on the x axis like
+//'   \code{c(xmin, xmax)}
+//' @param ylim A numeric vector representing the limits on the y axis like
+//'   \code{c(ymin, ymax)}
 // [[Rcpp::export]]
 NumericVector put_within_bounds(
     NumericVector b, NumericVector xlim, NumericVector ylim
@@ -85,12 +99,16 @@ NumericVector put_within_bounds(
   return b;
 }
 
+//' Get the coordinates of the center of a box.
+//' @param b A numeric vector representing a box like \code{c(x1, y1, x2, y2)}
 // [[Rcpp::export]]
 NumericVector centroid(NumericVector b) {
   return NumericVector::create((b[0] + b[2]) / 2, (b[1] + b[3]) / 2);
 }
 
 //' Test if a box overlaps another box.
+//' @param a A numeric vector representing a box like \code{c(x1, y1, x2, y2)}
+//' @param b A numeric vector representing a box like \code{c(x1, y1, x2, y2)}
 // [[Rcpp::export]]
 bool overlaps(NumericVector a, NumericVector b) {
   return
@@ -101,6 +119,8 @@ bool overlaps(NumericVector a, NumericVector b) {
 }
 
 //' Test if a point is within the boundaries of a box.
+//' @param p A point like \code{c(x, y)}
+//' @param b A numeric vector representing a box like \code{c(x1, y1, x2, y2)}
 // [[Rcpp::export]]
 bool point_within_box(NumericVector p, NumericVector b) {
   return
@@ -110,18 +130,30 @@ bool point_within_box(NumericVector p, NumericVector b) {
     p[1] <= b[3];
 }
 
-//' Compute the force upon point a from point b.
+//' Compute the force upon point \code{a} from point \code{b}.
+//' @param a A point like \code{c(x, y)}
+//' @param b A point like \code{c(x, y)}
+//' @param force Magnitude of the force (defaults to \code{1e-6})
 // [[Rcpp::export]]
 NumericVector compute_force(
     NumericVector a, NumericVector b, double force = 0.000001
 ) {
   a += rnorm(2, 0, force);
+  // Constrain the minimum distance to be at least 0.01.
   double d = std::max(euclid(a, b), 0.01);
   NumericVector v = (a - b) / d;
   return force * v / pow(d, 2);
 }
 
 //' Adjust the layout of a list of potentially overlapping boxes.
+//' @param boxes A list of numeric vectors representing a box like
+//'   \code{list(c(x1, y1, x2, y2), c(x1, y1, x2, y2), ...)}
+//' @param xlim A numeric vector representing the limits on the x axis like
+//'   \code{c(xmin, xmax)}
+//' @param ylim A numeric vector representing the limits on the y axis like
+//'   \code{c(ymin, ymax)}
+//' @param force Magnitude of the force (defaults to \code{1e-6})
+//' @param maxiter Maximum number of iterations to try to resolve overlaps
 // [[Rcpp::export]]
 DataFrame repel_boxes(
     NumericMatrix boxes, NumericVector xlim, NumericVector ylim,
@@ -147,7 +179,7 @@ DataFrame repel_boxes(
     original_centroids(i, _) = centroid(boxes(i, _));
   }
 
-  double mx = 0, my = 0;
+  // double mx = 0, my = 0;
   NumericVector f(2);
   NumericVector ci(2);
   NumericVector cj(2);
@@ -191,10 +223,11 @@ DataFrame repel_boxes(
         f = f + compute_force(original_centroids(i, _), ci, force);
       }
 
+      // Scale the x force by the ratio of height/width.
       f[0] = f[0] * ratios[i];
 
-      if (f[0] > mx) mx = f[0];
-      if (f[1] > my) my = f[1];
+      // if (f[0] > mx) mx = f[0];
+      // if (f[1] > my) my = f[1];
       b = boxes(i, _);
       boxes(i, _) = NumericVector::create(
         b[0] + f[0], b[1] + f[1], b[2] + f[0], b[3] + f[1]
@@ -223,11 +256,3 @@ DataFrame repel_boxes(
   );
 }
 
-// You can include R code blocks in C++ files processed with sourceCpp
-// (useful for testing and development). The R code will be automatically
-// run after the compilation.
-//
-
-/*** R
-# timesTwo(42)
-*/
