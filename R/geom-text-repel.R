@@ -1,9 +1,119 @@
+#' Repulsive textual annotations.
+#'
+#' \code{geom_text_repel} adds text directly to the plot.
+#' \code{geom_label_repel} draws a rectangle underneath the text, making it
+#' easier to read. The text labels repel away from each other and away from
+#' the data points.
+#'
+#' These geoms are based on \code{\link[ggplot2]{geom_text}} and
+#' \code{\link[ggplot2]{geom_label}}. See the documentation for those
+#' functions for more details. Differences from those functions are noted
+#' here.
+#'
+#' Text labels have height and width, but they are physical units, not data
+#' units. The amount of space they occupy on that plot is not constant in data
+#' units: when you resize a plot, labels stay the same size, but the size of
+#' the axes changes. Currently, the text labels will not be repositioned upon
+#' resizing a plot. This may change in future releases.
+#'
+#' @section \code{geom_label_repel}:
+#' Currently \code{geom_label_repel} does not support the \code{rot} parameter
+#' and is considerably slower than \code{geom_text_repel}. The \code{fill}
+#' aesthetic controls the background colour of the label.
+#'
+#' @section Alignment:
+#' The repulsive geoms reposition text labels to avoid overlap, so the
+#' following parameters are not supported:
+#' 
+#' \itemize{
+#'   \item \code{hjust}
+#'   \item \code{vjust}
+#'   \item \code{nudge_x}
+#'   \item \code{nudge_y}
+#'   \item \code{position}
+#'   \item \code{check_overlap}
+#' }
+#'
+#' @param mapping Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
+#'   \code{\link[ggplot2]{aes_}}. If specified and \code{inherit.aes = TRUE} (the
+#'   default), is combined with the default mapping at the top level of the
+#'   plot. You only need to supply \code{mapping} if there isn't a mapping
+#'   defined for the plot.
+#' @param data A data frame. If specified, overrides the default data frame
+#'   defined at the top level of the plot.
+#' @param stat The statistical transformation to use on the data for this
+#'    layer, as a string.
+#' @param parse If TRUE, the labels will be parsed into expressions and
+#'   displayed as described in ?plotmath
+#' @param na.rm If \code{FALSE} (the default), removes missing values with
+#'    a warning.  If \code{TRUE} silently removes missing values.
+#' @param show.legend logical. Should this layer be included in the legends?
+#'   \code{NA}, the default, includes if any aesthetics are mapped.
+#'   \code{FALSE} never includes, and \code{TRUE} always includes.
+#' @param inherit.aes If \code{FALSE}, overrides the default aesthetics,
+#'   rather than combining with them. This is most useful for helper functions
+#'   that define both data and aesthetics and shouldn't inherit behaviour from
+#'   the default plot specification, e.g. \code{\link[ggplot2]{borders}}.
+#' @param ... other arguments passed on to \code{\link[ggplot2]{layer}}. There are
+#'   three types of arguments you can use here:
+#'
+#'   \itemize{
+#'   \item Aesthetics: to set an aesthetic to a fixed value, like
+#'      \code{color = "red"} or \code{size = 3}.
+#'   \item Other arguments to the layer, for example you override the
+#'     default \code{stat} associated with the layer.
+#'   \item Other arguments passed on to the stat.
+#'   }
+#' @param box.padding Amount of padding around bounding box. Defaults to 0.25
+#'   lines.
+#' @param segment.color Color of the line segment connecting the data point to
+#'   the text labe. Defaults to \code{#666666}.
+#' @param segment.size Width of segment, in mm.
+#' @param force Force of repulsion between overlapping text labels. Defaults
+#'   to 1.
+#' @param max.iter Maximum number of iterations to try to resolve overlaps.
+#' @param expand If \code{TRUE} (the default), allow text labels to be placed
+#'   in the expanded plot area. Otherwise, limit their positions to the range
+#'   of the data.
+#'
+#' @examples
+#'
+#' p <- ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars)))
+#'
+#' # Avoid overlaps by repelling text labels
+#' p + geom_text_repel()
+#' # Labels with background
+#' p + geom_label_repel()
+#'
+#' \dontrun{
+#' p + geom_text_repel(family = "Times New Roman")
+#' }
+#'
+#' # Add aesthetic mappings
+#' p + geom_text_repel(aes(colour = factor(cyl)))
+#' p + geom_label_repel(aes(fill = factor(cyl)), colour = "white", fontface = "bold")
+#'
+#' p + geom_text_repel(aes(size = wt))
+#' # Scale height of text, rather than sqrt(height)
+#' p + geom_text_repel(aes(size = wt)) + scale_radius(range = c(3,6))
+#'
+#' # You can display expressions by setting parse = TRUE.  The
+#' # details of the display are described in ?plotmath, but note that
+#' # geom_text_repel uses strings, not expressions.
+#' p + geom_text_repel(aes(label = paste(wt, "^(", cyl, ")", sep = "")),
+#'   parse = TRUE)
+#'
+#' # Add a text annotation
+#' p +
+#'   geom_text_repel() +
+#'   annotate("text", label = "plot mpg vs. wt", x = 2, y = 15, size = 8, colour = "red")
+#'
 #' @export
 geom_text_repel <- function(
   mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", parse = FALSE, ...,
-  nudge_x = 0, nudge_y = 0,
-  label.padding = unit(0.25, "lines"),
+  parse = FALSE,
+  ...,
+  box.padding = unit(0.25, "lines"),
   segment.color = "#666666",
   segment.size = 0.5,
   force = 1,
@@ -13,26 +123,18 @@ geom_text_repel <- function(
   show.legend = NA,
   inherit.aes = TRUE
 ) {
-  if (!missing(nudge_x) || !missing(nudge_y)) {
-    if (!missing(position)) {
-      stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
-    }
-
-    position <- position_nudge(nudge_x, nudge_y)
-  }
-
   layer(
     data = data,
     mapping = mapping,
     stat = stat,
     geom = GeomTextRepel,
-    position = position,
+    position = "identity",
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(
       parse = parse,
       na.rm = na.rm,
-      label.padding = label.padding,
+      box.padding = box.padding,
       segment.color = segment.color,
       segment.size = segment.size,
       force = force,
@@ -44,6 +146,7 @@ geom_text_repel <- function(
 }
 
 #' GeomTextRepel
+#' @rdname ggplot2-ggproto
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -51,15 +154,15 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
   required_aes = c("x", "y", "label"),
 
   default_aes = aes(
-    colour = "black", size = 3.88, angle = 0, hjust = 0.5,
-    vjust = 0.5, alpha = NA, family = "", fontface = 1, lineheight = 1.2
+    colour = "black", size = 3.88, angle = 0,
+    alpha = NA, family = "", fontface = 1, lineheight = 1.2
   ),
 
   draw_panel = function(
     data, panel_scales, coord,
     parse = FALSE,
     na.rm = FALSE,
-    label.padding = unit(0.25, "lines"),
+    box.padding = unit(0.25, "lines"),
     segment.color = "#666666",
     segment.size = 0.5,
     force = 1,
@@ -72,15 +175,9 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     }
 
     data <- coord$transform(data, panel_scales)
-    if (is.character(data$vjust)) {
-      data$vjust <- compute_just(data$vjust, data$y)
-    }
-    if (is.character(data$hjust)) {
-      data$hjust <- compute_just(data$hjust, data$x)
-    }
 
-    pad.x <- convertWidth(label.padding, "npc", valueOnly = TRUE)
-    pad.y <- convertHeight(label.padding, "npc", valueOnly = TRUE)
+    pad.x <- convertWidth(box.padding, "npc", valueOnly = TRUE)
+    pad.y <- convertHeight(box.padding, "npc", valueOnly = TRUE)
 
     # Create a dataframe with x1 y1 x2 y2
     boxes <- lapply(1:nrow(data), function(i) {
@@ -88,7 +185,6 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       tg <- textGrob(
         lab[i],
         row$x, row$y, default.units = "native",
-        hjust = row$hjust, vjust = row$vjust,
         rot = row$angle,
         gp = gpar(
           col = alpha(row$colour, row$alpha),
@@ -149,7 +245,6 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
 #     grobs <- textGrob(
 #       lab,
 #       ws$x, ws$y, default.units = "native",
-#       hjust = data$hjust, vjust = data$vjust,
 #       rot = data$angle,
 #       gp = gpar(
 #         col = alpha(data$colour, data$alpha),
@@ -171,8 +266,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
         y = unit(ws$y[i], "native"),
         x.orig = unit(data$x[i], "native"),
         y.orig = unit(data$y[i], "native"),
-        just = c(row$hjust, row$vjust),
-        padding = label.padding,
+        box.padding = box.padding,
         text.gp = gpar(
           col = row$colour,
           fontsize = row$size * .pt,
@@ -202,7 +296,7 @@ textRepelGrob <- function(
   y.orig = unit(0.5, "npc"),
   default.units = "npc",
   just = "center",
-  padding = unit(0.25, "lines"),
+  box.padding = unit(0.25, "lines"),
   name = NULL,
   text.gp = gpar(),
   segment.gp = gpar(),
@@ -223,7 +317,7 @@ textRepelGrob <- function(
     x.orig = x.orig,
     y.orig = y.orig,
     just = just,
-    padding = padding,
+    box.padding = box.padding,
     name = name,
     text.gp = text.gp,
     segment.gp = segment.gp,
@@ -232,6 +326,7 @@ textRepelGrob <- function(
   )
 }
 
+#' grid::makeContent function for textRepelGrob.
 #' @export
 makeContent.textrepelgrob <- function(x) {
   hj <- resolveHJust(x$just, NULL)
@@ -239,33 +334,12 @@ makeContent.textrepelgrob <- function(x) {
 
   t <- textGrob(
     x$label,
-    x$x + 2 * (0.5 - hj) * x$padding,
-    x$y + 2 * (0.5 - vj) * x$padding,
+    x$x + 2 * (0.5 - hj) * x$box.padding,
+    x$y + 2 * (0.5 - vj) * x$box.padding,
     just = c(hj, vj),
     gp = x$text.gp,
     name = "text"
   )
-#   x1 <- convertWidth(x$x - 0.5 * grobWidth(t), "native", TRUE)
-#   x2 <- convertWidth(x$x + 0.5 * grobWidth(t), "native", TRUE)
-#   y1 <- convertHeight(x$y - 0.5 * grobHeight(t), "native", TRUE)
-#   y2 <- convertHeight(x$y + 0.5 * grobHeight(t), "native", TRUE)
-#   xo <- convertWidth(x$x.orig, "native", TRUE)
-#   yo <- convertHeight(x$y.orig, "native", TRUE)
-#
-#   if (!point_within_box(xo, yo, c(x1, x2, y1, y2))) {
-#     s <- segmentsGrob(
-#       x0 = x$x,
-#       y0 = x$y,
-#       x1 = x$x.orig,
-#       y1 = x$y.orig,
-#       default.units = "native",
-#       gp = x$segment.gp,
-#       name = "segment"
-#     )
-#     return(setChildren(x, gList(s, t)))
-#   }
-#
-#   return(setChildren(x, gList(t)))
 
   x1 <- convertWidth(x$x - 0.5 * grobWidth(t), "native", TRUE)
   x2 <- convertWidth(x$x + 0.5 * grobWidth(t), "native", TRUE)
@@ -276,6 +350,8 @@ makeContent.textrepelgrob <- function(x) {
 
   center <- centroid(c(x1, y1, x2, y2))
 
+  # Get the coordinates of the intersection between the line from the original
+  # data point to the centroid and the rectangle's edges.
   int <- intersect_line_rectangle(c(xo, yo), center, c(x1, y1, x2, y2))
 
   s <- segmentsGrob(

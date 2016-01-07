@@ -1,8 +1,13 @@
+#' @rdname geom_text_repel
+#' @param label.padding Amount of padding around label. Defaults to 0.25 lines.
+#' @param label.r Radius of rounded corners. Defaults to 0.15 lines.
+#' @param label.size Size of label border, in mm.
 #' @export
 geom_label_repel <- function(
   mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", parse = FALSE, ...,
-  nudge_x = 0, nudge_y = 0,
+  parse = FALSE,
+  ...,
+  box.padding = unit(0.25, "lines"),
   label.padding = unit(0.25, "lines"),
   label.r = unit(0.15, "lines"),
   label.size = 0.25,
@@ -13,24 +18,17 @@ geom_label_repel <- function(
   show.legend = NA,
   inherit.aes = TRUE
 ) {
-  if (!missing(nudge_x) || !missing(nudge_y)) {
-    if (!missing(position)) {
-      stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
-    }
-
-    position <- position_nudge(nudge_x, nudge_y)
-  }
-
   layer(
     data = data,
     mapping = mapping,
     stat = stat,
     geom = GeomLabelRepel,
-    position = position,
+    position = "identity",
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(
       parse = parse,
+      box.padding  = box.padding,
       label.padding = label.padding,
       label.r = label.r,
       label.size = label.size,
@@ -44,6 +42,7 @@ geom_label_repel <- function(
 }
 
 #' GeomLabelRepel
+#' @rdname ggplot2-ggproto
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -53,14 +52,14 @@ GeomLabelRepel <- ggproto(
 
   default_aes = aes(
     colour = "black", fill = "white", size = 3.88, angle = 0,
-    hjust = 0.5, vjust = 0.5, alpha = NA, family = "", fontface = 1,
-    lineheight = 1.2
+    alpha = NA, family = "", fontface = 1, lineheight = 1.2
   ),
 
   draw_panel = function(
     self, data, panel_scales, coord,
     parse = FALSE,
     na.rm = FALSE,
+    box.padding = unit(0.25, "lines"),
     label.padding = unit(0.25, "lines"),
     label.r = unit(0.15, "lines"),
     label.size = 0.25,
@@ -76,26 +75,17 @@ GeomLabelRepel <- ggproto(
     }
 
     data <- coord$transform(data, panel_scales)
-    if (is.character(data$vjust)) {
-      data$vjust <- compute_just(data$vjust, data$y)
-    }
-    if (is.character(data$hjust)) {
-      data$hjust <- compute_just(data$hjust, data$x)
-    }
 
-    pad.x <- convertWidth(label.padding, "npc", valueOnly = TRUE)
-    pad.y <- convertHeight(label.padding, "npc", valueOnly = TRUE)
+    pad.x <- convertWidth(box.padding, "npc", valueOnly = TRUE)
+    pad.y <- convertHeight(box.padding, "npc", valueOnly = TRUE)
 
     # Create a dataframe with x y width height
     boxes <- lapply(1:nrow(data), function(i) {
       row <- data[i, , drop = FALSE]
-      hj <- resolveHJust(c(row$hjust, row$vjust), NULL)
-      vj <- resolveVJust(c(row$hjust, row$vjust), NULL)
       t <- textGrob(
         lab[i],
-        unit(row$x, "native") + 2 * (0.5 - hj) * label.padding,
-        unit(row$y, "native") + 2 * (0.5 - vj) * label.padding,
-        just = c(hj, vj),
+        unit(row$x, "native") + label.padding,
+        unit(row$y, "native") + label.padding,
         gp = gpar(
           col = row$colour,
           fontsize = row$size * .pt,
@@ -109,7 +99,6 @@ GeomLabelRepel <- ggproto(
         row$x, row$y, default.units = "native",
         width = grobWidth(t) + 2 * label.padding,
         height = grobHeight(t) + 2 * label.padding,
-        just = c(hj, vj),
         r = label.r,
         gp = gpar(
         col = row$colour,
@@ -124,12 +113,6 @@ GeomLabelRepel <- ggproto(
         "x2" = row$x + convertWidth(grobX(r, "east"), "npc", TRUE) + pad.x,
         "y2" = row$y + convertHeight(grobHeight(r), "npc", TRUE) / 2 + pad.y
       )
-#       c(
-#         "x1" = row$x + convertWidth(grobX(r, "west"), "npc", TRUE),
-#         "y1" = row$y - convertHeight(grobHeight(r), "npc", TRUE) / 2,
-#         "x2" = row$x + convertWidth(grobX(r, "east"), "npc", TRUE),
-#         "y2" = row$y + convertHeight(grobHeight(r), "npc", TRUE) / 2
-#       )
     })
 
     # Fudge factor to make each box slightly wider. This is useful when the
@@ -183,8 +166,8 @@ GeomLabelRepel <- ggproto(
         y = unit(ws$y[i], "native"),
         x.orig = unit(data$x[i], "native"),
         y.orig = unit(data$y[i], "native"),
-        just = c(row$hjust, row$vjust),
-        padding = label.padding,
+        box.padding = box.padding,
+        label.padding = label.padding,
         r = label.r,
         text.gp = gpar(
           col = row$colour,
@@ -217,13 +200,14 @@ labelRepelGrob <- function(
   y = unit(0.5, "npc"),
   x.orig = unit(0.5, "npc"),
   y.orig = unit(0.5, "npc"),
-  just = "center",
-  padding = unit(0.25, "lines"),
-  r = unit(0.1, "snpc"),
   default.units = "npc",
+  just = "center",
+  box.padding = unit(0.25, "lines"),
+  label.padding = unit(0.25, "lines"),
   name = NULL,
   text.gp = gpar(),
   rect.gp = gpar(fill = "white"),
+  r = unit(0.1, "snpc"),
   segment.gp = gpar(),
   vp = NULL
 ) {
@@ -241,7 +225,8 @@ labelRepelGrob <- function(
     x.orig = x.orig,
     y.orig = y.orig,
     just = just,
-    padding = padding,
+    box.padding = box.padding,
+    label.padding = label.padding,
     r = r,
     name = name,
     text.gp = text.gp,
@@ -252,6 +237,7 @@ labelRepelGrob <- function(
   )
 }
 
+#' grid::makeContent function for labelRepelGrob.
 #' @export
 makeContent.labelrepelgrob <- function(x) {
   hj <- resolveHJust(x$just, NULL)
@@ -259,17 +245,19 @@ makeContent.labelrepelgrob <- function(x) {
 
   t <- textGrob(
     x$label,
-    x$x + 2 * (0.5 - hj) * x$padding,
-    x$y + 2 * (0.5 - vj) * x$padding,
+    x$x + 2 * (0.5 - hj) * x$box.padding,
+    x$y + 2 * (0.5 - vj) * x$box.padding,
     just = c(hj, vj),
     gp = x$text.gp,
     name = "text"
   )
 
   r <- roundrectGrob(
-    x$x, x$y, default.units = "native",
-    width = grobWidth(t) + 2 * x$padding,
-    height = grobHeight(t) + 2 * x$padding,
+    x$x + 2 * (0.5 - hj) * x$box.padding,
+    x$y + 2 * (0.5 - vj) * x$box.padding,
+    default.units = "native",
+    width = grobWidth(t) + 2 * x$label.padding,
+    height = grobHeight(t) + 2 * x$label.padding,
     just = c(hj, vj),
     r = x$r,
     gp = x$rect.gp,
@@ -285,6 +273,8 @@ makeContent.labelrepelgrob <- function(x) {
 
   center <- centroid(c(x1, y1, x2, y2))
 
+  # Get the coordinates of the intersection between the line from the original
+  # data point to the centroid and the rectangle's edges.
   int <- intersect_line_rectangle(c(xo, yo), center, c(x1, y1, x2, y2))
 
   s <- segmentsGrob(
