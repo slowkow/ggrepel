@@ -7,14 +7,27 @@
 #'
 #' @name ggrepel
 #' @docType package
-#' @import stats
-#' @import utils
-#' @import colorspace
 #' @import ggplot2
 #' @importFrom grid
-#'  textGrob gpar grobWidth grobHeight grobX grobY grobTree
-#'  resolveHJust resolveVJust roundrectGrob convertWidth convertHeight
-#'  is.unit gTree grobName segmentsGrob setChildren gList
+#'   convertHeight
+#'   convertWidth
+#'   gList
+#'   gTree
+#'   gpar
+#'   grobHeight
+#'   grobName
+#'   grobTree
+#'   grobWidth
+#'   grobX
+#'   grobY
+#'   is.grob
+#'   is.unit
+#'   resolveHJust
+#'   resolveVJust
+#'   roundrectGrob
+#'   segmentsGrob
+#'   setChildren
+#'   textGrob
 #' @useDynLib ggrepel
 #' @importFrom Rcpp sourceCpp
 NULL
