@@ -1,0 +1,24 @@
+
+ggrepel 0.1.0 2016-01-05
+----------------------------------------------------------------
+
+NEW FEATURES
+
+* Add `geom_label_repel()`.
+
+* Add fudge width to help with legends.
+
+* Add `expand=TRUE` to allow text to be placed in the expanded plot area.
+
+* Add man/ folder.
+
+* Add links to ggplot2 docs in vignette.
+
+MINOR FEATURES
+
+* Add unused R implementation of `repel_boxes()`, just for your reference.
+
+ggrepel 0.0.1 2016-01-04
+----------------------------------------------------------------
+
+* Initial release to github.
