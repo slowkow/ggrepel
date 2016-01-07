@@ -68,7 +68,7 @@ packages with `ggplot2`.
 
 [ggplot2]: http://ggplot2.org/
 [vignette]: https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.md
-[directlabels]: http://directlabels.r-forge.r-project.org/
-[wordcloud]: https://cran.r-project.org/web/packages/wordcloud/index.html
-[FField]: https://cran.r-project.org/web/packages/FField/index.html
+[directlabels]: https://cran.r-project.org/package=directlabels
+[wordcloud]: https://cran.r-project.org/package=wordcloud
+[FField]: https://cran.r-project.org/package=FField
 
