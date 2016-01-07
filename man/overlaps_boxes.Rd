@@ -4,7 +4,13 @@
 \alias{overlaps_boxes}
 \title{Test if a box overlaps any box in a list of boxes.}
 \usage{
-overlaps_boxes(a, boxes)
+overlaps_boxes(b, boxes)
+}
+\arguments{
+\item{b}{A numeric vector representing a box like \code{c(x1, y1, x2, y2)}}
+
+\item{boxes}{A list of numeric vectors representing boxes like
+\code{list(c(x1, y1, x2, y2), c(x1, y1, x2, y2), ...)}}
 }
 \description{
 Test if a box overlaps any box in a list of boxes.

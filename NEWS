@@ -1,4 +1,26 @@
 
+ggrepel 0.2.0 2016-01-07
+----------------------------------------------------------------
+
+CHANGES
+
+* Update `geom_text_repel()` and `geom_label_repel()`.
+
+    * Change `label.padding` to `box.padding`.
+
+    * Remove unsupported parameters:
+        * position
+        * nudge_x
+        * nudge_y
+        * hjust
+        * vjust
+
+* Remove unused imports.
+
+DOCUMENTATION
+
+* Add roxygen docs to all functions.
+
 ggrepel 0.1.0 2016-01-05
 ----------------------------------------------------------------
 

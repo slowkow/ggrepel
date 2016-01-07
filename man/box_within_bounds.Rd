@@ -6,6 +6,15 @@
 \usage{
 box_within_bounds(b, xlim, ylim)
 }
+\arguments{
+\item{b}{A numeric vector representing a box like \code{c(x1, y1, x2, y2)}}
+
+\item{xlim}{A numeric vector representing the limits on the x axis like
+\code{c(xmin, xmax)}}
+
+\item{ylim}{A numeric vector representing the limits on the y axis like
+\code{c(ymin, ymax)}}
+}
 \description{
 Test if a box is within xlim and ylim boundaries.
 }

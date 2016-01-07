@@ -2,11 +2,18 @@
 % Please edit documentation in R/RcppExports.R
 \name{compute_force}
 \alias{compute_force}
-\title{Compute the force upon point a from point b.}
+\title{Compute the force upon point \code{a} from point \code{b}.}
 \usage{
 compute_force(a, b, force = 1e-06)
 }
+\arguments{
+\item{a}{A point like \code{c(x, y)}}
+
+\item{b}{A point like \code{c(x, y)}}
+
+\item{force}{Magnitude of the force (defaults to \code{1e-6})}
+}
 \description{
-Compute the force upon point a from point b.
+Compute the force upon point \code{a} from point \code{b}.
 }
 

@@ -6,6 +6,12 @@
 \usage{
 overlaps_points(b, ps)
 }
+\arguments{
+\item{b}{A numeric vector representing a box like \code{c(x1, y1, x2, y2)}}
+
+\item{ps}{A list of numeric vectors representing points like
+\code{list(c(x, y), c(x, y), ...)}}
+}
 \description{
 Test if a box overlaps any point in a list of points.
 }

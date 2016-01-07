@@ -6,6 +6,20 @@
 \usage{
 repel_boxes(boxes, xlim, ylim, force = 1e-06, maxiter = 10000L)
 }
+\arguments{
+\item{boxes}{A list of numeric vectors representing a box like
+\code{list(c(x1, y1, x2, y2), c(x1, y1, x2, y2), ...)}}
+
+\item{xlim}{A numeric vector representing the limits on the x axis like
+\code{c(xmin, xmax)}}
+
+\item{ylim}{A numeric vector representing the limits on the y axis like
+\code{c(ymin, ymax)}}
+
+\item{force}{Magnitude of the force (defaults to \code{1e-6})}
+
+\item{maxiter}{Maximum number of iterations to try to resolve overlaps}
+}
 \description{
 Adjust the layout of a list of potentially overlapping boxes.
 }

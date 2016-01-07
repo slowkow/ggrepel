@@ -7,9 +7,9 @@
 intersect_line_rectangle(p1, p2, b)
 }
 \arguments{
-\item{p1}{A point c(x, y)}
+\item{p1}{A point like \code{c(x, y)}}
 
-\item{p2}{A point c(x, y)}
+\item{p2}{A point like \code{c(x, y)}}
 
 \item{b}{A rectangle c(x1, y1, x2, y2)}
 }

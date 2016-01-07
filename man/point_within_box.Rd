@@ -6,6 +6,11 @@
 \usage{
 point_within_box(p, b)
 }
+\arguments{
+\item{p}{A point like \code{c(x, y)}}
+
+\item{b}{A numeric vector representing a box like \code{c(x1, y1, x2, y2)}}
+}
 \description{
 Test if a point is within the boundaries of a box.
 }
