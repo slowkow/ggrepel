@@ -4,7 +4,10 @@
 \alias{makeContent.textrepelgrob}
 \title{grid::makeContent function for textRepelGrob.}
 \usage{
-makeContent.textrepelgrob(x)
+\method{makeContent}{textrepelgrob}(x)
+}
+\arguments{
+\item{x}{A grid grob.}
 }
 \description{
 grid::makeContent function for textRepelGrob.

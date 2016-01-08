@@ -5,7 +5,6 @@ using namespace Rcpp;
 // //' @param p1 A point c(x, y)
 // //' @param p2 A point c(x, y)
 // //' @param b A rectangle c(x1, y1, x2, y2)
-// // [[Rcpp::export]]
 // NumericVector intersect_line_rectangle(
 //     NumericVector p1, NumericVector p2, NumericVector b
 // ) {
@@ -130,19 +129,44 @@ bool point_within_box(NumericVector p, NumericVector b) {
     p[1] <= b[3];
 }
 
-//' Compute the force upon point \code{a} from point \code{b}.
+//' Compute the repulsion force upon point \code{a} from point \code{b}.
+//'
+//' The force decays with the squared distance between the points, similar
+//' to the force of repulsion between magnets.
+//'
 //' @param a A point like \code{c(x, y)}
 //' @param b A point like \code{c(x, y)}
 //' @param force Magnitude of the force (defaults to \code{1e-6})
 // [[Rcpp::export]]
-NumericVector compute_force(
+NumericVector repel_force(
     NumericVector a, NumericVector b, double force = 0.000001
 ) {
   a += rnorm(2, 0, force);
   // Constrain the minimum distance to be at least 0.01.
   double d = std::max(euclid(a, b), 0.01);
+  // Compute a unit vector in the direction of the force.
   NumericVector v = (a - b) / d;
+  // Divide the force by the squared distance.
   return force * v / pow(d, 2);
+}
+
+//' Compute the spring force upon point \code{a} from point \code{b}.
+//'
+//' The force increases with the distance between the points, similar
+//' to Hooke's law for springs.
+//'
+//' @param a A point like \code{c(x, y)}
+//' @param b A point like \code{c(x, y)}
+//' @param force Magnitude of the force (defaults to \code{1e-6})
+// [[Rcpp::export]]
+NumericVector spring_force(
+    NumericVector a, NumericVector b, double force = 0.000001
+) {
+  double d = euclid(a, b);
+  d = d < 0.01 ? 0 : d;
+  // Compute a unit vector in the direction of the force.
+  NumericVector v = (a - b) / d;
+  return v * force * d;
 }
 
 //' Adjust the layout of a list of potentially overlapping boxes.
@@ -154,10 +178,11 @@ NumericVector compute_force(
 //'   \code{c(ymin, ymax)}
 //' @param force Magnitude of the force (defaults to \code{1e-6})
 //' @param maxiter Maximum number of iterations to try to resolve overlaps
+//'   (defaults to 2000)
 // [[Rcpp::export]]
 DataFrame repel_boxes(
     NumericMatrix boxes, NumericVector xlim, NumericVector ylim,
-    double force = 1e-6, int maxiter = 1e4
+    double force = 1e-6, int maxiter = 2000
 ) {
   int n = boxes.nrow();
   int iter = 0;
@@ -179,7 +204,7 @@ DataFrame repel_boxes(
     original_centroids(i, _) = centroid(boxes(i, _));
   }
 
-  // double mx = 0, my = 0;
+  // NumericVector forces(maxiter);
   NumericVector f(2);
   NumericVector ci(2);
   NumericVector cj(2);
@@ -202,32 +227,32 @@ DataFrame repel_boxes(
           // Repel the box from its own centroid.
           if (point_within_box(original_centroids(i, _), boxes(i, _))) {
             any_overlaps = true;
-            f = f + compute_force(ci, original_centroids(i, _), force);
+            f = f + repel_force(ci, original_centroids(i, _), force);
           }
         } else {
           // Repel the box from overlapping boxes.
           if (overlaps(boxes(i, _), boxes(j, _))) {
             any_overlaps = true;
-            f = f + compute_force(ci, cj, force);
+            f = f + repel_force(ci, cj, force);
           }
           // Repel the box from overlapping centroids.
           if (point_within_box(original_centroids(j, _), boxes(i, _))) {
             any_overlaps = true;
-            f = f + compute_force(ci, original_centroids(j, _), force);
+            f = f + repel_force(ci, original_centroids(j, _), force);
           }
         }
       }
 
       // Pull toward the label's point.
       if (!any_overlaps) {
-        f = f + compute_force(original_centroids(i, _), ci, force);
+        f = f + spring_force(original_centroids(i, _), ci, force);
       }
 
       // Scale the x force by the ratio of height/width.
       f[0] = f[0] * ratios[i];
 
-      // if (f[0] > mx) mx = f[0];
-      // if (f[1] > my) my = f[1];
+      // forces[iter - 1] += fabs(f[0]) + fabs(f[1]);
+
       b = boxes(i, _);
       boxes(i, _) = NumericVector::create(
         b[0] + f[0], b[1] + f[1], b[2] + f[0], b[3] + f[1]
@@ -238,8 +263,14 @@ DataFrame repel_boxes(
 
   // Debug messages.
   // Rcout << "iter " << iter << std::endl;
-  // Rcout << "max force x " << mx << std::endl;
-  // Rcout << "max force y " << my << std::endl;
+//   Rcout << "c(";
+//   for (int k = 0; k < maxiter; k++) {
+//     Rcout << forces[k];
+//     if (k < maxiter - 1) {
+//       Rcout << ",";
+//     }
+//   }
+//   Rcout << ")";
 
   NumericVector xs(n);
   NumericVector ys(n);

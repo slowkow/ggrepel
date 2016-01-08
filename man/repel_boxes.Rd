@@ -4,7 +4,7 @@
 \alias{repel_boxes}
 \title{Adjust the layout of a list of potentially overlapping boxes.}
 \usage{
-repel_boxes(boxes, xlim, ylim, force = 1e-06, maxiter = 10000L)
+repel_boxes(boxes, xlim, ylim, force = 1e-06, maxiter = 2000L)
 }
 \arguments{
 \item{boxes}{A list of numeric vectors representing a box like
@@ -18,7 +18,8 @@ repel_boxes(boxes, xlim, ylim, force = 1e-06, maxiter = 10000L)
 
 \item{force}{Magnitude of the force (defaults to \code{1e-6})}
 
-\item{maxiter}{Maximum number of iterations to try to resolve overlaps}
+\item{maxiter}{Maximum number of iterations to try to resolve overlaps
+(defaults to 2000)}
 }
 \description{
 Adjust the layout of a list of potentially overlapping boxes.

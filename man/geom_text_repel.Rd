@@ -8,13 +8,13 @@
 geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
   label.padding = unit(0.25, "lines"), label.r = unit(0.15, "lines"),
-  label.size = 0.25, force = 1, max.iter = 10000, expand = TRUE,
+  label.size = 0.25, force = 1, max.iter = 2000, expand = TRUE,
   na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
   segment.color = "#666666", segment.size = 0.5, force = 1,
-  max.iter = 10000, expand = TRUE, na.rm = FALSE, show.legend = NA,
+  max.iter = 2000, expand = TRUE, na.rm = FALSE, show.legend = NA,
   inherit.aes = TRUE)
 }
 \arguments{
@@ -56,7 +56,8 @@ lines.}
 \item{force}{Force of repulsion between overlapping text labels. Defaults
 to 1.}
 
-\item{max.iter}{Maximum number of iterations to try to resolve overlaps.}
+\item{max.iter}{Maximum number of iterations to try to resolve overlaps.
+Defaults to 2000.}
 
 \item{expand}{If \code{TRUE} (the default), allow text labels to be placed
 in the expanded plot area. Otherwise, limit their positions to the range

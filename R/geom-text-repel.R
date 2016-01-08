@@ -24,7 +24,7 @@
 #' @section Alignment:
 #' The repulsive geoms reposition text labels to avoid overlap, so the
 #' following parameters are not supported:
-#' 
+#'
 #' \itemize{
 #'   \item \code{hjust}
 #'   \item \code{vjust}
@@ -72,6 +72,7 @@
 #' @param force Force of repulsion between overlapping text labels. Defaults
 #'   to 1.
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
+#'   Defaults to 2000.
 #' @param expand If \code{TRUE} (the default), allow text labels to be placed
 #'   in the expanded plot area. Otherwise, limit their positions to the range
 #'   of the data.
@@ -117,7 +118,7 @@ geom_text_repel <- function(
   segment.color = "#666666",
   segment.size = 0.5,
   force = 1,
-  max.iter = 10000,
+  max.iter = 2000,
   expand = TRUE,
   na.rm = FALSE,
   show.legend = NA,
@@ -166,7 +167,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     segment.color = "#666666",
     segment.size = 0.5,
     force = 1,
-    max.iter = 10000,
+    max.iter = 2000,
     expand = TRUE
   ) {
     lab <- data$label
@@ -327,6 +328,8 @@ textRepelGrob <- function(
 }
 
 #' grid::makeContent function for textRepelGrob.
+#'
+#' @param x A grid grob.
 #' @export
 makeContent.textrepelgrob <- function(x) {
   hj <- resolveHJust(x$just, NULL)

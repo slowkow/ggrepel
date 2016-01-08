@@ -1,10 +1,10 @@
 ---
-title: "ggrepel"
+title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{ggrepel Usage Examples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -66,6 +66,7 @@ using `geom_text_repel` instead:
 
 ```{r geom_text_repel, echo=TRUE}
 library(ggrepel)
+set.seed(42)
 ggplot(mtcars) +
   geom_point(aes(wt, mpg), color = 'red') +
   geom_text_repel(aes(wt, mpg, label = rownames(mtcars))) +
@@ -96,6 +97,7 @@ However, the following parameters are not supported:
   the text will be arranged within the range of the data points
 
 ```{r geom_text_repel_options, echo=TRUE}
+set.seed(42)
 ggplot(mtcars) +
   geom_point(aes(wt, mpg), color = 'red') +
   geom_text_repel(
@@ -121,18 +123,21 @@ ggplot(mtcars) +
 `geom_label_repel` is based on [geom_label].
 
 ```{r geom_label_repel, echo=TRUE}
-library(ggrepel)
-set.seed(100)
+set.seed(42)
 ggplot(mtcars) +
   geom_point(aes(wt, mpg)) +
   geom_label_repel(
     aes(wt, mpg, fill = factor(cyl), label = rownames(mtcars)),
     fontface = 'bold', color = 'white',
-    # box.padding = unit(0.5, "lines"),
-    # label.padding = unit(0.5, "lines")
     box.padding = unit(0.25, "lines")
   ) +
   theme_classic(base_size = 16)
+```
+
+## R Session Info
+
+```{r session_info, echo=TRUE}
+sessionInfo()
 ```
 
 [geom_text]: http://docs.ggplot2.org/current/geom_text.html

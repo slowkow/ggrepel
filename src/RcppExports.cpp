@@ -65,16 +65,29 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// compute_force
-NumericVector compute_force(NumericVector a, NumericVector b, double force);
-RcppExport SEXP ggrepel_compute_force(SEXP aSEXP, SEXP bSEXP, SEXP forceSEXP) {
+// repel_force
+NumericVector repel_force(NumericVector a, NumericVector b, double force);
+RcppExport SEXP ggrepel_repel_force(SEXP aSEXP, SEXP bSEXP, SEXP forceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericVector >::type a(aSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
     Rcpp::traits::input_parameter< double >::type force(forceSEXP);
-    __result = Rcpp::wrap(compute_force(a, b, force));
+    __result = Rcpp::wrap(repel_force(a, b, force));
+    return __result;
+END_RCPP
+}
+// spring_force
+NumericVector spring_force(NumericVector a, NumericVector b, double force);
+RcppExport SEXP ggrepel_spring_force(SEXP aSEXP, SEXP bSEXP, SEXP forceSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
+    Rcpp::traits::input_parameter< double >::type force(forceSEXP);
+    __result = Rcpp::wrap(spring_force(a, b, force));
     return __result;
 END_RCPP
 }

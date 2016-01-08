@@ -1,4 +1,21 @@
 
+ggrepel 0.3 2016-01-08
+----------------------------------------------------------------
+
+CHANGES
+
+* Remove unused imports: `colorspace`.
+
+* Update NAMESPACE with new version of roxygen.
+
+* Use spring force to attract each label to its own point.
+
+* Change default maximum iterations from 10,000 to 2000.
+
+* Update man pages.
+
+* Remove unused code.
+
 ggrepel 0.2.0 2016-01-07
 ----------------------------------------------------------------
 

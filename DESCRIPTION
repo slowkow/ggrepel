@@ -1,20 +1,19 @@
 Package: ggrepel
-Version: 0.2.0
+Version: 0.3
 Authors@R: c(person("Kamil", "Slowikowski", role = c("aut", "cre"),
     email = "kslowikowski@fas.harvard.edu"))
 Title: Repulsive Text and Label Geoms for ggplot2
-Description: 
+Description:
     The 'ggrepel' package provides text and label geoms for ggplot2 that help
     to avoid overlapping text labels. Labels repel away from each other and
     away from the data points.
-Depends: 
+Depends:
     R (>= 3.0.0),
     ggplot2 (>= 1.0.0.9003)
-Imports: 
-    colorspace,
+Imports:
     grid,
     Rcpp
-Suggests: 
+Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr

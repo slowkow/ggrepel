@@ -9,3 +9,7 @@
 
 # Rstudio files
 .Rproj.user
+
+.Rbuildignore
+
+vignettes/cache

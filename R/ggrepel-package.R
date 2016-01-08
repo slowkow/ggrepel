@@ -22,6 +22,7 @@
 #'   grobY
 #'   is.grob
 #'   is.unit
+#'   makeContent
 #'   resolveHJust
 #'   resolveVJust
 #'   roundrectGrob
@@ -29,5 +30,5 @@
 #'   setChildren
 #'   textGrob
 #' @useDynLib ggrepel
-#' @importFrom Rcpp sourceCpp
+#' @importFrom Rcpp evalCpp
 NULL

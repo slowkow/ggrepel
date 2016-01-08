@@ -12,7 +12,7 @@ geom_label_repel <- function(
   label.r = unit(0.15, "lines"),
   label.size = 0.25,
   force = 1,
-  max.iter = 10000,
+  max.iter = 2000,
   expand = TRUE,
   na.rm = FALSE,
   show.legend = NA,
@@ -66,7 +66,7 @@ GeomLabelRepel <- ggproto(
     segment.color = "#666666",
     segment.size = 0.5,
     force = 1,
-    max.iter = 10000,
+    max.iter = 2000,
     expand = TRUE
   ) {
     lab <- data$label
@@ -238,6 +238,8 @@ labelRepelGrob <- function(
 }
 
 #' grid::makeContent function for labelRepelGrob.
+#'
+#' @param x A grid grob.
 #' @export
 makeContent.labelrepelgrob <- function(x) {
   hj <- resolveHJust(x$just, NULL)

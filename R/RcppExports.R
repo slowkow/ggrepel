@@ -38,12 +38,28 @@ point_within_box <- function(p, b) {
     .Call('ggrepel_point_within_box', PACKAGE = 'ggrepel', p, b)
 }
 
-#' Compute the force upon point \code{a} from point \code{b}.
+#' Compute the repulsion force upon point \code{a} from point \code{b}.
+#'
+#' The force decays with the squared distance between the points, similar
+#' to the force of repulsion between magnets.
+#'
 #' @param a A point like \code{c(x, y)}
 #' @param b A point like \code{c(x, y)}
 #' @param force Magnitude of the force (defaults to \code{1e-6})
-compute_force <- function(a, b, force = 0.000001) {
-    .Call('ggrepel_compute_force', PACKAGE = 'ggrepel', a, b, force)
+repel_force <- function(a, b, force = 0.000001) {
+    .Call('ggrepel_repel_force', PACKAGE = 'ggrepel', a, b, force)
+}
+
+#' Compute the spring force upon point \code{a} from point \code{b}.
+#'
+#' The force increases with the distance between the points, similar
+#' to Hooke's law for springs.
+#'
+#' @param a A point like \code{c(x, y)}
+#' @param b A point like \code{c(x, y)}
+#' @param force Magnitude of the force (defaults to \code{1e-6})
+spring_force <- function(a, b, force = 0.000001) {
+    .Call('ggrepel_spring_force', PACKAGE = 'ggrepel', a, b, force)
 }
 
 #' Adjust the layout of a list of potentially overlapping boxes.
@@ -55,7 +71,8 @@ compute_force <- function(a, b, force = 0.000001) {
 #'   \code{c(ymin, ymax)}
 #' @param force Magnitude of the force (defaults to \code{1e-6})
 #' @param maxiter Maximum number of iterations to try to resolve overlaps
-repel_boxes <- function(boxes, xlim, ylim, force = 1e-6, maxiter = 1e4L) {
+#'   (defaults to 2000)
+repel_boxes <- function(boxes, xlim, ylim, force = 1e-6, maxiter = 2000L) {
     .Call('ggrepel_repel_boxes', PACKAGE = 'ggrepel', boxes, xlim, ylim, force, maxiter)
 }
 
