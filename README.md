@@ -19,6 +19,14 @@ See the [vignette] for more usage examples.
 
 ## Installation
 
+Install the latest stable release from CRAN:
+
+```r
+install.packages("ggrepel")
+```
+
+Alternatively, install the latest development version from github:
+
 ```r
 install.packages("devtools")
 devtools::install_github("slowkow/ggrepel")
