@@ -130,7 +130,6 @@ p + geom_label_repel()
 
 \dontrun{
 p + geom_text_repel(family = "Times New Roman")
-}
 
 # Add aesthetic mappings
 p + geom_text_repel(aes(colour = factor(cyl)))
@@ -150,6 +149,7 @@ p + geom_text_repel(aes(label = paste(wt, "^(", cyl, ")", sep = "")),
 p +
   geom_text_repel() +
   annotate("text", label = "plot mpg vs. wt", x = 2, y = 15, size = 8, colour = "red")
+}
 
 }
 
