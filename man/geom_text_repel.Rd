@@ -8,14 +8,13 @@
 geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
   label.padding = unit(0.25, "lines"), label.r = unit(0.15, "lines"),
-  label.size = 0.25, force = 1, max.iter = 2000, expand = TRUE,
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+  label.size = 0.25, force = 1, max.iter = 2000, na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
   segment.color = "#666666", segment.size = 0.5, force = 1,
-  max.iter = 2000, expand = TRUE, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE)
+  max.iter = 2000, na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -58,10 +57,6 @@ to 1.}
 
 \item{max.iter}{Maximum number of iterations to try to resolve overlaps.
 Defaults to 2000.}
-
-\item{expand}{If \code{TRUE} (the default), allow text labels to be placed
-in the expanded plot area. Otherwise, limit their positions to the range
-of the data.}
 
 \item{na.rm}{If \code{FALSE} (the default), removes missing values with
 a warning.  If \code{TRUE} silently removes missing values.}
