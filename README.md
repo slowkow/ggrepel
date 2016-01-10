@@ -1,5 +1,8 @@
 # ggrepel
 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggrepel)](http://cran.r-project.org/package=ggrepel)
+[![CRAN_Downloads_Badge](http://cranlogs.r-pkg.org/badges/ggplot2)](http://cran.r-project.org/package=ggrepel)
+
 `ggrepel` is an R package that implements functions to repel overlapping text
 labels away from each other in a plot created by [ggplot2].
 
