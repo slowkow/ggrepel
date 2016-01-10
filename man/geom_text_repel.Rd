@@ -8,14 +8,14 @@
 geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
   label.padding = unit(0.25, "lines"), label.r = unit(0.15, "lines"),
-  label.size = 0.25, force = 1, max.iter = 2000, expand = TRUE,
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+  label.size = 0.25, arrow = NULL, force = 1, max.iter = 2000,
+  expand = TRUE, na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
-  segment.color = "#666666", segment.size = 0.5, force = 1,
-  max.iter = 2000, expand = TRUE, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE)
+  segment.color = "#666666", segment.size = 0.5, arrow = NULL,
+  force = 1, max.iter = 2000, expand = TRUE, na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -52,6 +52,8 @@ lines.}
 \item{label.r}{Radius of rounded corners. Defaults to 0.15 lines.}
 
 \item{label.size}{Size of label border, in mm.}
+
+\item{arrow}{specification for arrow heads, as created by \code{\link[grid]{arrow}}}
 
 \item{force}{Force of repulsion between overlapping text labels. Defaults
 to 1.}
@@ -149,7 +151,11 @@ p + geom_text_repel(aes(label = paste(wt, "^(", cyl, ")", sep = "")),
 p +
   geom_text_repel() +
   annotate("text", label = "plot mpg vs. wt", x = 2, y = 15, size = 8, colour = "red")
-}
 
+# Add arrows
+p +
+  geom_point(colour = "red") +
+  geom_text_repel(arrow = arrow(length = unit(0.02, "npc")), box.padding = unit(1, "lines"))
+}
 }
 

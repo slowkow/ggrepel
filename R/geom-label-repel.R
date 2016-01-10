@@ -11,6 +11,7 @@ geom_label_repel <- function(
   label.padding = unit(0.25, "lines"),
   label.r = unit(0.15, "lines"),
   label.size = 0.25,
+  arrow = NULL,
   force = 1,
   max.iter = 2000,
   expand = TRUE,
@@ -32,6 +33,7 @@ geom_label_repel <- function(
       label.padding = label.padding,
       label.r = label.r,
       label.size = label.size,
+      arrow = arrow,
       na.rm = na.rm,
       force = force,
       max.iter = max.iter,
@@ -65,6 +67,7 @@ GeomLabelRepel <- ggproto(
     label.size = 0.25,
     segment.color = "#666666",
     segment.size = 0.5,
+    arrow = NULL,
     force = 1,
     max.iter = 2000,
     expand = TRUE
@@ -184,7 +187,8 @@ GeomLabelRepel <- ggproto(
         segment.gp = gpar(
           col = segment.color,
           lwd = segment.size * .pt
-        )
+        ),
+        arrow = arrow
       )
     })
     class(grobs) <- "gList"
@@ -209,7 +213,8 @@ labelRepelGrob <- function(
   rect.gp = gpar(fill = "white"),
   r = unit(0.1, "snpc"),
   segment.gp = gpar(),
-  vp = NULL
+  vp = NULL,
+  arrow = NULL
 ) {
   stopifnot(length(label) == 1)
 
@@ -233,7 +238,8 @@ labelRepelGrob <- function(
     rect.gp = rect.gp,
     segment.gp = segment.gp,
     vp = vp,
-    cl = "labelrepelgrob"
+    cl = "labelrepelgrob",
+    arrow = arrow
   )
 }
 
@@ -286,7 +292,8 @@ makeContent.labelrepelgrob <- function(x) {
     y1 = x$y.orig,
     default.units = "native",
     gp = x$segment.gp,
-    name = "segment"
+    name = "segment",
+    arrow = x$arrow
   )
 
   setChildren(x, gList(s, r, t))

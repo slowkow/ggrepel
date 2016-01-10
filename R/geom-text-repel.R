@@ -69,6 +69,7 @@
 #' @param segment.color Color of the line segment connecting the data point to
 #'   the text labe. Defaults to \code{#666666}.
 #' @param segment.size Width of segment, in mm.
+#' @param arrow specification for arrow heads, as created by \code{\link[grid]{arrow}}
 #' @param force Force of repulsion between overlapping text labels. Defaults
 #'   to 1.
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
@@ -107,8 +108,12 @@
 #' p +
 #'   geom_text_repel() +
 #'   annotate("text", label = "plot mpg vs. wt", x = 2, y = 15, size = 8, colour = "red")
-#' }
 #'
+#' # Add arrows
+#' p +
+#'   geom_point(colour = "red") +
+#'   geom_text_repel(arrow = arrow(length = unit(0.02, "npc")), box.padding = unit(1, "lines"))
+#' }
 #' @export
 geom_text_repel <- function(
   mapping = NULL, data = NULL, stat = "identity",
@@ -117,6 +122,7 @@ geom_text_repel <- function(
   box.padding = unit(0.25, "lines"),
   segment.color = "#666666",
   segment.size = 0.5,
+  arrow = NULL,
   force = 1,
   max.iter = 2000,
   expand = TRUE,
@@ -138,6 +144,7 @@ geom_text_repel <- function(
       box.padding = box.padding,
       segment.color = segment.color,
       segment.size = segment.size,
+      arrow = arrow,
       force = force,
       max.iter = max.iter,
       expand = expand,
@@ -166,6 +173,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     box.padding = unit(0.25, "lines"),
     segment.color = "#666666",
     segment.size = 0.5,
+    arrow = NULL,
     force = 1,
     max.iter = 2000,
     expand = TRUE
@@ -278,7 +286,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
         segment.gp = gpar(
           col = segment.color,
           lwd = segment.size * .pt
-        )
+        ),
+        arrow = arrow
       )
     })
     class(grobs) <- "gList"
@@ -301,7 +310,8 @@ textRepelGrob <- function(
   name = NULL,
   text.gp = gpar(),
   segment.gp = gpar(),
-  vp = NULL
+  vp = NULL,
+  arrow = NULL
 ) {
 
   stopifnot(length(label) == 1)
@@ -323,7 +333,8 @@ textRepelGrob <- function(
     text.gp = text.gp,
     segment.gp = segment.gp,
     vp = vp,
-    cl = "textrepelgrob"
+    cl = "textrepelgrob",
+    arrow = arrow
   )
 }
 
@@ -364,7 +375,8 @@ makeContent.textrepelgrob <- function(x) {
     y1 = x$y.orig,
     default.units = "native",
     gp = x$segment.gp,
-    name = "segment"
+    name = "segment",
+    arrow = x$arrow
   )
 
   setChildren(x, gList(s, t))
