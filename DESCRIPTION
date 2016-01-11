@@ -9,7 +9,7 @@ Description:
     points.
 Depends:
     R (>= 3.0.0),
-    ggplot2 (>= 1.0.0.9003)
+    ggplot2 (>= 2.0.0)
 Imports:
     grid,
     Rcpp
