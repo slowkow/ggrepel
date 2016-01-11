@@ -143,7 +143,7 @@ NumericVector repel_force(
 ) {
   a += rnorm(2, 0, force);
   // Constrain the minimum distance to be at least 0.01.
-  double d = std::max(euclid(a, b), 0.01);
+  double d = std::max(euclid(a, b), 0.02);
   // Compute a unit vector in the direction of the force.
   NumericVector v = (a - b) / d;
   // Divide the force by the squared distance.
@@ -204,6 +204,7 @@ DataFrame repel_boxes(
     original_centroids(i, _) = centroid(boxes(i, _));
   }
 
+  double total_force = 0;
   // NumericVector forces(maxiter);
   NumericVector f(2);
   NumericVector ci(2);
@@ -251,13 +252,22 @@ DataFrame repel_boxes(
       // Scale the x force by the ratio of height/width.
       f[0] = f[0] * ratios[i];
 
-      // forces[iter - 1] += fabs(f[0]) + fabs(f[1]);
+      // Dampen the forces.
+      f = f * (1 - 1e-3);
+
+      // forces[i - 1] += fabs(f[0]) + fabs(f[1]);
+      total_force += fabs(f[0]) + fabs(f[1]);
 
       b = boxes(i, _);
       boxes(i, _) = NumericVector::create(
         b[0] + f[0], b[1] + f[1], b[2] + f[0], b[3] + f[1]
       );
       boxes(i, _) = put_within_bounds(boxes(i, _), xlim, ylim);
+    }
+
+    // If there are no forces between boxes, let's break the loop.
+    if (total_force == 0) {
+      break;
     }
   }
 
