@@ -126,6 +126,39 @@ ggplot(mtcars) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_label_repel-1.png" title="plot of chunk geom_label_repel" alt="plot of chunk geom_label_repel" width="700" />
 
+## Animation
+
+
+```r
+library(ggrepel)
+library(animation)
+
+plot_frame <- function(n) {
+  set.seed(42)
+  p <- ggplot(mtcars) +
+    geom_point(aes(wt, mpg), color = 'red') +
+    geom_text_repel(
+      aes(wt, mpg, label = rownames(mtcars)),
+      size = 5, force = 4, max.iter = n
+    ) +
+    theme_classic(base_size = 16)
+  print(p)
+}
+
+saveGIF(
+  lapply(c(seq(0, 2000, 25)), function(i) {
+    plot_frame(i)
+  }),
+  interval = 0.05,
+  ani.width = 800,
+  ani.heigth = 600,
+  movie.name = 'animated.gif'
+)
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/animated.gif" title="animation"
+  alt="animation of geom_repel_text" width="700"/>
+
 ## R Session Info
 
 
