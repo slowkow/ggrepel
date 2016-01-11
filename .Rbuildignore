@@ -1,4 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^vignettes/cache/.*$
-^.travis\..yml$
+^.travis\.yml$
+^tests/benchmark\.R$
