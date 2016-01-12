@@ -64,8 +64,10 @@
 #'     default \code{stat} associated with the layer.
 #'   \item Other arguments passed on to the stat.
 #'   }
-#' @param box.padding Amount of padding around bounding box. Defaults to 0.25
-#'   lines.
+#' @param box.padding Amount of padding around bounding box. Defaults to
+#'   \code{unit(0.25, "lines")}.
+#' @param point.padding Amount of padding around labeled point. Defaults to
+#'   \code{unit(0, "lines")}.
 #' @param segment.color Color of the line segment connecting the data point to
 #'   the text labe. Defaults to \code{#666666}.
 #' @param segment.size Width of segment, in mm.
@@ -84,7 +86,8 @@
 #' p + geom_label_repel()
 #'
 #' \dontrun{
-#' p + geom_text_repel(family = "Times New Roman")
+#' p + geom_text_repel(family = "Times New Roman",
+#'   box.padding = unit(0.5, "lines"))
 #'
 #' # Add aesthetic mappings
 #' p + geom_text_repel(aes(colour = factor(cyl)))
@@ -112,6 +115,7 @@ geom_text_repel <- function(
   parse = FALSE,
   ...,
   box.padding = unit(0.25, "lines"),
+  point.padding = unit(0, "lines"),
   segment.color = "#666666",
   segment.size = 0.5,
   force = 1,
@@ -132,6 +136,7 @@ geom_text_repel <- function(
       parse = parse,
       na.rm = na.rm,
       box.padding = box.padding,
+      point.padding = point.padding,
       segment.color = segment.color,
       segment.size = segment.size,
       force = force,
@@ -159,6 +164,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     parse = FALSE,
     na.rm = FALSE,
     box.padding = unit(0.25, "lines"),
+    point.padding = unit(0, "lines"),
     segment.color = "#666666",
     segment.size = 0.5,
     force = 1,
@@ -233,6 +239,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
         x.orig = unit(data$x[i], "native"),
         y.orig = unit(data$y[i], "native"),
         box.padding = box.padding,
+        point.padding = point.padding,
         text.gp = gpar(
           col = row$colour,
           fontsize = row$size * .pt,
@@ -263,6 +270,7 @@ textRepelGrob <- function(
   default.units = "npc",
   just = "center",
   box.padding = unit(0.25, "lines"),
+  point.padding = unit(0, "lines"),
   name = NULL,
   text.gp = gpar(),
   segment.gp = gpar(),
@@ -284,6 +292,7 @@ textRepelGrob <- function(
     y.orig = y.orig,
     just = just,
     box.padding = box.padding,
+    point.padding = point.padding,
     name = name,
     text.gp = text.gp,
     segment.gp = segment.gp,
@@ -313,24 +322,40 @@ makeContent.textrepelgrob <- function(x) {
   x2 <- convertWidth(x$x + 0.5 * grobWidth(t), "native", TRUE)
   y1 <- convertHeight(x$y - 0.5 * grobHeight(t), "native", TRUE)
   y2 <- convertHeight(x$y + 0.5 * grobHeight(t), "native", TRUE)
-  xo <- convertWidth(x$x.orig, "native", TRUE)
-  yo <- convertHeight(x$y.orig, "native", TRUE)
+
+  orig <- c(
+    convertWidth(x$x.orig, "native", TRUE),
+    convertHeight(x$y.orig, "native", TRUE)
+  )
 
   center <- centroid(c(x1, y1, x2, y2))
 
-  # Get the coordinates of the intersection between the line from the original
-  # data point to the centroid and the rectangle's edges.
-  int <- intersect_line_rectangle(c(xo, yo), center, c(x1, y1, x2, y2))
+  d <- (center - orig)
+  d <- d / euclid(center, orig)
+  orig <- orig + convertWidth(x$point.padding, "native", TRUE) * d
 
-  s <- segmentsGrob(
-    x0 = int[1],
-    y0 = int[2],
-    x1 = x$x.orig,
-    y1 = x$y.orig,
-    default.units = "native",
-    gp = x$segment.gp,
-    name = "segment"
-  )
+  pad.x <- convertWidth(x$box.padding, "native", TRUE) / 2
+  pad.y <- convertHeight(x$box.padding, "native", TRUE) / 2
+  b <- c(x1 - pad.x, y1 - pad.y, x2 + pad.x, y2 + pad.y)
 
-  setChildren(x, gList(s, t))
+  if (!point_within_box(orig, b)) {
+
+    # Get the coordinates of the intersection between the line from the
+    # original data point to the centroid and the rectangle's edges.
+    int <- intersect_line_rectangle(orig, center, b)
+
+    s <- segmentsGrob(
+      x0 = int[1],
+      y0 = int[2],
+      x1 = orig[1],
+      y1 = orig[2],
+      default.units = "native",
+      gp = x$segment.gp,
+      name = "segment"
+    )
+
+    return(setChildren(x, gList(s, t)))
+  }
+
+  return(setChildren(x, gList(t)))
 }

@@ -1,11 +1,28 @@
 
-ggrepel 0.3.1 2016-01-10
+ggrepel 0.3.1 2016-01-12
 ----------------------------------------------------------------
 
-CHANGES
+FIXES
 
 * Fix issue #7. Labels can now be placed anywhere in the plotting area instead
   of being limited to the x and y ranges of their corresponding data points.
+
+* Fix DESCRIPTION to require ggplot2 >= 2.0.0
+
+CHANGES
+
+* Add new parameter `point.padding` to add padding around the labeled points.
+  The line segment will stop before reaching the coordinates of the point. The
+  text labels are also now padded from the line segment to improve legibility.
+
+* Add volcano plot to the vignette usage examples.
+
+* Add Travis continuous integration to test against R-devel, R-release, and
+  R-oldrel.
+
+* Dampen repulsion force to slightly improve algorithm efficiency.
+
+* Move `intersect_line_rectangle()` to `src/repel_boxes.cpp`.
 
 
 ggrepel 0.3 2016-01-08

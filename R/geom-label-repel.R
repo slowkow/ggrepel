@@ -9,6 +9,7 @@ geom_label_repel <- function(
   ...,
   box.padding = unit(0.25, "lines"),
   label.padding = unit(0.25, "lines"),
+  point.padding = unit(0, "lines"),
   label.r = unit(0.15, "lines"),
   label.size = 0.25,
   force = 1,
@@ -29,6 +30,7 @@ geom_label_repel <- function(
       parse = parse,
       box.padding  = box.padding,
       label.padding = label.padding,
+      point.padding  = point.padding,
       label.r = label.r,
       label.size = label.size,
       na.rm = na.rm,
@@ -59,6 +61,7 @@ GeomLabelRepel <- ggproto(
     na.rm = FALSE,
     box.padding = unit(0.25, "lines"),
     label.padding = unit(0.25, "lines"),
+    point.padding = unit(0, "lines"),
     label.r = unit(0.15, "lines"),
     label.size = 0.25,
     segment.color = "#666666",
@@ -148,6 +151,7 @@ GeomLabelRepel <- ggproto(
         y.orig = unit(data$y[i], "native"),
         box.padding = box.padding,
         label.padding = label.padding,
+        point.padding = point.padding,
         r = label.r,
         text.gp = gpar(
           col = row$colour,
@@ -184,6 +188,7 @@ labelRepelGrob <- function(
   just = "center",
   box.padding = unit(0.25, "lines"),
   label.padding = unit(0.25, "lines"),
+  point.padding = unit(0, "lines"),
   name = NULL,
   text.gp = gpar(),
   rect.gp = gpar(fill = "white"),
@@ -207,6 +212,7 @@ labelRepelGrob <- function(
     just = just,
     box.padding = box.padding,
     label.padding = label.padding,
+    point.padding = point.padding,
     r = r,
     name = name,
     text.gp = text.gp,
@@ -250,24 +256,40 @@ makeContent.labelrepelgrob <- function(x) {
   x2 <- convertWidth(x$x + 0.5 * grobWidth(r), "native", TRUE)
   y1 <- convertHeight(x$y - 0.5 * grobHeight(r), "native", TRUE)
   y2 <- convertHeight(x$y + 0.5 * grobHeight(r), "native", TRUE)
-  xo <- convertWidth(x$x.orig, "native", TRUE)
-  yo <- convertHeight(x$y.orig, "native", TRUE)
 
-  center <- centroid(c(x1, y1, x2, y2))
-
-  # Get the coordinates of the intersection between the line from the original
-  # data point to the centroid and the rectangle's edges.
-  int <- intersect_line_rectangle(c(xo, yo), center, c(x1, y1, x2, y2))
-
-  s <- segmentsGrob(
-    x0 = int[1],
-    y0 = int[2],
-    x1 = x$x.orig,
-    y1 = x$y.orig,
-    default.units = "native",
-    gp = x$segment.gp,
-    name = "segment"
+  orig <- c(
+    convertWidth(x$x.orig, "native", TRUE),
+    convertHeight(x$y.orig, "native", TRUE)
   )
 
-  setChildren(x, gList(s, r, t))
+  center <- centroid(c(x1, y1, x2, y2))
+  
+  d <- (center - orig)
+  d <- d / euclid(center, orig)
+  orig <- orig + convertWidth(x$point.padding, "native", TRUE) * d
+
+  pad.x <- convertWidth(x$label.padding, "native", TRUE) / 2
+  pad.y <- convertHeight(x$label.padding, "native", TRUE) / 2
+  b <- c(x1 - pad.x, y1 - pad.y, x2 + pad.x, y2 + pad.y)
+
+  if (!point_within_box(orig, b)) {
+
+    # Get the coordinates of the intersection between the line from the
+    # original data point to the centroid and the rectangle's edges.
+    int <- intersect_line_rectangle(orig, center, b)
+
+    s <- segmentsGrob(
+      x0 = int[1],
+      y0 = int[2],
+      x1 = orig[1],
+      y1 = orig[2],
+      default.units = "native",
+      gp = x$segment.gp,
+      name = "segment"
+    )
+
+    return(setChildren(x, gList(s, r, t)))
+  }
+
+  return(setChildren(x, gList(r, t)))
 }

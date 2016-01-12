@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2016-01-10"
+date: "2016-01-12"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -80,6 +80,7 @@ However, the following parameters are not supported:
 
 - `segment.color` is the line segment color
 - `box.padding` is the padding surrounding the text bounding box
+- `point.padding` is the padding around the labeled point
 - `force` is the force of repulsion between overlapping text labels
 - `max.iter` is the maximum number of iterations to attempt to resolve overlaps
 
@@ -98,6 +99,7 @@ ggplot(mtcars) +
     fontface = 'bold',
     segment.color = 'red',
     box.padding = unit(0.3, 'lines'),
+    point.padding = unit(0.4, 'lines'),
     force = 2,
     max.iter = 1e4
   ) +
@@ -105,7 +107,7 @@ ggplot(mtcars) +
   theme_classic(base_size = 16)
 ```
 
-<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_options-1.png" title="plot of chunk geom_text_repel_options" alt="plot of chunk geom_text_repel_options" width="700" />
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_options-1.png" title="" alt="" width="700" />
 
 ### geom_label_repel
 
@@ -126,10 +128,34 @@ ggplot(mtcars) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_label_repel-1.png" title="plot of chunk geom_label_repel" alt="plot of chunk geom_label_repel" width="700" />
 
-## Animation
+### Volcano plot
 
 
 ```r
+# Read Stephen Turner's data
+genes <- read.table("genes.txt.bz2", header = TRUE)
+genes$Significant <- ifelse(genes$padj < 0.05, "FDR < 0.05", "Not Sig")
+
+ggplot(genes, aes(x = log2FoldChange, y = -log10(pvalue))) +
+  geom_point(aes(color = Significant)) +
+  scale_color_manual(values = c("red", "grey")) +
+  theme_bw(base_size = 16) +
+  geom_text_repel(
+    data = subset(genes, padj < 0.05),
+    aes(label = Gene),
+    size = 5,
+    box.padding = unit(0.35, "lines"),
+    point.padding = unit(0.3, "lines")
+  )
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/volcano-1.png" title="" alt="" width="700" />
+
+### Animation
+
+
+```r
+# This chunk of code will take a minute or two to run.
 library(ggrepel)
 library(animation)
 
@@ -139,7 +165,7 @@ plot_frame <- function(n) {
     geom_point(aes(wt, mpg), color = 'red') +
     geom_text_repel(
       aes(wt, mpg, label = rownames(mtcars)),
-      size = 5, force = 4, max.iter = n
+      size = 5, force = 3, max.iter = n
     ) +
     theme_classic(base_size = 16)
   print(p)
