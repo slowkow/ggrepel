@@ -21,6 +21,13 @@ ggplot(mtcars) +
 
 See the [vignette] for more usage examples.
 
+Also, look at the help pages:
+
+```r
+?geom_text_repel
+?geom_label_repel
+```
+
 ## Installation
 
 Install the latest stable release from CRAN:

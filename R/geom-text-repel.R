@@ -23,7 +23,7 @@
 #'
 #' @section Alignment:
 #' The repulsive geoms reposition text labels to avoid overlap, so the
-#' following parameters are not supported:
+#' following parameters are \strong{not supported}:
 #'
 #' \itemize{
 #'   \item \code{hjust}

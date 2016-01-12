@@ -9,7 +9,19 @@
 This package contains extra geoms for \pkg{ggplot2}.
 }
 \details{
-In addition to the help pages, see the README page on
-\href{https://github.com/slowkow/ggrepel}{github} for examples.
+Please see the help pages listed below:
+
+\itemize{
+  \item \code{\link{geom_text_repel}}
+  \item \code{\link{geom_label_repel}}
+}
+
+Also see the vignette for more usage examples:
+
+\code{browseVignettes("ggrepel")}
+
+Please report issues and suggest improvements at Github:
+
+\url{https://github.com/slowkow/ggrepel}
 }
 

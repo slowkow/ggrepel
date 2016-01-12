@@ -107,7 +107,7 @@ aesthetic controls the background colour of the label.
 \section{Alignment}{
 
 The repulsive geoms reposition text labels to avoid overlap, so the
-following parameters are not supported:
+following parameters are \strong{not supported}:
 
 \itemize{
   \item \code{hjust}
