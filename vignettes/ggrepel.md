@@ -107,7 +107,7 @@ ggplot(mtcars) +
   theme_classic(base_size = 16)
 ```
 
-<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_options-1.png" title="" alt="" width="700" />
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_options-1.png" title="plot of chunk geom_text_repel_options" alt="plot of chunk geom_text_repel_options" width="700" />
 
 ### geom_label_repel
 
@@ -149,7 +149,7 @@ ggplot(genes, aes(x = log2FoldChange, y = -log10(pvalue))) +
   )
 ```
 
-<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/volcano-1.png" title="" alt="" width="700" />
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/volcano-1.png" title="plot of chunk volcano" alt="plot of chunk volcano" width="700" />
 
 ### Animation
 
@@ -207,7 +207,7 @@ sessionInfo()
 ## [1] ggrepel_0.3.1 ggplot2_2.0.0 knitr_1.12   
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.2      codetools_0.2-14 digest_0.6.9     grid_3.2.3      
+##  [1] Rcpp_0.12.3      codetools_0.2-14 digest_0.6.9     grid_3.2.3      
 ##  [5] plyr_1.8.3       gtable_0.1.2     formatR_1.2.1    magrittr_1.5    
 ##  [9] evaluate_0.8     scales_0.3.0     stringi_1.0-1    labeling_0.3    
 ## [13] tools_3.2.3      stringr_1.0.0    munsell_0.4.2    colorspace_1.2-6
