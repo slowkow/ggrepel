@@ -1,58 +1,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-// //' Find the intersections between a line and a rectangle.
-// //' @param p1 A point c(x, y)
-// //' @param p2 A point c(x, y)
-// //' @param b A rectangle c(x1, y1, x2, y2)
-// NumericVector intersect_line_rectangle(
-//     NumericVector p1, NumericVector p2, NumericVector b
-// ) {
-//   double slope = (p2[1] - p1[1]) / (p2[0] - p1[0]);
-//   double intercept = p2[1] - p2[0] * slope;
-//   NumericMatrix retval(4, 2);
-//
-//   double x, y;
-//
-//   x = b[0];
-//   y = slope * x + intercept;
-//   if (b[1] <= y && y <= b[3]) {
-//     retval(0, _) = NumericVector::create(x, y);
-//   }
-//
-//   x = b[2];
-//   y = slope * x + intercept;
-//   if (b[1] <= y && y <= b[3]) {
-//     retval(1, _) = NumericVector::create(x, y);
-//   }
-//
-//   y = b[1];
-//   x = (y - intercept) / slope;
-//   if (b[0] <= y && y <= b[2]) {
-//     retval(2, _) = NumericVector::create(x, y);
-//   }
-//
-//   y = b[3];
-//   x = (y - intercept) / slope;
-//   if (b[0] <= y && y <= b[2]) {
-//     retval(3, _) = NumericVector::create(x, y);
-//   }
-//
-//   int i = 0;
-//   int imin = 0;
-//   double d = euclid(retval(i, _), p1);
-//   double dmin = d;
-//   for (i = 1; i < 4; i++) {
-//     d = euclid(retval(i, _), p1);
-//     if (d < dmin) {
-//       d = dmin;
-//       imin = i;
-//     }
-//   }
-//
-//   return retval(imin, _);
-// }
-
 //' Euclidean distance between two numeric vectors.
 //' @param p1 A numeric vector.
 //' @param p2 A numeric vector.
@@ -64,6 +12,59 @@ double euclid(NumericVector p1, NumericVector p2) {
     retval += pow(p2[i] - p1[i], 2);
   }
   return sqrt(retval);
+}
+
+//' Find the intersections between a line and a rectangle.
+//' @param p1 A point like \code{c(x, y)}
+//' @param p2 A point like \code{c(x, y)}
+//' @param b A rectangle like \code{c(x1, y1, x2, y2)}
+// [[Rcpp::export]]
+NumericVector intersect_line_rectangle(
+    NumericVector p1, NumericVector p2, NumericVector b
+) {
+  double slope = (p2[1] - p1[1]) / (p2[0] - p1[0]);
+  double intercept = p2[1] - p2[0] * slope;
+  NumericMatrix retval(4, 2);
+
+  double x, y;
+
+  x = b[0];
+  y = slope * x + intercept;
+  if (b[1] <= y && y <= b[3]) {
+    retval(0, _) = NumericVector::create(x, y);
+  }
+
+  x = b[2];
+  y = slope * x + intercept;
+  if (b[1] <= y && y <= b[3]) {
+    retval(1, _) = NumericVector::create(x, y);
+  }
+
+  y = b[1];
+  x = (y - intercept) / slope;
+  if (b[0] <= x && x <= b[2]) {
+    retval(2, _) = NumericVector::create(x, y);
+  }
+
+  y = b[3];
+  x = (y - intercept) / slope;
+  if (b[0] <= x && x <= b[2]) {
+    retval(3, _) = NumericVector::create(x, y);
+  }
+
+  int i = 0;
+  int imin = 0;
+  double d = euclid(retval(i, _), p1);
+  double dmin = d;
+  for (i = 1; i < 4; i++) {
+    d = euclid(retval(i, _), p1);
+    if (d < dmin) {
+      dmin = d;
+      imin = i;
+    }
+  }
+
+  return retval(imin, _);
 }
 
 //' Move a box into the area specificied by x limits and y limits.

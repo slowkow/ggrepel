@@ -17,6 +17,19 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// intersect_line_rectangle
+NumericVector intersect_line_rectangle(NumericVector p1, NumericVector p2, NumericVector b);
+RcppExport SEXP ggrepel_intersect_line_rectangle(SEXP p1SEXP, SEXP p2SEXP, SEXP bSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type p1(p1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type p2(p2SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
+    __result = Rcpp::wrap(intersect_line_rectangle(p1, p2, b));
+    return __result;
+END_RCPP
+}
 // put_within_bounds
 NumericVector put_within_bounds(NumericVector b, NumericVector xlim, NumericVector ylim);
 RcppExport SEXP ggrepel_put_within_bounds(SEXP bSEXP, SEXP xlimSEXP, SEXP ylimSEXP) {

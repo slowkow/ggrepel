@@ -8,6 +8,14 @@ euclid <- function(p1, p2) {
     .Call('ggrepel_euclid', PACKAGE = 'ggrepel', p1, p2)
 }
 
+#' Find the intersections between a line and a rectangle.
+#' @param p1 A point like \code{c(x, y)}
+#' @param p2 A point like \code{c(x, y)}
+#' @param b A rectangle like \code{c(x1, y1, x2, y2)}
+intersect_line_rectangle <- function(p1, p2, b) {
+    .Call('ggrepel_intersect_line_rectangle', PACKAGE = 'ggrepel', p1, p2, b)
+}
+
 #' Move a box into the area specificied by x limits and y limits.
 #' @param b A numeric vector representing a box like \code{c(x1, y1, x2, y2)}
 #' @param xlim A numeric vector representing the limits on the x axis like
