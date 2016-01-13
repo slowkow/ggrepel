@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2016-01-12"
+date: "2016-01-13"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -81,6 +81,7 @@ However, the following parameters are not supported:
 - `segment.color` is the line segment color
 - `box.padding` is the padding surrounding the text bounding box
 - `point.padding` is the padding around the labeled point
+- `arrow` is the specification for arrow heads created by `grid::arrow`
 - `force` is the force of repulsion between overlapping text labels
 - `max.iter` is the maximum number of iterations to attempt to resolve overlaps
 
@@ -97,10 +98,12 @@ ggplot(mtcars) +
     ),
     size = 5,
     fontface = 'bold',
-    segment.color = 'red',
     box.padding = unit(0.3, 'lines'),
-    point.padding = unit(0.4, 'lines'),
-    force = 2,
+    point.padding = unit(0.1, 'lines'),
+    segment.color = 'black',
+    segment.size = 0.5,
+    arrow = arrow(length = unit(0.01, 'npc')),
+    force = 1,
     max.iter = 1e4
   ) +
   scale_color_discrete(name = 'cyl') +
@@ -204,7 +207,7 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggrepel_0.4   ggplot2_2.0.0 knitr_1.12   
+## [1] ggrepel_0.4.1 ggplot2_2.0.0 knitr_1.12   
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.3      codetools_0.2-14 digest_0.6.9     grid_3.2.3      
