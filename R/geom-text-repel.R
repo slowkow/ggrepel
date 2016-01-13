@@ -71,6 +71,7 @@
 #' @param segment.color Color of the line segment connecting the data point to
 #'   the text labe. Defaults to \code{#666666}.
 #' @param segment.size Width of segment, in mm.
+#' @param arrow specification for arrow heads, as created by \code{\link[grid]{arrow}}
 #' @param force Force of repulsion between overlapping text labels. Defaults
 #'   to 1.
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
@@ -107,8 +108,12 @@
 #' p +
 #'   geom_text_repel() +
 #'   annotate("text", label = "plot mpg vs. wt", x = 2, y = 15, size = 8, colour = "red")
-#' }
 #'
+#' # Add arrows
+#' p +
+#'   geom_point(colour = "red") +
+#'   geom_text_repel(arrow = arrow(length = unit(0.02, "npc")), box.padding = unit(1, "lines"))
+#' }
 #' @export
 geom_text_repel <- function(
   mapping = NULL, data = NULL, stat = "identity",
@@ -118,6 +123,7 @@ geom_text_repel <- function(
   point.padding = unit(0, "lines"),
   segment.color = "#666666",
   segment.size = 0.5,
+  arrow = NULL,
   force = 1,
   max.iter = 2000,
   na.rm = FALSE,
@@ -139,6 +145,7 @@ geom_text_repel <- function(
       point.padding = point.padding,
       segment.color = segment.color,
       segment.size = segment.size,
+      arrow = arrow,
       force = force,
       max.iter = max.iter,
       ...
@@ -167,6 +174,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     point.padding = unit(0, "lines"),
     segment.color = "#666666",
     segment.size = 0.5,
+    arrow = NULL,
     force = 1,
     max.iter = 2000
   ) {
@@ -194,13 +202,11 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
         row$x, row$y, default.units = "native",
         rot = row$angle,
         gp = gpar(
-          col = alpha(row$colour, row$alpha),
           fontsize = row$size * .pt,
           fontfamily = row$family,
           fontface = row$fontface,
           lineheight = row$lineheight
-        ),
-        check.overlap = FALSE
+        )
       )
       c(
         "x1" = row$x + convertWidth(grobX(tg, "west"), "npc", TRUE) - pad.x,
@@ -250,7 +256,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
         segment.gp = gpar(
           col = segment.color,
           lwd = segment.size * .pt
-        )
+        ),
+        arrow = arrow
       )
     })
     class(grobs) <- "gList"
@@ -274,7 +281,8 @@ textRepelGrob <- function(
   name = NULL,
   text.gp = gpar(),
   segment.gp = gpar(),
-  vp = NULL
+  vp = NULL,
+  arrow = NULL
 ) {
 
   stopifnot(length(label) == 1)
@@ -297,7 +305,8 @@ textRepelGrob <- function(
     text.gp = text.gp,
     segment.gp = segment.gp,
     vp = vp,
-    cl = "textrepelgrob"
+    cl = "textrepelgrob",
+    arrow = arrow
   )
 }
 
@@ -330,32 +339,35 @@ makeContent.textrepelgrob <- function(x) {
 
   center <- centroid(c(x1, y1, x2, y2))
 
+  # Nudge the original data point toward the label with point.padding.
   d <- (center - orig)
-  d <- d / euclid(center, orig)
-  orig <- orig + convertWidth(x$point.padding, "native", TRUE) * d
+  h <- euclid(center, orig)
+  d <- d / h
+  orig <- orig + d * (
+    abs((center[1] - orig[1]) / h) *
+      convertWidth(x$point.padding, "native", TRUE) +
+    abs((center[2] - orig[2]) / h) *
+      convertHeight(x$point.padding, "native", TRUE)
+  )
 
-  pad.x <- convertWidth(x$box.padding, "native", TRUE) / 2
-  pad.y <- convertHeight(x$box.padding, "native", TRUE) / 2
-  b <- c(x1 - pad.x, y1 - pad.y, x2 + pad.x, y2 + pad.y)
+  pad.x <- convertWidth(x$box.padding, "native", TRUE)
+  pad.y <- convertHeight(x$box.padding, "native", TRUE)
 
-  if (!point_within_box(orig, b)) {
+  # Get the coordinates of the intersection between the line from the
+  # original data point to the centroid and the rectangle's edges.
+  b <- c(x1 - pad.x / 2, y1 - pad.y / 2, x2 + pad.x / 2, y2 + pad.y / 2)
+  int <- intersect_line_rectangle(orig, center, b)
 
-    # Get the coordinates of the intersection between the line from the
-    # original data point to the centroid and the rectangle's edges.
-    int <- intersect_line_rectangle(orig, center, b)
+  s <- segmentsGrob(
+    x0 = int[1],
+    y0 = int[2],
+    x1 = orig[1],
+    y1 = orig[2],
+    default.units = "native",
+    gp = x$segment.gp,
+    name = "segment",
+    arrow = x$arrow
+  )
 
-    s <- segmentsGrob(
-      x0 = int[1],
-      y0 = int[2],
-      x1 = orig[1],
-      y1 = orig[2],
-      default.units = "native",
-      gp = x$segment.gp,
-      name = "segment"
-    )
-
-    return(setChildren(x, gList(s, t)))
-  }
-
-  return(setChildren(x, gList(t)))
+  setChildren(x, gList(s, t))
 }

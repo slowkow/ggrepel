@@ -8,14 +8,16 @@
 geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
   label.padding = unit(0.25, "lines"), point.padding = unit(0, "lines"),
-  label.r = unit(0.15, "lines"), label.size = 0.25, force = 1,
-  max.iter = 2000, na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+  label.r = unit(0.15, "lines"), label.size = 0.25,
+  segment.color = "#666666", segment.size = 0.5, arrow = NULL,
+  force = 1, max.iter = 2000, na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
   point.padding = unit(0, "lines"), segment.color = "#666666",
-  segment.size = 0.5, force = 1, max.iter = 2000, na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE)
+  segment.size = 0.5, arrow = NULL, force = 1, max.iter = 2000,
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -56,6 +58,13 @@ displayed as described in ?plotmath}
 
 \item{label.size}{Size of label border, in mm.}
 
+\item{segment.color}{Color of the line segment connecting the data point to
+the text labe. Defaults to \code{#666666}.}
+
+\item{segment.size}{Width of segment, in mm.}
+
+\item{arrow}{specification for arrow heads, as created by \code{\link[grid]{arrow}}}
+
 \item{force}{Force of repulsion between overlapping text labels. Defaults
 to 1.}
 
@@ -73,11 +82,6 @@ a warning.  If \code{TRUE} silently removes missing values.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
-
-\item{segment.color}{Color of the line segment connecting the data point to
-the text labe. Defaults to \code{#666666}.}
-
-\item{segment.size}{Width of segment, in mm.}
 }
 \description{
 \code{geom_text_repel} adds text directly to the plot.
@@ -149,7 +153,11 @@ p + geom_text_repel(aes(label = paste(wt, "^(", cyl, ")", sep = "")),
 p +
   geom_text_repel() +
   annotate("text", label = "plot mpg vs. wt", x = 2, y = 15, size = 8, colour = "red")
-}
 
+# Add arrows
+p +
+  geom_point(colour = "red") +
+  geom_text_repel(arrow = arrow(length = unit(0.02, "npc")), box.padding = unit(1, "lines"))
+}
 }
 
