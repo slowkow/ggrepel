@@ -22,8 +22,8 @@ intersect_line_rectangle <- function(p1, p2, b) {
 #'   \code{c(xmin, xmax)}
 #' @param ylim A numeric vector representing the limits on the y axis like
 #'   \code{c(ymin, ymax)}
-put_within_bounds <- function(b, xlim, ylim) {
-    .Call('ggrepel_put_within_bounds', PACKAGE = 'ggrepel', b, xlim, ylim)
+put_within_bounds <- function(b, xlim, ylim, force = 1e-5) {
+    .Call('ggrepel_put_within_bounds', PACKAGE = 'ggrepel', b, xlim, ylim, force)
 }
 
 #' Get the coordinates of the center of a box.

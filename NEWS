@@ -1,4 +1,21 @@
 
+ggrepel 0.4.1 2016-01-13
+----------------------------------------------------------------
+
+CHANGES
+
+* Add `arrow` parameter to allow plotting arrows that point to the labeled data
+  points rather than plain line segments.
+
+* Always draw segments, even if the labeled point is very close to the label.
+
+FIXES
+
+* Fix `point.padding` so that horizontal and vertical padding is calculated
+  correctly.
+
+* Tweak forces to improve layout near borders and in crowded areas.
+
 ggrepel 0.4 2016-01-12
 ----------------------------------------------------------------
 
