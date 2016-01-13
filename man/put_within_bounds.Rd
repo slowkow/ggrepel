@@ -14,6 +14,8 @@ put_within_bounds(b, xlim, ylim, force = 1e-05)
 
 \item{ylim}{A numeric vector representing the limits on the y axis like
 \code{c(ymin, ymax)}}
+
+\item{force}{Magnitude of the force (defaults to \code{1e-6})}
 }
 \description{
 Move a box into the area specificied by x limits and y limits.

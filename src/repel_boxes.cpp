@@ -73,6 +73,7 @@ NumericVector intersect_line_rectangle(
 //'   \code{c(xmin, xmax)}
 //' @param ylim A numeric vector representing the limits on the y axis like
 //'   \code{c(ymin, ymax)}
+//' @param force Magnitude of the force (defaults to \code{1e-6})
 // [[Rcpp::export]]
 NumericVector put_within_bounds(
     NumericVector b, NumericVector xlim, NumericVector ylim,
