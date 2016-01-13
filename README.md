@@ -4,14 +4,14 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggrepel)](http://cran.r-project.org/package=ggrepel)
 [![CRAN_Downloads_Badge](http://cranlogs.r-pkg.org/badges/grand-total/ggrepel?color=brightgreen)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggrepel)
 
-`ggrepel` is an R package that implements functions to repel overlapping text
-labels away from each other in a plot created by [ggplot2].
+`ggrepel` provides geoms for [ggplot2] to repel overlapping text labels.
 
 ```r
+library(ggplot2)
 library(ggrepel)
-ggplot(mtcars) +
-  geom_point(aes(wt, mpg), color = 'red') +
-  geom_text_repel(aes(wt, mpg, label = rownames(mtcars))) +
+ggplot(mtcars, aes(wt, mpg)) +
+  geom_point(color = 'red') +
+  geom_text_repel(aes(label = rownames(mtcars))) +
   theme_classic(base_size = 16)
 ```
 
