@@ -75,26 +75,35 @@ NumericVector intersect_line_rectangle(
 //'   \code{c(ymin, ymax)}
 // [[Rcpp::export]]
 NumericVector put_within_bounds(
-    NumericVector b, NumericVector xlim, NumericVector ylim
+    NumericVector b, NumericVector xlim, NumericVector ylim,
+    double force = 1e-5
 ) {
+//   a += rnorm(2, 0, force);
+//   // Constrain the minimum distance to be at least 0.01.
+//   double d = std::max(euclid(a, b), 0.02);
+//   // Compute a unit vector in the direction of the force.
+//   NumericVector v = (a - b) / d;
+//   // Divide the force by the squared distance.
+//   return force * v / pow(d, 2);
+
   double d;
   if (b[0] < xlim[0]) {
-    d = fabs(b[0] - xlim[0]);
-    b[0] += d;
-    b[2] += d;
+    d = std::max(fabs(b[0] - xlim[0]), 0.02);
+    b[0] += force / pow(d, 2);
+    b[2] += force / pow(d, 2);
   } else if (b[2] > xlim[1]) {
-    d = fabs(b[2] - xlim[1]);
-    b[0] -= d;
-    b[2] -= d;
+    d = std::max(fabs(b[2] - xlim[1]), 0.02);
+    b[0] -= force / pow(d, 2);
+    b[2] -= force / pow(d, 2);
   }
   if (b[1] < ylim[0]) {
-    d = fabs(b[1] - ylim[0]);
-    b[1] += d;
-    b[3] += d;
+    d = std::max(fabs(b[1] - ylim[0]), 0.02);
+    b[1] += force / pow(d, 2);
+    b[3] += force / pow(d, 2);
   } else if (b[3] > ylim[1]) {
-    d = fabs(b[3] - ylim[1]);
-    b[1] -= d;
-    b[3] -= d;
+    d = std::max(fabs(b[3] - ylim[1]), 0.02);
+    b[1] -= force / pow(d, 2);
+    b[3] -= force / pow(d, 2);
   }
   return b;
 }
@@ -235,7 +244,7 @@ DataFrame repel_boxes(
           // Repel the box from overlapping boxes.
           if (overlaps(boxes(i, _), boxes(j, _))) {
             any_overlaps = true;
-            f = f + repel_force(ci, cj, force);
+            f = f + repel_force(ci, cj, force * 2);
           }
           // Repel the box from overlapping centroids.
           if (point_within_box(original_centroids(j, _), boxes(i, _))) {

@@ -31,15 +31,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // put_within_bounds
-NumericVector put_within_bounds(NumericVector b, NumericVector xlim, NumericVector ylim);
-RcppExport SEXP ggrepel_put_within_bounds(SEXP bSEXP, SEXP xlimSEXP, SEXP ylimSEXP) {
+NumericVector put_within_bounds(NumericVector b, NumericVector xlim, NumericVector ylim, double force);
+RcppExport SEXP ggrepel_put_within_bounds(SEXP bSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP forceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type xlim(xlimSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type ylim(ylimSEXP);
-    __result = Rcpp::wrap(put_within_bounds(b, xlim, ylim));
+    Rcpp::traits::input_parameter< double >::type force(forceSEXP);
+    __result = Rcpp::wrap(put_within_bounds(b, xlim, ylim, force));
     return __result;
 END_RCPP
 }

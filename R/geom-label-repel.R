@@ -12,6 +12,9 @@ geom_label_repel <- function(
   point.padding = unit(0, "lines"),
   label.r = unit(0.15, "lines"),
   label.size = 0.25,
+  segment.color = "#666666",
+  segment.size = 0.5,
+  arrow = NULL,
   force = 1,
   max.iter = 2000,
   na.rm = FALSE,
@@ -33,6 +36,9 @@ geom_label_repel <- function(
       point.padding  = point.padding,
       label.r = label.r,
       label.size = label.size,
+      segment.color = segment.color,
+      segment.size = segment.size,
+      arrow = arrow,
       na.rm = na.rm,
       force = force,
       max.iter = max.iter,
@@ -66,6 +72,7 @@ GeomLabelRepel <- ggproto(
     label.size = 0.25,
     segment.color = "#666666",
     segment.size = 0.5,
+    arrow = NULL,
     force = 1,
     max.iter = 2000
   ) {
@@ -93,7 +100,6 @@ GeomLabelRepel <- ggproto(
         unit(row$x, "native") + label.padding,
         unit(row$y, "native") + label.padding,
         gp = gpar(
-          col = row$colour,
           fontsize = row$size * .pt,
           fontfamily = row$family,
           fontface = row$fontface,
@@ -168,7 +174,8 @@ GeomLabelRepel <- ggproto(
         segment.gp = gpar(
           col = segment.color,
           lwd = segment.size * .pt
-        )
+        ),
+        arrow = arrow
       )
     })
     class(grobs) <- "gList"
@@ -194,7 +201,8 @@ labelRepelGrob <- function(
   rect.gp = gpar(fill = "white"),
   r = unit(0.1, "snpc"),
   segment.gp = gpar(),
-  vp = NULL
+  vp = NULL,
+  arrow = NULL
 ) {
   stopifnot(length(label) == 1)
 
@@ -219,7 +227,8 @@ labelRepelGrob <- function(
     rect.gp = rect.gp,
     segment.gp = segment.gp,
     vp = vp,
-    cl = "labelrepelgrob"
+    cl = "labelrepelgrob",
+    arrow = arrow
   )
 }
 
@@ -263,33 +272,36 @@ makeContent.labelrepelgrob <- function(x) {
   )
 
   center <- centroid(c(x1, y1, x2, y2))
-  
+
+  # Nudge the original data point toward the label with point.padding.
   d <- (center - orig)
-  d <- d / euclid(center, orig)
-  orig <- orig + convertWidth(x$point.padding, "native", TRUE) * d
+  h <- euclid(center, orig)
+  d <- d / h
+  orig <- orig + d * (
+    abs((center[1] - orig[1]) / h) *
+      convertWidth(x$point.padding, "native", TRUE) +
+      abs((center[2] - orig[2]) / h) *
+      convertHeight(x$point.padding, "native", TRUE)
+  )
 
-  pad.x <- convertWidth(x$label.padding, "native", TRUE) / 2
-  pad.y <- convertHeight(x$label.padding, "native", TRUE) / 2
-  b <- c(x1 - pad.x, y1 - pad.y, x2 + pad.x, y2 + pad.y)
+  pad.x <- convertWidth(x$label.padding, "native", TRUE)
+  pad.y <- convertHeight(x$label.padding, "native", TRUE)
 
-  if (!point_within_box(orig, b)) {
+  # Get the coordinates of the intersection between the line from the
+  # original data point to the centroid and the rectangle's edges.
+  b <- c(x1 - pad.x / 2, y1 - pad.y / 2, x2 + pad.x / 2, y2 + pad.y / 2)
+  int <- intersect_line_rectangle(orig, center, b)
 
-    # Get the coordinates of the intersection between the line from the
-    # original data point to the centroid and the rectangle's edges.
-    int <- intersect_line_rectangle(orig, center, b)
+  s <- segmentsGrob(
+    x0 = int[1],
+    y0 = int[2],
+    x1 = orig[1],
+    y1 = orig[2],
+    default.units = "native",
+    gp = x$segment.gp,
+    name = "segment",
+    arrow = x$arrow
+  )
 
-    s <- segmentsGrob(
-      x0 = int[1],
-      y0 = int[2],
-      x1 = orig[1],
-      y1 = orig[2],
-      default.units = "native",
-      gp = x$segment.gp,
-      name = "segment"
-    )
-
-    return(setChildren(x, gList(s, r, t)))
-  }
-
-  return(setChildren(x, gList(r, t)))
+  setChildren(x, gList(s, r, t))
 }

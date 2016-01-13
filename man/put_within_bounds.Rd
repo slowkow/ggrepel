@@ -4,7 +4,7 @@
 \alias{put_within_bounds}
 \title{Move a box into the area specificied by x limits and y limits.}
 \usage{
-put_within_bounds(b, xlim, ylim)
+put_within_bounds(b, xlim, ylim, force = 1e-05)
 }
 \arguments{
 \item{b}{A numeric vector representing a box like \code{c(x1, y1, x2, y2)}}
