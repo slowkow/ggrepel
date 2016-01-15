@@ -174,10 +174,12 @@ NumericVector spring_force(
     NumericVector a, NumericVector b, double force = 0.000001
 ) {
   double d = euclid(a, b);
-  d = d < 0.01 ? 0 : d;
-  // Compute a unit vector in the direction of the force.
-  NumericVector v = (a - b) / d;
-  return v * force * d;
+  if (d > 0.01) {
+    // Compute a unit vector in the direction of the force.
+    NumericVector v = (a - b) / d;
+    return v * force * d;
+  }
+  return NumericVector::create(0, 0);
 }
 
 //' Adjust the layout of a list of potentially overlapping boxes.
