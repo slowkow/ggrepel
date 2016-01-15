@@ -183,8 +183,10 @@ NumericVector spring_force(
 }
 
 //' Adjust the layout of a list of potentially overlapping boxes.
-//' @param boxes A list of numeric vectors representing a box like
-//'   \code{list(c(x1, y1, x2, y2), c(x1, y1, x2, y2), ...)}
+//' @param data_points A numeric matrix with rows representing points like
+//'   \code{rbind(c(x, y), c(x, y), ...)}
+//' @param boxes A numeric matrix with rows representing boxes like
+//'   \code{rbind(c(x1, y1, x2, y2), c(x1, y1, x2, y2), ...)}
 //' @param xlim A numeric vector representing the limits on the x axis like
 //'   \code{c(xmin, xmax)}
 //' @param ylim A numeric vector representing the limits on the y axis like
@@ -194,7 +196,9 @@ NumericVector spring_force(
 //'   (defaults to 2000)
 // [[Rcpp::export]]
 DataFrame repel_boxes(
-    NumericMatrix boxes, NumericVector xlim, NumericVector ylim,
+    NumericMatrix data_points,
+    NumericMatrix boxes,
+    NumericVector xlim, NumericVector ylim,
     double force = 1e-6, int maxiter = 2000
 ) {
   int n = boxes.nrow();
@@ -238,10 +242,10 @@ DataFrame repel_boxes(
         cj = centroid(boxes(j, _));
 
         if (i == j) {
-          // Repel the box from its own centroid.
-          if (point_within_box(original_centroids(i, _), boxes(i, _))) {
+          // Repel the box from its data point.
+          if (point_within_box(data_points(i, _), boxes(i, _))) {
             any_overlaps = true;
-            f = f + repel_force(ci, original_centroids(i, _), force);
+            f = f + repel_force(ci, data_points(i, _), force);
           }
         } else {
           // Repel the box from overlapping boxes.
@@ -249,17 +253,17 @@ DataFrame repel_boxes(
             any_overlaps = true;
             f = f + repel_force(ci, cj, force * 2);
           }
-          // Repel the box from overlapping centroids.
-          if (point_within_box(original_centroids(j, _), boxes(i, _))) {
+          // Repel the box from other data points.
+          if (point_within_box(data_points(j, _), boxes(i, _))) {
             any_overlaps = true;
-            f = f + repel_force(ci, original_centroids(j, _), force);
+            f = f + repel_force(ci, data_points(j, _), force);
           }
         }
       }
 
-      // Pull toward the label's point.
+      // Pull the box toward its original position.
       if (!any_overlaps) {
-        f = f + spring_force(original_centroids(i, _), ci, force);
+        f = f + spring_force(original_centroids(i, _), ci, force * 10);
       }
 
       // Scale the x force by the ratio of height/width.
@@ -278,7 +282,7 @@ DataFrame repel_boxes(
       boxes(i, _) = put_within_bounds(boxes(i, _), xlim, ylim);
     }
 
-    // If there are no forces between boxes, let's break the loop.
+    // If there are no forces, let's break the loop.
     if (total_force == 0) {
       break;
     }

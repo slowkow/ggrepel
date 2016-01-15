@@ -10,14 +10,15 @@ geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   label.padding = unit(0.25, "lines"), point.padding = unit(0, "lines"),
   label.r = unit(0.15, "lines"), label.size = 0.25,
   segment.color = "#666666", segment.size = 0.5, arrow = NULL,
-  force = 1, max.iter = 2000, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE)
+  force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0, na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
   point.padding = unit(0, "lines"), segment.color = "#666666",
   segment.size = 0.5, arrow = NULL, force = 1, max.iter = 2000,
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+  nudge_x = 0, nudge_y = 0, na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -39,11 +40,11 @@ displayed as described in ?plotmath}
   three types of arguments you can use here:
 
   \itemize{
-  \item Aesthetics: to set an aesthetic to a fixed value, like
-     \code{color = "red"} or \code{size = 3}.
-  \item Other arguments to the layer, for example you override the
-    default \code{stat} associated with the layer.
-  \item Other arguments passed on to the stat.
+    \item Aesthetics: to set an aesthetic to a fixed value, like
+       \code{color = "red"} or \code{size = 3}.
+    \item Other arguments to the layer, for example you override the
+      default \code{stat} associated with the layer.
+    \item Other arguments passed on to the stat.
   }}
 
 \item{box.padding}{Amount of padding around bounding box. Defaults to
@@ -70,6 +71,9 @@ to 1.}
 
 \item{max.iter}{Maximum number of iterations to try to resolve overlaps.
 Defaults to 2000.}
+
+\item{nudge_x, nudge_y}{Horizontal and vertical adjustments to nudge the
+starting position of each text label.}
 
 \item{na.rm}{If \code{FALSE} (the default), removes missing values with
 a warning.  If \code{TRUE} silently removes missing values.}
@@ -116,8 +120,6 @@ following parameters are \strong{not supported}:
 \itemize{
   \item \code{hjust}
   \item \code{vjust}
-  \item \code{nudge_x}
-  \item \code{nudge_y}
   \item \code{position}
   \item \code{check_overlap}
 }
@@ -139,6 +141,10 @@ p + geom_text_repel(family = "Times New Roman",
 p + geom_text_repel(aes(colour = factor(cyl)))
 p + geom_label_repel(aes(fill = factor(cyl)), colour = "white", fontface = "bold")
 
+# Nudge the starting positions
+p + geom_text_repel(nudge_x = ifelse(mtcars$cyl == 6, 1, 0),
+                    nudge_y = ifelse(mtcars$cyl == 6, 8, 0))
+# Change the text size
 p + geom_text_repel(aes(size = wt))
 # Scale height of text, rather than sqrt(height)
 p + geom_text_repel(aes(size = wt)) + scale_radius(range = c(3,6))

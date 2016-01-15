@@ -17,6 +17,8 @@ geom_label_repel <- function(
   arrow = NULL,
   force = 1,
   max.iter = 2000,
+  nudge_x = 0,
+  nudge_y = 0,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -42,6 +44,8 @@ geom_label_repel <- function(
       na.rm = na.rm,
       force = force,
       max.iter = max.iter,
+      nudge_x = nudge_x,
+      nudge_y = nudge_y,
       ...
     )
   )
@@ -74,7 +78,9 @@ GeomLabelRepel <- ggproto(
     segment.size = 0.5,
     arrow = NULL,
     force = 1,
-    max.iter = 2000
+    max.iter = 2000,
+    nudge_x = 0,
+    nudge_y = 0
   ) {
     lab <- data$label
     if (parse) {
@@ -85,12 +91,27 @@ GeomLabelRepel <- ggproto(
     limits <- data.frame(x = panel_scales$x.range, y = panel_scales$y.range)
     limits <- coord$transform(limits, panel_scales)
 
+    # Transform the nudges to the panel scales.
+    nudges <- data.frame(
+      x = data$x + nudge_x, y = data$y + nudge_y
+    )
+    nudges <- coord$transform(nudges, panel_scales)
+
     # Transform the raw data to the panel scales.
     data <- coord$transform(data, panel_scales)
+
+    # The nudge is relative to the data.
+    nudges$x <- nudges$x - data$x
+    nudges$y <- nudges$y - data$y
 
     # The padding around each bounding box.
     pad.x <- convertWidth(box.padding, "npc", valueOnly = TRUE)
     pad.y <- convertHeight(box.padding, "npc", valueOnly = TRUE)
+
+    # Fudge factor to make each box slightly wider. This is useful when the
+    # user adds a legend to the plot, causing all the labels to squeeze
+    # together.
+    fudge.width <- abs(max(limits$x) - min(limits$x)) / 80
 
     # Create a dataframe with x y width height
     boxes <- lapply(1:nrow(data), function(i) {
@@ -119,28 +140,32 @@ GeomLabelRepel <- ggproto(
         ),
         name = "box"
       )
+#       c(
+#         "x1" = row$x + convertWidth(grobX(r, "west"), "npc", TRUE) - pad.x,
+#         "y1" = row$y - convertHeight(grobHeight(r), "npc", TRUE) / 2 - pad.y,
+#         "x2" = row$x + convertWidth(grobX(r, "east"), "npc", TRUE) + pad.x,
+#         "y2" = row$y + convertHeight(grobHeight(r), "npc", TRUE) / 2 + pad.y
+#       )
       c(
-        "x1" = row$x + convertWidth(grobX(r, "west"), "npc", TRUE) - pad.x,
-        "y1" = row$y - convertHeight(grobHeight(r), "npc", TRUE) / 2 - pad.y,
-        "x2" = row$x + convertWidth(grobX(r, "east"), "npc", TRUE) + pad.x,
-        "y2" = row$y + convertHeight(grobHeight(r), "npc", TRUE) / 2 + pad.y
+        "x1" = row$x +
+          convertWidth(grobX(r, "west"), "npc", TRUE) -
+          pad.x - fudge.width + nudges$x[i],
+        "y1" = row$y -
+          convertHeight(grobHeight(r), "npc", TRUE) / 2 -
+          pad.y + nudges$y[i],
+        "x2" = row$x +
+          convertWidth(grobX(r, "east"), "npc", TRUE) +
+          pad.x + fudge.width + nudges$x[i],
+        "y2" = row$y +
+          convertHeight(grobHeight(r), "npc", TRUE) / 2 +
+          pad.y + nudges$y[i]
       )
-    })
-
-    # Fudge factor to make each box slightly wider. This is useful when the
-    # user adds a legend to the plot, causing all the labels to squeeze
-    # together.
-    fudge.width <- abs(max(limits$x) - min(limits$x)) / 80
-    boxes <- lapply(boxes, function(b) {
-      # fudge.width <- abs(b['x2'] - b['x1']) / 10
-      b['x1'] <- b['x1'] - fudge.width
-      b['x2'] <- b['x2'] + fudge.width
-      b
     })
 
     # Repel overlapping bounding boxes away from each other.
     repel <- repel_boxes(
-      do.call(rbind, boxes),
+      data_points = cbind(data$x, data$y),
+      boxes = do.call(rbind, boxes),
       xlim = range(limits$x),
       ylim = range(limits$y),
       force = force * 1e-6,
