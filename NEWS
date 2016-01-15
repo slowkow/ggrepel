@@ -1,10 +1,17 @@
 
-ggrepel 0.4.1 2016-01-13
+ggrepel 0.4.2 2016-01-15
 ----------------------------------------------------------------
 
 CHANGES
 
 * Add `nudge_x` and `nudge_y` to better control positioning of labels.
+
+* Fix `spring_force()` so that it never returns NaN.
+
+ggrepel 0.4.1 2016-01-13
+----------------------------------------------------------------
+
+CHANGES
 
 * Add `arrow` parameter to allow plotting arrows that point to the labeled data
   points rather than plain line segments.
@@ -15,8 +22,6 @@ FIXES
 
 * Fix `point.padding` so that horizontal and vertical padding is calculated
   correctly.
-
-* Fix `spring_force()` so that it never returns NaN.
 
 * Tweak forces to improve layout near borders and in crowded areas.
 
