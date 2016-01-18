@@ -1,4 +1,12 @@
 
+ggrepel 0.4.3 2016-01-18
+----------------------------------------------------------------
+
+CHANGES
+
+* Fix distance between segment and label in `geom_label_repel()`. Now there is
+  no gap between the end of the segment and the label border.
+
 ggrepel 0.4.2 2016-01-15
 ----------------------------------------------------------------
 

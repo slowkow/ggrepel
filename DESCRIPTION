@@ -1,5 +1,5 @@
 Package: ggrepel
-Version: 0.4.2
+Version: 0.4.3
 Authors@R: c(person("Kamil", "Slowikowski", role = c("aut", "cre"),
     email = "kslowikowski@fas.harvard.edu"))
 Title: Repulsive Text and Label Geoms for 'ggplot2'

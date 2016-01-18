@@ -305,17 +305,13 @@ makeContent.labelrepelgrob <- function(x) {
   orig <- orig + d * (
     abs((center[1] - orig[1]) / h) *
       convertWidth(x$point.padding, "native", TRUE) +
-      abs((center[2] - orig[2]) / h) *
+    abs((center[2] - orig[2]) / h) *
       convertHeight(x$point.padding, "native", TRUE)
   )
 
-  pad.x <- convertWidth(x$label.padding, "native", TRUE)
-  pad.y <- convertHeight(x$label.padding, "native", TRUE)
-
   # Get the coordinates of the intersection between the line from the
   # original data point to the centroid and the rectangle's edges.
-  b <- c(x1 - pad.x / 2, y1 - pad.y / 2, x2 + pad.x / 2, y2 + pad.y / 2)
-  int <- intersect_line_rectangle(orig, center, b)
+  int <- intersect_line_rectangle(orig, center, c(x1, y1, x2, y2))
 
   s <- segmentsGrob(
     x0 = int[1],
