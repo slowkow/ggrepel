@@ -221,77 +221,142 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     # together.
     fudge.width <- abs(max(limits$x) - min(limits$x)) / 80
 
-    # Create a dataframe with x1 y1 x2 y2
-    boxes <- lapply(1:nrow(data), function(i) {
-      row <- data[i, , drop = FALSE]
-      tg <- textGrob(
-        lab[i],
-        row$x, row$y, default.units = "native",
-        rot = row$angle,
-        gp = gpar(
-          fontsize = row$size * .pt,
-          fontfamily = row$family,
-          fontface = row$fontface,
-          lineheight = row$lineheight
-        )
-      )
-      c(
-        "x1" = row$x +
-          convertWidth(grobX(tg, "west"), "npc", TRUE) -
-          pad.x - fudge.width + nudges$x[i],
-        "y1" = row$y -
-          convertHeight(grobHeight(tg), "npc", TRUE) / 2 -
-          pad.y + nudges$y[i],
-        "x2" = row$x +
-          convertWidth(grobX(tg, "east"), "npc", TRUE) +
-          pad.x + fudge.width + nudges$x[i],
-        "y2" = row$y +
-          convertHeight(grobHeight(tg), "npc", TRUE) / 2 +
-          pad.y + nudges$y[i]
-      )
-    })
+#     # Create a dataframe with x1 y1 x2 y2
+#     boxes <- lapply(1:nrow(data), function(i) {
+#       row <- data[i, , drop = FALSE]
+#       tg <- textGrob(
+#         lab[i],
+#         row$x, row$y, default.units = "native",
+#         rot = row$angle,
+#         gp = gpar(
+#           fontsize = row$size * .pt,
+#           fontfamily = row$family,
+#           fontface = row$fontface,
+#           lineheight = row$lineheight
+#         )
+#       )
+#       c(
+#         "x1" = row$x +
+#           convertWidth(grobX(tg, "west"), "npc", TRUE) -
+#           pad.x - fudge.width + nudges$x[i],
+#         "y1" = row$y -
+#           convertHeight(grobHeight(tg), "npc", TRUE) / 2 -
+#           pad.y + nudges$y[i],
+#         "x2" = row$x +
+#           convertWidth(grobX(tg, "east"), "npc", TRUE) +
+#           pad.x + fudge.width + nudges$x[i],
+#         "y2" = row$y +
+#           convertHeight(grobHeight(tg), "npc", TRUE) / 2 +
+#           pad.y + nudges$y[i]
+#       )
+#     })
+#
+#     # Repel overlapping bounding boxes away from each other.
+#     repel <- repel_boxes(
+#       data_points = cbind(data$x, data$y),
+#       boxes = do.call(rbind, boxes),
+#       xlim = range(limits$x),
+#       ylim = range(limits$y),
+#       force = force * 1e-6,
+#       maxiter = max.iter
+#     )
+#
+#     grobs <- lapply(1:nrow(data), function(i) {
+#       row <- data[i, , drop = FALSE]
+#       textRepelGrob(
+#         lab[i],
+#         x = unit(repel$x[i], "native"),
+#         y = unit(repel$y[i], "native"),
+#         x.orig = unit(data$x[i], "native"),
+#         y.orig = unit(data$y[i], "native"),
+#         box.padding = box.padding,
+#         point.padding = point.padding,
+#         text.gp = gpar(
+#           col = row$colour,
+#           fontsize = row$size * .pt,
+#           fontfamily = row$family,
+#           fontface = row$fontface,
+#           lineheight = row$lineheight
+#         ),
+#         segment.gp = gpar(
+#           col = segment.color,
+#           lwd = segment.size * .pt
+#         ),
+#         arrow = arrow
+#       )
+#     })
+#     class(grobs) <- "gList"
 
-    # Repel overlapping bounding boxes away from each other.
-    repel <- repel_boxes(
-      data_points = cbind(data$x, data$y),
-      boxes = do.call(rbind, boxes),
-      xlim = range(limits$x),
-      ylim = range(limits$y),
-      force = force * 1e-6,
-      maxiter = max.iter
-    )
-
-    grobs <- lapply(1:nrow(data), function(i) {
-      row <- data[i, , drop = FALSE]
-      textRepelGrob(
-        lab[i],
-        x = unit(repel$x[i], "native"),
-        y = unit(repel$y[i], "native"),
-        x.orig = unit(data$x[i], "native"),
-        y.orig = unit(data$y[i], "native"),
-        box.padding = box.padding,
-        point.padding = point.padding,
-        text.gp = gpar(
-          col = row$colour,
-          fontsize = row$size * .pt,
-          fontfamily = row$family,
-          fontface = row$fontface,
-          lineheight = row$lineheight
-        ),
-        segment.gp = gpar(
-          col = segment.color,
-          lwd = segment.size * .pt
-        ),
-        arrow = arrow
-      )
-    })
-    class(grobs) <- "gList"
-
-    ggname("geom_text_repel", grobTree(children = grobs))
+    ggname("geom_text_repel", gTree(
+      labels = lab,
+      xs = data$x,
+      ys = data$y,
+      box.padding = box.padding,
+      point.padding = point.padding,
+      text.gp.list = list(
+        col = data$colour,
+        fontsize = data$size * .pt,
+        fontfamily = data$family,
+        fontface = data$fontface,
+        lineheight = data$lineheight
+      ),
+      segment.gp.list = list(
+        col = segment.color,
+        lwd = segment.size * .pt
+      ),
+      cl = "textrepeltree"
+    ))
   },
 
   draw_key = draw_key_text
 )
+
+# Never gets called :(
+# makeContent.geom_text_repel.textrepeltree <- function(x) {
+
+#' grid::makeContent function for the grobTree of textRepelGrob objects
+#' @param x A grid grobTree.
+#' @export
+makeContent.textrepeltree <- function(x) {
+  grid.force()
+  print(x)
+  print(attributes(x))
+  # print(x$children[[1]])
+  # print(x$children[[1]]$children)
+#   data <- data.frame(
+#     "x1" = sapply(x$children, function(g) {
+#       tg <- g$children$text
+#       convertWidth(grobX(tg, "west"), "npc", TRUE)
+#     }),
+#     "y1" = sapply(x$children, function(g) {
+#       tg <- g$children$text
+#       convertHeight(grobHeight(tg), "npc", TRUE)
+#     }),
+#     "x2" = sapply(x$children, function(g) {
+#       tg <- g$children$text
+#       convertWidth(grobX(tg, "east"), "npc", TRUE)
+#     }),
+#     "y2" = sapply(x$children, function(g) {
+#       tg <- g$children$text
+#       convertHeight(grobHeight(tg), "npc", TRUE)
+#     })
+#   )
+#   print(data)
+  # Repel overlapping bounding boxes away from each other.
+#   repel <- repel_boxes(
+#     data_points = cbind(data$x, data$y),
+#     boxes = do.call(rbind, boxes),
+#     xlim = range(limits$x),
+#     ylim = range(limits$y),
+#     force = force * 1e-6,
+#     maxiter = max.iter
+#   )
+  # Get the x1 y1 x2 y2 data.frame
+  # Repel the boxes
+  # Update the children
+  # Return x
+  x
+}
 
 textRepelGrob <- function(
   label,
