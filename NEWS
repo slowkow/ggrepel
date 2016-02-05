@@ -1,20 +1,34 @@
 
+ggrepel 0.4.4 2016-02-05
+----------------------------------------------------------------
+
+FIXES
+
+* Fix the bug when the line segment from the data point points to the origin
+  at (0,0) instead of the text label.
+
+CHANGES
+
+* Automatically recompute repulsion between labels after resizing the plot.
+
 ggrepel 0.4.3 2016-01-18
 ----------------------------------------------------------------
 
 CHANGES
 
-* Fix distance between segment and label in `geom_label_repel()`. Now there is
-  no gap between the end of the segment and the label border.
+* Change distance between segment and label in `geom_label_repel()`. Now there
+  is no gap between the end of the segment and the label border.
 
 ggrepel 0.4.2 2016-01-15
 ----------------------------------------------------------------
 
+FIXES
+
+* Fix `spring_force()` so that it never returns NaN.
+
 CHANGES
 
 * Add `nudge_x` and `nudge_y` to better control positioning of labels.
-
-* Fix `spring_force()` so that it never returns NaN.
 
 ggrepel 0.4.1 2016-01-13
 ----------------------------------------------------------------
