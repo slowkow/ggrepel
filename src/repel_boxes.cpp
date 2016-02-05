@@ -25,6 +25,7 @@ NumericVector intersect_line_rectangle(
   double slope = (p2[1] - p1[1]) / (p2[0] - p1[0]);
   double intercept = p2[1] - p2[0] * slope;
   NumericMatrix retval(4, 2);
+  std::fill(retval.begin(), retval.end(), INFINITY);
 
   double x, y;
 
