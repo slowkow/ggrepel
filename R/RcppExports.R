@@ -4,6 +4,7 @@
 #' Euclidean distance between two numeric vectors.
 #' @param p1 A numeric vector.
 #' @param p2 A numeric vector.
+#' @noRd
 euclid <- function(p1, p2) {
     .Call('ggrepel_euclid', PACKAGE = 'ggrepel', p1, p2)
 }
@@ -12,6 +13,7 @@ euclid <- function(p1, p2) {
 #' @param p1 A point like \code{c(x, y)}
 #' @param p2 A point like \code{c(x, y)}
 #' @param b A rectangle like \code{c(x1, y1, x2, y2)}
+#' @noRd
 intersect_line_rectangle <- function(p1, p2, b) {
     .Call('ggrepel_intersect_line_rectangle', PACKAGE = 'ggrepel', p1, p2, b)
 }
@@ -23,12 +25,14 @@ intersect_line_rectangle <- function(p1, p2, b) {
 #' @param ylim A numeric vector representing the limits on the y axis like
 #'   \code{c(ymin, ymax)}
 #' @param force Magnitude of the force (defaults to \code{1e-6})
+#' @noRd
 put_within_bounds <- function(b, xlim, ylim, force = 1e-5) {
     .Call('ggrepel_put_within_bounds', PACKAGE = 'ggrepel', b, xlim, ylim, force)
 }
 
 #' Get the coordinates of the center of a box.
 #' @param b A numeric vector representing a box like \code{c(x1, y1, x2, y2)}
+#' @noRd
 centroid <- function(b) {
     .Call('ggrepel_centroid', PACKAGE = 'ggrepel', b)
 }
@@ -36,6 +40,7 @@ centroid <- function(b) {
 #' Test if a box overlaps another box.
 #' @param a A numeric vector representing a box like \code{c(x1, y1, x2, y2)}
 #' @param b A numeric vector representing a box like \code{c(x1, y1, x2, y2)}
+#' @noRd
 overlaps <- function(a, b) {
     .Call('ggrepel_overlaps', PACKAGE = 'ggrepel', a, b)
 }
@@ -43,6 +48,7 @@ overlaps <- function(a, b) {
 #' Test if a point is within the boundaries of a box.
 #' @param p A point like \code{c(x, y)}
 #' @param b A numeric vector representing a box like \code{c(x1, y1, x2, y2)}
+#' @noRd
 point_within_box <- function(p, b) {
     .Call('ggrepel_point_within_box', PACKAGE = 'ggrepel', p, b)
 }
@@ -55,6 +61,7 @@ point_within_box <- function(p, b) {
 #' @param a A point like \code{c(x, y)}
 #' @param b A point like \code{c(x, y)}
 #' @param force Magnitude of the force (defaults to \code{1e-6})
+#' @noRd
 repel_force <- function(a, b, force = 0.000001) {
     .Call('ggrepel_repel_force', PACKAGE = 'ggrepel', a, b, force)
 }
@@ -67,6 +74,7 @@ repel_force <- function(a, b, force = 0.000001) {
 #' @param a A point like \code{c(x, y)}
 #' @param b A point like \code{c(x, y)}
 #' @param force Magnitude of the force (defaults to \code{1e-6})
+#' @noRd
 spring_force <- function(a, b, force = 0.000001) {
     .Call('ggrepel_spring_force', PACKAGE = 'ggrepel', a, b, force)
 }
@@ -83,6 +91,7 @@ spring_force <- function(a, b, force = 0.000001) {
 #' @param force Magnitude of the force (defaults to \code{1e-6})
 #' @param maxiter Maximum number of iterations to try to resolve overlaps
 #'   (defaults to 2000)
+#' @noRd
 repel_boxes <- function(data_points, boxes, xlim, ylim, force = 1e-6, maxiter = 2000L) {
     .Call('ggrepel_repel_boxes', PACKAGE = 'ggrepel', data_points, boxes, xlim, ylim, force, maxiter)
 }
