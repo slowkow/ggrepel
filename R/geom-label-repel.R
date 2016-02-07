@@ -129,6 +129,7 @@ GeomLabelRepel <- ggproto(
 #' grid::makeContent function for the grobTree of textRepelGrob objects
 #' @param x A grid grobTree.
 #' @export
+#' @noRd
 makeContent.labelrepeltree <- function(x) {
 
   # The padding around each bounding box.
@@ -269,6 +270,7 @@ labelRepelGrob <- function(
 #'
 #' @param x A grid grob.
 #' @export
+#' @noRd
 makeContent.labelrepelgrob <- function(x) {
   hj <- resolveHJust(x$just, NULL)
   vj <- resolveVJust(x$just, NULL)

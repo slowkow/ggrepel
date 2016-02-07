@@ -234,6 +234,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
 #' grid::makeContent function for the grobTree of textRepelGrob objects
 #' @param x A grid grobTree.
 #' @export
+#' @noRd
 makeContent.textrepeltree <- function(x) {
 
   # The padding around each bounding box.
@@ -349,6 +350,7 @@ textRepelGrob <- function(
 #'
 #' @param x A grid grob.
 #' @export
+#' @noRd
 makeContent.textrepelgrob <- function(x) {
   hj <- resolveHJust(x$just, NULL)
   vj <- resolveVJust(x$just, NULL)
