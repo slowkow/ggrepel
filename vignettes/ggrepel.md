@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2016-01-18"
+date: "2016-02-07"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -91,7 +91,7 @@ However, the following parameters are not supported:
 ```r
 set.seed(42)
 ggplot(mtcars) +
-  geom_point(aes(wt, mpg), color = 'red') +
+  geom_point(aes(wt, mpg), color = 'grey', size = 4, shape = 15) +
   geom_text_repel(
     aes(
       wt, mpg,
@@ -100,8 +100,8 @@ ggplot(mtcars) +
     ),
     size = 5,
     fontface = 'bold',
-    box.padding = unit(0.75, 'lines'),
-    point.padding = unit(0.3, 'lines'),
+    box.padding = unit(0.5, 'lines'),
+    point.padding = unit(1.6, 'lines'),
     segment.color = '#555555',
     segment.size = 0.5,
     arrow = arrow(length = unit(0.01, 'npc')),
@@ -124,11 +124,12 @@ ggplot(mtcars) +
 ```r
 set.seed(42)
 ggplot(mtcars) +
-  geom_point(aes(wt, mpg)) +
+  geom_point(aes(wt, mpg), size = 5, color = 'grey') +
   geom_label_repel(
     aes(wt, mpg, fill = factor(cyl), label = rownames(mtcars)),
     fontface = 'bold', color = 'white',
-    box.padding = unit(0.25, "lines")
+    box.padding = unit(0.25, "lines"),
+    point.padding = unit(0.5, "lines")
   ) +
   theme_classic(base_size = 16)
 ```
@@ -235,7 +236,7 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggrepel_0.4.3 ggplot2_2.0.0 knitr_1.12   
+## [1] ggrepel_0.4.5 ggplot2_2.0.0 knitr_1.12   
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.3      codetools_0.2-14 digest_0.6.9     grid_3.2.3      

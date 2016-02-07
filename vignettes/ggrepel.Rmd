@@ -101,7 +101,7 @@ However, the following parameters are not supported:
 ```{r geom_text_repel_options, echo=TRUE}
 set.seed(42)
 ggplot(mtcars) +
-  geom_point(aes(wt, mpg), color = 'red') +
+  geom_point(aes(wt, mpg), color = 'grey', size = 4, shape = 15) +
   geom_text_repel(
     aes(
       wt, mpg,
@@ -110,8 +110,8 @@ ggplot(mtcars) +
     ),
     size = 5,
     fontface = 'bold',
-    box.padding = unit(0.75, 'lines'),
-    point.padding = unit(0.3, 'lines'),
+    box.padding = unit(0.5, 'lines'),
+    point.padding = unit(1.6, 'lines'),
     segment.color = '#555555',
     segment.size = 0.5,
     arrow = arrow(length = unit(0.01, 'npc')),
@@ -131,11 +131,12 @@ ggplot(mtcars) +
 ```{r geom_label_repel, echo=TRUE}
 set.seed(42)
 ggplot(mtcars) +
-  geom_point(aes(wt, mpg)) +
+  geom_point(aes(wt, mpg), size = 5, color = 'grey') +
   geom_label_repel(
     aes(wt, mpg, fill = factor(cyl), label = rownames(mtcars)),
     fontface = 'bold', color = 'white',
-    box.padding = unit(0.25, "lines")
+    box.padding = unit(0.25, "lines"),
+    point.padding = unit(0.5, "lines")
   ) +
   theme_classic(base_size = 16)
 ```

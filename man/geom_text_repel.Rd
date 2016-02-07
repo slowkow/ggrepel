@@ -7,7 +7,7 @@
 \usage{
 geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
-  label.padding = unit(0.25, "lines"), point.padding = unit(0, "lines"),
+  label.padding = unit(0.25, "lines"), point.padding = unit(1e-06, "lines"),
   label.r = unit(0.15, "lines"), label.size = 0.25,
   segment.color = "#666666", segment.size = 0.5, arrow = NULL,
   force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0, na.rm = FALSE,
@@ -15,7 +15,7 @@ geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
-  point.padding = unit(0, "lines"), segment.color = "#666666",
+  point.padding = unit(1e-06, "lines"), segment.color = "#666666",
   segment.size = 0.5, arrow = NULL, force = 1, max.iter = 2000,
   nudge_x = 0, nudge_y = 0, na.rm = FALSE, show.legend = NA,
   inherit.aes = TRUE)

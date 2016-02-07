@@ -27,12 +27,6 @@ NULL
 #' @noRd
 NULL
 
-#' Test if a point is within the boundaries of a box.
-#' @param p A point like \code{c(x, y)}
-#' @param b A box like \code{c(x1, y1, x2, y2)}
-#' @noRd
-NULL
-
 #' Compute the repulsion force upon point \code{a} from point \code{b}.
 #'
 #' The force decays with the squared distance between the points, similar
@@ -83,6 +77,8 @@ centroid <- function(b) {
 #' Adjust the layout of a list of potentially overlapping boxes.
 #' @param data_points A numeric matrix with rows representing points like
 #'   \code{rbind(c(x, y), c(x, y), ...)}
+#' @param pad_point_x Padding around each data point on the x axis.
+#' @param pad_point_y Padding around each data point on the y axis.
 #' @param boxes A numeric matrix with rows representing boxes like
 #'   \code{rbind(c(x1, y1, x2, y2), c(x1, y1, x2, y2), ...)}
 #' @param xlim A numeric vector representing the limits on the x axis like
@@ -93,7 +89,7 @@ centroid <- function(b) {
 #' @param maxiter Maximum number of iterations to try to resolve overlaps
 #'   (defaults to 2000)
 #' @noRd
-repel_boxes <- function(data_points, boxes, xlim, ylim, force = 1e-6, maxiter = 2000L) {
-    .Call('ggrepel_repel_boxes', PACKAGE = 'ggrepel', data_points, boxes, xlim, ylim, force, maxiter)
+repel_boxes <- function(data_points, pad_point_x, pad_point_y, boxes, xlim, ylim, force = 1e-6, maxiter = 2000L) {
+    .Call('ggrepel_repel_boxes', PACKAGE = 'ggrepel', data_points, pad_point_x, pad_point_y, boxes, xlim, ylim, force, maxiter)
 }
 

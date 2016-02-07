@@ -9,7 +9,7 @@ geom_label_repel <- function(
   ...,
   box.padding = unit(0.25, "lines"),
   label.padding = unit(0.25, "lines"),
-  point.padding = unit(0, "lines"),
+  point.padding = unit(1e-6, "lines"),
   label.r = unit(0.15, "lines"),
   label.size = 0.25,
   segment.color = "#666666",
@@ -71,7 +71,7 @@ GeomLabelRepel <- ggproto(
     na.rm = FALSE,
     box.padding = unit(0.25, "lines"),
     label.padding = unit(0.25, "lines"),
-    point.padding = unit(0, "lines"),
+    point.padding = unit(1e-6, "lines"),
     label.r = unit(0.15, "lines"),
     label.size = 0.25,
     segment.color = "#666666",
@@ -136,6 +136,10 @@ makeContent.labelrepeltree <- function(x) {
   pad.x <- convertWidth(x$box.padding, "npc", valueOnly = TRUE)
   pad.y <- convertHeight(x$box.padding, "npc", valueOnly = TRUE)
 
+  # The padding around each point.
+  pad.point.x <- convertWidth(x$point.padding, "native", valueOnly = TRUE)
+  pad.point.y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
+
   # Create a dataframe with x y width height
   boxes <- lapply(1:nrow(x$data), function(i) {
     row <- x$data[i, , drop = FALSE]
@@ -176,6 +180,8 @@ makeContent.labelrepeltree <- function(x) {
   # Repel overlapping bounding boxes away from each other.
   repel <- repel_boxes(
     data_points = cbind(x$data$x, x$data$y),
+    pad_point_x = pad.point.x,
+    pad_point_y = pad.point.y,
     boxes = do.call(rbind, boxes),
     xlim = range(x$limits$x),
     ylim = range(x$limits$y),
@@ -229,7 +235,7 @@ labelRepelGrob <- function(
   just = "center",
   box.padding = unit(0.25, "lines"),
   label.padding = unit(0.25, "lines"),
-  point.padding = unit(0, "lines"),
+  point.padding = unit(1e-6, "lines"),
   name = NULL,
   text.gp = gpar(),
   rect.gp = gpar(fill = "white"),
@@ -308,20 +314,15 @@ makeContent.labelrepelgrob <- function(x) {
 
   center <- centroid(c(x1, y1, x2, y2))
 
-  # Nudge the original data point toward the label with point.padding.
-  d <- (center - orig)
-  h <- euclid(center, orig)
-  d <- d / h
-  orig <- orig + d * (
-    abs((center[1] - orig[1]) / h) *
-      convertWidth(x$point.padding, "native", TRUE) +
-    abs((center[2] - orig[2]) / h) *
-      convertHeight(x$point.padding, "native", TRUE)
-  )
-
   # Get the coordinates of the intersection between the line from the
   # original data point to the centroid and the rectangle's edges.
   int <- intersect_line_rectangle(orig, center, c(x1, y1, x2, y2))
+
+  # Nudge the original data point toward the label with point.padding.
+  pad.x <- convertWidth(x$point.padding, "native", TRUE) / 2
+  pad.y <- convertHeight(x$point.padding, "native", TRUE) / 2
+  b <- c(orig[1] - pad.x, orig[2] - pad.y, orig[1] + pad.x, orig[2] + pad.y)
+  orig <- intersect_line_rectangle(center, orig, b)
 
   s <- segmentsGrob(
     x0 = int[1],

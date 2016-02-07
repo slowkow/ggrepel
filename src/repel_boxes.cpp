@@ -73,7 +73,7 @@ NumericVector intersect_line_rectangle(
   double slope = (p2[1] - p1[1]) / (p2[0] - p1[0]);
   double intercept = p2[1] - p2[0] * slope;
   NumericMatrix retval(4, 2);
-  std::fill(retval.begin(), retval.end(), INFINITY);
+  std::fill(retval.begin(), retval.end(), -INFINITY);
 
   double x, y;
 
@@ -103,10 +103,11 @@ NumericVector intersect_line_rectangle(
 
   int i = 0;
   int imin = 0;
-  double d = euclid(retval(i, _), p1);
-  double dmin = d;
-  for (i = 1; i < 4; i++) {
+  double d;
+  double dmin = INFINITY;
+  for (i = 0; i < 4; i++) {
     d = euclid(retval(i, _), p1);
+    // Rcout << i << " euclid = " << d << std::endl;
     if (d < dmin) {
       dmin = d;
       imin = i;
@@ -173,17 +174,17 @@ bool overlaps(Box a, Box b) {
     b.y2 >= a.y1;
 }
 
-//' Test if a point is within the boundaries of a box.
-//' @param p A point like \code{c(x, y)}
-//' @param b A box like \code{c(x1, y1, x2, y2)}
-//' @noRd
-bool point_within_box(Point p, Box b) {
-  return
-    p.x >= b.x1 &&
-    p.x <= b.x2 &&
-    p.y >= b.y1 &&
-    p.y <= b.y2;
-}
+// //' Test if a point is within the boundaries of a box.
+// //' @param p A point like \code{c(x, y)}
+// //' @param b A box like \code{c(x1, y1, x2, y2)}
+// //' @noRd
+// bool point_within_box(Point p, Box b) {
+//   return
+//     p.x >= b.x1 &&
+//     p.x <= b.x2 &&
+//     p.y >= b.y1 &&
+//     p.y <= b.y2;
+// }
 
 //' Compute the repulsion force upon point \code{a} from point \code{b}.
 //'
@@ -233,6 +234,8 @@ Point spring_force(
 //' Adjust the layout of a list of potentially overlapping boxes.
 //' @param data_points A numeric matrix with rows representing points like
 //'   \code{rbind(c(x, y), c(x, y), ...)}
+//' @param pad_point_x Padding around each data point on the x axis.
+//' @param pad_point_y Padding around each data point on the y axis.
 //' @param boxes A numeric matrix with rows representing boxes like
 //'   \code{rbind(c(x1, y1, x2, y2), c(x1, y1, x2, y2), ...)}
 //' @param xlim A numeric vector representing the limits on the x axis like
@@ -246,6 +249,7 @@ Point spring_force(
 // [[Rcpp::export]]
 DataFrame repel_boxes(
     NumericMatrix data_points,
+    double pad_point_x, double pad_point_y,
     NumericMatrix boxes,
     NumericVector xlim, NumericVector ylim,
     double force = 1e-6, int maxiter = 2000
@@ -265,6 +269,7 @@ DataFrame repel_boxes(
   ybounds.y = ylim[1];
 
   std::vector<Box> Boxes(n);
+  std::vector<Box> DataBoxes(n);
   std::vector<double> ratios(n);
   std::vector<Point> original_centroids(n);
   for (int i = 0; i < n; i++) {
@@ -272,6 +277,10 @@ DataFrame repel_boxes(
     Boxes[i].y1 = boxes(i, 1);
     Boxes[i].x2 = boxes(i, 2);
     Boxes[i].y2 = boxes(i, 3);
+    DataBoxes[i].x1 = data_points(i, 0) - pad_point_x;
+    DataBoxes[i].y1 = data_points(i, 1) - pad_point_y;
+    DataBoxes[i].x2 = data_points(i, 0) + pad_point_x;
+    DataBoxes[i].y2 = data_points(i, 1) + pad_point_y;
     // height over width
     ratios[i] = (Boxes[i].y2 - Boxes[i].y1) / (Boxes[i].x2 - Boxes[i].x1);
     original_centroids[i] = centroid(Boxes[i]);
@@ -302,7 +311,8 @@ DataFrame repel_boxes(
 
         if (i == j) {
           // Repel the box from its data point.
-          if (point_within_box(Points[i], Boxes[i])) {
+          // if (point_within_box(Points[i], Boxes[i])) {
+          if (overlaps(DataBoxes[i], Boxes[i])) {
             any_overlaps = true;
             f = f + repel_force(ci, Points[i], force);
           }
@@ -313,7 +323,8 @@ DataFrame repel_boxes(
             f = f + repel_force(ci, cj, force * 2);
           }
           // Repel the box from other data points.
-          if (point_within_box(Points[j], Boxes[i])) {
+          // if (point_within_box(Points[j], Boxes[i])) {
+          if (overlaps(DataBoxes[j], Boxes[i])) {
             any_overlaps = true;
             f = f + repel_force(ci, Points[j], force);
           }
@@ -322,7 +333,7 @@ DataFrame repel_boxes(
 
       // Pull the box toward its original position.
       if (!any_overlaps) {
-        f = f + spring_force(original_centroids[i], ci, force * 10);
+        f = f + spring_force(original_centroids[i], ci, force * 100);
       }
 
       // Scale the x force by the ratio of height/width.

@@ -1,4 +1,12 @@
 
+ggrepel 0.4.6 2016-02-07
+----------------------------------------------------------------
+
+CHANGES
+
+* Tweak `point.padding` so that users can configure how far labels are pushed
+  away from data points.
+
 ggrepel 0.4.5 2016-02-06
 ----------------------------------------------------------------
 
