@@ -1,5 +1,13 @@
 
-ggrepel 0.4.4 2016-02-05
+ggrepel 0.4.5 2016-02-06
+----------------------------------------------------------------
+
+CHANGES
+
+* Optimize C++ code for a 2.5X speed improvment.
+
+* Delete unnecessary .Rd files.
+
 ----------------------------------------------------------------
 
 FIXES
