@@ -130,6 +130,16 @@ double euclid(Point a, Point b) {
   return sqrt(dist.x * dist.x + dist.y * dist.y);
 }
 
+//' Squared Euclidean distance between two points.
+//' @param a A point.
+//' @param b A point.
+//' @return The distance between two points.
+//' @noRd
+double euclid2(Point a, Point b) {
+  Point dist = a - b;
+  return dist.x * dist.x + dist.y * dist.y;
+}
+
 //' Move a box into the area specificied by x limits and y limits.
 //' @param b A box like \code{c(x1, y1, x2, y2)}
 //' @param xlim A Point with limits on the x axis like \code{c(xmin, xmax)}
@@ -191,15 +201,12 @@ bool overlaps(Box a, Box b) {
 Point repel_force(
     Point a, Point b, double force = 0.000001
 ) {
-  NumericVector r = rnorm(2, 0, force);
-  a.x += r[0];
-  a.y += r[1];
-  // Constrain the minimum distance to be at least 0.01.
-  double d = std::max(euclid(a, b), 0.02);
+  // Constrain the minimum distance, so it is never 0.
+  double d2 = std::max(euclid2(a, b), 0.0004);
   // Compute a unit vector in the direction of the force.
-  Point v = (a - b) / d;
+  Point v = (a - b) / sqrt(d2);
   // Divide the force by the squared distance.
-  return force * v / pow(d, 2);
+  return force * v / d2;
 }
 
 //' Compute the spring force upon point \code{a} from point \code{b}.
@@ -261,15 +268,18 @@ DataFrame repel_boxes(
   ybounds.x = ylim[0];
   ybounds.y = ylim[1];
 
+  // Add a tiny bit of jitter to each box at the start.
+  NumericVector r = rnorm(n, 0, force);
   std::vector<Box> Boxes(n);
   std::vector<Box> DataBoxes(n);
   std::vector<double> ratios(n);
   std::vector<Point> original_centroids(n);
   for (int i = 0; i < n; i++) {
-    Boxes[i].x1 = boxes(i, 0);
-    Boxes[i].y1 = boxes(i, 1);
-    Boxes[i].x2 = boxes(i, 2);
-    Boxes[i].y2 = boxes(i, 3);
+    Boxes[i].x1 = boxes(i, 0) + r[i];
+    Boxes[i].y1 = boxes(i, 1) + r[i];
+    Boxes[i].x2 = boxes(i, 2) + r[i];
+    Boxes[i].y2 = boxes(i, 3) + r[i];
+    // Each data point is represented as a box.
     DataBoxes[i].x1 = data_points(i, 0) - pad_point_x;
     DataBoxes[i].y1 = data_points(i, 1) - pad_point_y;
     DataBoxes[i].x2 = data_points(i, 0) + pad_point_x;

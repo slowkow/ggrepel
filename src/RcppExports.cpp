@@ -17,6 +17,17 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// centroid
+NumericVector centroid(NumericVector b);
+RcppExport SEXP ggrepel_centroid(SEXP bSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
+    __result = Rcpp::wrap(centroid(b));
+    return __result;
+END_RCPP
+}
 // intersect_line_rectangle
 NumericVector intersect_line_rectangle(NumericVector p1, NumericVector p2, NumericVector b);
 RcppExport SEXP ggrepel_intersect_line_rectangle(SEXP p1SEXP, SEXP p2SEXP, SEXP bSEXP) {
@@ -27,17 +38,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type p2(p2SEXP);
     Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
     __result = Rcpp::wrap(intersect_line_rectangle(p1, p2, b));
-    return __result;
-END_RCPP
-}
-// centroid
-NumericVector centroid(NumericVector b);
-RcppExport SEXP ggrepel_centroid(SEXP bSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
-    __result = Rcpp::wrap(centroid(b));
     return __result;
 END_RCPP
 }

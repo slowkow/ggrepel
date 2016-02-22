@@ -1,19 +1,37 @@
 library(microbenchmark)
 
+d <- mtcars
+d$name <- rownames(mtcars)
+d <- as.data.frame(rbind(d, d))
+d$wt[33:64] <- d$wt[33:64] + 1
+d$mpg[33:64] <- d$mpg[33:64] + 5
+
 microbenchmark(
   geom_text_repel = {
-    p <- ggplot(mtcars) +
-      geom_point(aes(wt, mpg), color = 'red') +
-      geom_text_repel(aes(wt, mpg, label = rownames(mtcars))) +
+    p <- ggplot(d, aes(wt, mpg, label = name)) +
+      geom_point(color = 'red') +
+      geom_text_repel() +
       theme_classic(base_size = 16)
     print(p)
   },
   geom_text = {
-    p <- ggplot(mtcars) +
-      geom_point(aes(wt, mpg), color = 'red') +
-      geom_text(aes(wt, mpg, label = rownames(mtcars))) +
+    p <- ggplot(d, aes(wt, mpg, label = name)) +
+      geom_point(color = 'red') +
+      geom_text() +
       theme_classic(base_size = 16)
     print(p)
   },
-  times = 10L
+  times = 25L
 )
+
+# Github:
+# Unit: milliseconds
+#            expr      min       lq     mean   median       uq      max neval
+# geom_text_repel 582.9879 612.3658 633.6304 635.0404 644.7016 713.2744    25
+#       geom_text 161.9298 207.8709 215.0703 217.9270 224.5474 292.4633    25
+
+# HEAD:
+# Unit: milliseconds
+#            expr      min       lq     mean   median       uq      max neval
+# geom_text_repel 568.7964 588.8807 607.2520 598.2813 616.9077 702.8651    25
+#       geom_text 160.1820 182.4907 202.4225 206.1050 212.1132 247.8276    25

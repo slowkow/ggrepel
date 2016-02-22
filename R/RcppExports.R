@@ -8,6 +8,13 @@
 #' @noRd
 NULL
 
+#' Squared Euclidean distance between two points.
+#' @param a A point.
+#' @param b A point.
+#' @return The distance between two points.
+#' @noRd
+NULL
+
 #' Move a box into the area specificied by x limits and y limits.
 #' @param b A box like \code{c(x1, y1, x2, y2)}
 #' @param xlim A Point with limits on the x axis like \code{c(xmin, xmax)}
@@ -58,6 +65,13 @@ euclid <- function(a, b) {
     .Call('ggrepel_euclid', PACKAGE = 'ggrepel', a, b)
 }
 
+#' Get the coordinates of the center of a box.
+#' @param b A box like \code{c(x1, y1, x2, y2)}
+#' @noRd
+centroid <- function(b) {
+    .Call('ggrepel_centroid', PACKAGE = 'ggrepel', b)
+}
+
 #' Find the intersections between a line and a rectangle.
 #' @param p1 A point like \code{c(x, y)}
 #' @param p2 A point like \code{c(x, y)}
@@ -65,13 +79,6 @@ euclid <- function(a, b) {
 #' @noRd
 intersect_line_rectangle <- function(p1, p2, b) {
     .Call('ggrepel_intersect_line_rectangle', PACKAGE = 'ggrepel', p1, p2, b)
-}
-
-#' Get the coordinates of the center of a box.
-#' @param b A box like \code{c(x1, y1, x2, y2)}
-#' @noRd
-centroid <- function(b) {
-    .Call('ggrepel_centroid', PACKAGE = 'ggrepel', b)
 }
 
 #' Adjust the layout of a list of potentially overlapping boxes.
