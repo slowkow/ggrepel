@@ -1,43 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-typedef struct {
-  double x, y;
-} Point;
-
-Point operator -(const Point& a, const Point& b) {
-  Point p = {a.x - b.x, a.y - b.y};
-  return p;
-}
-
-Point operator +(const Point& a, const Point& b) {
-  Point p = {a.x + b.x, a.y + b.y};
-  return p;
-}
-
-Point operator /(const Point& a, const double& b) {
-  Point p = {a.x / b, a.y / b};
-  return p;
-}
-
-Point operator *(const double& b, const Point& a) {
-  Point p = {a.x * b, a.y * b};
-  return p;
-}
-
-Point operator *(const Point& a, const double& b) {
-  Point p = {a.x * b, a.y * b};
-  return p;
-}
-
-typedef struct {
-  double x1, y1, x2, y2;
-} Box;
-
-Box operator +(const Box& b, const Point& p) {
-  Box c = {b.x1 + p.x, b.y1 + p.y, b.x2 + p.x, b.y2 + p.y};
-  return c;
-}
+// Exported convenience functions ---------------------------------------------
 
 //' Euclidean distance between two points.
 //' @param a A numeric vector.
@@ -48,17 +12,16 @@ Box operator +(const Box& b, const Point& p) {
 double euclid(NumericVector a, NumericVector b) {
   return sqrt(
     (a[0] - b[0]) * (a[0] - b[0]) +
-    (a[1] - b[1]) * (a[1] - b[1])
+      (a[1] - b[1]) * (a[1] - b[1])
   );
 }
 
-//' Euclidean distance between two points.
-//' @param a A point.
-//' @param b A point.
-//' @return The distance between two points.
+//' Get the coordinates of the center of a box.
+//' @param b A box like \code{c(x1, y1, x2, y2)}
 //' @noRd
-double euclid(Point a, Point b) {
-  return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+// [[Rcpp::export]]
+NumericVector centroid(NumericVector b) {
+  return NumericVector::create((b[0] + b[2]) / 2, (b[1] + b[3]) / 2);
 }
 
 //' Find the intersections between a line and a rectangle.
@@ -117,6 +80,56 @@ NumericVector intersect_line_rectangle(
   return retval(imin, _);
 }
 
+// Main code for text label placement -----------------------------------------
+
+typedef struct {
+  double x, y;
+} Point;
+
+Point operator -(const Point& a, const Point& b) {
+  Point p = {a.x - b.x, a.y - b.y};
+  return p;
+}
+
+Point operator +(const Point& a, const Point& b) {
+  Point p = {a.x + b.x, a.y + b.y};
+  return p;
+}
+
+Point operator /(const Point& a, const double& b) {
+  Point p = {a.x / b, a.y / b};
+  return p;
+}
+
+Point operator *(const double& b, const Point& a) {
+  Point p = {a.x * b, a.y * b};
+  return p;
+}
+
+Point operator *(const Point& a, const double& b) {
+  Point p = {a.x * b, a.y * b};
+  return p;
+}
+
+typedef struct {
+  double x1, y1, x2, y2;
+} Box;
+
+Box operator +(const Box& b, const Point& p) {
+  Box c = {b.x1 + p.x, b.y1 + p.y, b.x2 + p.x, b.y2 + p.y};
+  return c;
+}
+
+//' Euclidean distance between two points.
+//' @param a A point.
+//' @param b A point.
+//' @return The distance between two points.
+//' @noRd
+double euclid(Point a, Point b) {
+  Point dist = a - b;
+  return sqrt(dist.x * dist.x + dist.y * dist.y);
+}
+
 //' Move a box into the area specificied by x limits and y limits.
 //' @param b A box like \code{c(x1, y1, x2, y2)}
 //' @param xlim A Point with limits on the x axis like \code{c(xmin, xmax)}
@@ -149,14 +162,6 @@ Box put_within_bounds(Box b, Point xlim, Point ylim, double force = 1e-5) {
 //' Get the coordinates of the center of a box.
 //' @param b A box like \code{c(x1, y1, x2, y2)}
 //' @noRd
-// [[Rcpp::export]]
-NumericVector centroid(NumericVector b) {
-  return NumericVector::create((b[0] + b[2]) / 2, (b[1] + b[3]) / 2);
-}
-
-//' Get the coordinates of the center of a box.
-//' @param b A box like \code{c(x1, y1, x2, y2)}
-//' @noRd
 Point centroid(Box b) {
   Point p = {(b.x1 + b.x2) / 2, (b.y1 + b.y2) / 2};
   return p;
@@ -173,18 +178,6 @@ bool overlaps(Box a, Box b) {
     b.x2 >= a.x1 &&
     b.y2 >= a.y1;
 }
-
-// //' Test if a point is within the boundaries of a box.
-// //' @param p A point like \code{c(x, y)}
-// //' @param b A box like \code{c(x1, y1, x2, y2)}
-// //' @noRd
-// bool point_within_box(Point p, Box b) {
-//   return
-//     p.x >= b.x1 &&
-//     p.x <= b.x2 &&
-//     p.y >= b.y1 &&
-//     p.y <= b.y2;
-// }
 
 //' Compute the repulsion force upon point \code{a} from point \code{b}.
 //'
@@ -311,7 +304,6 @@ DataFrame repel_boxes(
 
         if (i == j) {
           // Repel the box from its data point.
-          // if (point_within_box(Points[i], Boxes[i])) {
           if (overlaps(DataBoxes[i], Boxes[i])) {
             any_overlaps = true;
             f = f + repel_force(ci, Points[i], force);
@@ -323,7 +315,6 @@ DataFrame repel_boxes(
             f = f + repel_force(ci, cj, force * 2);
           }
           // Repel the box from other data points.
-          // if (point_within_box(Points[j], Boxes[i])) {
           if (overlaps(DataBoxes[j], Boxes[i])) {
             any_overlaps = true;
             f = f + repel_force(ci, Points[j], force);
