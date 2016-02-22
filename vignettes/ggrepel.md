@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2016-02-07"
+date: "2016-02-22"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -236,13 +236,13 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggrepel_0.4.5 ggplot2_2.0.0 knitr_1.12   
+## [1] ggrepel_0.5.1 ggplot2_2.0.0 knitr_1.12.3 
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.3      codetools_0.2-14 digest_0.6.9     grid_3.2.3      
 ##  [5] plyr_1.8.3       gtable_0.1.2     formatR_1.2.1    magrittr_1.5    
 ##  [9] evaluate_0.8     scales_0.3.0     stringi_1.0-1    labeling_0.3    
-## [13] tools_3.2.3      stringr_1.0.0    munsell_0.4.2    colorspace_1.2-6
+## [13] tools_3.2.3      stringr_1.0.0    munsell_0.4.3    colorspace_1.2-6
 ```
 
 [geom_text]: http://docs.ggplot2.org/current/geom_text.html
