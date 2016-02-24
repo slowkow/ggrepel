@@ -13,8 +13,7 @@
 #' Text labels have height and width, but they are physical units, not data
 #' units. The amount of space they occupy on that plot is not constant in data
 #' units: when you resize a plot, labels stay the same size, but the size of
-#' the axes changes. Currently, the text labels will not be repositioned upon
-#' resizing a plot. This may change in future releases.
+#' the axes changes. The text labels are repositioned after resizing a plot.
 #'
 #' @section \code{geom_label_repel}:
 #' Currently \code{geom_label_repel} does not support the \code{rot} parameter
