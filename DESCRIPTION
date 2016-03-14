@@ -12,7 +12,8 @@ Depends:
     ggplot2 (>= 2.0.0)
 Imports:
     grid,
-    Rcpp
+    Rcpp,
+    scales
 Suggests:
     knitr,
     rmarkdown
