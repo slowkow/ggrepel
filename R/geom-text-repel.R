@@ -67,9 +67,9 @@
 #'   \code{unit(0.25, "lines")}.
 #' @param point.padding Amount of padding around labeled point. Defaults to
 #'   \code{unit(0, "lines")}.
-#' @param segment.color Color of the line segment connecting the data point to
-#'   the text labe. Defaults to \code{#666666}.
-#' @param segment.size Width of segment, in mm.
+#' @param segment.size Width of line segment connecting the data point to
+#'   the text label, in mm.
+#' @param segment.alpha Transparency of the segment, in \code{[0,1]}. Makes segments half transparent by default.
 #' @param arrow specification for arrow heads, as created by \code{\link[grid]{arrow}}
 #' @param force Force of repulsion between overlapping text labels. Defaults
 #'   to 1.
@@ -124,8 +124,8 @@ geom_text_repel <- function(
   ...,
   box.padding = unit(0.25, "lines"),
   point.padding = unit(1e-6, "lines"),
-  segment.color = "#666666",
   segment.size = 0.5,
+  segment.alpha = 0.5,
   arrow = NULL,
   force = 1,
   max.iter = 2000,
@@ -148,8 +148,8 @@ geom_text_repel <- function(
       na.rm = na.rm,
       box.padding = box.padding,
       point.padding = point.padding,
-      segment.color = segment.color,
       segment.size = segment.size,
+      segment.alpha = segment.alpha,
       arrow = arrow,
       force = force,
       max.iter = max.iter,
@@ -170,7 +170,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
 
   default_aes = aes(
     colour = "black", size = 3.88, angle = 0,
-    alpha = NA, family = "", fontface = 1, lineheight = 1.2
+    alpha = 1, family = "", fontface = 1, lineheight = 1.2
   ),
 
   draw_panel = function(
@@ -179,8 +179,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     na.rm = FALSE,
     box.padding = unit(0.25, "lines"),
     point.padding = unit(1e-6, "lines"),
-    segment.color = "#666666",
     segment.size = 0.5,
+    segment.alpha = 0.5,
     arrow = NULL,
     force = 1,
     max.iter = 2000,
@@ -218,8 +218,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       nudges = nudges,
       box.padding = box.padding,
       point.padding = point.padding,
-      segment.color = segment.color,
       segment.size = segment.size,
+      segment.alpha = segment.alpha,
       arrow = arrow,
       force = force,
       max.iter = max.iter,
@@ -282,6 +282,7 @@ makeContent.textrepeltree <- function(x) {
 
   grobs <- lapply(1:nrow(x$data), function(i) {
     row <- x$data[i, , drop = FALSE]
+    # browser()
     textRepelGrob(
       x$lab[i],
       x = unit(repel$x[i], "native"),
@@ -298,7 +299,7 @@ makeContent.textrepeltree <- function(x) {
         lineheight = row$lineheight
       ),
       segment.gp = gpar(
-        col = scales::alpha(x$segment.color, row$alpha),
+        col = scales::alpha(row$colour, row$alpha * x$segment.alpha),
         lwd = x$segment.size * .pt
       ),
       arrow = x$arrow
