@@ -291,14 +291,14 @@ makeContent.textrepeltree <- function(x) {
       box.padding = x$box.padding,
       point.padding = x$point.padding,
       text.gp = gpar(
-        col = row$colour,
+        col = scales::alpha(row$colour, row$alpha),
         fontsize = row$size * .pt,
         fontfamily = row$family,
         fontface = row$fontface,
         lineheight = row$lineheight
       ),
       segment.gp = gpar(
-        col = x$segment.color,
+        col = scales::alpha(x$segment.color, row$alpha),
         lwd = x$segment.size * .pt
       ),
       arrow = x$arrow
