@@ -13,7 +13,7 @@ Depends:
 Imports:
     grid,
     Rcpp,
-    scales
+    scales (>= 0.3.0)
 Suggests:
     knitr,
     rmarkdown
