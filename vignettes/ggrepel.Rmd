@@ -95,7 +95,7 @@ However, the following parameters are not supported:
 - `max.iter` is the maximum number of iterations to attempt to resolve overlaps
 - `nudge_x` is how much to shift the starting position of the text label along
   the x axis
-- `nudge_x` is how much to shift the starting position of the text label along
+- `nudge_y` is how much to shift the starting position of the text label along
   the y axis
 
 ```{r geom_text_repel_options, echo=TRUE}
