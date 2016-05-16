@@ -77,6 +77,8 @@ geom_image_repel <- function(
   ...,
   box.padding = unit(0.25, "lines"),
   point.padding = unit(1e-6, "lines"),
+  width = 0.1,
+  aspectratio = 1,
   segment.size = 0.5,
   segment.alpha = 0.5,
   arrow = NULL,
@@ -108,6 +110,8 @@ geom_image_repel <- function(
       max.iter = max.iter,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
+      width = width,
+      aspectratio = aspectratio,
       ...
     )
   )
@@ -138,7 +142,9 @@ GeomImageRepel <- ggproto("GeomImageRepel", Geom,
                             force = 1,
                             max.iter = 2000,
                             nudge_x = 0,
-                            nudge_y = 0
+                            nudge_y = 0,
+                            width = 0.1,
+                            aspectratio = 1
                           ) {
                             lab <- data$label
                             if (parse) {
@@ -175,6 +181,8 @@ GeomImageRepel <- ggproto("GeomImageRepel", Geom,
                               segment.alpha = segment.alpha,
                               arrow = arrow,
                               force = force,
+                              width = width,
+                              aspectratio = aspectratio,
                               max.iter = max.iter,
                               cl = "imagerepeltree"
                             ))
@@ -203,6 +211,15 @@ makeContent.imagerepeltree <- function(x) {
     tg <- grid::pointsGrob(
       x= row$x, y= row$y, default.units = "native"
     )
+
+    # rectg <- grid::rectGrob(
+    #   x      = row$x,
+    #   y      = row$y,
+    #   width  = x$width,
+    #   height = x$width * x$aspectratio,
+    #   default.units = "native"
+    #
+    # )
     gw <- convertWidth(grobWidth(tg), "native", TRUE) / 2
     gh <- convertHeight(grobHeight(tg), "native", TRUE) / 2
     c(
@@ -234,16 +251,11 @@ makeContent.imagerepeltree <- function(x) {
       y = unit(repel$y[i], "native"),
       x.orig = unit(x$data$x[i], "native"),
       y.orig = unit(x$data$y[i], "native"),
+      imgwidth  = x$width,
+      imgheight = x$width * x$aspectratio,
       image = x$data$image[i],
       box.padding = x$box.padding,
       point.padding = x$point.padding,
-      text.gp = gpar(
-        col = scales::alpha(row$colour, row$alpha),
-        fontsize = row$size * .pt,
-        fontfamily = row$family,
-        fontface = row$fontface,
-        lineheight = row$lineheight
-      ),
       segment.gp = gpar(
         col = scales::alpha(row$colour, row$alpha * x$segment.alpha),
         lwd = x$segment.size * .pt
@@ -259,6 +271,8 @@ makeContent.imagerepeltree <- function(x) {
 imageRepelGrob <- function(
   x = unit(0.5, "npc"),
   y = unit(0.5, "npc"),
+  imgwidth = unit(0.1, "npc"),
+  imgheight = unit(0.1, "npc"),
   x.orig = unit(0.5, "npc"),
   y.orig = unit(0.5, "npc"),
   default.units = "npc",
@@ -266,7 +280,6 @@ imageRepelGrob <- function(
   box.padding = unit(0.25, "lines"),
   point.padding = unit(1e-6, "lines"),
   name = NULL,
-  text.gp = gpar(),
   segment.gp = gpar(),
   vp = NULL,
   arrow = NULL,
@@ -285,11 +298,12 @@ imageRepelGrob <- function(
     y = y,
     x.orig = x.orig,
     y.orig = y.orig,
+    imgwidth = imgwidth,
+    imgheight = imgheight,
     just = just,
     box.padding = box.padding,
     point.padding = point.padding,
     name = name,
-    text.gp = text.gp,
     segment.gp = segment.gp,
     vp = vp,
     cl = "imagerepelgrob",
@@ -307,7 +321,6 @@ makeContent.imagerepelgrob <- function(x) {
   pnt <- grid::pointsGrob(
     x$x,
     x$y,
-    gp = x$text.gp,
     name = "points"
   )
 
@@ -348,16 +361,6 @@ makeContent.imagerepelgrob <- function(x) {
   #stop("Stopping!")
   if (is.null(img)) {stop("Your image file must be a PNG image.")}
 
-  rg <- grid::rasterGrob(
-     image=img,
-     width = 0.1,
-     height= 0.1,
-     x = int[1],
-     y = int[2],
-     interpolate=TRUE,
-     default.units = "native",
-     name="image")
-
   s <- segmentsGrob(
     x0 = int[1],
     y0 = int[2],
@@ -368,6 +371,23 @@ makeContent.imagerepelgrob <- function(x) {
     name = "segment",
     arrow = x$arrow
   )
+
+  print(x$imgwidth)
+  print(x$imgheight)
+
+  rg <- grid::rasterGrob(
+     image  = img,
+     width  = x$imgwidth,
+     height = x$imgheight,
+     #width=0.1,
+     #height=0.1,
+     x = int[1],
+     y = int[2],
+     interpolate=TRUE,
+     default.units = "native",
+     name="image"
+  )
+
 
   setChildren(x, gList(s, pnt, rg))
 }
