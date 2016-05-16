@@ -197,6 +197,9 @@ GeomImageRepel <- ggproto("GeomImageRepel", Geom,
 #' @noRd
 makeContent.imagerepeltree <- function(x) {
 
+  imgwidth  <- x$width
+  imgheight <- imgwidth * x$aspectratio
+
   # The padding around each bounding box.
   pad.x <- convertWidth(x$box.padding, "native", valueOnly = TRUE)
   pad.y <- convertHeight(x$box.padding, "native", valueOnly = TRUE)
@@ -212,16 +215,16 @@ makeContent.imagerepeltree <- function(x) {
       x= row$x, y= row$y, default.units = "native"
     )
 
-    # rectg <- grid::rectGrob(
-    #   x      = row$x,
-    #   y      = row$y,
-    #   width  = x$width,
-    #   height = x$width * x$aspectratio,
-    #   default.units = "native"
-    #
-    # )
-    gw <- convertWidth(grobWidth(tg), "native", TRUE) / 2
-    gh <- convertHeight(grobHeight(tg), "native", TRUE) / 2
+    rectg <- grid::rectGrob(
+      x      = row$x,
+      y      = row$y,
+      width  = imgwidth,
+      height = imgheight,
+      default.units = "native"
+
+    )
+    gw <- convertWidth(grobWidth(rectg), "native", TRUE) / 2
+    gh <- convertHeight(grobHeight(rectg), "native", TRUE) / 2
     c(
       "x1" = row$x - gw - pad.x + x$nudges$x[i],
       "y1" = row$y - gh - pad.y + x$nudges$y[i],
@@ -251,8 +254,8 @@ makeContent.imagerepeltree <- function(x) {
       y = unit(repel$y[i], "native"),
       x.orig = unit(x$data$x[i], "native"),
       y.orig = unit(x$data$y[i], "native"),
-      imgwidth  = x$width,
-      imgheight = x$width * x$aspectratio,
+      imgwidth  = imgwidth,
+      imgheight = imgheight,
       image = x$data$image[i],
       box.padding = x$box.padding,
       point.padding = x$point.padding,
