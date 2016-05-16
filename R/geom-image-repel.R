@@ -1,12 +1,7 @@
-#' Repulsive points.
+#' Plot Repeled Images.
 #'
-#' \code{geom_image_repel} adds points directly to the plot after moving them
-#' from the starting position.
-#'
-#' These geoms are based on \code{\link[ggplot2]{geom_point}} and
-#' \code{\link[ggplot2]{geom_label}}. See the documentation for those
-#' functions for more details. Differences from those functions are noted
-#' here.
+#' \code{geom_image_repel} adds imades directly to the plot after moving them
+#' from the starting position to avoid overlap.
 #'
 #' @section \code{geom_image_repel}:
 
@@ -15,21 +10,6 @@
 #'   default), is combined with the default mapping at the top level of the
 #'   plot. You only need to supply \code{mapping} if there isn't a mapping
 #'   defined for the plot.
-#' @param data A data frame. If specified, overrides the default data frame
-#'   defined at the top level of the plot.
-#' @param stat The statistical transformation to use on the data for this
-#'    layer, as a string.
-#' @param parse If TRUE, the labels will be parsed into expressions and
-#'   displayed as described in ?plotmath
-#' @param na.rm If \code{FALSE} (the default), removes missing values with
-#'    a warning.  If \code{TRUE} silently removes missing values.
-#' @param show.legend logical. Should this layer be included in the legends?
-#'   \code{NA}, the default, includes if any aesthetics are mapped.
-#'   \code{FALSE} never includes, and \code{TRUE} always includes.
-#' @param inherit.aes If \code{FALSE}, overrides the default aesthetics,
-#'   rather than combining with them. This is most useful for helper functions
-#'   that define both data and aesthetics and shouldn't inherit behaviour from
-#'   the default plot specification, e.g. \code{\link[ggplot2]{borders}}.
 #' @param ... other arguments passed on to \code{\link[ggplot2]{layer}}. There are
 #'   three types of arguments you can use here:
 #'
@@ -42,10 +22,10 @@
 #'   }
 #' @param nudge_x,nudge_y Horizontal and vertical adjustments to nudge the
 #'   starting position of each text label.
-#' @param box.padding Amount of padding around bounding box. Defaults to
-#'   \code{unit(0.25, "lines")}.
-#' @param point.padding Amount of padding around labeled point. Defaults to
-#'   \code{unit(0, "lines")}.
+#' @param width the width of the image files to plot using "npc" units where 1=100%
+#' Defaults to \code{unit(0.1, "npc")}.
+#' @param aspectratio. Along with width it u used to determine the width of your imgae. Defaults to
+#'   \code{1}.
 #' @param segment.size Width of line segment connecting the data point to
 #'   the text label, in mm.
 #' @param segment.alpha Transparency of the segment, in \code{[0,1]}. Makes segments half transparent by default.
@@ -197,6 +177,7 @@ GeomImageRepel <- ggproto("GeomImageRepel", Geom,
 #' @noRd
 makeContent.imagerepeltree <- function(x) {
 
+  #calculate width/height based on the width and the aspect ratio
   imgwidth  <- x$width
   imgheight <- imgwidth * x$aspectratio
 
@@ -211,9 +192,6 @@ makeContent.imagerepeltree <- function(x) {
   # Create a dataframe with x1 y1 x2 y2
   boxes <- lapply(1:nrow(x$data), function(i) {
     row <- x$data[i, , drop = FALSE]
-    tg <- grid::pointsGrob(
-      x= row$x, y= row$y, default.units = "native"
-    )
 
     rectg <- grid::rectGrob(
       x      = row$x,
@@ -321,9 +299,11 @@ imageRepelGrob <- function(
 #' @export
 #' @noRd
 makeContent.imagerepelgrob <- function(x) {
+
   pnt <- grid::pointsGrob(
     x$x,
     x$y,
+    gp = x$text.gp,
     name = "points"
   )
 
@@ -352,16 +332,11 @@ makeContent.imagerepelgrob <- function(x) {
   b <- c(orig[1] - pad.x, orig[2] - pad.y, orig[1] + pad.x, orig[2] + pad.y)
   orig <- intersect_line_rectangle(center, orig, b)
 
-  #test that image is present and it works
-  print(x$img)
-  print(x$image)
-  print(x)
-  print(names(x))
+  #test that image is present and it opens as a PNG
   if (!is.character(x$image)) {stop("Image column must specify a character pointing to an image file")}
 
   img <- NULL
   try(img  <- png::readPNG(x$image))
-  #stop("Stopping!")
   if (is.null(img)) {stop("Your image file must be a PNG image.")}
 
   s <- segmentsGrob(
@@ -375,22 +350,16 @@ makeContent.imagerepelgrob <- function(x) {
     arrow = x$arrow
   )
 
-  print(x$imgwidth)
-  print(x$imgheight)
-
   rg <- grid::rasterGrob(
      image  = img,
      width  = x$imgwidth,
      height = x$imgheight,
-     #width=0.1,
-     #height=0.1,
      x = int[1],
      y = int[2],
      interpolate=TRUE,
      default.units = "native",
      name="image"
   )
-
 
   setChildren(x, gList(s, pnt, rg))
 }
