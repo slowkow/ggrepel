@@ -7,6 +7,8 @@
 #' \itemize{
 #'   \item \code{\link{geom_text_repel}}
 #'   \item \code{\link{geom_label_repel}}
+#'   \item \code{\link{geom_point_repel}}
+#'   \item \code{\link{geom_image_repel}}
 #' }
 #'
 #' Also see the vignette for more usage examples:
@@ -35,6 +37,8 @@
 #'   is.grob
 #'   is.unit
 #'   makeContent
+#'   pointsGrob
+#'   rasterGrob
 #'   resolveHJust
 #'   resolveVJust
 #'   roundrectGrob

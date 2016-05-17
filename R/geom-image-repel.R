@@ -1,6 +1,6 @@
 #' Plot Repeled Images.
 #'
-#' \code{geom_image_repel} adds imades directly to the plot after moving them
+#' \code{geom_image_repel} adds images directly to the plot after moving them
 #' from the starting position to avoid overlap.
 #'
 #' @section \code{geom_image_repel}:
@@ -8,10 +8,16 @@
 #' @param mapping Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
 #'   \code{\link[ggplot2]{aes_}}. If specified and \code{inherit.aes = TRUE} (the
 #'   default), is combined with the default mapping at the top level of the
-#'   plot. You only need to supply \code{mapping} if there isn't a mapping
-#'   defined for the plot.
+#'   plot.
+#' @param image The name of the column holding filepaths to you PNG images.
+#' @param width the width of the image files to plot using "npc" units where 1=100%
+#' Defaults to \code{unit(0.1, "npc")}.
+#' @param aspectratio. Along with width it is used to determine the width of your imgae. Defaults to
+#'   \code{1}.
+#'
 #' @param ... other arguments passed on to \code{\link[ggplot2]{layer}}. There are
 #'   three types of arguments you can use here:
+#'
 #'
 #'   \itemize{
 #'     \item Aesthetics: to set an aesthetic to a fixed value, like
@@ -22,10 +28,6 @@
 #'   }
 #' @param nudge_x,nudge_y Horizontal and vertical adjustments to nudge the
 #'   starting position of each text label.
-#' @param width the width of the image files to plot using "npc" units where 1=100%
-#' Defaults to \code{unit(0.1, "npc")}.
-#' @param aspectratio. Along with width it u used to determine the width of your imgae. Defaults to
-#'   \code{1}.
 #' @param segment.size Width of line segment connecting the data point to
 #'   the text label, in mm.
 #' @param segment.alpha Transparency of the segment, in \code{[0,1]}. Makes segments half transparent by default.
@@ -42,12 +44,6 @@
 #' # Avoid overlaps by repelling text labels
 #' p + geom_image_repel()
 #' p + geom_image_repel(aes(size=mpg, color=factor(cyl)))
-#'
-#'
-#' # Add arrows
-#' p +
-#'   geom_point(colour = "red") +
-#'   geom_text_repel(arrow = arrow(length = unit(0.02, "npc")), box.padding = unit(1, "lines"))
 #'
 #' @importFrom png readPNG
 #' @export
@@ -300,7 +296,7 @@ imageRepelGrob <- function(
 #' @noRd
 makeContent.imagerepelgrob <- function(x) {
 
-  pnt <- grid::pointsGrob(
+  pnt <- pointsGrob(
     x$x,
     x$y,
     gp = x$text.gp,
@@ -336,7 +332,7 @@ makeContent.imagerepelgrob <- function(x) {
   if (!is.character(x$image)) {stop("Image column must specify a character pointing to an image file")}
 
   img <- NULL
-  try(img  <- png::readPNG(x$image))
+  try(img  <- readPNG(x$image))
   if (is.null(img)) {stop("Your image file must be a PNG image.")}
 
   s <- segmentsGrob(
@@ -350,7 +346,7 @@ makeContent.imagerepelgrob <- function(x) {
     arrow = x$arrow
   )
 
-  rg <- grid::rasterGrob(
+  rg <- rasterGrob(
      image  = img,
      width  = x$imgwidth,
      height = x$imgheight,
@@ -361,5 +357,5 @@ makeContent.imagerepelgrob <- function(x) {
      name="image"
   )
 
-  setChildren(x, gList(s, pnt, rg))
+  setChildren(x, gList(s, rg))
 }

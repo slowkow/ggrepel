@@ -2,30 +2,20 @@
 % Please edit documentation in R/geom-image-repel.R
 \name{geom_image_repel}
 \alias{geom_image_repel}
-\title{Repulsive points.}
+\title{Plot Repeled Images.}
 \usage{
 geom_image_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
-  point.padding = unit(1e-06, "lines"), segment.size = 0.5,
-  segment.alpha = 0.5, arrow = NULL, force = 1, max.iter = 2000,
-  nudge_x = 0, nudge_y = 0, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE)
+  point.padding = unit(1e-06, "lines"), width = 0.1, aspectratio = 1,
+  segment.size = 0.5, segment.alpha = 0.5, arrow = NULL, force = 1,
+  max.iter = 2000, nudge_x = 0, nudge_y = 0, na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
 \code{\link[ggplot2]{aes_}}. If specified and \code{inherit.aes = TRUE} (the
 default), is combined with the default mapping at the top level of the
-plot. You only need to supply \code{mapping} if there isn't a mapping
-defined for the plot.}
-
-\item{data}{A data frame. If specified, overrides the default data frame
-defined at the top level of the plot.}
-
-\item{stat}{The statistical transformation to use on the data for this
-layer, as a string.}
-
-\item{parse}{If TRUE, the labels will be parsed into expressions and
-displayed as described in ?plotmath}
+plot.}
 
 \item{...}{other arguments passed on to \code{\link[ggplot2]{layer}}. There are
   three types of arguments you can use here:
@@ -38,11 +28,8 @@ displayed as described in ?plotmath}
     \item Other arguments passed on to the stat.
   }}
 
-\item{box.padding}{Amount of padding around bounding box. Defaults to
-\code{unit(0.25, "lines")}.}
-
-\item{point.padding}{Amount of padding around labeled point. Defaults to
-\code{unit(0, "lines")}.}
+\item{width}{the width of the image files to plot using "npc" units where 1=100%
+Defaults to \code{unit(0.1, "npc")}.}
 
 \item{segment.size}{Width of line segment connecting the data point to
 the text label, in mm.}
@@ -60,27 +47,14 @@ Defaults to 2000.}
 \item{nudge_x, nudge_y}{Horizontal and vertical adjustments to nudge the
 starting position of each text label.}
 
-\item{na.rm}{If \code{FALSE} (the default), removes missing values with
-a warning.  If \code{TRUE} silently removes missing values.}
+\item{image}{}
 
-\item{show.legend}{logical. Should this layer be included in the legends?
-\code{NA}, the default, includes if any aesthetics are mapped.
-\code{FALSE} never includes, and \code{TRUE} always includes.}
-
-\item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
-rather than combining with them. This is most useful for helper functions
-that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
+\item{aspectratio.}{Along with width it is used to determine the width of your imgae. Defaults to
+\code{1}.}
 }
 \description{
-\code{geom_image_repel} adds points directly to the plot after moving them
-from the starting position.
-}
-\details{
-These geoms are based on \code{\link[ggplot2]{geom_point}} and
-\code{\link[ggplot2]{geom_label}}. See the documentation for those
-functions for more details. Differences from those functions are noted
-here.
+\code{geom_image_repel} adds images directly to the plot after moving them
+from the starting position to avoid overlap.
 }
 \section{\code{geom_image_repel}}{
 
@@ -92,12 +66,6 @@ p <- ggplot(mtcars, aes(x=mpg,y=cyl))
 # Avoid overlaps by repelling text labels
 p + geom_image_repel()
 p + geom_image_repel(aes(size=mpg, color=factor(cyl)))
-
-
-# Add arrows
-p +
-  geom_point(colour = "red") +
-  geom_text_repel(arrow = arrow(length = unit(0.02, "npc")), box.padding = unit(1, "lines"))
 
 }
 
