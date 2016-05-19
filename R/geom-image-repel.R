@@ -1,7 +1,10 @@
 #' Plot Repeled Images.
 #'
 #' \code{geom_image_repel} adds images directly to the plot after moving them
-#' from the starting position to avoid overlap.
+#' from the starting position to avoid overlap. This code uses all of the options
+#' available to \code{\link{geom_label_repel}} and \code{\link{geom_text_repel}} in
+#' addtion to a few image-specific parameters. Currently this only supports the plotting
+#' of PNG images.
 #'
 #' @section \code{geom_image_repel}:
 
@@ -39,11 +42,22 @@
 #'
 #' @examples
 #'
-#' p <- ggplot(mtcars, aes(x=mpg,y=cyl))
+#' #add a column with text files corresponding to an image location
+#' rpng <- system.file("img", "Rlogo.png", package="png")
+#' mtcars$images <- rpng
 #'
-#' # Avoid overlaps by repelling text labels
-#' p + geom_image_repel()
-#' p + geom_image_repel(aes(size=mpg, color=factor(cyl)))
+#' p <- ggplot(mtcars, aes(mpg,wt)) + geom_point()
+#'
+#' # Add images to the plote for each point
+#' p + geom_image_repel(aes(image=images))
+#'
+#' # control the size and shape of images using the
+#' # width and aspect ratio
+#' p + geom_image_repel(aes(image=images), width=0.03)
+#' p + geom_image_repel(aes(image=images), aspectratio=0.2)
+#'
+#' # Label subsets of the data
+#' p + geom_image_repel(data= mtcars[mtcars$wt>10,], aes(image=images))
 #'
 #' @importFrom png readPNG
 #' @export
@@ -134,8 +148,6 @@ GeomImageRepel <- ggproto("GeomImageRepel", Geom,
                             # Transform the nudges to the panel scales.
                             nudges <- data.frame(
                               x = data$x + nudge_x, y = data$y + nudge_y
-                              # x = rep_len(nudge_x, nrow(data)),
-                              # y = rep_len(nudge_y, nrow(data))
                             )
                             nudges <- coord$transform(nudges, panel_scales)
 
