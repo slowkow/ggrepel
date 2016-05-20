@@ -6,10 +6,8 @@
 \usage{
 geom_point_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
-  point.padding = unit(1e-06, "lines"), segment.size = 0.5,
-  segment.alpha = 0.5, arrow = NULL, force = 1, max.iter = 2000,
-  nudge_x = 0, nudge_y = 0, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE)
+  point.padding = unit(1e-06, "lines"), force = 5, max.iter = 2000,
+  nudge_x = 0, nudge_y = 0, na.rm = FALSE, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -44,13 +42,6 @@ displayed as described in ?plotmath}
 \item{point.padding}{Amount of padding around labeled point. Defaults to
 \code{unit(0, "lines")}.}
 
-\item{segment.size}{Width of line segment connecting the data point to
-the text label, in mm.}
-
-\item{segment.alpha}{Transparency of the segment, in \code{[0,1]}. Makes segments half transparent by default.}
-
-\item{arrow}{specification for arrow heads, as created by \code{\link[grid]{arrow}}}
-
 \item{force}{Force of repulsion between overlapping text labels. Defaults
 to 1.}
 
@@ -63,14 +54,14 @@ starting position of each text label.}
 \item{na.rm}{If \code{FALSE} (the default), removes missing values with
 a warning.  If \code{TRUE} silently removes missing values.}
 
-\item{show.legend}{logical. Should this layer be included in the legends?
-\code{NA}, the default, includes if any aesthetics are mapped.
-\code{FALSE} never includes, and \code{TRUE} always includes.}
-
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
+
+\item{show.legend}{logical. Should this layer be included in the legends?
+\code{NA}, the default, includes if any aesthetics are mapped.
+\code{FALSE} never includes, and \code{TRUE} always includes.}
 }
 \description{
 \code{geom_point_repel} adds points directly to the plot after moving them
@@ -87,17 +78,14 @@ here.
 }
 \examples{
 
-p <- ggplot(mtcars, aes(x=mpg,y=cyl))
+df <- data.frame(x=runif(100), y=runif(100), color = sample(c("A","B")), 100, replace=TRUE)
+p  <- ggplot(df, aes(x=x,y=y)) + xlim(-20,20)
 
-# Avoid overlaps by repelling text labels
-p + geom_point_repel()
-p + geom_point_repel(aes(size=mpg, color=factor(cyl)))
+# Normal Point Plotting
+p + geom_point(aes(color=color))
 
-
-# Add arrows
-p +
-  geom_point(colour = "red") +
-  geom_text_repel(arrow = arrow(length = unit(0.02, "npc")), box.padding = unit(1, "lines"))
+# Using geom_point_repel()
+p + geom_point_repel(aes(color=color),force=200, size=5)
 
 }
 

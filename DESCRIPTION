@@ -16,7 +16,7 @@ Depends:
 Imports:
     grid,
     Rcpp,
-    scales (>= 0.3.0)
+    scales (>= 0.3.0),
     png
 Suggests:
     knitr,

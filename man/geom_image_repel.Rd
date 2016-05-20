@@ -20,6 +20,7 @@ plot.}
 \item{...}{other arguments passed on to \code{\link[ggplot2]{layer}}. There are
   three types of arguments you can use here:
 
+
   \itemize{
     \item Aesthetics: to set an aesthetic to a fixed value, like
        \code{color = "red"} or \code{size = 3}.
@@ -47,25 +48,39 @@ Defaults to 2000.}
 \item{nudge_x, nudge_y}{Horizontal and vertical adjustments to nudge the
 starting position of each text label.}
 
-\item{image}{}
+\item{image}{The name of the column holding filepaths to you PNG images.}
 
 \item{aspectratio.}{Along with width it is used to determine the width of your imgae. Defaults to
 \code{1}.}
 }
 \description{
 \code{geom_image_repel} adds images directly to the plot after moving them
-from the starting position to avoid overlap.
+from the starting position to avoid overlap. This code uses all of the options
+available to \code{\link{geom_label_repel}} and \code{\link{geom_text_repel}} in
+addtion to a few image-specific parameters. Currently this only supports the plotting
+of PNG images.
 }
 \section{\code{geom_image_repel}}{
 
 }
 \examples{
 
-p <- ggplot(mtcars, aes(x=mpg,y=cyl))
+#add a column with text files corresponding to an image location
+rpng <- system.file("img", "Rlogo.png", package="png")
+mtcars$images <- rpng
 
-# Avoid overlaps by repelling text labels
-p + geom_image_repel()
-p + geom_image_repel(aes(size=mpg, color=factor(cyl)))
+p <- ggplot(mtcars, aes(mpg,wt)) + geom_point()
+
+# Add images to the plote for each point
+p + geom_image_repel(aes(image=images))
+
+# control the size and shape of images using the
+# width and aspect ratio
+p + geom_image_repel(aes(image=images), width=0.03)
+p + geom_image_repel(aes(image=images), aspectratio=0.2)
+
+# Label subsets of the data
+p + geom_image_repel(data= mtcars[mtcars$wt>10,], aes(image=images))
 
 }
 
