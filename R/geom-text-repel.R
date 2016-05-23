@@ -153,8 +153,6 @@ geom_text_repel <- function(
       arrow = arrow,
       force = force,
       max.iter = max.iter,
-      nudge_x = nudge_x,
-      nudge_y = nudge_y,
       ...
     )
   )
@@ -170,7 +168,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
 
   default_aes = aes(
     colour = "black", size = 3.88, angle = 0,
-    alpha = NA, family = "", fontface = 1, lineheight = 1.2
+    alpha = NA, family = "", fontface = 1, lineheight = 1.2,
+    nudge_x = 0, nudge_y = 0
   ),
 
   draw_panel = function(
@@ -183,9 +182,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     segment.size = 0.5,
     arrow = NULL,
     force = 1,
-    max.iter = 2000,
-    nudge_x = 0,
-    nudge_y = 0
+    max.iter = 2000
   ) {
     lab <- data$label
     if (parse) {
@@ -198,7 +195,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
 
     # Transform the nudges to the panel scales.
     nudges <- data.frame(
-      x = data$x + nudge_x, y = data$y + nudge_y
+      x = data$x + data$nudge_x, y = data$y + data$nudge_y
       # x = rep_len(nudge_x, nrow(data)),
       # y = rep_len(nudge_y, nrow(data))
     )
