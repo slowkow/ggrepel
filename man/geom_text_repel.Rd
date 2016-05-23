@@ -8,10 +8,10 @@
 geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
   label.padding = unit(0.25, "lines"), point.padding = unit(1e-06, "lines"),
-  label.r = unit(0.15, "lines"), label.size = 0.25,
-  segment.color = "#666666", segment.size = 0.5, arrow = NULL,
-  force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0, na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE)
+  label.r = unit(0.15, "lines"), label.size = 0.25, segment.size = 0.5,
+  segment.alpha = 0.5, arrow = NULL, force = 1, max.iter = 2000,
+  nudge_x = 0, nudge_y = 0, na.rm = FALSE, show.legend = NA,
+  inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
@@ -62,6 +62,8 @@ displayed as described in ?plotmath}
 \item{segment.size}{Width of line segment connecting the data point to
 the text label, in mm.}
 
+\item{segment.alpha}{Transparency of the segment, in \code{[0,1]}. Makes segments half transparent by default.}
+
 \item{arrow}{specification for arrow heads, as created by \code{\link[grid]{arrow}}}
 
 \item{force}{Force of repulsion between overlapping text labels. Defaults
@@ -84,8 +86,6 @@ a warning.  If \code{TRUE} silently removes missing values.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
-
-\item{segment.alpha}{Transparency of the segment, in \code{[0,1]}. Makes segments half transparent by default.}
 }
 \description{
 \code{geom_text_repel} adds text directly to the plot.
@@ -102,8 +102,7 @@ here.
 Text labels have height and width, but they are physical units, not data
 units. The amount of space they occupy on that plot is not constant in data
 units: when you resize a plot, labels stay the same size, but the size of
-the axes changes. Currently, the text labels will not be repositioned upon
-resizing a plot. This may change in future releases.
+the axes changes. The text labels are repositioned after resizing a plot.
 }
 \section{\code{geom_label_repel}}{
 

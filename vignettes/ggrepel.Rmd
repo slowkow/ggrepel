@@ -87,7 +87,7 @@ However, the following parameters are not supported:
 
 `ggrepel` provides additional parameters for `geom_text_repel` and `geom_label_repel`:
 
-- `segment.color` is the line segment color
+- `segment.alpha` is the line segment alpha (transparency)
 - `box.padding` is the padding surrounding the text bounding box
 - `point.padding` is the padding around the labeled point
 - `arrow` is the specification for arrow heads created by `grid::arrow`
@@ -112,7 +112,6 @@ ggplot(mtcars) +
     fontface = 'bold',
     box.padding = unit(0.5, 'lines'),
     point.padding = unit(1.6, 'lines'),
-    segment.color = '#555555',
     segment.size = 0.5,
     arrow = arrow(length = unit(0.01, 'npc')),
     force = 1,
@@ -153,7 +152,7 @@ ggplot(Orange, aes(age, circumference, color = Tree)) +
     aes(label = paste("Tree", Tree)),
     size = 6,
     nudge_x = 45,
-    segment.color = NA
+    segment.alpha = 0
   ) +
   theme_classic(base_size = 16) +
   theme(legend.position = "none") +
