@@ -106,7 +106,9 @@ ggplot(mtcars) +
     aes(
       wt, mpg,
       color = factor(cyl),
-      label = rownames(mtcars)
+      label = rownames(mtcars),
+      nudge_x = ifelse(mtcars$cyl == 6, 1, 0),
+      nudge_y = ifelse(mtcars$cyl == 6, 8, 0)
     ),
     size = 5,
     fontface = 'bold',
@@ -117,8 +119,6 @@ ggplot(mtcars) +
     arrow = arrow(length = unit(0.01, 'npc')),
     force = 1,
     max.iter = 2e3,
-    nudge_x = ifelse(mtcars$cyl == 6, 1, 0),
-    nudge_y = ifelse(mtcars$cyl == 6, 8, 0)
   ) +
   scale_color_discrete(name = 'cyl') +
   theme_classic(base_size = 16)
