@@ -140,35 +140,6 @@ double euclid2(Point a, Point b) {
   return dist.x * dist.x + dist.y * dist.y;
 }
 
-//' Move a box into the area specificied by x limits and y limits.
-//' @param b A box like \code{c(x1, y1, x2, y2)}
-//' @param xlim A Point with limits on the x axis like \code{c(xmin, xmax)}
-//' @param ylim A Point with limits on the y axis like \code{c(xmin, xmax)}
-//' @param force Magnitude of the force (defaults to \code{1e-6})
-//' @noRd
-Box put_within_bounds(Box b, Point xlim, Point ylim, double force = 1e-5) {
-  double d;
-  if (b.x1 < xlim.x) {
-    d = std::max(fabs(b.x1 - xlim.x), 0.02);
-    b.x1 += force / pow(d, 2);
-    b.x2 += force / pow(d, 2);
-  } else if (b.x2 > xlim.y) {
-    d = std::max(fabs(b.x2 - xlim.y), 0.02);
-    b.x1 -= force / pow(d, 2);
-    b.x2 -= force / pow(d, 2);
-  }
-  if (b.y1 < ylim.x) {
-    d = std::max(fabs(b.y1 - ylim.x), 0.02);
-    b.y1 += force / pow(d, 2);
-    b.y2 += force / pow(d, 2);
-  } else if (b.y2 > ylim.y) {
-    d = std::max(fabs(b.y2 - ylim.y), 0.02);
-    b.y1 -= force / pow(d, 2);
-    b.y2 -= force / pow(d, 2);
-  }
-  return b;
-}
-
 //' Get the coordinates of the center of a box.
 //' @param b A box like \code{c(x1, y1, x2, y2)}
 //' @noRd
@@ -343,10 +314,14 @@ DataFrame repel_boxes(
       // Dampen the forces.
       f = f * (1 - 1e-3);
 
+      if (Boxes[i].x1 + f.x < xbounds.x || Boxes[i].x2 + f.x > xbounds.y)
+        f.x = 0;
+      if (Boxes[i].y1 + f.y < ybounds.x || Boxes[i].y2 + f.y > ybounds.y)
+        f.y = 0;
+
       total_force += fabs(f.x) + fabs(f.y);
 
       Boxes[i] = Boxes[i] + f;
-      Boxes[i] = put_within_bounds(Boxes[i], xbounds, ybounds);
     }
 
     // If there are no forces, let's break the loop.
