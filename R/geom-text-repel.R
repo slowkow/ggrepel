@@ -129,8 +129,6 @@ geom_text_repel <- function(
   arrow = NULL,
   force = 1,
   max.iter = 2000,
-  nudge_x = 0,
-  nudge_y = 0,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
