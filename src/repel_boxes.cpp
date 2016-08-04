@@ -314,10 +314,15 @@ DataFrame repel_boxes(
       // Dampen the forces.
       f = f * (1 - 1e-3);
 
-      if (Boxes[i].x1 + f.x < xbounds.x || Boxes[i].x2 + f.x > xbounds.y)
-        f.x = 0;
-      if (Boxes[i].y1 + f.y < ybounds.x || Boxes[i].y2 + f.y > ybounds.y)
-        f.y = 0;
+      double jitter = fabs(R::rnorm(0, force));
+      if (Boxes[i].x1 + f.x < xbounds.x)
+        f.x = xbounds.x - Boxes[i].x1 + jitter;
+      else if (Boxes[i].x2 + f.x > xbounds.y)
+        f.x = xbounds.y - Boxes[i].x2 - jitter;
+      if (Boxes[i].y1 + f.y < ybounds.x)
+        f.y = ybounds.x - Boxes[i].y1 + jitter;
+      else if (Boxes[i].y2 + f.y > ybounds.y)
+        f.y = ybounds.y - Boxes[i].y2 - jitter;
 
       total_force += fabs(f.x) + fabs(f.y);
 
