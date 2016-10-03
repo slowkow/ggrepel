@@ -3,3 +3,4 @@
 ^vignettes/cache/.*$
 ^.travis\.yml$
 ^tests/benchmark\.R$
+^tests/issue.*\.R$
