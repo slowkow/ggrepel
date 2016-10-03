@@ -8,8 +8,7 @@
 *.dll
 
 # Rstudio files
+..Rcheck/
 .Rproj.user
-
 .Rbuildignore
-
 vignettes/cache
