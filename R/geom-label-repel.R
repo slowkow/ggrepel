@@ -14,9 +14,12 @@ geom_label_repel <- function(
   label.size = 0.25,
   segment.color = "#666666",
   segment.size = 0.5,
+  segment.alpha = 1,
   arrow = NULL,
   force = 1,
   max.iter = 2000,
+  nudge_x = 0,
+  nudge_y = 0,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -38,10 +41,13 @@ geom_label_repel <- function(
       label.size = label.size,
       segment.color = segment.color,
       segment.size = segment.size,
+      segment.alpha = segment.alpha,
       arrow = arrow,
       na.rm = na.rm,
       force = force,
       max.iter = max.iter,
+      nudge_x = nudge_x,
+      nudge_y = nudge_y,
       ...
     )
   )
@@ -58,8 +64,7 @@ GeomLabelRepel <- ggproto(
 
   default_aes = aes(
     colour = "black", fill = "white", size = 3.88, angle = 0,
-    alpha = NA, family = "", fontface = 1, lineheight = 1.2,
-    nudge_x = 0, nudge_y = 0
+    alpha = NA, family = "", fontface = 1, lineheight = 1.2
   ),
 
   draw_panel = function(
@@ -73,8 +78,11 @@ GeomLabelRepel <- ggproto(
     label.size = 0.25,
     segment.color = "#666666",
     segment.size = 0.5,
+    segment.alpha = 1,
     arrow = NULL,
     force = 1,
+    nudge_x = 0,
+    nudge_y = 0,
     max.iter = 2000
   ) {
     lab <- data$label
@@ -88,7 +96,8 @@ GeomLabelRepel <- ggproto(
 
     # Transform the nudges to the panel scales.
     nudges <- data.frame(
-      x = data$x + data$nudge_x, y = data$y + data$nudge_y
+      x = data$x + nudge_x,
+      y = data$y + nudge_y
     )
     nudges <- coord$transform(nudges, panel_scales)
 
@@ -111,6 +120,7 @@ GeomLabelRepel <- ggproto(
       label.size = label.size,
       segment.color = segment.color,
       segment.size = segment.size,
+      segment.alpha = segment.alpha,
       arrow = arrow,
       force = force,
       max.iter = max.iter,
@@ -213,7 +223,7 @@ makeContent.labelrepeltree <- function(x) {
         lwd = x$label.size * .pt
       ),
       segment.gp = gpar(
-        col = x$segment.color,
+        col = scales::alpha(x$segment.color, x$segment.alpha),
         lwd = x$segment.size * .pt
       ),
       arrow = x$arrow

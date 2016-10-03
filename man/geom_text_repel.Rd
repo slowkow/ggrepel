@@ -9,16 +9,16 @@ geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
   label.padding = unit(0.25, "lines"), point.padding = unit(1e-06, "lines"),
   label.r = unit(0.15, "lines"), label.size = 0.25,
-  segment.color = "#666666", segment.size = 0.5, arrow = NULL,
-  force = 1, max.iter = 2000, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE)
+  segment.color = "#666666", segment.size = 0.5, segment.alpha = 1,
+  arrow = NULL, force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0,
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
-  point.padding = unit(1e-06, "lines"), segment.size = 0.5,
-  segment.alpha = 0.5, arrow = NULL, force = 1, max.iter = 2000,
-  nudge_x = 0, nudge_y = 0, na.rm = FALSE, show.legend = NA,
-  inherit.aes = TRUE)
+  point.padding = unit(1e-06, "lines"), segment.color = "#666666",
+  segment.size = 0.5, segment.alpha = 1, arrow = NULL, force = 1,
+  max.iter = 2000, nudge_x = 0, nudge_y = 0, na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -62,6 +62,9 @@ displayed as described in ?plotmath}
 \item{segment.size}{Width of line segment connecting the data point to
 the text label, in mm.}
 
+\item{segment.alpha}{Transparency of the line segment. Defaults to
+\code{1}.}
+
 \item{arrow}{specification for arrow heads, as created by \code{\link[grid]{arrow}}}
 
 \item{force}{Force of repulsion between overlapping text labels. Defaults
@@ -69,6 +72,9 @@ to 1.}
 
 \item{max.iter}{Maximum number of iterations to try to resolve overlaps.
 Defaults to 2000.}
+
+\item{nudge_x, nudge_y}{Horizontal and vertical adjustments to nudge the
+starting position of each text label.}
 
 \item{na.rm}{If \code{FALSE} (the default), removes missing values with
 a warning.  If \code{TRUE} silently removes missing values.}
@@ -81,12 +87,6 @@ a warning.  If \code{TRUE} silently removes missing values.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
-
-\item{segment.alpha}{Transparency of the segment, in \code{[0,1]}. Makes
-segments half transparent by default.}
-
-\item{nudge_x, nudge_y}{Horizontal and vertical adjustments to nudge the
-starting position of each text label.}
 }
 \description{
 \code{geom_text_repel} adds text directly to the plot.

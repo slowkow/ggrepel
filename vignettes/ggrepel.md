@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2016-02-22"
+date: "2016-10-03"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -64,7 +64,7 @@ ggplot(mtcars) +
 
 #### Options
 
-All options available for [geom_text] such as `size` and
+All options available for [geom_text] such as `size`, `angle`, `family`,
 `fontface` are also available for `geom_text_repel`.
 
 However, the following parameters are not supported:
@@ -77,6 +77,8 @@ However, the following parameters are not supported:
 `ggrepel` provides additional parameters for `geom_text_repel` and `geom_label_repel`:
 
 - `segment.color` is the line segment color
+- `segment.size` is the line segment thickness
+- `segment.alpha` is the line segment transparency
 - `box.padding` is the padding surrounding the text bounding box
 - `point.padding` is the padding around the labeled point
 - `arrow` is the specification for arrow heads created by `grid::arrow`
@@ -84,7 +86,7 @@ However, the following parameters are not supported:
 - `max.iter` is the maximum number of iterations to attempt to resolve overlaps
 - `nudge_x` is how much to shift the starting position of the text label along
   the x axis
-- `nudge_x` is how much to shift the starting position of the text label along
+- `nudge_y` is how much to shift the starting position of the text label along
   the y axis
 
 
@@ -96,9 +98,11 @@ ggplot(mtcars) +
     aes(
       wt, mpg,
       color = factor(cyl),
-      label = rownames(mtcars)
+      label = rownames(mtcars),
+      angle = ifelse(mtcars$cyl == 4, 90, 0)
     ),
     size = 5,
+    family = 'Times',
     fontface = 'bold',
     box.padding = unit(0.5, 'lines'),
     point.padding = unit(1.6, 'lines'),
@@ -111,6 +115,7 @@ ggplot(mtcars) +
     nudge_y = ifelse(mtcars$cyl == 6, 8, 0)
   ) +
   scale_color_discrete(name = 'cyl') +
+  scale_x_continuous(expand = c(0.25, 0.25)) +
   theme_classic(base_size = 16)
 ```
 
@@ -236,12 +241,12 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggrepel_0.5.1 ggplot2_2.0.0 knitr_1.12.3 
+## [1] ggrepel_0.5.1 ggplot2_2.1.0 knitr_1.13   
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.3      codetools_0.2-14 digest_0.6.9     grid_3.2.3      
-##  [5] plyr_1.8.3       gtable_0.1.2     formatR_1.2.1    magrittr_1.5    
-##  [9] evaluate_0.8     scales_0.3.0     stringi_1.0-1    labeling_0.3    
+##  [1] Rcpp_0.12.6      codetools_0.2-14 digest_0.6.9     grid_3.2.3      
+##  [5] plyr_1.8.4       gtable_0.2.0     formatR_1.2.1    magrittr_1.5    
+##  [9] evaluate_0.8     scales_0.4.0     stringi_1.1.1    labeling_0.3    
 ## [13] tools_3.2.3      stringr_1.0.0    munsell_0.4.3    colorspace_1.2-6
 ```
 

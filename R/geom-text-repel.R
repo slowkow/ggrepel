@@ -69,7 +69,8 @@
 #'   \code{unit(0, "lines")}.
 #' @param segment.size Width of line segment connecting the data point to
 #'   the text label, in mm.
-#' @param segment.alpha Transparency of the segment, in \code{[0,1]}. Makes segments half transparent by default.
+#' @param segment.alpha Transparency of the line segment. Defaults to
+#'   \code{1}.
 #' @param arrow specification for arrow heads, as created by \code{\link[grid]{arrow}}
 #' @param force Force of repulsion between overlapping text labels. Defaults
 #'   to 1.
@@ -124,8 +125,9 @@ geom_text_repel <- function(
   ...,
   box.padding = unit(0.25, "lines"),
   point.padding = unit(1e-6, "lines"),
+  segment.color = "#666666",
   segment.size = 0.5,
-  segment.alpha = 0.5,
+  segment.alpha = 1,
   arrow = NULL,
   force = 1,
   max.iter = 2000,
@@ -148,11 +150,14 @@ geom_text_repel <- function(
       na.rm = na.rm,
       box.padding = box.padding,
       point.padding = point.padding,
+      segment.color = segment.color,
       segment.size = segment.size,
       segment.alpha = segment.alpha,
       arrow = arrow,
       force = force,
       max.iter = max.iter,
+      nudge_x = nudge_x,
+      nudge_y = nudge_y,
       ...
     )
   )
@@ -168,8 +173,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
 
   default_aes = aes(
     colour = "black", size = 3.88, angle = 0,
-    alpha = NA, family = "", fontface = 1, lineheight = 1.2,
-    nudge_x = 0, nudge_y = 0
+    alpha = NA, family = "", fontface = 1, lineheight = 1.2
   ),
 
   draw_panel = function(
@@ -178,11 +182,14 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     na.rm = FALSE,
     box.padding = unit(0.25, "lines"),
     point.padding = unit(1e-6, "lines"),
+    segment.color = "#666666",
     segment.size = 0.5,
-    segment.alpha = 0.5,
+    segment.alpha = 1,
     arrow = NULL,
     force = 1,
-    max.iter = 2000
+    max.iter = 2000,
+    nudge_x = 0,
+    nudge_y = 0
   ) {
     lab <- data$label
     if (parse) {
@@ -195,9 +202,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
 
     # Transform the nudges to the panel scales.
     nudges <- data.frame(
-      x = data$x + data$nudge_x, y = data$y + data$nudge_y
-      # x = rep_len(nudge_x, nrow(data)),
-      # y = rep_len(nudge_y, nrow(data))
+      x = data$x + nudge_x,
+      y = data$y + nudge_y
     )
     nudges <- coord$transform(nudges, panel_scales)
 
@@ -215,6 +221,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       nudges = nudges,
       box.padding = box.padding,
       point.padding = point.padding,
+      segment.color = segment.color,
       segment.size = segment.size,
       segment.alpha = segment.alpha,
       arrow = arrow,
@@ -290,6 +297,7 @@ makeContent.textrepeltree <- function(x) {
       y = unit(repel$y[i], "native"),
       x.orig = unit(x$data$x[xi], "native"),
       y.orig = unit(x$data$y[xi], "native"),
+      rot = row$angle,
       box.padding = x$box.padding,
       point.padding = x$point.padding,
       text.gp = gpar(
@@ -300,7 +308,7 @@ makeContent.textrepeltree <- function(x) {
         lineheight = row$lineheight
       ),
       segment.gp = gpar(
-        col = scales::alpha(row$colour, row$alpha * x$segment.alpha),
+        col = scales::alpha(x$segment.color, x$segment.alpha),
         lwd = x$segment.size * .pt
       ),
       arrow = x$arrow
@@ -317,6 +325,7 @@ textRepelGrob <- function(
   y = unit(0.5, "npc"),
   x.orig = unit(0.5, "npc"),
   y.orig = unit(0.5, "npc"),
+  rot = 0,
   default.units = "npc",
   just = "center",
   box.padding = unit(0.25, "lines"),
@@ -341,6 +350,7 @@ textRepelGrob <- function(
     y = y,
     x.orig = x.orig,
     y.orig = y.orig,
+    rot = rot,
     just = just,
     box.padding = box.padding,
     point.padding = point.padding,
@@ -366,6 +376,7 @@ makeContent.textrepelgrob <- function(x) {
     x$label,
     x$x + 2 * (0.5 - hj) * x$box.padding,
     x$y + 2 * (0.5 - vj) * x$box.padding,
+    rot = x$rot,
     just = c(hj, vj),
     gp = x$text.gp,
     name = "text"

@@ -1,4 +1,24 @@
 
+ggrepel 0.5.2 2016-10-03
+----------------------------------------------------------------
+
+* Do not draw labels with empty strings. When a label is an empty string,
+  the text will not be shown, the segment will not be drawn, but the
+  corresponding data point will repel other labels. Fixes issue #51.
+
+* Move `nudge_x` and `nudge_y` out of the aesthetics function `aes()`. This
+  makes ggrepel consistent with ggplot2 functions `geom_text()` and
+  `geom_label()`.
+
+* Restore `segment.color` as an option for `geom_text_repel()` and
+  `geom_label_repel()`.
+
+* Add `segment.alpha` as an option for `geom_text_repel()` and
+  `geom_label_repel()`.
+
+* Implement `angle` aesthetic for `geom_text_repel()`, the same way as done in
+  ggplot2 `geom_text()`.
+
 ggrepel 0.5.1 2016-02-22
 ----------------------------------------------------------------
 

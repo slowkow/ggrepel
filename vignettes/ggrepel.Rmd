@@ -75,7 +75,7 @@ ggplot(mtcars) +
 
 #### Options
 
-All options available for [geom_text] such as `size` and
+All options available for [geom_text] such as `size`, `angle`, `family`,
 `fontface` are also available for `geom_text_repel`.
 
 However, the following parameters are not supported:
@@ -88,6 +88,8 @@ However, the following parameters are not supported:
 `ggrepel` provides additional parameters for `geom_text_repel` and `geom_label_repel`:
 
 - `segment.color` is the line segment color
+- `segment.size` is the line segment thickness
+- `segment.alpha` is the line segment transparency
 - `box.padding` is the padding surrounding the text bounding box
 - `point.padding` is the padding around the labeled point
 - `arrow` is the specification for arrow heads created by `grid::arrow`
@@ -107,10 +109,10 @@ ggplot(mtcars) +
       wt, mpg,
       color = factor(cyl),
       label = rownames(mtcars),
-      nudge_x = ifelse(mtcars$cyl == 6, 1, 0),
-      nudge_y = ifelse(mtcars$cyl == 6, 8, 0)
+      angle = ifelse(mtcars$cyl == 4, 90, 0)
     ),
     size = 5,
+    family = 'Times',
     fontface = 'bold',
     box.padding = unit(0.5, 'lines'),
     point.padding = unit(1.6, 'lines'),
@@ -119,8 +121,11 @@ ggplot(mtcars) +
     arrow = arrow(length = unit(0.01, 'npc')),
     force = 1,
     max.iter = 2e3,
+    nudge_x = ifelse(mtcars$cyl == 6, 1, 0),
+    nudge_y = ifelse(mtcars$cyl == 6, 8, 0)
   ) +
   scale_color_discrete(name = 'cyl') +
+  scale_x_continuous(expand = c(0.25, 0.25)) +
   theme_classic(base_size = 16)
 ```
 
