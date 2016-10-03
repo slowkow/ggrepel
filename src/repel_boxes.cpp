@@ -343,7 +343,8 @@ DataFrame repel_boxes(
       }
 
       // Scale the x force by the ratio of height/width.
-      f.x = f.x * ratios[i];
+      // f.x = f.x * ratios[i];
+      // f.y = f.y / ratios[i];
 
       // Dampen the forces.
       f = f * (1 - 1e-3);
