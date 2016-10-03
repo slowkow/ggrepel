@@ -242,7 +242,7 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggrepel_0.5.2 ggplot2_2.1.0 knitr_1.13   
+## [1] ggrepel_0.6.0 ggplot2_2.1.0 knitr_1.13   
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.6      codetools_0.2-14 digest_0.6.9     grid_3.2.3      
