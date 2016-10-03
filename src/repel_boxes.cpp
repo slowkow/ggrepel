@@ -254,7 +254,9 @@ DataFrame repel_boxes(
     NumericVector xlim, NumericVector ylim,
     double force = 1e-6, int maxiter = 2000
 ) {
-  int n = boxes.nrow();
+  int n_points = data_points.nrow();
+  int n_texts = boxes.nrow();
+  // assert(n_points >= n_texts);
   int iter = 0;
   bool any_overlaps = true;
 
@@ -268,31 +270,35 @@ DataFrame repel_boxes(
   ybounds.x = ylim[0];
   ybounds.y = ylim[1];
 
-  // Add a tiny bit of jitter to each box at the start.
-  NumericVector r = rnorm(n, 0, force);
-  std::vector<Box> Boxes(n);
-  std::vector<Box> DataBoxes(n);
-  std::vector<double> ratios(n);
-  std::vector<Point> original_centroids(n);
-  for (int i = 0; i < n; i++) {
-    Boxes[i].x1 = boxes(i, 0) + r[i];
-    Boxes[i].y1 = boxes(i, 1) + r[i];
-    Boxes[i].x2 = boxes(i, 2) + r[i];
-    Boxes[i].y2 = boxes(i, 3) + r[i];
-    // Each data point is represented as a box.
+  // Each data point gets a bounding box.
+  std::vector<Box> DataBoxes(n_points);
+  for (int i = 0; i < n_points; i++) {
     DataBoxes[i].x1 = data_points(i, 0) - pad_point_x;
     DataBoxes[i].y1 = data_points(i, 1) - pad_point_y;
     DataBoxes[i].x2 = data_points(i, 0) + pad_point_x;
     DataBoxes[i].y2 = data_points(i, 1) + pad_point_y;
-    // height over width
-    ratios[i] = (Boxes[i].y2 - Boxes[i].y1) / (Boxes[i].x2 - Boxes[i].x1);
-    original_centroids[i] = centroid(Boxes[i]);
   }
 
-  std::vector<Point> Points(n);
-  for (int i = 0; i < n; i++) {
+  std::vector<Point> Points(n_points);
+  for (int i = 0; i < n_points; i++) {
     Points[i].x = data_points(i, 0);
     Points[i].y = data_points(i, 1);
+  }
+
+  // Add a tiny bit of jitter to each text box at the start.
+  NumericVector r = rnorm(n_texts, 0, force);
+  std::vector<Box> TextBoxes(n_texts);
+  std::vector<double> ratios(n_texts);
+  std::vector<Point> original_centroids(n_texts);
+  for (int i = 0; i < n_texts; i++) {
+    TextBoxes[i].x1 = boxes(i, 0) + r[i];
+    TextBoxes[i].y1 = boxes(i, 1) + r[i];
+    TextBoxes[i].x2 = boxes(i, 2) + r[i];
+    TextBoxes[i].y2 = boxes(i, 3) + r[i];
+    // height over width
+    ratios[i] = (TextBoxes[i].y2 - TextBoxes[i].y1)
+      / (TextBoxes[i].x2 - TextBoxes[i].x1);
+    original_centroids[i] = centroid(TextBoxes[i]);
   }
 
   double total_force = 0;
@@ -302,30 +308,29 @@ DataFrame repel_boxes(
     iter += 1;
     any_overlaps = false;
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n_texts; i++) {
       f.x = 0;
       f.y = 0;
 
-      ci = centroid(Boxes[i]);
+      ci = centroid(TextBoxes[i]);
 
-      for (int j = 0; j < n; j++) {
-
-        cj = centroid(Boxes[j]);
+      for (int j = 0; j < n_points; j++) {
 
         if (i == j) {
           // Repel the box from its data point.
-          if (overlaps(DataBoxes[i], Boxes[i])) {
+          if (overlaps(DataBoxes[i], TextBoxes[i])) {
             any_overlaps = true;
             f = f + repel_force(ci, Points[i], force);
           }
         } else {
           // Repel the box from overlapping boxes.
-          if (overlaps(Boxes[i], Boxes[j])) {
+          if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
             any_overlaps = true;
+            cj = centroid(TextBoxes[j]);
             f = f + repel_force(ci, cj, force * 2);
           }
           // Repel the box from other data points.
-          if (overlaps(DataBoxes[j], Boxes[i])) {
+          if (overlaps(DataBoxes[j], TextBoxes[i])) {
             any_overlaps = true;
             f = f + repel_force(ci, Points[j], force);
           }
@@ -345,8 +350,8 @@ DataFrame repel_boxes(
 
       total_force += fabs(f.x) + fabs(f.y);
 
-      Boxes[i] = Boxes[i] + f;
-      Boxes[i] = put_within_bounds(Boxes[i], xbounds, ybounds);
+      TextBoxes[i] = TextBoxes[i] + f;
+      TextBoxes[i] = put_within_bounds(TextBoxes[i], xbounds, ybounds);
     }
 
     // If there are no forces, let's break the loop.
@@ -366,12 +371,12 @@ DataFrame repel_boxes(
 //   }
 //   Rcout << ")";
 
-  NumericVector xs(n);
-  NumericVector ys(n);
+  NumericVector xs(n_texts);
+  NumericVector ys(n_texts);
 
-  for (int i = 0; i < n; i++) {
-    xs[i] = (Boxes[i].x1 + Boxes[i].x2) / 2;
-    ys[i] = (Boxes[i].y1 + Boxes[i].y2) / 2;
+  for (int i = 0; i < n_texts; i++) {
+    xs[i] = (TextBoxes[i].x1 + TextBoxes[i].x2) / 2;
+    ys[i] = (TextBoxes[i].y1 + TextBoxes[i].y2) / 2;
   }
 
   return Rcpp::DataFrame::create(

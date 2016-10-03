@@ -241,8 +241,11 @@ makeContent.textrepeltree <- function(x) {
   pad.point.x <- convertWidth(x$point.padding, "native", valueOnly = TRUE)
   pad.point.y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
 
+  # Do not create text labels for empty strings.
+  valid_strings <- which(x$lab != "")
+
   # Create a dataframe with x1 y1 x2 y2
-  boxes <- lapply(1:nrow(x$data), function(i) {
+  boxes <- lapply(valid_strings, function(i) {
     row <- x$data[i, , drop = FALSE]
     tg <- textGrob(
       x$lab[i],
@@ -277,15 +280,16 @@ makeContent.textrepeltree <- function(x) {
     maxiter = x$max.iter
   )
 
-  grobs <- lapply(1:nrow(x$data), function(i) {
-    row <- x$data[i, , drop = FALSE]
+  grobs <- lapply(seq_along(valid_strings), function(i) {
+    xi <- valid_strings[i]
+    row <- x$data[xi, , drop = FALSE]
     # browser()
     textRepelGrob(
-      x$lab[i],
+      x$lab[xi],
       x = unit(repel$x[i], "native"),
       y = unit(repel$y[i], "native"),
-      x.orig = unit(x$data$x[i], "native"),
-      y.orig = unit(x$data$y[i], "native"),
+      x.orig = unit(x$data$x[xi], "native"),
+      y.orig = unit(x$data$y[xi], "native"),
       box.padding = x$box.padding,
       point.padding = x$point.padding,
       text.gp = gpar(
