@@ -1,4 +1,10 @@
 
+ggrepel 0.6.1 2016-10-04
+----------------------------------------------------------------
+
+* Tweak `repel_boxes.cpp`. Dampen forces to tune how the labels move. The
+  result looks better, at least for the examples in the vignette.
+
 ggrepel 0.6.0 2016-10-03
 ----------------------------------------------------------------
 

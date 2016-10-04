@@ -201,12 +201,22 @@ bool overlaps(Box a, Box b) {
 Point repel_force(
     Point a, Point b, double force = 0.000001
 ) {
+  double dx = fabs(a.x - b.x);
+  double dy = fabs(a.y - b.y);
   // Constrain the minimum distance, so it is never 0.
-  double d2 = std::max(euclid2(a, b), 0.0004);
+  double d2 = std::max(dx * dx + dy * dy, 0.0004);
   // Compute a unit vector in the direction of the force.
   Point v = (a - b) / sqrt(d2);
   // Divide the force by the squared distance.
-  return force * v / d2;
+  Point f = force * v / d2;
+  if (dx > dy) {
+    f.y = f.y * 1.5;
+    f.x = f.x * 0.5;
+  } else {
+    f.y = f.y * 0.5;
+    f.x = f.x * 1.5;
+  }
+  return f;
 }
 
 //' Compute the spring force upon point \code{a} from point \code{b}.
@@ -221,12 +231,22 @@ Point repel_force(
 Point spring_force(
     Point a, Point b, double force = 0.000001
 ) {
-  double d = euclid(a, b);
+  double dx = fabs(a.x - b.x);
+  double dy = fabs(a.y - b.y);
+  double d = sqrt(dx * dx + dy * dy);
   Point v = {0, 0};
   if (d > 0.01) {
     // Compute a unit vector in the direction of the force.
     v = (a - b) / d;
-    return v * force * d;
+    Point f = v * force * d;
+    if (dx < dy) {
+      f.y = f.y * 1.5;
+      f.x = f.x * 0.5;
+    } else {
+      f.y = f.y * 0.5;
+      f.x = f.x * 1.5;
+    }
+    return f;
   }
   return v;
 }
