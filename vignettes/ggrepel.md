@@ -124,8 +124,8 @@ ggplot(mtcars) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_options-1.png" title="plot of chunk geom_text_repel_options" alt="plot of chunk geom_text_repel_options" width="700" />
 
-You can also display a subset of text labels that do not overlap any data
-points by setting some labels to the empty string `""``:
+You can also display a subset of text labels. They will not overlap any data
+points with labels set to the empty string `""`:
 
 
 ```r

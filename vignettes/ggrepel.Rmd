@@ -132,8 +132,8 @@ ggplot(mtcars) +
   theme_classic(base_size = 16)
 ```
 
-You can also display a subset of text labels that do not overlap any data
-points by setting some labels to the empty string `""``:
+You can also display a subset of text labels. They will not overlap any data
+points with labels set to the empty string `""`:
 
 ```{r geom_text_repel_empty_string, echo=TRUE, fig.width=9, fig.height=7}
 set.seed(42)
