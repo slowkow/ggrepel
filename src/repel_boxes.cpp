@@ -210,11 +210,11 @@ Point repel_force(
   // Divide the force by the squared distance.
   Point f = force * v / d2;
   if (dx > dy) {
-    f.y = f.y * 1.5;
-    f.x = f.x * 0.5;
+    f.y = f.y * dx / dy;
+    f.x = f.x;
   } else {
-    f.y = f.y * 0.5;
-    f.x = f.x * 1.5;
+    f.y = f.y;
+    f.x = f.x * dy / dx;
   }
   return f;
 }

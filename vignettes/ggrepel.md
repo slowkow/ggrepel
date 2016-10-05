@@ -93,34 +93,60 @@ However, the following parameters are not supported:
 ```r
 set.seed(42)
 ggplot(mtcars) +
-  geom_point(aes(wt, mpg), color = 'grey', size = 4, shape = 15) +
+  geom_point(aes(wt, mpg, color = factor(cyl)), size = 3) +
   geom_text_repel(
     aes(
       wt, mpg,
       color = factor(cyl),
       label = rownames(mtcars),
+      # Cars with 4 cylinders are rotated 90 degrees.
       angle = ifelse(mtcars$cyl == 4, 90, 0)
     ),
-    size = 5,
+    size = 4,
     family = 'Times',
     fontface = 'bold',
     box.padding = unit(0.5, 'lines'),
     point.padding = unit(1.6, 'lines'),
-    segment.color = '#555555',
+    segment.color = '#cccccc',
     segment.size = 0.5,
     arrow = arrow(length = unit(0.01, 'npc')),
     force = 1,
-    max.iter = 2e3,
-    nudge_x = ifelse(mtcars$cyl == 6, 1, 0),
-    nudge_y = ifelse(mtcars$cyl == 6, 8, 0)
+    max.iter = 3e3,
+    # Cars with 6 cylinders are pushed up and to the right.
+    nudge_x = ifelse(mtcars$cyl == 6, 2, 0),
+    nudge_y = ifelse(mtcars$cyl == 6, 9, 0)
   ) +
   scale_color_discrete(name = 'cyl') +
-  scale_x_continuous(expand = c(0.25, 0)) +
+  scale_x_continuous(expand = c(0.5, 0)) +
   scale_y_continuous(expand = c(0.25, 0)) +
   theme_classic(base_size = 16)
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_options-1.png" title="plot of chunk geom_text_repel_options" alt="plot of chunk geom_text_repel_options" width="700" />
+
+You can also display a subset of text labels that do not overlap any data
+points by setting some labels to the empty string `""``:
+
+
+```r
+set.seed(42)
+
+mtcars$label <- rownames(mtcars)
+# mtcars$label[mtcars$cyl != 6] <- ""
+mtcars$label[seq(1, nrow(mtcars), by = 2)] <- ""
+
+ggplot(mtcars, aes(wt, mpg)) +
+  geom_point(aes(color = factor(cyl)), size = 3) +
+  geom_text_repel(
+    aes(
+      color = factor(cyl),
+      label = label
+    )
+  ) +
+  theme_bw(base_size = 16)
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_empty_string-1.png" title="plot of chunk geom_text_repel_empty_string" alt="plot of chunk geom_text_repel_empty_string" width="700" />
 
 ### geom_label_repel
 
@@ -159,7 +185,7 @@ ggplot(Orange, aes(age, circumference, color = Tree)) +
   ) +
   theme_classic(base_size = 16) +
   theme(legend.position = "none") +
-  labs(x = "Age (days)", y = "Circumference (mm)")
+  labs(title = "Orange Trees", x = "Age (days)", y = "Circumference (mm)")
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/line_plot-1.png" title="plot of chunk line_plot" alt="plot of chunk line_plot" width="700" />
