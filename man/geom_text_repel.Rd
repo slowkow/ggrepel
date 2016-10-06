@@ -10,15 +10,16 @@ geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   label.padding = unit(0.25, "lines"), point.padding = unit(1e-06, "lines"),
   label.r = unit(0.15, "lines"), label.size = 0.25,
   segment.color = "#666666", segment.size = 0.5, segment.alpha = 1,
-  arrow = NULL, force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0,
-  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+  min.segment.length = unit(0.5, "lines"), arrow = NULL, force = 1,
+  max.iter = 2000, nudge_x = 0, nudge_y = 0, na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
   point.padding = unit(1e-06, "lines"), segment.color = "#666666",
-  segment.size = 0.5, segment.alpha = 1, arrow = NULL, force = 1,
-  max.iter = 2000, nudge_x = 0, nudge_y = 0, na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE)
+  segment.size = 0.5, segment.alpha = 1, min.segment.length = unit(0.5,
+  "lines"), arrow = NULL, force = 1, max.iter = 2000, nudge_x = 0,
+  nudge_y = 0, na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -64,6 +65,9 @@ the text label, in mm.}
 
 \item{segment.alpha}{Transparency of the line segment. Defaults to
 \code{1}.}
+
+\item{min.segment.length}{Skip drawing segments shorter than this. Defaults
+to \code{unit(0.5, "lines")}.}
 
 \item{arrow}{specification for arrow heads, as created by \code{\link[grid]{arrow}}}
 
@@ -126,7 +130,7 @@ following parameters are \strong{not supported}:
 }
 \examples{
 
-p <- ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars)))
+p <- ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars))) + geom_point()
 
 # Avoid overlaps by repelling text labels
 p + geom_text_repel()
@@ -139,7 +143,19 @@ p + geom_text_repel(family = "Times New Roman",
 
 # Add aesthetic mappings
 p + geom_text_repel(aes(colour = factor(cyl)))
-p + geom_label_repel(aes(fill = factor(cyl)), colour = "white", fontface = "bold")
+p + geom_label_repel(
+  aes(fill = factor(cyl)), colour = "white", fontface = "bold")
+
+# Draw all line segments
+p + geom_text_repel(
+  aes(colour = factor(cyl)), min.segment.length = unit(0, 'lines'))
+
+# Omit short line segments (default behavior)
+p + geom_text_repel(
+  aes(colour = factor(cyl)), min.segment.length = unit(0.5, 'lines'))
+
+# Omit all line segments
+p + geom_text_repel(aes(colour = factor(cyl)), segment.color = NA)
 
 # Nudge the starting positions
 p + geom_text_repel(nudge_x = ifelse(mtcars$cyl == 6, 1, 0),
@@ -158,12 +174,18 @@ p + geom_text_repel(aes(label = paste(wt, "^(", cyl, ")", sep = "")),
 # Add a text annotation
 p +
   geom_text_repel() +
-  annotate("text", label = "plot mpg vs. wt", x = 2, y = 15, size = 8, colour = "red")
+  annotate(
+    "text", label = "plot mpg vs. wt",
+    x = 2, y = 15, size = 8, colour = "red"
+  )
 
 # Add arrows
 p +
   geom_point(colour = "red") +
-  geom_text_repel(arrow = arrow(length = unit(0.02, "npc")), box.padding = unit(1, "lines"))
+  geom_text_repel(
+    arrow = arrow(length = unit(0.02, "npc")),
+    box.padding = unit(1, "lines")
+  )
 }
 }
 

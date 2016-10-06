@@ -132,8 +132,8 @@ ggplot(mtcars) +
   theme_classic(base_size = 16)
 ```
 
-You can also display a subset of text labels. They will not overlap any data
-points with labels set to the empty string `""`:
+Set some labels to the empty string `""` to hide them. The corresponding data
+points will still repel the non-empty labels.
 
 ```{r geom_text_repel_empty_string, echo=TRUE, fig.width=9, fig.height=7}
 set.seed(42)
@@ -143,12 +143,13 @@ mtcars$label <- rownames(mtcars)
 mtcars$label[seq(1, nrow(mtcars), by = 2)] <- ""
 
 ggplot(mtcars, aes(wt, mpg)) +
-  geom_point(aes(color = factor(cyl)), size = 3) +
+  geom_point(aes(color = factor(cyl)), size = 2) +
   geom_text_repel(
     aes(
       color = factor(cyl),
       label = label
-    )
+    ),
+    nudge_y = 0.1
   ) +
   theme_bw(base_size = 16)
 ```
@@ -231,7 +232,7 @@ plot_frame <- function(n) {
 }
 
 saveGIF(
-  lapply(c(seq(0, 2000, 25)), function(i) {
+  lapply(c(seq(0, 500, 10)), function(i) {
     plot_frame(i)
   }),
   interval = 0.05,

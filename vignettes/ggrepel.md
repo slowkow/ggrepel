@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2016-10-04"
+date: "2016-10-06"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -124,8 +124,8 @@ ggplot(mtcars) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_options-1.png" title="plot of chunk geom_text_repel_options" alt="plot of chunk geom_text_repel_options" width="700" />
 
-You can also display a subset of text labels. They will not overlap any data
-points with labels set to the empty string `""`:
+Set some labels to the empty string `""` to hide them. The corresponding data
+points will still repel the non-empty labels.
 
 
 ```r
@@ -136,12 +136,13 @@ mtcars$label <- rownames(mtcars)
 mtcars$label[seq(1, nrow(mtcars), by = 2)] <- ""
 
 ggplot(mtcars, aes(wt, mpg)) +
-  geom_point(aes(color = factor(cyl)), size = 3) +
+  geom_point(aes(color = factor(cyl)), size = 2) +
   geom_text_repel(
     aes(
       color = factor(cyl),
       label = label
-    )
+    ),
+    nudge_y = 0.1
   ) +
   theme_bw(base_size = 16)
 ```
@@ -236,7 +237,7 @@ plot_frame <- function(n) {
 }
 
 saveGIF(
-  lapply(c(seq(0, 2000, 25)), function(i) {
+  lapply(c(seq(0, 500, 10)), function(i) {
     plot_frame(i)
   }),
   interval = 0.05,
@@ -268,7 +269,7 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggrepel_0.6.1 ggplot2_2.1.0 knitr_1.13   
+## [1] ggrepel_0.6.2 ggplot2_2.1.0 knitr_1.13   
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.6      codetools_0.2-14 digest_0.6.9     grid_3.2.3      

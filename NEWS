@@ -1,5 +1,5 @@
 
-ggrepel 0.6.2 2016-10-05
+ggrepel 0.6.2 2016-10-06
 ----------------------------------------------------------------
 
 * Stop the labels from escaping the plot boundaries instead of applying
@@ -7,6 +7,8 @@ ggrepel 0.6.2 2016-10-05
 
 * Call `set.seed` within `geom_text_repel()` and `geom_label_repel()` to
   allow recreating identical plots. Fixes issue #33.
+
+* Add `min.segment.length` to `geom_text_repel()` and `geom_label_repel()`.
 
 ggrepel 0.6.1 2016-10-04
 ----------------------------------------------------------------
