@@ -60,6 +60,9 @@ displayed as described in ?plotmath}
 
 \item{label.size}{Size of label border, in mm.}
 
+\item{segment.color}{Color of the line segment. Defaults to
+\code{"#666666"}.}
+
 \item{segment.size}{Width of line segment connecting the data point to
 the text label, in mm.}
 

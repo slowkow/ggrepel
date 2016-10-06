@@ -69,6 +69,8 @@
 #'   \code{unit(0, "lines")}.
 #' @param segment.size Width of line segment connecting the data point to
 #'   the text label, in mm.
+#' @param segment.color Color of the line segment. Defaults to
+#'   \code{"#666666"}.
 #' @param segment.alpha Transparency of the line segment. Defaults to
 #'   \code{1}.
 #' @param min.segment.length Skip drawing segments shorter than this. Defaults
