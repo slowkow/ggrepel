@@ -144,7 +144,7 @@ makeContent.labelrepeltree <- function(x) {
   # The padding around each point.
   pad.point.x <- convertWidth(x$point.padding, "native", valueOnly = TRUE)
   pad.point.y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
-  
+
   # Do not create text labels for empty strings.
   valid_strings <- which(x$lab != "")
 
@@ -186,6 +186,7 @@ makeContent.labelrepeltree <- function(x) {
   })
 
   # Repel overlapping bounding boxes away from each other.
+  set.seed(rnorm(1))
   repel <- repel_boxes(
     data_points = cbind(x$data$x, x$data$y),
     pad_point_x = pad.point.x,

@@ -1,4 +1,13 @@
 
+ggrepel 0.6.2 2016-10-05
+----------------------------------------------------------------
+
+* Stop the labels from escaping the plot boundaries instead of applying
+  a force at the boundary.
+
+* Call `set.seed` within `geom_text_repel()` and `geom_label_repel()` to
+  allow recreating identical plots. Fixes issue #33.
+
 ggrepel 0.6.1 2016-10-04
 ----------------------------------------------------------------
 
