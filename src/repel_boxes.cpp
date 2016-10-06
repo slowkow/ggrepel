@@ -226,11 +226,11 @@ Point repel_force(
   // Divide the force by the squared distance.
   Point f = force * v / d2;
   if (dx > dy) {
-    f.y = f.y * dx / dy;
-    f.x = f.x;
+    // f.y = f.y * dx / dy;
+    f.y = f.y * 2;
   } else {
-    f.y = f.y;
-    f.x = f.x * dy / dx;
+    // f.x = f.x * dy / dx;
+    f.x = f.x * 2;
   }
   return f;
 }
@@ -250,11 +250,11 @@ Point spring_force(
   double dx = fabs(a.x - b.x);
   double dy = fabs(a.y - b.y);
   double d = sqrt(dx * dx + dy * dy);
-  Point v = {0, 0};
-  if (d > 0.01) {
+  Point f = {0, 0};
+  if (d > 0.02) {
     // Compute a unit vector in the direction of the force.
-    v = (a - b) / d;
-    Point f = v * force * d;
+    Point v = (a - b) / d;
+    f = force * v * d;
     if (dx < dy) {
       f.y = f.y * 1.5;
       f.x = f.x * 0.5;
@@ -262,9 +262,8 @@ Point spring_force(
       f.y = f.y * 0.5;
       f.x = f.x * 1.5;
     }
-    return f;
   }
-  return v;
+  return f;
 }
 
 //' Adjust the layout of a list of potentially overlapping boxes.
@@ -337,12 +336,15 @@ DataFrame repel_boxes(
     original_centroids[i] = centroid(TextBoxes[i]);
   }
 
+  double last_force = 0;
   double total_force = 0;
   Point f, ci, cj;
 
   while (any_overlaps && iter < maxiter) {
     iter += 1;
     any_overlaps = false;
+    last_force = total_force;
+    total_force = 0;
 
     for (int i = 0; i < n_texts; i++) {
       f.x = 0;
@@ -363,7 +365,7 @@ DataFrame repel_boxes(
           if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
             any_overlaps = true;
             cj = centroid(TextBoxes[j]);
-            f = f + repel_force(ci, cj, force * 2);
+            f = f + repel_force(ci, cj, force * 3);
           }
           // Repel the box from other data points.
           if (overlaps(DataBoxes[j], TextBoxes[i])) {
@@ -375,7 +377,7 @@ DataFrame repel_boxes(
 
       // Pull the box toward its original position.
       if (!any_overlaps) {
-        f = f + spring_force(original_centroids[i], ci, force * 100);
+        f = f + spring_force(original_centroids[i], ci, force * 2e3);
       }
 
       // Scale the x force by the ratio of height/width.
@@ -392,7 +394,7 @@ DataFrame repel_boxes(
     }
 
     // If there are no forces, let's break the loop.
-    if (total_force == 0) {
+    if (fabs(last_force - total_force) < 1e-6) {
       break;
     }
   }
