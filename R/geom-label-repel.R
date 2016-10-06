@@ -15,6 +15,7 @@ geom_label_repel <- function(
   segment.color = "#666666",
   segment.size = 0.5,
   segment.alpha = 1,
+  min.segment.length = unit(0.5, "lines"),
   arrow = NULL,
   force = 1,
   max.iter = 2000,
@@ -42,6 +43,7 @@ geom_label_repel <- function(
       segment.color = segment.color,
       segment.size = segment.size,
       segment.alpha = segment.alpha,
+      min.segment.length = min.segment.length,
       arrow = arrow,
       na.rm = na.rm,
       force = force,
@@ -79,6 +81,7 @@ GeomLabelRepel <- ggproto(
     segment.color = "#666666",
     segment.size = 0.5,
     segment.alpha = 1,
+    min.segment.length = unit(0.5, "lines"),
     arrow = NULL,
     force = 1,
     nudge_x = 0,
@@ -121,6 +124,7 @@ GeomLabelRepel <- ggproto(
       segment.color = segment.color,
       segment.size = segment.size,
       segment.alpha = segment.alpha,
+      min.segment.length = min.segment.length,
       arrow = arrow,
       force = force,
       max.iter = max.iter,
@@ -227,7 +231,8 @@ makeContent.labelrepeltree <- function(x) {
         col = scales::alpha(x$segment.color, x$segment.alpha),
         lwd = x$segment.size * .pt
       ),
-      arrow = x$arrow
+      arrow = x$arrow,
+      min.segment.length = x$min.segment.length
     )
   })
   class(grobs) <- "gList"
@@ -252,7 +257,8 @@ labelRepelGrob <- function(
   r = unit(0.1, "snpc"),
   segment.gp = gpar(),
   vp = NULL,
-  arrow = NULL
+  arrow = NULL,
+  min.segment.length = unit(0.5, "lines")
 ) {
   stopifnot(length(label) == 1)
 
@@ -278,7 +284,8 @@ labelRepelGrob <- function(
     segment.gp = segment.gp,
     vp = vp,
     cl = "labelrepelgrob",
-    arrow = arrow
+    arrow = arrow,
+    min.segment.length = min.segment.length
   )
 }
 
@@ -334,16 +341,28 @@ makeContent.labelrepelgrob <- function(x) {
   b <- c(orig[1] - pad.x, orig[2] - pad.y, orig[1] + pad.x, orig[2] + pad.y)
   orig <- intersect_line_rectangle(center, orig, b)
 
-  s <- segmentsGrob(
-    x0 = int[1],
-    y0 = int[2],
-    x1 = orig[1],
-    y1 = orig[2],
-    default.units = "native",
-    gp = x$segment.gp,
-    name = "segment",
-    arrow = x$arrow
-  )
+  # Compute a unit vector in the direction of the segment.
+  dx <- abs(int[1] - orig[1])
+  dy <- abs(int[2] - orig[2])
+  d <- sqrt(dx * dx + dy * dy)
+  # Scale the unit vector by the minimum segment length.
+  mx <- convertWidth(x$min.segment.length, "native", TRUE)
+  my <- convertHeight(x$min.segment.length, "native", TRUE)
+  min.segment.length <- sqrt((mx * dx / d) ^ 2 + (my * dy / d) ^ 2)
 
-  setChildren(x, gList(s, r, t))
+  if (euclid(int, orig) > min.segment.length) {
+    s <- segmentsGrob(
+      x0 = int[1],
+      y0 = int[2],
+      x1 = orig[1],
+      y1 = orig[2],
+      default.units = "native",
+      gp = x$segment.gp,
+      name = "segment",
+      arrow = x$arrow
+    )
+    setChildren(x, gList(s, r, t))
+  } else {
+    setChildren(x, gList(r, t))
+  }
 }

@@ -71,6 +71,8 @@
 #'   the text label, in mm.
 #' @param segment.alpha Transparency of the line segment. Defaults to
 #'   \code{1}.
+#' @param min.segment.length Skip drawing segments shorter than this. Defaults
+#'   to \code{unit(0.5, "lines")}.
 #' @param arrow specification for arrow heads, as created by \code{\link[grid]{arrow}}
 #' @param force Force of repulsion between overlapping text labels. Defaults
 #'   to 1.
@@ -79,7 +81,7 @@
 #'
 #' @examples
 #'
-#' p <- ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars)))
+#' p <- ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars))) + geom_point()
 #'
 #' # Avoid overlaps by repelling text labels
 #' p + geom_text_repel()
@@ -92,7 +94,19 @@
 #'
 #' # Add aesthetic mappings
 #' p + geom_text_repel(aes(colour = factor(cyl)))
-#' p + geom_label_repel(aes(fill = factor(cyl)), colour = "white", fontface = "bold")
+#' p + geom_label_repel(
+#'   aes(fill = factor(cyl)), colour = "white", fontface = "bold")
+#'
+#' # Draw all line segments
+#' p + geom_text_repel(
+#'   aes(colour = factor(cyl)), min.segment.length = unit(0, 'lines'))
+#'
+#' # Omit short line segments (default behavior)
+#' p + geom_text_repel(
+#'   aes(colour = factor(cyl)), min.segment.length = unit(0.5, 'lines'))
+#'
+#' # Omit all line segments
+#' p + geom_text_repel(aes(colour = factor(cyl)), segment.color = NA)
 #'
 #' # Nudge the starting positions
 #' p + geom_text_repel(nudge_x = ifelse(mtcars$cyl == 6, 1, 0),
@@ -111,12 +125,18 @@
 #' # Add a text annotation
 #' p +
 #'   geom_text_repel() +
-#'   annotate("text", label = "plot mpg vs. wt", x = 2, y = 15, size = 8, colour = "red")
+#'   annotate(
+#'     "text", label = "plot mpg vs. wt",
+#'     x = 2, y = 15, size = 8, colour = "red"
+#'   )
 #'
 #' # Add arrows
 #' p +
 #'   geom_point(colour = "red") +
-#'   geom_text_repel(arrow = arrow(length = unit(0.02, "npc")), box.padding = unit(1, "lines"))
+#'   geom_text_repel(
+#'     arrow = arrow(length = unit(0.02, "npc")),
+#'     box.padding = unit(1, "lines")
+#'   )
 #' }
 #' @export
 geom_text_repel <- function(
@@ -128,6 +148,7 @@ geom_text_repel <- function(
   segment.color = "#666666",
   segment.size = 0.5,
   segment.alpha = 1,
+  min.segment.length = unit(0.5, "lines"),
   arrow = NULL,
   force = 1,
   max.iter = 2000,
@@ -153,6 +174,7 @@ geom_text_repel <- function(
       segment.color = segment.color,
       segment.size = segment.size,
       segment.alpha = segment.alpha,
+      min.segment.length = min.segment.length,
       arrow = arrow,
       force = force,
       max.iter = max.iter,
@@ -185,6 +207,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     segment.color = "#666666",
     segment.size = 0.5,
     segment.alpha = 1,
+    min.segment.length = unit(0.5, "lines"),
     arrow = NULL,
     force = 1,
     max.iter = 2000,
@@ -224,6 +247,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       segment.color = segment.color,
       segment.size = segment.size,
       segment.alpha = segment.alpha,
+      min.segment.length = min.segment.length,
       arrow = arrow,
       force = force,
       max.iter = max.iter,
@@ -312,7 +336,8 @@ makeContent.textrepeltree <- function(x) {
         col = scales::alpha(x$segment.color, x$segment.alpha),
         lwd = x$segment.size * .pt
       ),
-      arrow = x$arrow
+      arrow = x$arrow,
+      min.segment.length = x$min.segment.length
     )
   })
   class(grobs) <- "gList"
@@ -335,7 +360,8 @@ textRepelGrob <- function(
   text.gp = gpar(),
   segment.gp = gpar(),
   vp = NULL,
-  arrow = NULL
+  arrow = NULL,
+  min.segment.length = unit(0.5, "lines")
 ) {
 
   stopifnot(length(label) == 1)
@@ -360,7 +386,8 @@ textRepelGrob <- function(
     segment.gp = segment.gp,
     vp = vp,
     cl = "textrepelgrob",
-    arrow = arrow
+    arrow = arrow,
+    min.segment.length = min.segment.length
   )
 }
 
@@ -400,6 +427,8 @@ makeContent.textrepelgrob <- function(x) {
   pad.x <- convertWidth(unit(0.25, "lines"), "native", TRUE) / 2
   pad.y <- convertHeight(unit(0.25, "lines"), "native", TRUE) / 2
   b <- c(x1 - pad.x, y1 - pad.y, x2 + pad.x, y2 + pad.y)
+  text_width <- abs(b[1] - b[3])
+  text_height <- abs(b[2] - b[4])
   int <- intersect_line_rectangle(orig, center, b)
 
   # Nudge the original data point toward the label with point.padding.
@@ -408,16 +437,28 @@ makeContent.textrepelgrob <- function(x) {
   b <- c(orig[1] - pad.x, orig[2] - pad.y, orig[1] + pad.x, orig[2] + pad.y)
   orig <- intersect_line_rectangle(center, orig, b)
 
-  s <- segmentsGrob(
-    x0 = int[1],
-    y0 = int[2],
-    x1 = orig[1],
-    y1 = orig[2],
-    default.units = "native",
-    gp = x$segment.gp,
-    name = "segment",
-    arrow = x$arrow
-  )
+  # Compute a unit vector in the direction of the segment.
+  dx <- abs(int[1] - orig[1])
+  dy <- abs(int[2] - orig[2])
+  d <- sqrt(dx * dx + dy * dy)
+  # Scale the unit vector by the minimum segment length.
+  mx <- convertWidth(x$min.segment.length, "native", TRUE)
+  my <- convertHeight(x$min.segment.length, "native", TRUE)
+  min.segment.length <- sqrt((mx * dx / d) ^ 2 + (my * dy / d) ^ 2)
 
-  setChildren(x, gList(s, t))
+  if (euclid(int, orig) > min.segment.length) {
+    s <- segmentsGrob(
+      x0 = int[1],
+      y0 = int[2],
+      x1 = orig[1],
+      y1 = orig[2],
+      default.units = "native",
+      gp = x$segment.gp,
+      name = "segment",
+      arrow = x$arrow
+    )
+    setChildren(x, gList(s, t))
+  } else {
+    setChildren(x, gList(t))
+  }
 }
