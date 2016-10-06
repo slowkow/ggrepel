@@ -147,24 +147,40 @@ double euclid2(Point a, Point b) {
 //' @param force Magnitude of the force (defaults to \code{1e-6})
 //' @noRd
 Box put_within_bounds(Box b, Point xlim, Point ylim, double force = 1e-5) {
-  double d;
+  //double d;
+  //if (b.x1 < xlim.x) {
+  //  d = std::max(fabs(b.x1 - xlim.x), 0.02);
+  //  b.x1 += force / pow(d, 2);
+  //  b.x2 += force / pow(d, 2);
+  //} else if (b.x2 > xlim.y) {
+  //  d = std::max(fabs(b.x2 - xlim.y), 0.02);
+  //  b.x1 -= force / pow(d, 2);
+  //  b.x2 -= force / pow(d, 2);
+  //}
+  //if (b.y1 < ylim.x) {
+  //  d = std::max(fabs(b.y1 - ylim.x), 0.02);
+  //  b.y1 += force / pow(d, 2);
+  //  b.y2 += force / pow(d, 2);
+  //} else if (b.y2 > ylim.y) {
+  //  d = std::max(fabs(b.y2 - ylim.y), 0.02);
+  //  b.y1 -= force / pow(d, 2);
+  //  b.y2 -= force / pow(d, 2);
+  //}
+  double width = fabs(b.x1 - b.x2);
+  double height = fabs(b.y1 - b.y2);
   if (b.x1 < xlim.x) {
-    d = std::max(fabs(b.x1 - xlim.x), 0.02);
-    b.x1 += force / pow(d, 2);
-    b.x2 += force / pow(d, 2);
+    b.x1 = xlim.x;
+    b.x2 = b.x1 + width;
   } else if (b.x2 > xlim.y) {
-    d = std::max(fabs(b.x2 - xlim.y), 0.02);
-    b.x1 -= force / pow(d, 2);
-    b.x2 -= force / pow(d, 2);
+    b.x2 = xlim.y;
+    b.x1 = b.x2 - width;
   }
   if (b.y1 < ylim.x) {
-    d = std::max(fabs(b.y1 - ylim.x), 0.02);
-    b.y1 += force / pow(d, 2);
-    b.y2 += force / pow(d, 2);
+    b.y1 = ylim.x;
+    b.y2 = b.y1 + height;
   } else if (b.y2 > ylim.y) {
-    d = std::max(fabs(b.y2 - ylim.y), 0.02);
-    b.y1 -= force / pow(d, 2);
-    b.y2 -= force / pow(d, 2);
+    b.y2 = ylim.y;
+    b.y1 = b.y2 - height;
   }
   return b;
 }
