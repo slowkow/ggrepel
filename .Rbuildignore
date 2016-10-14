@@ -4,3 +4,4 @@
 ^.travis\.yml$
 ^tests/benchmark\.R$
 ^tests/issue.*\.R$
+^vignettes/figures/ggrepel/gallery.html$
