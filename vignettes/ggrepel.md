@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2016-10-06"
+date: "2016-10-14"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -62,7 +62,27 @@ ggplot(mtcars) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel-1.png" title="plot of chunk geom_text_repel" alt="plot of chunk geom_text_repel" width="700" />
 
-#### Options
+### geom_label_repel
+
+`geom_label_repel` is based on [geom_label].
+
+
+```r
+set.seed(42)
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg), size = 5, color = 'grey') +
+  geom_label_repel(
+    aes(wt, mpg, fill = factor(cyl), label = rownames(mtcars)),
+    fontface = 'bold', color = 'white',
+    box.padding = unit(0.35, "lines"),
+    point.padding = unit(0.5, "lines")
+  ) +
+  theme_classic(base_size = 16)
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_label_repel-1.png" title="plot of chunk geom_label_repel" alt="plot of chunk geom_label_repel" width="700" />
+
+### Options
 
 All options available for [geom_text] such as `size`, `angle`, `family`,
 `fontface` are also available for `geom_text_repel`.
@@ -88,6 +108,8 @@ However, the following parameters are not supported:
   the x axis
 - `nudge_y` is how much to shift the starting position of the text label along
   the y axis
+  
+Here is an example that uses all of these options:
 
 
 ```r
@@ -105,14 +127,21 @@ ggplot(mtcars) +
     size = 4,
     family = 'Times',
     fontface = 'bold',
+    # Add extra padding around each text label.
     box.padding = unit(0.5, 'lines'),
+    # Add extra padding around each data point.
     point.padding = unit(1.6, 'lines'),
+    # Color of the line segments.
     segment.color = '#cccccc',
+    # Width of the line segments.
     segment.size = 0.5,
+    # Draw an arrow from the label to the data point.
     arrow = arrow(length = unit(0.01, 'npc')),
+    # Strength of the repulsion force.
     force = 1,
+    # Maximum iterations of the naive repulsion algorithm O(n^2).
     max.iter = 3e3,
-    # Cars with 6 cylinders are pushed up and to the right.
+    # Cars with 6 cylinders are nudged up and to the right.
     nudge_x = ifelse(mtcars$cyl == 6, 2, 0),
     nudge_y = ifelse(mtcars$cyl == 6, 9, 0)
   ) +
@@ -124,50 +153,52 @@ ggplot(mtcars) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_options-1.png" title="plot of chunk geom_text_repel_options" alt="plot of chunk geom_text_repel_options" width="700" />
 
-Set some labels to the empty string `""` to hide them. The corresponding data
-points will still repel the non-empty labels.
+### Repel labels and ignore data points
+
+Set `point.padding = NA` to exclude all data points from repulsion calculations.
 
 
 ```r
 set.seed(42)
 
 mtcars$label <- rownames(mtcars)
-# mtcars$label[mtcars$cyl != 6] <- ""
-mtcars$label[seq(1, nrow(mtcars), by = 2)] <- ""
+
+ggplot(mtcars, aes(wt, mpg, label = label)) +
+  geom_point(color = "red") +
+  geom_text_repel(point.padding = NA) +
+  theme_bw(base_size = 16)
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_point_padding_na-1.png" title="plot of chunk geom_text_repel_point_padding_na" alt="plot of chunk geom_text_repel_point_padding_na" width="700" />
+
+### Hide some of the labels
+
+Set some labels to the empty string `""` to hide them. All data points will
+still repel the remaining labels.
+
+
+```r
+set.seed(42)
+
+mtcars$label <- rownames(mtcars)
+mtcars$label[1:15] <- ""
 
 ggplot(mtcars, aes(wt, mpg)) +
   geom_point(aes(color = factor(cyl)), size = 2) +
   geom_text_repel(
     aes(
       color = factor(cyl),
+      size = hp,
       label = label
     ),
+    point.padding = unit(0.25, "lines"),
+    box.padding = unit(0.25, "lines"),
     nudge_y = 0.1
   ) +
   theme_bw(base_size = 16)
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_empty_string-1.png" title="plot of chunk geom_text_repel_empty_string" alt="plot of chunk geom_text_repel_empty_string" width="700" />
-
-### geom_label_repel
-
-`geom_label_repel` is based on [geom_label].
-
-
-```r
-set.seed(42)
-ggplot(mtcars) +
-  geom_point(aes(wt, mpg), size = 5, color = 'grey') +
-  geom_label_repel(
-    aes(wt, mpg, fill = factor(cyl), label = rownames(mtcars)),
-    fontface = 'bold', color = 'white',
-    box.padding = unit(0.25, "lines"),
-    point.padding = unit(0.5, "lines")
-  ) +
-  theme_classic(base_size = 16)
-```
-
-<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_label_repel-1.png" title="plot of chunk geom_label_repel" alt="plot of chunk geom_label_repel" width="700" />
 
 ### Line plot
 
@@ -237,7 +268,7 @@ plot_frame <- function(n) {
 }
 
 saveGIF(
-  lapply(c(seq(0, 500, 10)), function(i) {
+  lapply(c(seq(0, 500, 5)), function(i) {
     plot_frame(i)
   }),
   interval = 0.05,
@@ -269,13 +300,13 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggrepel_0.6.2 ggplot2_2.1.0 knitr_1.13   
+## [1] ggrepel_0.6.3 ggplot2_2.1.0 knitr_1.13   
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.6      codetools_0.2-14 digest_0.6.9     grid_3.2.3      
+##  [1] Rcpp_0.12.7      codetools_0.2-14 digest_0.6.10    grid_3.2.3      
 ##  [5] plyr_1.8.4       gtable_0.2.0     formatR_1.2.1    magrittr_1.5    
 ##  [9] evaluate_0.8     scales_0.4.0     stringi_1.1.1    labeling_0.3    
-## [13] tools_3.2.3      stringr_1.0.0    munsell_0.4.3    colorspace_1.2-6
+## [13] tools_3.2.3      stringr_1.1.0    munsell_0.4.3    colorspace_1.2-6
 ```
 
 [geom_text]: http://docs.ggplot2.org/current/geom_text.html

@@ -133,7 +133,9 @@ following parameters are \strong{not supported}:
 }
 \examples{
 
-p <- ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars))) + geom_point()
+p <- ggplot(mtcars,
+  aes(wt, mpg, label = rownames(mtcars), colour = factor(cyl))) +
+  geom_point()
 
 # Avoid overlaps by repelling text labels
 p + geom_text_repel()
@@ -145,20 +147,25 @@ p + geom_text_repel(family = "Times New Roman",
   box.padding = unit(0.5, "lines"))
 
 # Add aesthetic mappings
-p + geom_text_repel(aes(colour = factor(cyl)))
-p + geom_label_repel(
-  aes(fill = factor(cyl)), colour = "white", fontface = "bold")
+p + geom_text_repel()
+p + geom_label_repel(colour = "white", fontface = "bold")
 
 # Draw all line segments
-p + geom_text_repel(
-  aes(colour = factor(cyl)), min.segment.length = unit(0, 'lines'))
+p + geom_text_repel(aes(min.segment.length = unit(0, 'lines'))
 
 # Omit short line segments (default behavior)
-p + geom_text_repel(
-  aes(colour = factor(cyl)), min.segment.length = unit(0.5, 'lines'))
+p + geom_text_repel(min.segment.length = unit(0.5, 'lines'))
 
 # Omit all line segments
-p + geom_text_repel(aes(colour = factor(cyl)), segment.color = NA)
+p + geom_text_repel(segment.color = NA)
+
+# Repel just the labels and totally ignore the data points
+p + geom_text_repel(point.padding = NA)
+
+# Hide some of the labels, but repel from all data points
+mtcars$label <- rownames(mtcars)
+mtcars$label[1:15] <- ""
+p + geom_text_repel(data = mtcars, aes(wt, mpg, label = label))
 
 # Nudge the starting positions
 p + geom_text_repel(nudge_x = ifelse(mtcars$cyl == 6, 1, 0),

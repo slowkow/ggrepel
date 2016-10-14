@@ -73,7 +73,24 @@ ggplot(mtcars) +
   theme_classic(base_size = 16)
 ```
 
-#### Options
+### geom_label_repel
+
+`geom_label_repel` is based on [geom_label].
+
+```{r geom_label_repel, echo=TRUE}
+set.seed(42)
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg), size = 5, color = 'grey') +
+  geom_label_repel(
+    aes(wt, mpg, fill = factor(cyl), label = rownames(mtcars)),
+    fontface = 'bold', color = 'white',
+    box.padding = unit(0.35, "lines"),
+    point.padding = unit(0.5, "lines")
+  ) +
+  theme_classic(base_size = 16)
+```
+
+### Options
 
 All options available for [geom_text] such as `size`, `angle`, `family`,
 `fontface` are also available for `geom_text_repel`.
@@ -99,6 +116,8 @@ However, the following parameters are not supported:
   the x axis
 - `nudge_y` is how much to shift the starting position of the text label along
   the y axis
+  
+Here is an example that uses all of these options:
 
 ```{r geom_text_repel_options, echo=TRUE, fig.width=9, fig.height=7}
 set.seed(42)
@@ -115,14 +134,21 @@ ggplot(mtcars) +
     size = 4,
     family = 'Times',
     fontface = 'bold',
+    # Add extra padding around each text label.
     box.padding = unit(0.5, 'lines'),
+    # Add extra padding around each data point.
     point.padding = unit(1.6, 'lines'),
+    # Color of the line segments.
     segment.color = '#cccccc',
+    # Width of the line segments.
     segment.size = 0.5,
+    # Draw an arrow from the label to the data point.
     arrow = arrow(length = unit(0.01, 'npc')),
+    # Strength of the repulsion force.
     force = 1,
+    # Maximum iterations of the naive repulsion algorithm O(n^2).
     max.iter = 3e3,
-    # Cars with 6 cylinders are pushed up and to the right.
+    # Cars with 6 cylinders are nudged up and to the right.
     nudge_x = ifelse(mtcars$cyl == 6, 2, 0),
     nudge_y = ifelse(mtcars$cyl == 6, 9, 0)
   ) +
@@ -132,43 +158,45 @@ ggplot(mtcars) +
   theme_classic(base_size = 16)
 ```
 
-Set some labels to the empty string `""` to hide them. The corresponding data
-points will still repel the non-empty labels.
+### Repel labels and ignore data points
+
+Set `point.padding = NA` to exclude all data points from repulsion calculations.
+
+```{r geom_text_repel_point_padding_na, echo=TRUE, fig.width=9, fig.height=7}
+set.seed(42)
+
+mtcars$label <- rownames(mtcars)
+
+ggplot(mtcars, aes(wt, mpg, label = label)) +
+  geom_point(color = "red") +
+  geom_text_repel(point.padding = NA) +
+  theme_bw(base_size = 16)
+```
+
+### Hide some of the labels
+
+Set some labels to the empty string `""` to hide them. All data points will
+still repel the remaining labels.
 
 ```{r geom_text_repel_empty_string, echo=TRUE, fig.width=9, fig.height=7}
 set.seed(42)
 
 mtcars$label <- rownames(mtcars)
-# mtcars$label[mtcars$cyl != 6] <- ""
-mtcars$label[seq(1, nrow(mtcars), by = 2)] <- ""
+mtcars$label[1:15] <- ""
 
 ggplot(mtcars, aes(wt, mpg)) +
   geom_point(aes(color = factor(cyl)), size = 2) +
   geom_text_repel(
     aes(
       color = factor(cyl),
+      size = hp,
       label = label
     ),
+    point.padding = unit(0.25, "lines"),
+    box.padding = unit(0.25, "lines"),
     nudge_y = 0.1
   ) +
   theme_bw(base_size = 16)
-```
-
-### geom_label_repel
-
-`geom_label_repel` is based on [geom_label].
-
-```{r geom_label_repel, echo=TRUE}
-set.seed(42)
-ggplot(mtcars) +
-  geom_point(aes(wt, mpg), size = 5, color = 'grey') +
-  geom_label_repel(
-    aes(wt, mpg, fill = factor(cyl), label = rownames(mtcars)),
-    fontface = 'bold', color = 'white',
-    box.padding = unit(0.25, "lines"),
-    point.padding = unit(0.5, "lines")
-  ) +
-  theme_classic(base_size = 16)
 ```
 
 ### Line plot
@@ -232,7 +260,7 @@ plot_frame <- function(n) {
 }
 
 saveGIF(
-  lapply(c(seq(0, 500, 10)), function(i) {
+  lapply(c(seq(0, 500, 5)), function(i) {
     plot_frame(i)
   }),
   interval = 0.05,

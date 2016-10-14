@@ -12,3 +12,6 @@
 .Rproj.user
 .Rbuildignore
 vignettes/cache
+
+# issues
+tests/issue*

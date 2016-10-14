@@ -1,4 +1,5 @@
 #include <Rcpp.h>
+#include <deque>
 using namespace Rcpp;
 
 // Exported convenience functions ---------------------------------------------
@@ -269,8 +270,8 @@ Point spring_force(
 //' Adjust the layout of a list of potentially overlapping boxes.
 //' @param data_points A numeric matrix with rows representing points like
 //'   \code{rbind(c(x, y), c(x, y), ...)}
-//' @param pad_point_x Padding around each data point on the x axis.
-//' @param pad_point_y Padding around each data point on the y axis.
+//' @param point_padding_x Padding around each data point on the x axis.
+//' @param point_padding_y Padding around each data point on the y axis.
 //' @param boxes A numeric matrix with rows representing boxes like
 //'   \code{rbind(c(x1, y1, x2, y2), c(x1, y1, x2, y2), ...)}
 //' @param xlim A numeric vector representing the limits on the x axis like
@@ -284,7 +285,7 @@ Point spring_force(
 // [[Rcpp::export]]
 DataFrame repel_boxes(
     NumericMatrix data_points,
-    double pad_point_x, double pad_point_y,
+    double point_padding_x, double point_padding_y,
     NumericMatrix boxes,
     NumericVector xlim, NumericVector ylim,
     double force = 1e-6, int maxiter = 2000
@@ -308,10 +309,10 @@ DataFrame repel_boxes(
   // Each data point gets a bounding box.
   std::vector<Box> DataBoxes(n_points);
   for (int i = 0; i < n_points; i++) {
-    DataBoxes[i].x1 = data_points(i, 0) - pad_point_x;
-    DataBoxes[i].y1 = data_points(i, 1) - pad_point_y;
-    DataBoxes[i].x2 = data_points(i, 0) + pad_point_x;
-    DataBoxes[i].y2 = data_points(i, 1) + pad_point_y;
+    DataBoxes[i].x1 = data_points(i, 0) - point_padding_x;
+    DataBoxes[i].y1 = data_points(i, 1) - point_padding_y;
+    DataBoxes[i].x2 = data_points(i, 0) + point_padding_x;
+    DataBoxes[i].y2 = data_points(i, 1) + point_padding_y;
   }
 
   std::vector<Point> Points(n_points);
@@ -336,15 +337,11 @@ DataFrame repel_boxes(
     original_centroids[i] = centroid(TextBoxes[i]);
   }
 
-  double last_force = 0;
-  double total_force = 0;
   Point f, ci, cj;
 
   while (any_overlaps && iter < maxiter) {
     iter += 1;
     any_overlaps = false;
-    last_force = total_force;
-    total_force = 0;
 
     for (int i = 0; i < n_texts; i++) {
       f.x = 0;
@@ -355,6 +352,10 @@ DataFrame repel_boxes(
       for (int j = 0; j < n_points; j++) {
 
         if (i == j) {
+          // Skip the data points if the padding is 0.
+          if (point_padding_x == 0 && point_padding_y == 0) {
+            continue;
+          }
           // Repel the box from its data point.
           if (overlaps(DataBoxes[i], TextBoxes[i])) {
             any_overlaps = true;
@@ -366,6 +367,10 @@ DataFrame repel_boxes(
             any_overlaps = true;
             cj = centroid(TextBoxes[j]);
             f = f + repel_force(ci, cj, force * 3);
+          }
+          // Skip the data points if the padding is 0.
+          if (point_padding_x == 0 && point_padding_y == 0) {
+            continue;
           }
           // Repel the box from other data points.
           if (overlaps(DataBoxes[j], TextBoxes[i])) {
@@ -380,35 +385,13 @@ DataFrame repel_boxes(
         f = f + spring_force(original_centroids[i], ci, force * 2e3);
       }
 
-      // Scale the x force by the ratio of height/width.
-      // f.x = f.x * ratios[i];
-      // f.y = f.y / ratios[i];
-
       // Dampen the forces.
       f = f * (1 - 1e-3);
-
-      total_force += fabs(f.x) + fabs(f.y);
 
       TextBoxes[i] = TextBoxes[i] + f;
       TextBoxes[i] = put_within_bounds(TextBoxes[i], xbounds, ybounds);
     }
-
-    // If there are no forces, let's break the loop.
-    if (fabs(last_force - total_force) < 1e-6) {
-      break;
-    }
   }
-
-  // Debug messages.
-  // Rcout << "iter " << iter << std::endl;
-//   Rcout << "c(";
-//   for (int k = 0; k < maxiter; k++) {
-//     Rcout << forces[k];
-//     if (k < maxiter - 1) {
-//       Rcout << ",";
-//     }
-//   }
-//   Rcout << ")";
 
   NumericVector xs(n_texts);
   NumericVector ys(n_texts);
