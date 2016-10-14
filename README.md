@@ -43,6 +43,12 @@ install.packages("devtools")
 devtools::install_github("slowkow/ggrepel")
 ```
 
+Or install a tagged version:
+
+```r
+devtools::install_github("slowkow/ggrepel@0.6.2")
+```
+
 ## Contributing
 
 Please [submit an issue][issues] to report bugs or ask questions.
