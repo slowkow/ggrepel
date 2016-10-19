@@ -312,7 +312,7 @@ makeContent.textrepeltree <- function(x) {
   })
 
   # Repel overlapping bounding boxes away from each other.
-  set.seed(rnorm(1))
+  set.seed(stats::rnorm(1))
   repel <- repel_boxes(
     data_points = cbind(x$data$x, x$data$y),
     point_padding_x = point_padding_x,
