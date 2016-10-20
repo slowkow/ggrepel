@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2016-10-14"
+date: "2016-10-19"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -268,10 +268,10 @@ plot_frame <- function(n) {
 }
 
 saveGIF(
-  lapply(c(seq(0, 500, 5)), function(i) {
+  lapply(ceiling(1.75^(1:12)), function(i) {
     plot_frame(i)
   }),
-  interval = 0.05,
+  interval = 0.20,
   ani.width = 800,
   ani.heigth = 600,
   movie.name = 'animated.gif'

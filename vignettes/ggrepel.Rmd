@@ -260,10 +260,10 @@ plot_frame <- function(n) {
 }
 
 saveGIF(
-  lapply(c(seq(0, 500, 5)), function(i) {
+  lapply(ceiling(1.75^(1:12)), function(i) {
     plot_frame(i)
   }),
-  interval = 0.05,
+  interval = 0.20,
   ani.width = 800,
   ani.heigth = 600,
   movie.name = 'animated.gif'
