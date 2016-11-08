@@ -225,7 +225,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
   ) {
     lab <- data$label
     if (parse) {
-      lab <- parse(text = lab)
+      lab <- parse(text = as.character(lab))
     }
 
     # Transform the nudges to the panel scales.
@@ -326,8 +326,10 @@ makeContent.textrepeltree <- function(x) {
     # browser()
     textRepelGrob(
       x$lab[xi],
+      # Position of text bounding boxes.
       x = unit(repel$x[i], "native"),
       y = unit(repel$y[i], "native"),
+      # Position of original data points.
       x.orig = unit(x$data$x[xi], "native"),
       y.orig = unit(x$data$y[xi], "native"),
       rot = row$angle,
@@ -355,8 +357,10 @@ makeContent.textrepeltree <- function(x) {
 
 textRepelGrob <- function(
   label,
+  # Position of text bounding boxes.
   x = unit(0.5, "npc"),
   y = unit(0.5, "npc"),
+  # Position of original data points.
   x.orig = unit(0.5, "npc"),
   y.orig = unit(0.5, "npc"),
   rot = 0,
@@ -381,8 +385,10 @@ textRepelGrob <- function(
 
   gTree(
     label = label,
+    # Position of text bounding boxes.
     x = x,
     y = y,
+    # Position of original data points.
     x.orig = x.orig,
     y.orig = y.orig,
     rot = rot,

@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2016-10-19"
+date: "2016-11-08"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -247,6 +247,30 @@ ggplot(genes, aes(x = log2FoldChange, y = -log10(pvalue))) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/volcano-1.png" title="plot of chunk volcano" alt="plot of chunk volcano" width="700" />
 
+### Polar coordinates
+
+
+```r
+set.seed(42)
+
+mtcars$label <- rownames(mtcars)
+mtcars$label[mtcars$mpg < 25] <- ""
+ggplot(mtcars, aes(x = wt, y = mpg, label = label)) +
+  coord_polar(theta = "x") +
+  geom_point(aes(color = factor(cyl)), size = 2) +
+  geom_text_repel(
+    aes(
+      color = factor(cyl)
+    ),
+    point.padding = unit(0.25, "lines"),
+    box.padding = unit(0.25, "lines"),
+    nudge_y = 0.1
+  ) +
+  theme_bw(base_size = 16)
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_polar-1.png" title="plot of chunk geom_text_repel_polar" alt="plot of chunk geom_text_repel_polar" width="700" />
+
 ### Animation
 
 
@@ -289,9 +313,9 @@ sessionInfo()
 ```
 
 ```
-## R version 3.2.3 (2015-12-10)
+## R version 3.3.2 (2016-10-31)
 ## Platform: x86_64-apple-darwin13.4.0 (64-bit)
-## Running under: OS X 10.10.5 (Yosemite)
+## Running under: OS X Yosemite 10.10.5
 ## 
 ## locale:
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -300,13 +324,13 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggrepel_0.6.3 ggplot2_2.1.0 knitr_1.13   
+## [1] ggrepel_0.6.4 ggplot2_2.1.0 knitr_1.14   
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.7      codetools_0.2-14 digest_0.6.10    grid_3.2.3      
-##  [5] plyr_1.8.4       gtable_0.2.0     formatR_1.2.1    magrittr_1.5    
-##  [9] evaluate_0.8     scales_0.4.0     stringi_1.1.1    labeling_0.3    
-## [13] tools_3.2.3      stringr_1.1.0    munsell_0.4.3    colorspace_1.2-6
+##  [1] Rcpp_0.12.7      codetools_0.2-15 digest_0.6.10    grid_3.3.2      
+##  [5] plyr_1.8.4       gtable_0.2.0     formatR_1.4      magrittr_1.5    
+##  [9] evaluate_0.10    scales_0.4.0     stringi_1.1.2    labeling_0.3    
+## [13] tools_3.3.2      stringr_1.1.0    munsell_0.4.3    colorspace_1.2-7
 ```
 
 [geom_text]: http://docs.ggplot2.org/current/geom_text.html

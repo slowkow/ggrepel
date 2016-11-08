@@ -21,7 +21,7 @@ opts_chunk$set(
   out.width = 700,
   fig.width = 12,
   fig.height = 8,
-  dpi = 144,
+  dpi = 84,
   cache.path = "cache/ggrepel/",
   fig.path = "figures/ggrepel/",
   concordance = TRUE
@@ -238,6 +238,27 @@ ggplot(genes, aes(x = log2FoldChange, y = -log10(pvalue))) +
     box.padding = unit(0.35, "lines"),
     point.padding = unit(0.3, "lines")
   )
+```
+
+### Polar coordinates
+
+```{r geom_text_repel_polar, echo=TRUE, fig.width=9, fig.height=7}
+set.seed(42)
+
+mtcars$label <- rownames(mtcars)
+mtcars$label[mtcars$mpg < 25] <- ""
+ggplot(mtcars, aes(x = wt, y = mpg, label = label)) +
+  coord_polar(theta = "x") +
+  geom_point(aes(color = factor(cyl)), size = 2) +
+  geom_text_repel(
+    aes(
+      color = factor(cyl)
+    ),
+    point.padding = unit(0.25, "lines"),
+    box.padding = unit(0.25, "lines"),
+    nudge_y = 0.1
+  ) +
+  theme_bw(base_size = 16)
 ```
 
 ### Animation
