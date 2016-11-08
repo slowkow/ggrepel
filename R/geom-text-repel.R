@@ -228,10 +228,6 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       lab <- parse(text = lab)
     }
 
-    # Get the x and y limits of the panel area.
-    limits <- data.frame(x = panel_scales$x.range, y = panel_scales$y.range)
-    limits <- coord$transform(limits, panel_scales)
-
     # Transform the nudges to the panel scales.
     nudges <- data.frame(
       x = data$x + nudge_x,
@@ -247,7 +243,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     nudges$y <- nudges$y - data$y
 
     ggname("geom_text_repel", gTree(
-      limits = limits,
+      limits = data.frame(x = c(0, 1), y = c(0, 1)),
       data = data,
       lab = lab,
       nudges = nudges,
