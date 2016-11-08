@@ -1,22 +1,42 @@
 
+ggrepel 0.6.4 2016-11-08
+----------------------------------------------------------------
+
+FIXES
+
+* Fix a bug that caused ggrepel to fail on polar coordinates `coord_polar()`.
+  See [issue 56][56].
+
+[56]: https://github.com/slowkow/ggrepel/issues/56
+
 ggrepel 0.6.3 2016-10-14
 ----------------------------------------------------------------
+
+NEW FEATURES
 
 * Use `point.padding=NA` to ignore data points in repulsion calculations.
 
 ggrepel 0.6.2 2016-10-06
 ----------------------------------------------------------------
 
+FIXES
+
 * Stop the labels from escaping the plot boundaries instead of applying
   a force at the boundary.
 
 * Call `set.seed` within `geom_text_repel()` and `geom_label_repel()` to
-  allow recreating identical plots. Fixes issue #33.
+  allow recreating identical plots. Fixes [issue 33][33].
+
+[33]: https://github.com/slowkow/ggrepel/issues/33
+
+NEW FEATURES
 
 * Add `min.segment.length` to `geom_text_repel()` and `geom_label_repel()`.
 
 ggrepel 0.6.1 2016-10-04
 ----------------------------------------------------------------
+
+CHANGES
 
 * Tweak `repel_boxes.cpp`. Dampen forces to tune how the labels move. The
   result looks better, at least for the examples in the vignette.
@@ -24,9 +44,21 @@ ggrepel 0.6.1 2016-10-04
 ggrepel 0.6.0 2016-10-03
 ----------------------------------------------------------------
 
+NEW FEATURES
+
 * Do not draw labels with empty strings. When a label is an empty string,
   the text will not be shown, the segment will not be drawn, but the
-  corresponding data point will repel other labels. Fixes issue #51.
+  corresponding data point will repel other labels. See [issue 51][51].
+
+[51]: https://github.com/slowkow/ggrepel/issues/51
+
+* Add `segment.alpha` as an option for `geom_text_repel()` and
+  `geom_label_repel()`.
+
+* Implement `angle` aesthetic for `geom_text_repel()`, the same way as done in
+  ggplot2 `geom_text()`.
+
+CHANGES
 
 * Move `nudge_x` and `nudge_y` out of the aesthetics function `aes()`. This
   makes ggrepel consistent with ggplot2 functions `geom_text()` and
@@ -34,12 +66,6 @@ ggrepel 0.6.0 2016-10-03
 
 * Restore `segment.color` as an option for `geom_text_repel()` and
   `geom_label_repel()`.
-
-* Add `segment.alpha` as an option for `geom_text_repel()` and
-  `geom_label_repel()`.
-
-* Implement `angle` aesthetic for `geom_text_repel()`, the same way as done in
-  ggplot2 `geom_text()`.
 
 * Tweak `repel_boxes.cpp`. Do not weight repulsion force by ratios of bounding
   box heights and widths. This seems to perform better, especially after
@@ -53,7 +79,7 @@ ggrepel 0.5.1 2016-02-22
 ggrepel 0.5 2016-02-08
 ----------------------------------------------------------------
 
-* Push to CRAN.
+* First push to CRAN.
 
 ggrepel 0.4.6 2016-02-07
 ----------------------------------------------------------------
@@ -125,8 +151,11 @@ ggrepel 0.4 2016-01-12
 
 FIXES
 
-* Fix issue #7. Labels can now be placed anywhere in the plotting area instead
-  of being limited to the x and y ranges of their corresponding data points.
+* Fix [issue 7][7]. Labels can now be placed anywhere in the plotting area
+  instead of being limited to the x and y ranges of their corresponding data
+  points.
+
+[7]: https://github.com/slowkow/ggrepel/issues/7
 
 * Fix DESCRIPTION to require ggplot2 >= 2.0.0
 
