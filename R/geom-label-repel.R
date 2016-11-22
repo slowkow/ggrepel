@@ -213,7 +213,7 @@ makeContent.labelrepeltree <- function(x) {
       point.padding = x$point.padding,
       r = x$label.r,
       text.gp = gpar(
-        col = row$colour,
+        col = scales::alpha(row$colour, row$alpha),
         fontsize = row$size * .pt,
         fontfamily = row$family,
         fontface = row$fontface,
