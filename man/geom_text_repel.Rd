@@ -8,18 +8,19 @@
 geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
   label.padding = unit(0.25, "lines"), point.padding = unit(1e-06, "lines"),
-  label.r = unit(0.15, "lines"), label.size = 0.25,
-  segment.color = "#666666", segment.size = 0.5, segment.alpha = 1,
+  label.r = unit(0.15, "lines"), label.size = 0.25, segment.colour = NULL,
+  segment.color = NULL, segment.size = 0.5, segment.alpha = NULL,
   min.segment.length = unit(0.5, "lines"), arrow = NULL, force = 1,
   max.iter = 2000, nudge_x = 0, nudge_y = 0, na.rm = FALSE,
   show.legend = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
-  point.padding = unit(1e-06, "lines"), segment.color = "#666666",
-  segment.size = 0.5, segment.alpha = 1, min.segment.length = unit(0.5,
-  "lines"), arrow = NULL, force = 1, max.iter = 2000, nudge_x = 0,
-  nudge_y = 0, na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+  point.padding = unit(1e-06, "lines"), segment.colour = NULL,
+  segment.color = NULL, segment.size = 0.5, segment.alpha = NULL,
+  min.segment.length = unit(0.5, "lines"), arrow = NULL, force = 1,
+  max.iter = 2000, nudge_x = 0, nudge_y = 0, na.rm = FALSE,
+  show.legend = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -42,7 +43,7 @@ displayed as described in ?plotmath}
 
   \itemize{
     \item Aesthetics: to set an aesthetic to a fixed value, like
-       \code{color = "red"} or \code{size = 3}.
+       \code{colour = "red"} or \code{size = 3}.
     \item Other arguments to the layer, for example you override the
       default \code{stat} associated with the layer.
     \item Other arguments passed on to the stat.
@@ -60,14 +61,15 @@ displayed as described in ?plotmath}
 
 \item{label.size}{Size of label border, in mm.}
 
-\item{segment.color}{Color of the line segment. Defaults to
-\code{"#666666"}.}
+\item{segment.colour, segment.color}{Colour of the line segment. Defaults to the same colour
+as the text. In the unlikely event you specify both US and UK spellings of colour, the
+US spelling will take precedence.}
 
 \item{segment.size}{Width of line segment connecting the data point to
 the text label, in mm.}
 
-\item{segment.alpha}{Transparency of the line segment. Defaults to
-\code{1}.}
+\item{segment.alpha}{Transparency of the line segment. Defaults to the same
+transparency as the text.}
 
 \item{min.segment.length}{Skip drawing segments shorter than this. Defaults
 to \code{unit(0.5, "lines")}.}
@@ -147,8 +149,8 @@ p + geom_text_repel(family = "Times New Roman",
   box.padding = unit(0.5, "lines"))
 
 # Add aesthetic mappings
-p + geom_text_repel()
-p + geom_label_repel(colour = "white", fontface = "bold")
+p + geom_text_repel(aes(alpha=wt, size=mpg))
+p + geom_label_repel(aes(fill=factor(cyl)), colour="white", segment.colour="black")
 
 # Draw all line segments
 p + geom_text_repel(min.segment.length = unit(0, "lines"))
@@ -157,7 +159,7 @@ p + geom_text_repel(min.segment.length = unit(0, "lines"))
 p + geom_text_repel(min.segment.length = unit(0.5, "lines"))
 
 # Omit all line segments
-p + geom_text_repel(segment.color = NA)
+p + geom_text_repel(segment.colour = NA)
 
 # Repel just the labels and totally ignore the data points
 p + geom_text_repel(point.padding = NA)
