@@ -1,7 +1,9 @@
 Package: ggrepel
 Version: 0.6.4
-Authors@R: c(person("Kamil", "Slowikowski", role = c("aut", "cre"),
-    email = "kslowikowski@fas.harvard.edu"))
+Authors@R: c(
+    person("Kamil", "Slowikowski", email = "kslowikowski@gmail.com", role = c("aut", "cre")),
+    person("Jean-Olivier", "Irisson", role = "ctb")
+    )
 Title: Repulsive Text and Label Geoms for 'ggplot2'
 Description:
     Provides text and label geoms for 'ggplot2' that help to avoid overlapping
