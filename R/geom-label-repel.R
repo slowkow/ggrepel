@@ -169,7 +169,7 @@ makeContent.labelrepeltree <- function(x) {
       height = grobHeight(t) + 2 * x$label.padding,
       r = x$label.r,
       gp = gpar(
-      col = row$colour,
+        col = row$colour,
         fill = scales::alpha(row$fill, row$alpha),
         lwd = x$label.size * .pt
       ),
