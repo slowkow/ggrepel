@@ -101,10 +101,10 @@
 #' p + geom_label_repel(colour = "white", fontface = "bold")
 #'
 #' # Draw all line segments
-#' p + geom_text_repel(aes(min.segment.length = unit(0, 'lines'))
+#' p + geom_text_repel(min.segment.length = unit(0, "lines"))
 #'
 #' # Omit short line segments (default behavior)
-#' p + geom_text_repel(min.segment.length = unit(0.5, 'lines'))
+#' p + geom_text_repel(min.segment.length = unit(0.5, "lines"))
 #'
 #' # Omit all line segments
 #' p + geom_text_repel(segment.color = NA)
