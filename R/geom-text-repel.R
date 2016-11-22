@@ -143,7 +143,8 @@
 #' p +
 #'   geom_point(colour = "red") +
 #'   geom_text_repel(
-#'     arrow = arrow(length = unit(0.02, "npc"))
+#'     arrow = arrow(length = unit(0.02, "npc")),
+#'     box.padding = unit(1, "lines")
 #'   )
 #' }
 #' @export
