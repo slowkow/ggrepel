@@ -170,7 +170,7 @@ makeContent.labelrepeltree <- function(x) {
       r = x$label.r,
       gp = gpar(
       col = row$colour,
-      fill = alpha(row$fill, row$alpha),
+        fill = scales::alpha(row$fill, row$alpha),
         lwd = x$label.size * .pt
       ),
       name = "box"
@@ -220,7 +220,7 @@ makeContent.labelrepeltree <- function(x) {
       ),
       rect.gp = gpar(
         col = row$colour,
-        fill = alpha(row$fill, row$alpha),
+        fill = scales::alpha(row$fill, row$alpha),
         lwd = x$label.size * .pt
       ),
       segment.gp = gpar(
