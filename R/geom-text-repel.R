@@ -56,7 +56,7 @@
 #'
 #'   \itemize{
 #'     \item Aesthetics: to set an aesthetic to a fixed value, like
-#'        \code{color = "red"} or \code{size = 3}.
+#'        \code{colour = "red"} or \code{size = 3}.
 #'     \item Other arguments to the layer, for example you override the
 #'       default \code{stat} associated with the layer.
 #'     \item Other arguments passed on to the stat.
@@ -69,10 +69,11 @@
 #'   \code{unit(0, "lines")}.
 #' @param segment.size Width of line segment connecting the data point to
 #'   the text label, in mm.
-#' @param segment.color Color of the line segment. Defaults to
-#'   \code{"#666666"}.
-#' @param segment.alpha Transparency of the line segment. Defaults to
-#'   \code{1}.
+#' @param segment.colour,segment.color Colour of the line segment. Defaults to the same colour
+#'   as the text. In the unlikely event you specify both US and UK spellings of colour, the
+#'   US spelling will take precedence.
+#' @param segment.alpha Transparency of the line segment. Defaults to the same
+#'   transparency as the text.
 #' @param min.segment.length Skip drawing segments shorter than this. Defaults
 #'   to \code{unit(0.5, "lines")}.
 #' @param arrow specification for arrow heads, as created by \code{\link[grid]{arrow}}
@@ -97,8 +98,8 @@
 #'   box.padding = unit(0.5, "lines"))
 #'
 #' # Add aesthetic mappings
-#' p + geom_text_repel()
-#' p + geom_label_repel(colour = "white", fontface = "bold")
+#' p + geom_text_repel(aes(alpha=wt, size=mpg))
+#' p + geom_label_repel(aes(fill=factor(cyl)), colour="white", segment.colour="black")
 #'
 #' # Draw all line segments
 #' p + geom_text_repel(min.segment.length = unit(0, "lines"))
@@ -107,7 +108,7 @@
 #' p + geom_text_repel(min.segment.length = unit(0.5, "lines"))
 #'
 #' # Omit all line segments
-#' p + geom_text_repel(segment.color = NA)
+#' p + geom_text_repel(segment.colour = NA)
 #'
 #' # Repel just the labels and totally ignore the data points
 #' p + geom_text_repel(point.padding = NA)
@@ -154,9 +155,10 @@ geom_text_repel <- function(
   ...,
   box.padding = unit(0.25, "lines"),
   point.padding = unit(1e-6, "lines"),
-  segment.color = "#666666",
+  segment.colour = NULL,
+  segment.color = NULL,
   segment.size = 0.5,
-  segment.alpha = 1,
+  segment.alpha = NULL,
   min.segment.length = unit(0.5, "lines"),
   arrow = NULL,
   force = 1,
@@ -180,7 +182,7 @@ geom_text_repel <- function(
       na.rm = na.rm,
       box.padding = box.padding,
       point.padding = point.padding,
-      segment.color = segment.color,
+      segment.colour = segment.color %||% segment.colour,
       segment.size = segment.size,
       segment.alpha = segment.alpha,
       min.segment.length = min.segment.length,
@@ -213,9 +215,9 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     na.rm = FALSE,
     box.padding = unit(0.25, "lines"),
     point.padding = unit(1e-6, "lines"),
-    segment.color = "#666666",
+    segment.colour = NULL,
     segment.size = 0.5,
-    segment.alpha = 1,
+    segment.alpha = NULL,
     min.segment.length = unit(0.5, "lines"),
     arrow = NULL,
     force = 1,
@@ -249,7 +251,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       nudges = nudges,
       box.padding = box.padding,
       point.padding = point.padding,
-      segment.color = segment.color,
+      segment.colour = segment.colour,
       segment.size = segment.size,
       segment.alpha = segment.alpha,
       min.segment.length = min.segment.length,
@@ -343,7 +345,7 @@ makeContent.textrepeltree <- function(x) {
         lineheight = row$lineheight
       ),
       segment.gp = gpar(
-        col = scales::alpha(x$segment.color, x$segment.alpha),
+        col = scales::alpha(x$segment.colour %||% row$colour, x$segment.alpha %||% row$alpha),
         lwd = x$segment.size * .pt
       ),
       arrow = x$arrow,
