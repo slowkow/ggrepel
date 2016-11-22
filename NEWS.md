@@ -1,4 +1,21 @@
 
+ggrepel 0.6.5 2016-11-22
+----------------------------------------------------------------
+
+CHANGES (thanks to @jiho)
+
+* changed `alpha` in `geom_label_repel()` to control text, label
+  background, label border, and segment.
+
+* Allow `segment.colour` as well as `segment.color`.
+
+* By default, map text color and text alpha to the segment color unless they
+  are overridden.
+
+FIXES (thanks to @jiho)
+
+* Call `scales::alpha()` instead of `alpha()`.
+
 ggrepel 0.6.4 2016-11-08
 ----------------------------------------------------------------
 

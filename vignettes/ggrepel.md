@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2016-11-08"
+date: "2016-11-22"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -75,7 +75,8 @@ ggplot(mtcars) +
     aes(wt, mpg, fill = factor(cyl), label = rownames(mtcars)),
     fontface = 'bold', color = 'white',
     box.padding = unit(0.35, "lines"),
-    point.padding = unit(0.5, "lines")
+    point.padding = unit(0.5, "lines"),
+    segment.color = 'grey50'
   ) +
   theme_classic(base_size = 16)
 ```
@@ -324,13 +325,14 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggrepel_0.6.4 ggplot2_2.1.0 knitr_1.14   
+## [1] ggrepel_0.6.5 ggplot2_2.2.0 knitr_1.15   
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.7      codetools_0.2-15 digest_0.6.10    grid_3.3.2      
-##  [5] plyr_1.8.4       gtable_0.2.0     formatR_1.4      magrittr_1.5    
-##  [9] evaluate_0.10    scales_0.4.0     stringi_1.1.2    labeling_0.3    
-## [13] tools_3.3.2      stringr_1.1.0    munsell_0.4.3    colorspace_1.2-7
+##  [1] Rcpp_0.12.7      codetools_0.2-15 digest_0.6.10    assertthat_0.1  
+##  [5] grid_3.3.2       plyr_1.8.4       gtable_0.2.0     magrittr_1.5    
+##  [9] evaluate_0.10    scales_0.4.1     highr_0.6        stringi_1.1.2   
+## [13] lazyeval_0.2.0   labeling_0.3     tools_3.3.2      stringr_1.1.0   
+## [17] munsell_0.4.3    colorspace_1.3-0 tibble_1.2
 ```
 
 [geom_text]: http://docs.ggplot2.org/current/geom_text.html
