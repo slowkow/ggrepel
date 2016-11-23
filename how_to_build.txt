@@ -1,0 +1,9 @@
+1. Manually run volcano and animation chunks in `vignettes/ggrepel.Rmd`
+
+2. Make and optimize figures: `cd vignettes && make -B`
+
+3. Run CHECK with RStudio
+
+4. Run BUILD SOURCE with RStudio
+
+5. Manually inspect the contents of `ggrepel_*.tar.gz`

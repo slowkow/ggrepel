@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2016-11-22"
+date: "2016-11-23"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -244,9 +244,8 @@ ggplot(genes, aes(x = log2FoldChange, y = -log10(pvalue))) +
     box.padding = unit(0.35, "lines"),
     point.padding = unit(0.3, "lines")
   )
+ggsave("https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/volcano-1.png", width = 12, height = 8, dpi = 84)
 ```
-
-<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/volcano-1.png" title="plot of chunk volcano" alt="plot of chunk volcano" width="700" />
 
 ### Polar coordinates
 

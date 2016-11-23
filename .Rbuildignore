@@ -5,3 +5,8 @@
 ^tests/benchmark\.R$
 ^tests/issue.*$
 ^vignettes/cache/.*$
+^vignettes/figures/ggrepel/gallery.html$
+^vignettes/figures/ggrepel/geom_.*\.png$
+^vignettes/figures/ggrepel/line_.*\.png$
+^vignettes/genes.txt.bz2$
+^how_to_build.txt$

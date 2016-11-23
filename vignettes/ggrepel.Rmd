@@ -221,7 +221,7 @@ ggplot(Orange, aes(age, circumference, color = Tree)) +
 
 ### Volcano plot
 
-```{r volcano, echo=TRUE}
+```{r volcano, echo=TRUE, eval=FALSE}
 set.seed(42)
 
 # Read Stephen Turner's data
@@ -239,7 +239,11 @@ ggplot(genes, aes(x = log2FoldChange, y = -log10(pvalue))) +
     box.padding = unit(0.35, "lines"),
     point.padding = unit(0.3, "lines")
   )
+ggsave("figures/ggrepel/volcano-1.png", width = 12, height = 8, dpi = 84)
 ```
+
+<img src="figures/ggrepel/volcano-1.png"
+  alt="plot of chunk volcano" width="700"/>
 
 ### Polar coordinates
 
