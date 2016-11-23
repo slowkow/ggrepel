@@ -4,4 +4,4 @@
 ^.travis\.yml$
 ^tests/benchmark\.R$
 ^tests/issue.*$
-^vignettes/.*$
+^vignettes/cache/.*$

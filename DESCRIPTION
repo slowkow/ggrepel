@@ -20,7 +20,7 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-License: GPL-2
+License: GPL-3 | file LICENSE
 URL: http://github.com/slowkow/ggrepel
 BugReports: http://github.com/slowkow/ggrepel/issues
 RoxygenNote: 5.0.1
