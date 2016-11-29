@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2016-11-23"
+date: "2016-11-28"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -247,6 +247,9 @@ ggplot(genes, aes(x = log2FoldChange, y = -log10(pvalue))) +
 ggsave("https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/volcano-1.png", width = 12, height = 8, dpi = 84)
 ```
 
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/volcano-1.png"
+  alt="plot of chunk volcano" width="700"/>
+
 ### Polar coordinates
 
 
@@ -270,6 +273,44 @@ ggplot(mtcars, aes(x = wt, y = mpg, label = label)) +
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_polar-1.png" title="plot of chunk geom_text_repel_polar" alt="plot of chunk geom_text_repel_polar" width="700" />
+
+### Mathematical expressions
+
+
+```r
+library(gridExtra)
+
+set.seed(0)
+d <- data.frame(
+  x = runif(30),
+  y = runif(30),
+  Parameter = c(
+    "prod(plain(P)(X == x), x)",
+    "integral(f(x) * dx, a, b)",
+    "lim(f(x), x %->% 0)",
+    rep("", 27)
+  )
+)
+
+p1 <- ggplot(d, aes(x, y, label = Parameter)) +
+  geom_point() +
+  geom_text_repel(
+    parse = TRUE, size = 8,
+    min.segment.length = unit(0, "lines"),
+    point.padding = unit(0.5, "lines"),
+    box.padding = unit(0.5, "lines")
+  ) +
+  theme_classic(base_size = 20)
+
+p2 <- ggplot(d, aes(x, y, label = Parameter)) +
+  geom_point() +
+  geom_label_repel(parse = TRUE, size = 8, alpha = 0.5) +
+  theme_classic(base_size = 20)
+
+grid.arrange(p1, p2, ncol = 2)
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/math-1.png" title="plot of chunk math" alt="plot of chunk math" width="700" />
 
 ### Animation
 
@@ -324,10 +365,10 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggrepel_0.6.5 ggplot2_2.2.0 knitr_1.15   
+## [1] gridExtra_2.2.1 ggrepel_0.6.6   ggplot2_2.2.0   knitr_1.15     
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.7      codetools_0.2-15 digest_0.6.10    assertthat_0.1  
+##  [1] Rcpp_0.12.8      codetools_0.2-15 digest_0.6.10    assertthat_0.1  
 ##  [5] grid_3.3.2       plyr_1.8.4       gtable_0.2.0     magrittr_1.5    
 ##  [9] evaluate_0.10    scales_0.4.1     highr_0.6        stringi_1.1.2   
 ## [13] lazyeval_0.2.0   labeling_0.3     tools_3.3.2      stringr_1.1.0   

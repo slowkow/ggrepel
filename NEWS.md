@@ -1,4 +1,14 @@
 
+ggrepel 0.6.6 2016-11-28
+----------------------------------------------------------------
+
+FIXES (thanks to @fawda123)
+
+* Mathematical expressions as labels with `parse = TRUE` in 
+  `geom_text_repel()` and `geom_label_repel()`. See [issue 60][60].
+
+[60]: https://github.com/slowkow/ggrepel/issues/60
+
 ggrepel 0.6.5 2016-11-22
 ----------------------------------------------------------------
 

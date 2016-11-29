@@ -266,6 +266,41 @@ ggplot(mtcars, aes(x = wt, y = mpg, label = label)) +
   theme_bw(base_size = 16)
 ```
 
+### Mathematical expressions
+
+```{r math, echo=TRUE, fig.width=12, fig.height=7}
+library(gridExtra)
+
+set.seed(0)
+d <- data.frame(
+  x = runif(30),
+  y = runif(30),
+  Parameter = c(
+    "prod(plain(P)(X == x), x)",
+    "integral(f(x) * dx, a, b)",
+    "lim(f(x), x %->% 0)",
+    rep("", 27)
+  )
+)
+
+p1 <- ggplot(d, aes(x, y, label = Parameter)) +
+  geom_point() +
+  geom_text_repel(
+    parse = TRUE, size = 8,
+    min.segment.length = unit(0, "lines"),
+    point.padding = unit(0.5, "lines"),
+    box.padding = unit(0.5, "lines")
+  ) +
+  theme_classic(base_size = 20)
+
+p2 <- ggplot(d, aes(x, y, label = Parameter)) +
+  geom_point() +
+  geom_label_repel(parse = TRUE, size = 8, alpha = 0.5) +
+  theme_classic(base_size = 20)
+
+grid.arrange(p1, p2, ncol = 2)
+```
+
 ### Animation
 
 ```{r animated, echo=TRUE, eval=FALSE}

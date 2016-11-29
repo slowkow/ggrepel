@@ -283,7 +283,7 @@ makeContent.textrepeltree <- function(x) {
   point_padding_y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
 
   # Do not create text labels for empty strings.
-  valid_strings <- which(x$lab != "")
+  valid_strings <- which(not_empty(x$lab))
 
   # Create a dataframe with x1 y1 x2 y2
   boxes <- lapply(valid_strings, function(i) {
