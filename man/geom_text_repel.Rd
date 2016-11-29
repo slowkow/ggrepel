@@ -19,8 +19,8 @@ geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   point.padding = unit(1e-06, "lines"), segment.colour = NULL,
   segment.color = NULL, segment.size = 0.5, segment.alpha = NULL,
   min.segment.length = unit(0.5, "lines"), arrow = NULL, force = 1,
-  max.iter = 2000, nudge_x = 0, nudge_y = 0, na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE)
+  max.iter = 2000, check_overlap = NULL, nudge_x = 0, nudge_y = 0,
+  na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or

@@ -163,6 +163,7 @@ geom_text_repel <- function(
   arrow = NULL,
   force = 1,
   max.iter = 2000,
+  check_overlap = NULL,
   nudge_x = 0,
   nudge_y = 0,
   na.rm = FALSE,
@@ -189,6 +190,7 @@ geom_text_repel <- function(
       arrow = arrow,
       force = force,
       max.iter = max.iter,
+      check_overlap = check_overlap,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
       ...
@@ -222,6 +224,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     arrow = NULL,
     force = 1,
     max.iter = 2000,
+    check_overlap = NULL,
     nudge_x = 0,
     nudge_y = 0
   ) {
@@ -258,6 +261,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       arrow = arrow,
       force = force,
       max.iter = max.iter,
+      check_overlap = check_overlap,
       cl = "textrepeltree"
     ))
   },
@@ -309,6 +313,10 @@ makeContent.textrepeltree <- function(x) {
     )
   })
 
+  if (is.null(x$check_overlap)) {
+    x$check_overlap <- 1000000
+  }
+
   # Repel overlapping bounding boxes away from each other.
   set.seed(stats::rnorm(1))
   repel <- repel_boxes(
@@ -319,8 +327,14 @@ makeContent.textrepeltree <- function(x) {
     xlim = range(x$limits$x),
     ylim = range(x$limits$y),
     force = x$force * 1e-6,
-    maxiter = x$max.iter
+    maxiter = x$max.iter,
+    check_overlap = x$check_overlap
   )
+  print(dput(repel))
+
+  # Exclude labels that often overlap other labels.
+  sparse_labels <- which(repel$overlaps <= x$check_overlap)
+  valid_strings <- intersect(valid_strings, sparse_labels)
 
   grobs <- lapply(seq_along(valid_strings), function(i) {
     xi <- valid_strings[i]
@@ -329,8 +343,8 @@ makeContent.textrepeltree <- function(x) {
     textRepelGrob(
       x$lab[xi],
       # Position of text bounding boxes.
-      x = unit(repel$x[i], "native"),
-      y = unit(repel$y[i], "native"),
+      x = unit(repel$x[xi], "native"),
+      y = unit(repel$y[xi], "native"),
       # Position of original data points.
       x.orig = unit(x$data$x[xi], "native"),
       y.orig = unit(x$data$y[xi], "native"),

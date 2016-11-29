@@ -288,7 +288,8 @@ DataFrame repel_boxes(
     double point_padding_x, double point_padding_y,
     NumericMatrix boxes,
     NumericVector xlim, NumericVector ylim,
-    double force = 1e-6, int maxiter = 2000
+    double force = 1e-6, int maxiter = 2000,
+    int check_overlap = 10
 ) {
   int n_points = data_points.nrow();
   int n_texts = boxes.nrow();
@@ -339,6 +340,8 @@ DataFrame repel_boxes(
 
   Point f, ci, cj;
 
+  NumericVector n_overlaps(n_texts);
+
   while (any_overlaps && iter < maxiter) {
     iter += 1;
     any_overlaps = false;
@@ -346,6 +349,14 @@ DataFrame repel_boxes(
     for (int i = 0; i < n_texts; i++) {
       f.x = 0;
       f.y = 0;
+
+      if (n_overlaps[i] > check_overlap * iter) {
+        // TextBoxes[i].x1 = -1;
+        // TextBoxes[i].y1 = -1;
+        // TextBoxes[i].x2 = -1;
+        // TextBoxes[i].y2 = -1;
+        continue;
+      }
 
       ci = centroid(TextBoxes[i]);
 
@@ -364,7 +375,10 @@ DataFrame repel_boxes(
         } else {
           // Repel the box from overlapping boxes.
           if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
+            if (n_overlaps[j] > check_overlap * iter) continue;
             any_overlaps = true;
+            // if (iter == 1) n_overlaps[i] += 1;
+            n_overlaps[i] += 1;
             cj = centroid(TextBoxes[j]);
             f = f + repel_force(ci, cj, force * 3);
           }
@@ -403,7 +417,8 @@ DataFrame repel_boxes(
 
   return Rcpp::DataFrame::create(
     Rcpp::Named("x") = xs,
-    Rcpp::Named("y") = ys
+    Rcpp::Named("y") = ys,
+    Rcpp::Named("overlaps") = n_overlaps
   );
 }
 
