@@ -244,7 +244,7 @@ ggplot(genes, aes(x = log2FoldChange, y = -log10(pvalue))) +
     box.padding = unit(0.35, "lines"),
     point.padding = unit(0.3, "lines")
   )
-ggsave("https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/volcano-1.png", width = 12, height = 8, dpi = 84)
+ggsave("figures/ggrepel/volcano-1.png", width = 12, height = 8, dpi = 84)
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/volcano-1.png"
