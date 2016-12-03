@@ -11,7 +11,7 @@ Description:
     points.
 Depends:
     R (>= 3.0.0),
-    ggplot2 (>= 2.0.0)
+    ggplot2 (>= 2.2.0)
 Imports:
     grid,
     Rcpp,
