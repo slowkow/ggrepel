@@ -165,8 +165,8 @@ geom_text_repel <- function(
   max.iter = 2000,
   nudge_x = 0,
   nudge_y = 0,
-  xlimits=c(0, 1),
-  ylimits=c(0, 1),
+  limits.x=c(0, 1),
+  limits.y=c(0, 1),
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -193,8 +193,8 @@ geom_text_repel <- function(
       max.iter = max.iter,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
-      xlimits = xlimits,
-      ylimits = ylimits,
+      limits.x = limits.x,
+      limits.y = limits.y,
       ...
     )
   )
@@ -228,8 +228,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     max.iter = 2000,
     nudge_x = 0,
     nudge_y = 0,
-    xlimits=xlimits,
-    ylimits=ylimits
+    limits.x=limits.x,
+    limits.y=limits.y
   ) {
     lab <- data$label
     if (parse) {
@@ -251,7 +251,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     nudges$y <- nudges$y - data$y
 
     ggname("geom_text_repel", gTree(
-      limits = data.frame(x = xlimits, y = ylimits),
+      limits = data.frame(x = limits.x, y = limits.y),
       data = data,
       lab = lab,
       nudges = nudges,
