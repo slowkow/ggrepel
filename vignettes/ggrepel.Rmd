@@ -117,7 +117,7 @@ However, the following parameters are not supported:
   the x axis
 - `nudge_y` is how much to shift the starting position of the text label along
   the y axis
-  
+
 Here is an example that uses all of these options:
 
 ```{r geom_text_repel_options, echo=TRUE, fig.width=9, fig.height=7}
@@ -198,6 +198,41 @@ ggplot(mtcars, aes(wt, mpg)) +
     nudge_y = 0.1
   ) +
   theme_bw(base_size = 16)
+```
+
+### Limit labels to a specific area
+
+Use `xlim` and `ylim` to constrain the labels to a specific area. Limits are
+specified in data coordinates. Use `NA` when there is no lower or upper bound
+in a particular direction.
+
+```{r label_limits, echo=TRUE, fig.width=9, fig.height=7}
+set.seed(42)
+data <- mtcars
+mu <- mean(data$wt)
+
+left <- data[data$wt < mu,]
+right <- data[data$wt >= mu,]
+
+ggplot() +
+  geom_vline(xintercept = mu) +
+  geom_point(
+    data = data,
+    mapping = aes(wt, mpg)
+  ) +
+  geom_text_repel(
+    data = left,
+    mapping = aes(wt, mpg, label = rownames(left), colour = 'Left half'),
+    # Limit labels to the left of the vertical x=mu line
+    xlim = c(NA, mu)
+  ) +
+  geom_text_repel(
+    data = right,
+    mapping = aes(wt, mpg, label = rownames(right), colour = 'Right half'),
+    # Limit labels to the right of the vertical x=mu line
+    xlim = c(mu, NA)
+  ) +
+  theme_classic(base_size = 16)
 ```
 
 ### Line plot

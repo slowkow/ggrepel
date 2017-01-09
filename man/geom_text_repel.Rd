@@ -11,16 +11,16 @@ geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   label.r = unit(0.15, "lines"), label.size = 0.25, segment.colour = NULL,
   segment.color = NULL, segment.size = 0.5, segment.alpha = NULL,
   min.segment.length = unit(0.5, "lines"), arrow = NULL, force = 1,
-  max.iter = 2000, nudge_x = 0, nudge_y = 0, na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE)
+  max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA, NA),
+  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
   point.padding = unit(1e-06, "lines"), segment.colour = NULL,
   segment.color = NULL, segment.size = 0.5, segment.alpha = NULL,
   min.segment.length = unit(0.5, "lines"), arrow = NULL, force = 1,
-  max.iter = 2000, nudge_x = 0, nudge_y = 0, na.rm = FALSE,
-  show.legend = NA, inherit.aes = TRUE)
+  max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA, NA),
+  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -84,6 +84,10 @@ Defaults to 2000.}
 
 \item{nudge_x, nudge_y}{Horizontal and vertical adjustments to nudge the
 starting position of each text label.}
+
+\item{xlim, ylim}{Limits for the x and y axes. Text labels will be constrained
+to these limits. By default, text labels are constrained to the entire plot
+area.}
 
 \item{na.rm}{If \code{FALSE} (the default), removes missing values with
 a warning.  If \code{TRUE} silently removes missing values.}

@@ -63,6 +63,9 @@
 #'   }
 #' @param nudge_x,nudge_y Horizontal and vertical adjustments to nudge the
 #'   starting position of each text label.
+#' @param xlim,ylim Limits for the x and y axes. Text labels will be constrained
+#'   to these limits. By default, text labels are constrained to the entire plot
+#'   area.
 #' @param box.padding Amount of padding around bounding box. Defaults to
 #'   \code{unit(0.25, "lines")}.
 #' @param point.padding Amount of padding around labeled point. Defaults to
@@ -165,6 +168,8 @@ geom_text_repel <- function(
   max.iter = 2000,
   nudge_x = 0,
   nudge_y = 0,
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -191,6 +196,8 @@ geom_text_repel <- function(
       max.iter = max.iter,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
+      xlim = xlim,
+      ylim = ylim,
       ...
     )
   )
@@ -223,7 +230,9 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     force = 1,
     max.iter = 2000,
     nudge_x = 0,
-    nudge_y = 0
+    nudge_y = 0,
+    xlim = xlim,
+    ylim = ylim
   ) {
     lab <- data$label
     if (parse) {
@@ -244,8 +253,16 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     nudges$x <- nudges$x - data$x
     nudges$y <- nudges$y - data$y
 
+    # Transform limits to panel scales.
+    limits <- data.frame(x = xlim, y = ylim)
+    limits <- coord$transform(limits, panel_scales)
+
+    # Fill NAs with defaults.
+    limits$x[is.na(limits$x)] <- c(0, 1)[is.na(limits$x)]
+    limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
+
     ggname("geom_text_repel", gTree(
-      limits = data.frame(x = c(0, 1), y = c(0, 1)),
+      limits = limits,
       data = data,
       lab = lab,
       nudges = nudges,
