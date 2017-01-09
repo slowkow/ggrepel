@@ -1,4 +1,14 @@
 
+ggrepel 0.6.7 2017-01-09
+----------------------------------------------------------------
+
+CHANGES (thanks to @lukauskas)
+
+* Constrain text labels to specific areas of the plot with `xlim` and `ylim` in
+  `geom_text_repel()` and `geom_label_repel()`. See [pull 67][67].
+
+[67]: https://github.com/slowkow/ggrepel/pull/67
+
 ggrepel 0.6.6 2016-11-28
 ----------------------------------------------------------------
 

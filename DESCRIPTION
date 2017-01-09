@@ -1,8 +1,9 @@
 Package: ggrepel
-Version: 0.6.6
+Version: 0.6.7
 Authors@R: c(
     person("Kamil", "Slowikowski", email = "kslowikowski@gmail.com", role = c("aut", "cre")),
-    person("Jean-Olivier", "Irisson", role = "ctb")
+    person("Jean-Olivier", "Irisson", role = "ctb"),
+    person("Saulius", "Lukauskas", role = "ctb")
     )
 Title: Repulsive Text and Label Geoms for 'ggplot2'
 Description:

@@ -202,11 +202,11 @@ ggplot(mtcars, aes(wt, mpg)) +
 
 ### Limit labels to a specific area
 
-Use `xlim` and `ylim` parameters to specify the area to contain the labels in.
-Limits are specified in data coordinates, use `NA` if there is no lower/upper
-bound in a particular direction.
+Use `xlim` and `ylim` to constrain the labels to a specific area. Limits are
+specified in data coordinates. Use `NA` when there is no lower or upper bound
+in a particular direction.
 
-```{r label-limits, echo=TRUE, fig.width=9, fig.height=7}
+```{r label_limits, echo=TRUE, fig.width=9, fig.height=7}
 set.seed(42)
 data <- mtcars
 mu <- mean(data$wt)

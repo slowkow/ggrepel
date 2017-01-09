@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2016-11-28"
+date: "2017-01-09"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -109,7 +109,7 @@ However, the following parameters are not supported:
   the x axis
 - `nudge_y` is how much to shift the starting position of the text label along
   the y axis
-  
+
 Here is an example that uses all of these options:
 
 
@@ -200,6 +200,44 @@ ggplot(mtcars, aes(wt, mpg)) +
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel_empty_string-1.png" title="plot of chunk geom_text_repel_empty_string" alt="plot of chunk geom_text_repel_empty_string" width="700" />
+
+### Limit labels to a specific area
+
+Use `xlim` and `ylim` to constrain the labels to a specific area. Limits are
+specified in data coordinates. Use `NA` when there is no lower or upper bound
+in a particular direction.
+
+
+```r
+set.seed(42)
+data <- mtcars
+mu <- mean(data$wt)
+
+left <- data[data$wt < mu,]
+right <- data[data$wt >= mu,]
+
+ggplot() +
+  geom_vline(xintercept = mu) +
+  geom_point(
+    data = data,
+    mapping = aes(wt, mpg)
+  ) +
+  geom_text_repel(
+    data = left,
+    mapping = aes(wt, mpg, label = rownames(left), colour = 'Left half'),
+    # Limit labels to the left of the vertical x=mu line
+    xlim = c(NA, mu)
+  ) +
+  geom_text_repel(
+    data = right,
+    mapping = aes(wt, mpg, label = rownames(right), colour = 'Right half'),
+    # Limit labels to the right of the vertical x=mu line
+    xlim = c(mu, NA)
+  ) +
+  theme_classic(base_size = 16)
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/label_limits-1.png" title="plot of chunk label_limits" alt="plot of chunk label_limits" width="700" />
 
 ### Line plot
 
@@ -365,14 +403,14 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] gridExtra_2.2.1 ggrepel_0.6.6   ggplot2_2.2.0   knitr_1.15     
+## [1] gridExtra_2.2.1 ggrepel_0.6.7   ggplot2_2.2.1   knitr_1.15.1   
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.8      codetools_0.2-15 digest_0.6.10    assertthat_0.1  
+##  [1] Rcpp_0.12.8      codetools_0.2-15 digest_0.6.11    assertthat_0.1  
 ##  [5] grid_3.3.2       plyr_1.8.4       gtable_0.2.0     magrittr_1.5    
 ##  [9] evaluate_0.10    scales_0.4.1     highr_0.6        stringi_1.1.2   
 ## [13] lazyeval_0.2.0   labeling_0.3     tools_3.3.2      stringr_1.1.0   
-## [17] munsell_0.4.3    colorspace_1.3-0 tibble_1.2
+## [17] munsell_0.4.3    colorspace_1.3-2 tibble_1.2
 ```
 
 [geom_text]: http://docs.ggplot2.org/current/geom_text.html
