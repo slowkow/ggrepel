@@ -223,11 +223,13 @@ ggplot() +
   geom_text_repel(
     data = left,
     mapping = aes(wt, mpg, label = rownames(left), colour = 'Left half'),
+    # Limit labels to the left of the vertical x=mu line
     xlim = c(NA, mu)
   ) +
   geom_text_repel(
     data = right,
     mapping = aes(wt, mpg, label = rownames(right), colour = 'Right half'),
+    # Limit labels to the right of the vertical x=mu line
     xlim = c(mu, NA)
   ) +
   theme_classic(base_size = 16)
