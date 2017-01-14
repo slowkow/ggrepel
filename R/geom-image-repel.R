@@ -222,8 +222,8 @@ makeContent.imagerepeltree <- function(x) {
   # Repel overlapping bounding boxes away from each other.
   repel <- repel_boxes(
     data_points = cbind(x$data$x, x$data$y),
-    pad_point_x = pad.point.x,
-    pad_point_y = pad.point.y,
+    point_padding_x = pad.point.x,
+    point_padding_y = pad.point.y,
     boxes = do.call(rbind, boxes),
     xlim = range(x$limits$x),
     ylim = range(x$limits$y),
