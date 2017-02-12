@@ -34,7 +34,7 @@ NumericVector centroid(NumericVector b) {
 NumericVector intersect_line_rectangle(
     NumericVector p1, NumericVector p2, NumericVector b
 ) {
-  double slope = (p2[1] - p1[1]) / (p2[0] - p1[0]);
+  double slope = (p2[1] - p1[1]) / std::max(p2[0] - p1[0], 0.0004);
   double intercept = p2[1] - p2[0] * slope;
   NumericMatrix retval(4, 2);
   std::fill(retval.begin(), retval.end(), -INFINITY);
@@ -206,16 +206,9 @@ bool overlaps(Box a, Box b) {
     b.y2 >= a.y1;
 }
 
-//' Compute the repulsion force upon point \code{a} from point \code{b}.
-//'
-//' The force decays with the squared distance between the points, similar
-//' to the force of repulsion between magnets.
-//'
-//' @param a A point like \code{c(x, y)}
-//' @param b A point like \code{c(x, y)}
-//' @param force Magnitude of the force (defaults to \code{1e-6})
-//' @noRd
-Point repel_force(
+
+
+Point repel_force_both(
     Point a, Point b, double force = 0.000001
 ) {
   double dx = fabs(a.x - b.x);
@@ -236,16 +229,62 @@ Point repel_force(
   return f;
 }
 
-//' Compute the spring force upon point \code{a} from point \code{b}.
+
+Point repel_force_y(
+    Point a, Point b, double force = 0.000001
+) {
+  double dx = fabs(a.x - b.x);
+  double dy = fabs(a.y - b.y);
+  // Constrain the minimum distance, so it is never 0.
+  double d2 = std::max(dx * dx + dy * dy, 0.0004);
+  // Compute a unit vector in the direction of the force.
+  Point v = {0, (a.y - b.y) / sqrt(d2)};
+  // Divide the force by the squared distance.
+  Point f = force * v / d2 * 2;
+  return f;
+}
+
+Point repel_force_x(
+    Point a, Point b, double force = 0.000001
+) {
+  double dx = fabs(a.x - b.x);
+  double dy = fabs(a.y - b.y);
+  // Constrain the minimum distance, so it is never 0.
+  double d2 = std::max(dx * dx + dy * dy, 0.0004);
+  // Compute a unit vector in the direction of the force.
+  Point v = {(a.x - b.x) / sqrt(d2), 0};
+  // Divide the force by the squared distance.
+  Point f = force * v / d2 * 2;
+  return f;
+}
+
+//' Compute the repulsion force upon point \code{a} from point \code{b}.
 //'
-//' The force increases with the distance between the points, similar
-//' to Hooke's law for springs.
+//' The force decays with the squared distance between the points, similar
+//' to the force of repulsion between magnets.
 //'
 //' @param a A point like \code{c(x, y)}
 //' @param b A point like \code{c(x, y)}
 //' @param force Magnitude of the force (defaults to \code{1e-6})
+//' @param direction direction in which to exert force, either "both", "x", or "y"
 //' @noRd
-Point spring_force(
+Point repel_force(
+    Point a, Point b, double force = 0.000001, std::string direction = "both"
+) {
+  Point out;
+  if (direction == "x"){
+    out = repel_force_x(a, b, force);
+  } else if (direction == "y"){
+    out = repel_force_y(a, b, force);
+  } else{
+    out = repel_force_both(a, b, force);
+  }
+  return out;
+}
+
+
+
+Point spring_force_both(
     Point a, Point b, double force = 0.000001
 ) {
   double dx = fabs(a.x - b.x);
@@ -265,6 +304,62 @@ Point spring_force(
     }
   }
   return f;
+}
+
+Point spring_force_y(
+    Point a, Point b, double force = 0.000001
+) {
+  double dx = fabs(a.x - b.x);
+  double dy = fabs(a.y - b.y);
+  double d = sqrt(dx * dx + dy * dy);
+  Point f = {0, 0};
+  if (d > 0.02) {
+    // Compute a unit vector in the direction of the force.
+    Point v = {0, (a.y - b.y) / d};
+    f = force * v * d;
+    f.y = f.y * 1.5;
+  }
+  return f;
+}
+
+Point spring_force_x(
+    Point a, Point b, double force = 0.000001
+) {
+  double dx = fabs(a.x - b.x);
+  double dy = fabs(a.y - b.y);
+  double d = sqrt(dx * dx + dy * dy);
+  Point f = {0, 0};
+  if (d > 0.02) {
+    // Compute a unit vector in the direction of the force.
+    Point v = {(a.x - b.x) / d, 0};
+    f = force * v * d;
+    f.x = f.x * 1.5;
+  }
+  return f;
+}
+
+//' Compute the spring force upon point \code{a} from point \code{b}.
+//'
+//' The force increases with the distance between the points, similar
+//' to Hooke's law for springs.
+//'
+//' @param a A point like \code{c(x, y)}
+//' @param b A point like \code{c(x, y)}
+//' @param force Magnitude of the force (defaults to \code{1e-6})
+//' @param direction direction in which to exert force, either "both", "x", or "y"
+//' @noRd
+Point spring_force(
+    Point a, Point b, double force = 0.000001, std::string direction = "both"
+) {
+  Point out;
+  if (direction == "x"){
+    out = spring_force_x(a, b, force);
+  } else if (direction == "y"){
+    out = spring_force_y(a, b, force);
+  } else{
+    out = spring_force_both(a, b, force);
+  }
+  return out;
 }
 
 //' Adjust the layout of a list of potentially overlapping boxes.
@@ -288,7 +383,8 @@ DataFrame repel_boxes(
     double point_padding_x, double point_padding_y,
     NumericMatrix boxes,
     NumericVector xlim, NumericVector ylim,
-    double force = 1e-6, int maxiter = 2000
+    double force = 1e-6, int maxiter = 2000,
+    std::string direction = "both"
 ) {
   int n_points = data_points.nrow();
   int n_texts = boxes.nrow();
@@ -327,10 +423,19 @@ DataFrame repel_boxes(
   std::vector<double> ratios(n_texts);
   std::vector<Point> original_centroids(n_texts);
   for (int i = 0; i < n_texts; i++) {
-    TextBoxes[i].x1 = boxes(i, 0) + r[i];
-    TextBoxes[i].y1 = boxes(i, 1) + r[i];
-    TextBoxes[i].x2 = boxes(i, 2) + r[i];
-    TextBoxes[i].y2 = boxes(i, 3) + r[i];
+    TextBoxes[i].x1 = boxes(i, 0);
+    TextBoxes[i].x2 = boxes(i, 2);
+    TextBoxes[i].y1 = boxes(i, 1);
+    TextBoxes[i].y2 = boxes(i, 3);
+    // Don't add jitter if the user wants to repel in just one direction.
+    if (direction != "y") {
+      TextBoxes[i].x1 += r[i];
+      TextBoxes[i].x2 += r[i];
+    }
+    if (direction != "x") {
+      TextBoxes[i].y1 += r[i];
+      TextBoxes[i].y2 += r[i];
+    }
     // height over width
     ratios[i] = (TextBoxes[i].y2 - TextBoxes[i].y1)
       / (TextBoxes[i].x2 - TextBoxes[i].x1);
@@ -359,14 +464,14 @@ DataFrame repel_boxes(
           // Repel the box from its data point.
           if (overlaps(DataBoxes[i], TextBoxes[i])) {
             any_overlaps = true;
-            f = f + repel_force(ci, Points[i], force);
+            f = f + repel_force(ci, Points[i], force, direction);
           }
         } else {
           // Repel the box from overlapping boxes.
           if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
             any_overlaps = true;
             cj = centroid(TextBoxes[j]);
-            f = f + repel_force(ci, cj, force * 3);
+            f = f + repel_force(ci, cj, force * 3, direction);
           }
           // Skip the data points if the padding is 0.
           if (point_padding_x == 0 && point_padding_y == 0) {
@@ -375,14 +480,14 @@ DataFrame repel_boxes(
           // Repel the box from other data points.
           if (overlaps(DataBoxes[j], TextBoxes[i])) {
             any_overlaps = true;
-            f = f + repel_force(ci, Points[j], force);
+            f = f + repel_force(ci, Points[j], force, direction);
           }
         }
       }
 
       // Pull the box toward its original position.
       if (!any_overlaps) {
-        f = f + spring_force(original_centroids[i], ci, force * 2e3);
+        f = f + spring_force(original_centroids[i], ci, force * 2e3, direction);
       }
 
       // Dampen the forces.
@@ -406,4 +511,5 @@ DataFrame repel_boxes(
     Rcpp::Named("y") = ys
   );
 }
+
 

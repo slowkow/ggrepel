@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2017-01-09"
+date: "2017-02-12"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -109,8 +109,9 @@ However, the following parameters are not supported:
   the x axis
 - `nudge_y` is how much to shift the starting position of the text label along
   the y axis
+- `direction` is what direction to allow movement of the label, either "both" (default), "x", or "y"
 
-Here is an example that uses all of these options:
+Here is an example that uses most of these options:
 
 
 ```r
@@ -239,6 +240,37 @@ ggplot() +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/label_limits-1.png" title="plot of chunk label_limits" alt="plot of chunk label_limits" width="700" />
 
+### Limit the direction of label movement
+
+Use `direction` to limit label movement to the x-axis (left and right) or y-axis
+(up and down). The options are "both" (default), "x", or "y".
+
+
+```r
+set.seed(42)
+
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg), color = 'red') +
+  geom_text_repel(aes(wt, mpg, label = rownames(mtcars)), direction = "x") +
+  theme_classic(base_size = 16) + xlim(1,6)
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/direction_x-1.png" title="plot of chunk direction_x" alt="plot of chunk direction_x" width="700" />
+
+Setting `direction` to "y":
+
+
+```r
+set.seed(42)
+
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg), color = 'red') +
+  geom_text_repel(aes(wt, mpg, label = rownames(mtcars)), direction = "y") +
+  theme_classic(base_size = 16)
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/direction_y-1.png" title="plot of chunk direction_y" alt="plot of chunk direction_y" width="700" />
+
 ### Line plot
 
 
@@ -349,6 +381,7 @@ grid.arrange(p1, p2, ncol = 2)
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/math-1.png" title="plot of chunk math" alt="plot of chunk math" width="700" />
+
 
 ### Animation
 

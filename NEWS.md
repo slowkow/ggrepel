@@ -1,4 +1,14 @@
 
+ggrepel 0.6.8 2017-02-12
+----------------------------------------------------------------
+
+NEW FEATURE (thanks to @AliciaSchep)
+
+* Constrain repulsion force to x-axis "x" or y-axis "y" with `direction` in
+  `geom_text_repel()` and `geom_label_repel()`. See [pull 68][68].
+
+[68]: https://github.com/slowkow/ggrepel/pull/68
+
 ggrepel 0.6.7 2017-01-09
 ----------------------------------------------------------------
 
