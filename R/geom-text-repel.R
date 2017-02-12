@@ -84,7 +84,7 @@
 #'   to 1.
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
 #'   Defaults to 2000.
-#' @param direction "both","x",or "y" -- direction in which to adjust position of labels
+#' @param direction "both", "x", or "y" -- direction in which to adjust position of labels
 #'
 #' @examples
 #'
@@ -125,6 +125,7 @@
 #' # Nudge the starting positions
 #' p + geom_text_repel(nudge_x = ifelse(mtcars$cyl == 6, 1, 0),
 #'                     nudge_y = ifelse(mtcars$cyl == 6, 8, 0))
+#'
 #' # Change the text size
 #' p + geom_text_repel(aes(size = wt))
 #' # Scale height of text, rather than sqrt(height)

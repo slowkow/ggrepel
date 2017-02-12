@@ -98,7 +98,7 @@ a warning.  If \code{TRUE} silently removes missing values.}
 \code{NA}, the default, includes if any aesthetics are mapped.
 \code{FALSE} never includes, and \code{TRUE} always includes.}
 
-\item{direction}{"both","x",or "y" -- direction in which to adjust position of labels}
+\item{direction}{"both", "x", or "y" -- direction in which to adjust position of labels}
 
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
@@ -141,7 +141,6 @@ following parameters are \strong{not supported}:
   \item \code{check_overlap}
 }
 }
-
 \examples{
 
 p <- ggplot(mtcars,
@@ -181,6 +180,7 @@ p + geom_text_repel(data = mtcars, aes(wt, mpg, label = label))
 # Nudge the starting positions
 p + geom_text_repel(nudge_x = ifelse(mtcars$cyl == 6, 1, 0),
                     nudge_y = ifelse(mtcars$cyl == 6, 8, 0))
+
 # Change the text size
 p + geom_text_repel(aes(size = wt))
 # Scale height of text, rather than sqrt(height)
@@ -209,3 +209,4 @@ p +
   )
 }
 }
+

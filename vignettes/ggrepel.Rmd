@@ -236,6 +236,31 @@ ggplot() +
   theme_classic(base_size = 16)
 ```
 
+### Limit the direction of label movement
+
+Use `direction` to limit label movement to the x-axis (left and right) or y-axis
+(up and down). The options are "both" (default), "x", or "y".
+
+```{r direction_x, echo=TRUE, fig.width=9, fig.height=7}
+set.seed(42)
+
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg), color = 'red') +
+  geom_text_repel(aes(wt, mpg, label = rownames(mtcars)), direction = "x") +
+  theme_classic(base_size = 16) + xlim(1,6)
+```
+
+Setting `direction` to "y":
+
+```{r direction_y, echo=TRUE, fig.width=9, fig.height=7}
+set.seed(42)
+
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg), color = 'red') +
+  geom_text_repel(aes(wt, mpg, label = rownames(mtcars)), direction = "y") +
+  theme_classic(base_size = 16)
+```
+
 ### Line plot
 
 ```{r line_plot, echo=TRUE, fig.width=9, fig.height=7}
@@ -254,33 +279,6 @@ ggplot(Orange, aes(age, circumference, color = Tree)) +
   theme(legend.position = "none") +
   labs(title = "Orange Trees", x = "Age (days)", y = "Circumference (mm)")
 ```
-
-### Limiting direction in which labels can be adjusted
-
-In some cases it may be advantageous to only allow label positions to be moved in either the "x" or "y" directions, for example if the x or y position contains information.  To do so, one simply provides either "x" or "y" to the `direction` argument.
-
-```{r direction_x}
-set.seed(42)
-
-ggplot(mtcars) +
-  geom_point(aes(wt, mpg), color = 'red') +
-  geom_text_repel(aes(wt, mpg, label = rownames(mtcars)), direction = "x") +
-  theme_classic(base_size = 16) + xlim(1,6)
-
-```
-
-Setting `direction` to "y":
-
-```{r direction_y}
-set.seed(42)
-
-ggplot(mtcars) +
-  geom_point(aes(wt, mpg), color = 'red') +
-  geom_text_repel(aes(wt, mpg, label = rownames(mtcars)), direction = "y") +
-  theme_classic(base_size = 16)
-
-```
-
 
 ### Volcano plot
 

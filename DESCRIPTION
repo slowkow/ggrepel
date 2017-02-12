@@ -1,15 +1,15 @@
 Package: ggrepel
-Version: 0.6.7
+Version: 0.6.8
 Authors@R: c(
     person("Kamil", "Slowikowski", email = "kslowikowski@gmail.com", role = c("aut", "cre")),
     person("Jean-Olivier", "Irisson", role = "ctb"),
-    person("Saulius", "Lukauskas", role = "ctb")
+    person("Saulius", "Lukauskas", role = "ctb"),
+    person("Alicia", "Schep", role = "ctb")
     )
 Title: Repulsive Text and Label Geoms for 'ggplot2'
-Description:
-    Provides text and label geoms for 'ggplot2' that help to avoid overlapping
-    text labels. Labels repel away from each other and away from the data
-    points.
+Description: Provides text and label geoms for 'ggplot2' that help to avoid
+    overlapping text labels. Labels repel away from each other and away from the
+    data points.
 Depends:
     R (>= 3.0.0),
     ggplot2 (>= 2.2.0)
@@ -24,5 +24,5 @@ VignetteBuilder: knitr
 License: GPL-3 | file LICENSE
 URL: http://github.com/slowkow/ggrepel
 BugReports: http://github.com/slowkow/ggrepel/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 5.0.1
 LinkingTo: Rcpp

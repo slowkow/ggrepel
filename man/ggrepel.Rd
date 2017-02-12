@@ -24,3 +24,4 @@ Please report issues and suggest improvements at Github:
 
 \url{https://github.com/slowkow/ggrepel}
 }
+

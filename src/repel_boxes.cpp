@@ -34,7 +34,7 @@ NumericVector centroid(NumericVector b) {
 NumericVector intersect_line_rectangle(
     NumericVector p1, NumericVector p2, NumericVector b
 ) {
-  double slope = (p2[1] - p1[1]) / (p2[0] - p1[0]);
+  double slope = (p2[1] - p1[1]) / std::max(p2[0] - p1[0], 0.0004);
   double intercept = p2[1] - p2[0] * slope;
   NumericMatrix retval(4, 2);
   std::fill(retval.begin(), retval.end(), -INFINITY);
@@ -423,10 +423,19 @@ DataFrame repel_boxes(
   std::vector<double> ratios(n_texts);
   std::vector<Point> original_centroids(n_texts);
   for (int i = 0; i < n_texts; i++) {
-    TextBoxes[i].x1 = boxes(i, 0) + r[i];
-    TextBoxes[i].y1 = boxes(i, 1) + r[i];
-    TextBoxes[i].x2 = boxes(i, 2) + r[i];
-    TextBoxes[i].y2 = boxes(i, 3) + r[i];
+    TextBoxes[i].x1 = boxes(i, 0);
+    TextBoxes[i].x2 = boxes(i, 2);
+    TextBoxes[i].y1 = boxes(i, 1);
+    TextBoxes[i].y2 = boxes(i, 3);
+    // Don't add jitter if the user wants to repel in just one direction.
+    if (direction != "y") {
+      TextBoxes[i].x1 += r[i];
+      TextBoxes[i].x2 += r[i];
+    }
+    if (direction != "x") {
+      TextBoxes[i].y1 += r[i];
+      TextBoxes[i].y2 += r[i];
+    }
     // height over width
     ratios[i] = (TextBoxes[i].y2 - TextBoxes[i].y1)
       / (TextBoxes[i].x2 - TextBoxes[i].x1);
