@@ -12,7 +12,8 @@ geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   segment.color = NULL, segment.size = 0.5, segment.alpha = NULL,
   min.segment.length = unit(0.5, "lines"), arrow = NULL, force = 1,
   max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA, NA),
-  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
+  direction = c("both", "y", "x"), inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = unit(0.25, "lines"),
@@ -20,7 +21,8 @@ geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   segment.color = NULL, segment.size = 0.5, segment.alpha = NULL,
   min.segment.length = unit(0.5, "lines"), arrow = NULL, force = 1,
   max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA, NA),
-  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA, inherit.aes = TRUE)
+  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
+  direction = c("both", "y", "x"), inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -96,6 +98,8 @@ a warning.  If \code{TRUE} silently removes missing values.}
 \code{NA}, the default, includes if any aesthetics are mapped.
 \code{FALSE} never includes, and \code{TRUE} always includes.}
 
+\item{direction}{"both","x",or "y" -- direction in which to adjust position of labels}
+
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
@@ -137,6 +141,7 @@ following parameters are \strong{not supported}:
   \item \code{check_overlap}
 }
 }
+
 \examples{
 
 p <- ggplot(mtcars,
@@ -204,4 +209,3 @@ p +
   )
 }
 }
-

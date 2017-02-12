@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2017-01-09"
+date: "2017-02-11"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -109,8 +109,9 @@ However, the following parameters are not supported:
   the x axis
 - `nudge_y` is how much to shift the starting position of the text label along
   the y axis
+- `direction` is what direction to allow movement of the label, either "both" (default), "x", or "y"
 
-Here is an example that uses all of these options:
+Here is an example that uses most of these options:
 
 
 ```r
@@ -261,6 +262,17 @@ ggplot(Orange, aes(age, circumference, color = Tree)) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/line_plot-1.png" title="plot of chunk line_plot" alt="plot of chunk line_plot" width="700" />
 
+### Limiting direction in which labels can be adjusted
+
+In some cases it may be advantageous to only allow label positions to be moved in either the "x" or "y" directions, for example if the x or y position contains information.  To do so, one simply provides either "x" or "y" to the `direction` argument.
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/direction_x-1.png" title="plot of chunk direction_x" alt="plot of chunk direction_x" width="700" />
+
+Setting `direction` to "y":
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/direction_y-1.png" title="plot of chunk direction_y" alt="plot of chunk direction_y" width="700" />
+
+
 ### Volcano plot
 
 
@@ -350,6 +362,7 @@ grid.arrange(p1, p2, ncol = 2)
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/math-1.png" title="plot of chunk math" alt="plot of chunk math" width="700" />
 
+
 ### Animation
 
 
@@ -393,11 +406,16 @@ sessionInfo()
 
 ```
 ## R version 3.3.2 (2016-10-31)
-## Platform: x86_64-apple-darwin13.4.0 (64-bit)
-## Running under: OS X Yosemite 10.10.5
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 16.04.1 LTS
 ## 
 ## locale:
-## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -406,7 +424,7 @@ sessionInfo()
 ## [1] gridExtra_2.2.1 ggrepel_0.6.7   ggplot2_2.2.1   knitr_1.15.1   
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.8      codetools_0.2-15 digest_0.6.11    assertthat_0.1  
+##  [1] Rcpp_0.12.9      codetools_0.2-15 digest_0.6.12    assertthat_0.1  
 ##  [5] grid_3.3.2       plyr_1.8.4       gtable_0.2.0     magrittr_1.5    
 ##  [9] evaluate_0.10    scales_0.4.1     highr_0.6        stringi_1.1.2   
 ## [13] lazyeval_0.2.0   labeling_0.3     tools_3.3.2      stringr_1.1.0   

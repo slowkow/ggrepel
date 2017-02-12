@@ -26,6 +26,7 @@ geom_label_repel <- function(
   ylim = c(NA, NA),
   na.rm = FALSE,
   show.legend = NA,
+  direction = c("both","y","x"),
   inherit.aes = TRUE
 ) {
   layer(
@@ -55,6 +56,7 @@ geom_label_repel <- function(
       nudge_y = nudge_y,
       xlim = xlim,
       ylim = ylim,
+      direction = match.arg(direction),
       ...
     )
   )
@@ -93,7 +95,8 @@ GeomLabelRepel <- ggproto(
     nudge_y = 0,
     xlim = xlim,
     ylim = ylim,
-    max.iter = 2000
+    max.iter = 2000,
+    direction = "both"
   ) {
     lab <- data$label
     if (parse) {
@@ -139,6 +142,7 @@ GeomLabelRepel <- ggproto(
       arrow = arrow,
       force = force,
       max.iter = max.iter,
+      direction = direction,
       cl = "labelrepeltree"
     ))
   },
@@ -210,7 +214,8 @@ makeContent.labelrepeltree <- function(x) {
     xlim = range(x$limits$x),
     ylim = range(x$limits$y),
     force = x$force * 1e-6,
-    maxiter = x$max.iter
+    maxiter = x$max.iter,
+    direction = x$direction
   )
 
   grobs <- lapply(seq_along(valid_strings), function(i) {

@@ -11,4 +11,3 @@ GeomLabelRepel
 GeomTextRepel
 }
 \keyword{datasets}
-

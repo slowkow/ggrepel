@@ -84,6 +84,7 @@
 #'   to 1.
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
 #'   Defaults to 2000.
+#' @param direction "both","x",or "y" -- direction in which to adjust position of labels
 #'
 #' @examples
 #'
@@ -172,6 +173,7 @@ geom_text_repel <- function(
   ylim = c(NA, NA),
   na.rm = FALSE,
   show.legend = NA,
+  direction = c("both","y","x"),
   inherit.aes = TRUE
 ) {
   layer(
@@ -198,6 +200,7 @@ geom_text_repel <- function(
       nudge_y = nudge_y,
       xlim = xlim,
       ylim = ylim,
+      direction = match.arg(direction),
       ...
     )
   )
@@ -232,7 +235,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     nudge_x = 0,
     nudge_y = 0,
     xlim = xlim,
-    ylim = ylim
+    ylim = ylim,
+    direction = "both"
   ) {
     lab <- data$label
     if (parse) {
@@ -275,6 +279,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       arrow = arrow,
       force = force,
       max.iter = max.iter,
+      direction = direction,
       cl = "textrepeltree"
     ))
   },
@@ -328,6 +333,7 @@ makeContent.textrepeltree <- function(x) {
 
   # Repel overlapping bounding boxes away from each other.
   set.seed(stats::rnorm(1))
+
   repel <- repel_boxes(
     data_points = cbind(x$data$x, x$data$y),
     point_padding_x = point_padding_x,
@@ -336,7 +342,8 @@ makeContent.textrepeltree <- function(x) {
     xlim = range(x$limits$x),
     ylim = range(x$limits$y),
     force = x$force * 1e-6,
-    maxiter = x$max.iter
+    maxiter = x$max.iter,
+    direction = x$direction
   )
 
   grobs <- lapply(seq_along(valid_strings), function(i) {

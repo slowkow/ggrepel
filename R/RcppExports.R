@@ -42,6 +42,7 @@ NULL
 #' @param a A point like \code{c(x, y)}
 #' @param b A point like \code{c(x, y)}
 #' @param force Magnitude of the force (defaults to \code{1e-6})
+#' @param direction direction in which to exert force, either "both", "x", or "y"
 #' @noRd
 NULL
 
@@ -53,6 +54,7 @@ NULL
 #' @param a A point like \code{c(x, y)}
 #' @param b A point like \code{c(x, y)}
 #' @param force Magnitude of the force (defaults to \code{1e-6})
+#' @param direction direction in which to exert force, either "both", "x", or "y"
 #' @noRd
 NULL
 
@@ -96,7 +98,7 @@ intersect_line_rectangle <- function(p1, p2, b) {
 #' @param maxiter Maximum number of iterations to try to resolve overlaps
 #'   (defaults to 2000)
 #' @noRd
-repel_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, force = 1e-6, maxiter = 2000L) {
-    .Call('ggrepel_repel_boxes', PACKAGE = 'ggrepel', data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, force, maxiter)
+repel_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, force = 1e-6, maxiter = 2000L, direction = "both") {
+    .Call('ggrepel_repel_boxes', PACKAGE = 'ggrepel', data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, force, maxiter, direction)
 }
 

@@ -117,8 +117,9 @@ However, the following parameters are not supported:
   the x axis
 - `nudge_y` is how much to shift the starting position of the text label along
   the y axis
+- `direction` is what direction to allow movement of the label, either "both" (default), "x", or "y"
 
-Here is an example that uses all of these options:
+Here is an example that uses most of these options:
 
 ```{r geom_text_repel_options, echo=TRUE, fig.width=9, fig.height=7}
 set.seed(42)
@@ -254,6 +255,33 @@ ggplot(Orange, aes(age, circumference, color = Tree)) +
   labs(title = "Orange Trees", x = "Age (days)", y = "Circumference (mm)")
 ```
 
+### Limiting direction in which labels can be adjusted
+
+In some cases it may be advantageous to only allow label positions to be moved in either the "x" or "y" directions, for example if the x or y position contains information.  To do so, one simply provides either "x" or "y" to the `direction` argument.
+
+```{r direction_x}
+set.seed(42)
+
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg), color = 'red') +
+  geom_text_repel(aes(wt, mpg, label = rownames(mtcars)), direction = "x") +
+  theme_classic(base_size = 16) + xlim(1,6)
+
+```
+
+Setting `direction` to "y":
+
+```{r direction_y}
+set.seed(42)
+
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg), color = 'red') +
+  geom_text_repel(aes(wt, mpg, label = rownames(mtcars)), direction = "y") +
+  theme_classic(base_size = 16)
+
+```
+
+
 ### Volcano plot
 
 ```{r volcano, echo=TRUE, eval=FALSE}
@@ -335,6 +363,7 @@ p2 <- ggplot(d, aes(x, y, label = Parameter)) +
 
 grid.arrange(p1, p2, ncol = 2)
 ```
+
 
 ### Animation
 
