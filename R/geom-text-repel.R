@@ -243,6 +243,9 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     if (parse) {
       lab <- parse(text = as.character(lab))
     }
+    if (!length(which(not_empty(lab)))) {
+      return()
+    }
 
     # Transform the nudges to the panel scales.
     nudges <- data.frame(

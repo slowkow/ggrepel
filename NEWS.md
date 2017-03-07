@@ -1,4 +1,14 @@
 
+ggrepel 0.6.9 2017-03-07
+----------------------------------------------------------------
+
+FIXES (thanks to @pcroteau)
+
+* Fix the crash that happens in plots with `facet_wrap` or `facet_grid`
+  that have no labeled points.
+
+[70]: https://github.com/slowkow/ggrepel/pull/70
+
 ggrepel 0.6.8 2017-02-12
 ----------------------------------------------------------------
 
