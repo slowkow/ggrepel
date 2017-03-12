@@ -225,7 +225,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
 
   default_aes = aes(
     colour = "black", size = 3.88, angle = 0,
-    alpha = NA, family = "", fontface = 1, lineheight = 1.2
+    alpha = NA, family = "", fontface = 1, lineheight = 1.2,
+    hjust = 0.5, vjust = 0.5
   ),
 
   draw_panel = function(
@@ -278,6 +279,14 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     limits$x[is.na(limits$x)] <- c(0, 1)[is.na(limits$x)]
     limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
 
+    # Convert hjust and vjust to numeric if character
+    if (is.character(data$vjust)) {
+      data$vjust <- compute_just(data$vjust, data$y)
+    }
+    if (is.character(data$hjust)) {
+      data$hjust <- compute_just(data$hjust, data$x)
+    }
+
     ggname("geom_text_repel", gTree(
       limits = limits,
       data = data,
@@ -324,6 +333,8 @@ makeContent.textrepeltree <- function(x) {
   # Create a dataframe with x1 y1 x2 y2
   boxes <- lapply(valid_strings, function(i) {
     row <- x$data[i, , drop = FALSE]
+    hj <- x$data$hjust[i]
+    vj <- x$data$vjust[i]
     tg <- textGrob(
       x$lab[i],
       row$x, row$y, default.units = "native",
@@ -335,13 +346,14 @@ makeContent.textrepeltree <- function(x) {
         lineheight = row$lineheight
       )
     )
-    gw <- convertWidth(grobWidth(tg), "native", TRUE) / 2
-    gh <- convertHeight(grobHeight(tg), "native", TRUE) / 2
+    gw <- convertWidth(grobWidth(tg), "native", TRUE)
+    gh <- convertHeight(grobHeight(tg), "native", TRUE)
+
     c(
-      "x1" = row$x - gw - box_padding_x + x$nudges$x[i],
-      "y1" = row$y - gh - box_padding_y + x$nudges$y[i],
-      "x2" = row$x + gw + box_padding_x + x$nudges$x[i],
-      "y2" = row$y + gh + box_padding_y + x$nudges$y[i]
+      "x1" = row$x - gw * hj  - box_padding_x + x$nudges$x[i],
+      "y1" = row$y - gh * vj - box_padding_y + x$nudges$y[i],
+      "x2" = row$x + gw * (1 - hj) + box_padding_x + x$nudges$x[i],
+      "y2" = row$y + gh * (1 - vj) + box_padding_y + x$nudges$y[i]
     )
   })
 
@@ -534,4 +546,23 @@ makeContent.textrepelgrob <- function(x) {
   } else {
     setChildren(x, gList(t))
   }
+}
+
+# copied from ggplot2
+compute_just <- function(just, x) {
+  inward <- just == "inward"
+  just[inward] <- c("left", "middle", "right")[just_dir(x[inward])]
+  outward <- just == "outward"
+  just[outward] <- c("right", "middle", "left")[just_dir(x[outward])]
+
+  unname(c(left = 0, center = 0.5, right = 1,
+           bottom = 0, middle = 0.5, top = 1)[just])
+}
+
+# copied from ggplot2
+just_dir <- function(x, tol = 0.001) {
+  out <- rep(2L, length(x))
+  out[x < 0.5 - tol] <- 1L
+  out[x > 0.5 + tol] <- 3L
+  out
 }
