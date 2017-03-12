@@ -73,7 +73,8 @@ GeomLabelRepel <- ggproto(
 
   default_aes = aes(
     colour = "black", fill = "white", size = 3.88, angle = 0,
-    alpha = NA, family = "", fontface = 1, lineheight = 1.2
+    alpha = NA, family = "", fontface = 1, lineheight = 1.2,
+    hjust = 0.5, vjust = 0.5
   ),
 
   draw_panel = function(
@@ -125,6 +126,14 @@ GeomLabelRepel <- ggproto(
     limits$x[is.na(limits$x)] <- c(0, 1)[is.na(limits$x)]
     limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
 
+    # Convert hjust and vjust to numeric if character
+    if (is.character(data$vjust)) {
+      data$vjust <- compute_just(data$vjust, data$y)
+    }
+    if (is.character(data$hjust)) {
+      data$hjust <- compute_just(data$hjust, data$x)
+    }
+
     ggname("geom_label_repel", gTree(
       limits = limits,
       data = data,
@@ -170,6 +179,8 @@ makeContent.labelrepeltree <- function(x) {
   # Create a dataframe with x y width height
   boxes <- lapply(valid_strings, function(i) {
     row <- x$data[i, , drop = FALSE]
+    hj <- x$data$hjust[i]
+    vj <- x$data$vjust[i]
     t <- textGrob(
       x$lab[i],
       unit(row$x, "native") + x$label.padding,
@@ -194,15 +205,15 @@ makeContent.labelrepeltree <- function(x) {
       ),
       name = "box"
     )
-    gw <- convertWidth(grobWidth(r), "native", TRUE) / 2
-    gh <- convertHeight(grobHeight(r), "native", TRUE) / 2
+    gw <- convertWidth(grobWidth(r), "native", TRUE)
+    gh <- convertHeight(grobHeight(r), "native", TRUE)
     c(
-      "x1" = row$x - gw - box_padding_x + x$nudges$x[i],
-      "y1" = row$y - gh - box_padding_y + x$nudges$y[i],
-      "x2" = row$x + gw + box_padding_x + x$nudges$x[i],
-      "y2" = row$y + gh + box_padding_y + x$nudges$y[i]
+      "x1" = row$x - gw * hj  - box_padding_x + x$nudges$x[i],
+      "y1" = row$y - gh * vj - box_padding_y + x$nudges$y[i],
+      "x2" = row$x + gw * (1 - hj) + box_padding_x + x$nudges$x[i],
+      "y2" = row$y + gh * (1 - vj) + box_padding_y + x$nudges$y[i]
     )
-  })
+    })
 
   # Repel overlapping bounding boxes away from each other.
   set.seed(stats::rnorm(1))
