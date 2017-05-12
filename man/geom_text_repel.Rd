@@ -141,6 +141,7 @@ following parameters are \strong{not supported}:
   \item \code{check_overlap}
 }
 }
+
 \examples{
 
 p <- ggplot(mtcars,
@@ -209,4 +210,3 @@ p +
   )
 }
 }
-

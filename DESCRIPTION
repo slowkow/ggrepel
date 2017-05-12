@@ -1,5 +1,5 @@
 Package: ggrepel
-Version: 0.6.9
+Version: 0.6.10
 Authors@R: c(
     person("Kamil", "Slowikowski", email = "kslowikowski@gmail.com", role = c("aut", "cre")),
     person("Jean-Olivier", "Irisson", role = "ctb"),
@@ -25,5 +25,5 @@ VignetteBuilder: knitr
 License: GPL-3 | file LICENSE
 URL: http://github.com/slowkow/ggrepel
 BugReports: http://github.com/slowkow/ggrepel/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 LinkingTo: Rcpp

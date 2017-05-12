@@ -2,10 +2,20 @@
 ggrepel 0.6.9 2017-03-07
 ----------------------------------------------------------------
 
+FIXES (thanks to @zkamvar)
+
+* Fix the crash for plots that do not specify `xlim` or `ylim`.
+  See [pull 74][74].
+
+[74]: https://github.com/slowkow/ggrepel/pull/74
+
+ggrepel 0.6.9 2017-03-07
+----------------------------------------------------------------
+
 FIXES (thanks to @pcroteau)
 
-* Fix the crash that happens in plots with `facet_wrap` or `facet_grid`
-  that have no labeled points.
+* Fix the crash for plots with `facet_wrap` or `facet_grid` that have no
+  labeled points. See [pull 70][70].
 
 [70]: https://github.com/slowkow/ggrepel/pull/70
 

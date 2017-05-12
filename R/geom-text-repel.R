@@ -235,8 +235,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     max.iter = 2000,
     nudge_x = 0,
     nudge_y = 0,
-    xlim = c(NA_real_, NA_real_),
-    ylim = c(NA_real_, NA_real_),
+    xlim = c(NA, NA),
+    ylim = c(NA, NA),
     direction = "both"
   ) {
     lab <- data$label

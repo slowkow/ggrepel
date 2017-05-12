@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2017-03-07"
+date: "2017-05-12"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -425,9 +425,13 @@ sessionInfo()
 ```
 
 ```
-## R version 3.3.2 (2016-10-31)
-## Platform: x86_64-apple-darwin13.4.0 (64-bit)
-## Running under: OS X Yosemite 10.10.5
+## R version 3.4.0 (2017-04-21)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: OS X El Capitan 10.11.6
+## 
+## Matrix products: default
+## BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
 ## 
 ## locale:
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -436,14 +440,14 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] gridExtra_2.2.1 ggrepel_0.6.9   ggplot2_2.2.1   knitr_1.15.1   
+## [1] gridExtra_2.2.1 ggrepel_0.6.10  ggplot2_2.2.1   knitr_1.15.1   
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.8      codetools_0.2-15 digest_0.6.11    assertthat_0.1  
-##  [5] grid_3.3.2       plyr_1.8.4       gtable_0.2.0     magrittr_1.5    
-##  [9] evaluate_0.10    scales_0.4.1     highr_0.6        stringi_1.1.2   
-## [13] lazyeval_0.2.0   labeling_0.3     tools_3.3.2      stringr_1.1.0   
-## [17] munsell_0.4.3    colorspace_1.3-2 tibble_1.2
+##  [1] Rcpp_0.12.10     codetools_0.2-15 digest_0.6.12    grid_3.4.0      
+##  [5] plyr_1.8.4       gtable_0.2.0     magrittr_1.5     evaluate_0.10   
+##  [9] scales_0.4.1     highr_0.6        stringi_1.1.5    lazyeval_0.2.0  
+## [13] labeling_0.3     tools_3.4.0      stringr_1.2.0    munsell_0.4.3   
+## [17] compiler_3.4.0   colorspace_1.3-2 tibble_1.3.0
 ```
 
 [geom_text]: http://docs.ggplot2.org/current/geom_text.html
