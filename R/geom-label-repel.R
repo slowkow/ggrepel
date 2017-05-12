@@ -93,8 +93,8 @@ GeomLabelRepel <- ggproto(
     force = 1,
     nudge_x = 0,
     nudge_y = 0,
-    xlim = xlim,
-    ylim = ylim,
+    xlim = NA_real_,
+    ylim = NA_real_,
     max.iter = 2000,
     direction = "both"
   ) {
