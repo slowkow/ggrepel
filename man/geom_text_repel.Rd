@@ -6,22 +6,20 @@
 \title{Repulsive textual annotations.}
 \usage{
 geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
-  parse = FALSE, ..., box.padding = unit(0.25, "lines"),
-  label.padding = unit(0.25, "lines"), point.padding = unit(1e-06, "lines"),
-  label.r = unit(0.15, "lines"), label.size = 0.25, segment.colour = NULL,
-  segment.color = NULL, segment.size = 0.5, segment.alpha = NULL,
-  min.segment.length = unit(0.5, "lines"), arrow = NULL, force = 1,
-  max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA, NA),
-  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
+  parse = FALSE, ..., box.padding = 0.25, label.padding = 0.25,
+  point.padding = 1e-06, label.r = 0.15, label.size = 0.25,
+  segment.colour = NULL, segment.color = NULL, segment.size = 0.5,
+  segment.alpha = NULL, min.segment.length = 0.5, arrow = NULL,
+  force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA,
+  NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
   direction = c("both", "y", "x"), inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
-  parse = FALSE, ..., box.padding = unit(0.25, "lines"),
-  point.padding = unit(1e-06, "lines"), segment.colour = NULL,
-  segment.color = NULL, segment.size = 0.5, segment.alpha = NULL,
-  min.segment.length = unit(0.5, "lines"), arrow = NULL, force = 1,
-  max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA, NA),
-  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
+  parse = FALSE, ..., box.padding = 0.25, point.padding = 1e-06,
+  segment.colour = NULL, segment.color = NULL, segment.size = 0.5,
+  segment.alpha = NULL, min.segment.length = 0.5, arrow = NULL,
+  force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA,
+  NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
   direction = c("both", "y", "x"), inherit.aes = TRUE)
 }
 \arguments{
@@ -51,15 +49,21 @@ displayed as described in ?plotmath}
     \item Other arguments passed on to the stat.
   }}
 
-\item{box.padding}{Amount of padding around bounding box. Defaults to
-\code{unit(0.25, "lines")}.}
+\item{box.padding}{Amount of padding around bounding box, as unit or number.
+Defaults to 0.25. (Default unit is lines, but other units can be specified
+by passing \code{unit(x, "units")}).}
 
-\item{label.padding}{Amount of padding around label. Defaults to 0.25 lines.}
+\item{label.padding}{Amount of padding around label, as unit or number.
+Defaults to 0.25. (Default unit is lines, but other units can be specified
+by passing \code{unit(x, "units")}).}
 
-\item{point.padding}{Amount of padding around labeled point. Defaults to
-\code{unit(0, "lines")}.}
+\item{point.padding}{Amount of padding around labeled point, as unit or
+number. Defaults to 0. (Default unit is lines, but other units can be
+specified by passing \code{unit(x, "units")}).}
 
-\item{label.r}{Radius of rounded corners. Defaults to 0.15 lines.}
+\item{label.r}{Radius of rounded corners, as unit or number. Defaults
+to 0.15. (Default unit is lines, but other units can be specified by
+passing \code{unit(x, "units")}).}
 
 \item{label.size}{Size of label border, in mm.}
 
@@ -73,8 +77,9 @@ the text label, in mm.}
 \item{segment.alpha}{Transparency of the line segment. Defaults to the same
 transparency as the text.}
 
-\item{min.segment.length}{Skip drawing segments shorter than this. Defaults
-to \code{unit(0.5, "lines")}.}
+\item{min.segment.length}{Skip drawing segments shorter than this, as unit or
+number. Defaults to 0.5. (Default unit is lines, but other units can be
+specified by passing \code{unit(x, "units")}).}
 
 \item{arrow}{specification for arrow heads, as created by \code{\link[grid]{arrow}}}
 
@@ -155,17 +160,17 @@ p + geom_label_repel()
 
 \dontrun{
 p + geom_text_repel(family = "Times New Roman",
-  box.padding = unit(0.5, "lines"))
+  box.padding = 0.5)
 
 # Add aesthetic mappings
 p + geom_text_repel(aes(alpha=wt, size=mpg))
 p + geom_label_repel(aes(fill=factor(cyl)), colour="white", segment.colour="black")
 
 # Draw all line segments
-p + geom_text_repel(min.segment.length = unit(0, "lines"))
+p + geom_text_repel(min.segment.length = 0)
 
 # Omit short line segments (default behavior)
-p + geom_text_repel(min.segment.length = unit(0.5, "lines"))
+p + geom_text_repel(min.segment.length = 0.5)
 
 # Omit all line segments
 p + geom_text_repel(segment.colour = NA)
@@ -206,7 +211,8 @@ p +
   geom_point(colour = "red") +
   geom_text_repel(
     arrow = arrow(length = unit(0.02, "npc")),
-    box.padding = unit(1, "lines")
+    box.padding = 1
   )
+
 }
 }

@@ -1,3 +1,12 @@
+ggrepel 0.6.9 2017-07-08
+----------------------------------------------------------------
+
+CHANGES (thanks to @seaaan)
+
+* Allow certain arguments to be passed as numbers or unit() 
+  instead of only units. See [issue 79][79].
+
+[79]: https://github.com/slowkow/ggrepel/issues/79
 
 ggrepel 0.6.9 2017-03-07
 ----------------------------------------------------------------
