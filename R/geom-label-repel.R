@@ -1,22 +1,26 @@
 #' @rdname geom_text_repel
-#' @param label.padding Amount of padding around label. Defaults to 0.25 lines.
-#' @param label.r Radius of rounded corners. Defaults to 0.15 lines.
+#' @param label.padding Amount of padding around label, as unit or number.
+#'   Defaults to 0.25. (Default unit is lines, but other units can be specified
+#'   by passing \code{unit(x, "units")}).
+#' @param label.r Radius of rounded corners, as unit or number. Defaults
+#'   to 0.15. (Default unit is lines, but other units can be specified by
+#'   passing \code{unit(x, "units")}).
 #' @param label.size Size of label border, in mm.
 #' @export
 geom_label_repel <- function(
   mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE,
   ...,
-  box.padding = unit(0.25, "lines"),
-  label.padding = unit(0.25, "lines"),
-  point.padding = unit(1e-6, "lines"),
-  label.r = unit(0.15, "lines"),
+  box.padding = 0.25,
+  label.padding = 0.25,
+  point.padding = 1e-6,
+  label.r = 0.15,
   label.size = 0.25,
   segment.colour = NULL,
   segment.color = NULL,
   segment.size = 0.5,
   segment.alpha = NULL,
-  min.segment.length = unit(0.5, "lines"),
+  min.segment.length = 0.5,
   arrow = NULL,
   force = 1,
   max.iter = 2000,
@@ -80,15 +84,15 @@ GeomLabelRepel <- ggproto(
     self, data, panel_scales, coord,
     parse = FALSE,
     na.rm = FALSE,
-    box.padding = unit(0.25, "lines"),
-    label.padding = unit(0.25, "lines"),
-    point.padding = unit(1e-6, "lines"),
-    label.r = unit(0.15, "lines"),
+    box.padding = 0.25,
+    label.padding = 0.25,
+    point.padding = 1e-6,
+    label.r = 0.15,
     label.size = 0.25,
     segment.colour = NULL,
     segment.size = 0.5,
     segment.alpha = NULL,
-    min.segment.length = unit(0.5, "lines"),
+    min.segment.length = 0.5,
     arrow = NULL,
     force = 1,
     nudge_x = 0,
@@ -267,9 +271,9 @@ labelRepelGrob <- function(
   y.orig = unit(0.5, "npc"),
   default.units = "npc",
   just = "center",
-  box.padding = unit(0.25, "lines"),
-  label.padding = unit(0.25, "lines"),
-  point.padding = unit(1e-6, "lines"),
+  box.padding = 0.25,
+  label.padding = 0.25,
+  point.padding = 1e-6,
   name = NULL,
   text.gp = gpar(),
   rect.gp = gpar(fill = "white"),
@@ -277,7 +281,7 @@ labelRepelGrob <- function(
   segment.gp = gpar(),
   vp = NULL,
   arrow = NULL,
-  min.segment.length = unit(0.5, "lines")
+  min.segment.length = 0.5
 ) {
   stopifnot(length(label) == 1)
 

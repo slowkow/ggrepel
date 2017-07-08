@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2017-05-12"
+date: "2017-07-08"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -74,8 +74,7 @@ ggplot(mtcars) +
   geom_label_repel(
     aes(wt, mpg, fill = factor(cyl), label = rownames(mtcars)),
     fontface = 'bold', color = 'white',
-    box.padding = unit(0.35, "lines"),
-    point.padding = unit(0.5, "lines"),
+    box.padding = 0.35, point.padding = 0.5,
     segment.color = 'grey50'
   ) +
   theme_classic(base_size = 16)
@@ -130,9 +129,9 @@ ggplot(mtcars) +
     family = 'Times',
     fontface = 'bold',
     # Add extra padding around each text label.
-    box.padding = unit(0.5, 'lines'),
+    box.padding = 0.5,
     # Add extra padding around each data point.
-    point.padding = unit(1.6, 'lines'),
+    point.padding = 1.6,
     # Color of the line segments.
     segment.color = '#cccccc',
     # Width of the line segments.
@@ -193,8 +192,8 @@ ggplot(mtcars, aes(wt, mpg)) +
       size = hp,
       label = label
     ),
-    point.padding = unit(0.25, "lines"),
-    box.padding = unit(0.25, "lines"),
+    point.padding = 0.25,
+    box.padding = 0.25,
     nudge_y = 0.1
   ) +
   theme_bw(base_size = 16)
@@ -311,8 +310,8 @@ ggplot(genes, aes(x = log2FoldChange, y = -log10(pvalue))) +
     data = subset(genes, padj < 0.05),
     aes(label = Gene),
     size = 5,
-    box.padding = unit(0.35, "lines"),
-    point.padding = unit(0.3, "lines")
+    box.padding = 0.35,
+    point.padding = 0.3
   )
 ggsave("figures/ggrepel/volcano-1.png", width = 12, height = 8, dpi = 84)
 ```
@@ -335,8 +334,8 @@ ggplot(mtcars, aes(x = wt, y = mpg, label = label)) +
     aes(
       color = factor(cyl)
     ),
-    point.padding = unit(0.25, "lines"),
-    box.padding = unit(0.25, "lines"),
+    point.padding = 0.25,
+    box.padding = 0.25,
     nudge_y = 0.1
   ) +
   theme_bw(base_size = 16)
@@ -366,9 +365,9 @@ p1 <- ggplot(d, aes(x, y, label = Parameter)) +
   geom_point() +
   geom_text_repel(
     parse = TRUE, size = 8,
-    min.segment.length = unit(0, "lines"),
-    point.padding = unit(0.5, "lines"),
-    box.padding = unit(0.5, "lines")
+    min.segment.length = 0,
+    point.padding = 0.5,
+    box.padding = 0.5
   ) +
   theme_classic(base_size = 20)
 
@@ -425,29 +424,34 @@ sessionInfo()
 ```
 
 ```
-## R version 3.4.0 (2017-04-21)
-## Platform: x86_64-apple-darwin15.6.0 (64-bit)
-## Running under: OS X El Capitan 10.11.6
+## R version 3.4.1 (2017-06-30)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 16.04.2 LTS
 ## 
 ## Matrix products: default
-## BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
-## LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+## BLAS: /usr/lib/libblas/libblas.so.3.6.0
+## LAPACK: /usr/lib/lapack/liblapack.so.3.6.0
 ## 
 ## locale:
-## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] gridExtra_2.2.1 ggrepel_0.6.10  ggplot2_2.2.1   knitr_1.15.1   
+## [1] gridExtra_2.2.1 ggrepel_0.6.10  ggplot2_2.2.1   knitr_1.16     
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.10     codetools_0.2-15 digest_0.6.12    grid_3.4.0      
-##  [5] plyr_1.8.4       gtable_0.2.0     magrittr_1.5     evaluate_0.10   
-##  [9] scales_0.4.1     highr_0.6        stringi_1.1.5    lazyeval_0.2.0  
-## [13] labeling_0.3     tools_3.4.0      stringr_1.2.0    munsell_0.4.3   
-## [17] compiler_3.4.0   colorspace_1.3-2 tibble_1.3.0
+##  [1] Rcpp_0.12.11     codetools_0.2-15 digest_0.6.12    grid_3.4.1      
+##  [5] plyr_1.8.4       gtable_0.2.0     magrittr_1.5     evaluate_0.10.1 
+##  [9] scales_0.4.1     highr_0.6        rlang_0.1.1      stringi_1.1.5   
+## [13] lazyeval_0.2.0   labeling_0.3     tools_3.4.1      stringr_1.2.0   
+## [17] munsell_0.4.3    compiler_3.4.1   colorspace_1.3-2 tibble_1.3.3
 ```
 
 [geom_text]: http://docs.ggplot2.org/current/geom_text.html

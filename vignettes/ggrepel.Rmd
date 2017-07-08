@@ -84,8 +84,7 @@ ggplot(mtcars) +
   geom_label_repel(
     aes(wt, mpg, fill = factor(cyl), label = rownames(mtcars)),
     fontface = 'bold', color = 'white',
-    box.padding = unit(0.35, "lines"),
-    point.padding = unit(0.5, "lines"),
+    box.padding = 0.35, point.padding = 0.5,
     segment.color = 'grey50'
   ) +
   theme_classic(base_size = 16)
@@ -137,9 +136,9 @@ ggplot(mtcars) +
     family = 'Times',
     fontface = 'bold',
     # Add extra padding around each text label.
-    box.padding = unit(0.5, 'lines'),
+    box.padding = 0.5,
     # Add extra padding around each data point.
-    point.padding = unit(1.6, 'lines'),
+    point.padding = 1.6,
     # Color of the line segments.
     segment.color = '#cccccc',
     # Width of the line segments.
@@ -194,8 +193,8 @@ ggplot(mtcars, aes(wt, mpg)) +
       size = hp,
       label = label
     ),
-    point.padding = unit(0.25, "lines"),
-    box.padding = unit(0.25, "lines"),
+    point.padding = 0.25,
+    box.padding = 0.25,
     nudge_y = 0.1
   ) +
   theme_bw(base_size = 16)
@@ -297,8 +296,8 @@ ggplot(genes, aes(x = log2FoldChange, y = -log10(pvalue))) +
     data = subset(genes, padj < 0.05),
     aes(label = Gene),
     size = 5,
-    box.padding = unit(0.35, "lines"),
-    point.padding = unit(0.3, "lines")
+    box.padding = 0.35,
+    point.padding = 0.3
   )
 ggsave("figures/ggrepel/volcano-1.png", width = 12, height = 8, dpi = 84)
 ```
@@ -320,8 +319,8 @@ ggplot(mtcars, aes(x = wt, y = mpg, label = label)) +
     aes(
       color = factor(cyl)
     ),
-    point.padding = unit(0.25, "lines"),
-    box.padding = unit(0.25, "lines"),
+    point.padding = 0.25,
+    box.padding = 0.25,
     nudge_y = 0.1
   ) +
   theme_bw(base_size = 16)
@@ -348,9 +347,9 @@ p1 <- ggplot(d, aes(x, y, label = Parameter)) +
   geom_point() +
   geom_text_repel(
     parse = TRUE, size = 8,
-    min.segment.length = unit(0, "lines"),
-    point.padding = unit(0.5, "lines"),
-    box.padding = unit(0.5, "lines")
+    min.segment.length = 0,
+    point.padding = 0.5,
+    box.padding = 0.5
   ) +
   theme_classic(base_size = 20)
 
