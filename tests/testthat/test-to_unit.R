@@ -70,17 +70,21 @@ test_that("default values as numbers work with geom_label_repel", {
   expect_identical(extract_param(p, "point.padding"), unit(1e-06, "lines"))
   expect_identical(extract_param(p, "label.r"), unit(0.15, "lines"))
   expect_identical(extract_param(p, "min.segment.length"), unit(0.5, "lines"))
+  expect_equal(p,
+    ggplot(d, aes(x, y, label = b)) + geom_point() + geom_label_repel())
 })
 
 test_that("default values as numbers work with geom_text_repel", {
   d <- data.frame(x = rnorm(10), y = rnorm(10), b = letters[1:10])
-  p <- ggplot(d, aes(x, y, text = b)) + geom_point() + +
+  p <- ggplot(d, aes(x, y, text = b)) + geom_point() +
     geom_text_repel(box.padding = 0.25, point.padding = 1e-06,
       min.segment.length = 0.5)
 
   expect_identical(extract_param(p, "box.padding"), unit(0.25, "lines"))
   expect_identical(extract_param(p, "point.padding"), unit(1e-06, "lines"))
   expect_identical(extract_param(p, "min.segment.length"), unit(0.5, "lines"))
+  expect_equal(p,
+    ggplot(d, aes(x, y, text = b)) + geom_point() + geom_text_repel())
 })
 
 test_that("non-default values as numbers work with geom_label_repel", {
@@ -94,6 +98,11 @@ test_that("non-default values as numbers work with geom_label_repel", {
   expect_identical(extract_param(p, "point.padding"), unit(3, "lines"))
   expect_identical(extract_param(p, "label.r"), unit(4, "lines"))
   expect_identical(extract_param(p, "min.segment.length"), unit(5, "lines"))
+  expect_equal(p, ggplot(d, aes(x, y, label = b)) + geom_point() +
+      geom_label_repel(box.padding = unit(1, "lines"),
+        label.padding = unit(2, "lines"),
+        point.padding = unit(3, "lines"), label.r = unit(4, "lines"),
+        min.segment.length = unit(5, "lines")))
 })
 
 test_that("non-default values as numbers work with geom_text_repel", {
@@ -105,6 +114,10 @@ test_that("non-default values as numbers work with geom_text_repel", {
   expect_identical(extract_param(p, "box.padding"), unit(1, "lines"))
   expect_identical(extract_param(p, "point.padding"), unit(2, "lines"))
   expect_identical(extract_param(p, "min.segment.length"), unit(3, "lines"))
+  expect_equal(p, ggplot(d, aes(x, y, text = b)) + geom_point() +
+      geom_text_repel(box.padding = unit(1, "lines"),
+        point.padding = unit(2, "lines"),
+        min.segment.length = unit(3, "lines")))
 })
 
 test_that("non-default values as mix of units and numbers work with geom_label_repel", {
@@ -118,6 +131,11 @@ test_that("non-default values as mix of units and numbers work with geom_label_r
   expect_identical(extract_param(p, "point.padding"), unit(3, "lines"))
   expect_identical(extract_param(p, "label.r"), unit(4, "lines"))
   expect_identical(extract_param(p, "min.segment.length"), unit(5, "lines"))
+  expect_equal(p, ggplot(d, aes(x, y, label = b)) + geom_point() +
+      geom_label_repel(box.padding = unit(1, "lines"),
+        label.padding = unit(2, "lines"),
+        point.padding = unit(3, "lines"), label.r = unit(4, "lines"),
+        min.segment.length = unit(5, "lines")))
 })
 
 test_that("non-default values as mix of units and numbers work with geom_text_repel", {
@@ -129,6 +147,10 @@ test_that("non-default values as mix of units and numbers work with geom_text_re
   expect_identical(extract_param(p, "box.padding"), unit(1, "lines"))
   expect_identical(extract_param(p, "point.padding"), unit(2, "lines"))
   expect_identical(extract_param(p, "min.segment.length"), unit(3, "lines"))
+  expect_equal(p, ggplot(d, aes(x, y, text = b)) + geom_point() +
+      geom_text_repel(box.padding = unit(1, "lines"),
+        point.padding = unit(2, "lines"),
+        min.segment.length = unit(3, "lines")))
 })
 
 test_that("non-line units work with geom_label_repel", {
