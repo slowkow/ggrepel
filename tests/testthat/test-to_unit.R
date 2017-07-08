@@ -176,3 +176,26 @@ test_that("non-line units work with geom_text_repel", {
   expect_identical(extract_param(p, "point.padding"), unit(2, "cm"))
   expect_identical(extract_param(p, "min.segment.length"), unit(3, "lines"))
 })
+
+test_that("returns NA, not unit(NA, 'lines') when given NA in geom_label_repel", {
+  d <- data.frame(x = rnorm(10), y = rnorm(10), b = letters[1:10])
+  p <- ggplot(d, aes(x, y, text = b)) + geom_point() +
+    geom_label_repel(box.padding = NA)
+
+  # returns TRUE even is unit(NA, "lines")
+  expect_true(is.na(extract_param(p, "box.padding")))
+  # returns TRUE for NA, but not unit(NA, "lines")
+  expect_true(class(extract_param(p, "box.padding")) != "unit")
+})
+
+test_that("returns NA, not unit(NA, 'lines') when given NA in geom_text_repel", {
+  d <- data.frame(x = rnorm(10), y = rnorm(10), b = letters[1:10])
+  p <- ggplot(d, aes(x, y, text = b)) + geom_point() +
+    geom_text_repel(box.padding = NA)
+
+  # returns TRUE even is unit(NA, "lines")
+  expect_true(is.na(extract_param(p, "box.padding")))
+  # returns TRUE for NA, but not unit(NA, "lines")
+  expect_true(class(extract_param(p, "box.padding")) != "unit")
+})
+

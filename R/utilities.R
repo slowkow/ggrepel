@@ -25,8 +25,14 @@ not_empty <- function(xs) {
 #'  a unit object.
 #' @noRd
 to_unit <- function(x) {
+  # don't change arg if already unit
   if (class(x) == "unit") {
     return(x)
+  }
+
+  # NA used to exclude points from repulsion calculations
+  if (is.na(x)) {
+    return(NA)
   }
 
   unit(x, "lines")
