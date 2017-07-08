@@ -17,3 +17,17 @@ not_empty <- function(xs) {
     }
   })
 }
+
+#' Return a unit version of the argument.
+#'
+#' @param x Number or unit object.
+#' @return unit(x, "lines") if number or the unchanged argument if it's already
+#'  a unit object.
+#' @noRd
+to_unit <- function(x) {
+  if (class(x) == "unit") {
+    return(x)
+  }
+
+  unit(x, "lines")
+}
