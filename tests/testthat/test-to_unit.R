@@ -3,7 +3,13 @@
 # should remain unchanged.
 # A combination of units for some arguments and numbers for others should be
 # possible.
-
+#
+# These arguments are:
+# box.padding         (both)
+# label.padding       (geom_label_repel)
+# point.padding       (both)
+# label.r             (geom_label_repel)
+# min.segment.length  (both)
 context("to_unit")
 
 # Given a ggplot where the second layer is the geom_*_repel layer,
