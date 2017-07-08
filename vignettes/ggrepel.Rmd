@@ -398,7 +398,7 @@ saveGIF(
 ## R Session Info
 
 ```{r session_info, echo=TRUE}
-sessionInfo()
+devtools::session_info()
 ```
 
 [geom_text]: http://docs.ggplot2.org/current/geom_text.html

@@ -420,38 +420,53 @@ saveGIF(
 
 
 ```r
-sessionInfo()
+devtools::session_info()
 ```
 
 ```
-## R version 3.4.1 (2017-06-30)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 16.04.2 LTS
+##  setting  value                       
+##  version  R version 3.4.0 (2017-04-21)
+##  system   x86_64, darwin15.6.0        
+##  ui       X11                         
+##  language (EN)                        
+##  collate  en_US.UTF-8                 
+##  tz       America/New_York            
+##  date     2017-07-08                  
 ## 
-## Matrix products: default
-## BLAS: /usr/lib/libblas/libblas.so.3.6.0
-## LAPACK: /usr/lib/lapack/liblapack.so.3.6.0
-## 
-## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-## [1] gridExtra_2.2.1 ggrepel_0.6.10  ggplot2_2.2.1   knitr_1.16     
-## 
-## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.11     codetools_0.2-15 digest_0.6.12    grid_3.4.1      
-##  [5] plyr_1.8.4       gtable_0.2.0     magrittr_1.5     evaluate_0.10.1 
-##  [9] scales_0.4.1     highr_0.6        rlang_0.1.1      stringi_1.1.5   
-## [13] lazyeval_0.2.0   labeling_0.3     tools_3.4.1      stringr_1.2.0   
-## [17] munsell_0.4.3    compiler_3.4.1   colorspace_1.3-2 tibble_1.3.3
+##  package    * version date       source         
+##  base       * 3.4.0   2017-04-21 local          
+##  codetools    0.2-15  2016-10-05 CRAN (R 3.4.0) 
+##  colorspace   1.3-2   2016-12-14 CRAN (R 3.4.0) 
+##  compiler     3.4.0   2017-04-21 local          
+##  datasets   * 3.4.0   2017-04-21 local          
+##  devtools     1.13.0  2017-05-08 CRAN (R 3.4.0) 
+##  digest       0.6.12  2017-01-27 CRAN (R 3.4.0) 
+##  evaluate     0.10    2016-10-11 CRAN (R 3.4.0) 
+##  ggplot2    * 2.2.1   2016-12-30 CRAN (R 3.4.0) 
+##  ggrepel    * 0.6.10  2017-07-08 local          
+##  graphics   * 3.4.0   2017-04-21 local          
+##  grDevices  * 3.4.0   2017-04-21 local          
+##  grid         3.4.0   2017-04-21 local          
+##  gridExtra  * 2.2.1   2016-02-29 CRAN (R 3.4.0) 
+##  gtable       0.2.0   2016-02-26 CRAN (R 3.4.0) 
+##  highr        0.6     2016-05-09 CRAN (R 3.4.0) 
+##  knitr      * 1.15.1  2016-11-22 CRAN (R 3.4.0) 
+##  labeling     0.3     2014-08-23 CRAN (R 3.4.0) 
+##  lazyeval     0.2.0   2016-06-12 CRAN (R 3.4.0) 
+##  magrittr     1.5     2014-11-22 CRAN (R 3.4.0) 
+##  memoise      1.1.0   2017-04-21 CRAN (R 3.4.0) 
+##  methods    * 3.4.0   2017-04-21 local          
+##  munsell      0.4.3   2016-02-13 CRAN (R 3.4.0) 
+##  plyr         1.8.4   2016-06-08 CRAN (R 3.4.0) 
+##  Rcpp         0.12.11 2017-05-22 cran (@0.12.11)
+##  scales       0.4.1   2016-11-09 CRAN (R 3.4.0) 
+##  stats      * 3.4.0   2017-04-21 local          
+##  stringi      1.1.5   2017-04-07 CRAN (R 3.4.0) 
+##  stringr      1.2.0   2017-02-18 CRAN (R 3.4.0) 
+##  tibble       1.3.0   2017-04-01 CRAN (R 3.4.0) 
+##  tools        3.4.0   2017-04-21 local          
+##  utils      * 3.4.0   2017-04-21 local          
+##  withr        1.0.2   2016-06-20 CRAN (R 3.4.0)
 ```
 
 [geom_text]: http://docs.ggplot2.org/current/geom_text.html
