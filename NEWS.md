@@ -1,4 +1,4 @@
-ggrepel 0.6.10 2017-07-08
+ggrepel 0.6.11 2017-07-08
 ----------------------------------------------------------------
 
 CHANGES (thanks to @seaaan)
@@ -8,7 +8,7 @@ CHANGES (thanks to @seaaan)
 
 [79]: https://github.com/slowkow/ggrepel/issues/79
 
-ggrepel 0.6.9 2017-03-07
+ggrepel 0.6.10 2017-03-07
 ----------------------------------------------------------------
 
 FIXES (thanks to @zkamvar)
