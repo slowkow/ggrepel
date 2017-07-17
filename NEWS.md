@@ -1,3 +1,19 @@
+
+ggrepel 0.6.12 2017-07-16
+----------------------------------------------------------------
+
+NEW FEATURE
+
+* Reproduce identical plots by usign `seed = 1` to set the seed in
+  `geom_text_repel()` or `geom_label_repel()`. By default, no seed will be set.
+  
+  This is an improvement on the sloppy implementation introduced in 0.6.2. See
+  issues [33] and [73] for more discussion of this feature. Thanks to Pierre
+  Gramme for reminding me about this via email.
+
+[33]: https://github.com/slowkow/ggrepel/issues/33
+[73]: https://github.com/slowkow/ggrepel/issues/73
+
 ggrepel 0.6.11 2017-07-08
 ----------------------------------------------------------------
 

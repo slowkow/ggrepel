@@ -88,6 +88,8 @@
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
 #'   Defaults to 2000.
 #' @param direction "both", "x", or "y" -- direction in which to adjust position of labels
+#' @param seed Random seed passed to \code{\link[base]{set.seed}}. Defaults to
+#'   \code{NA}, which means that \code{set.seed} will not be called.
 #'
 #' @examples
 #'
@@ -179,6 +181,7 @@ geom_text_repel <- function(
   na.rm = FALSE,
   show.legend = NA,
   direction = c("both","y","x"),
+  seed = NA,
   inherit.aes = TRUE
 ) {
   layer(
@@ -206,6 +209,7 @@ geom_text_repel <- function(
       xlim = xlim,
       ylim = ylim,
       direction = match.arg(direction),
+      seed = seed,
       ...
     )
   )
@@ -241,7 +245,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     nudge_y = 0,
     xlim = c(NA, NA),
     ylim = c(NA, NA),
-    direction = "both"
+    direction = "both",
+    seed = NA
   ) {
     lab <- data$label
     if (parse) {
@@ -288,6 +293,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       force = force,
       max.iter = max.iter,
       direction = direction,
+      seed = seed,
       cl = "textrepeltree"
     ))
   },
@@ -339,9 +345,12 @@ makeContent.textrepeltree <- function(x) {
     )
   })
 
-  # Repel overlapping bounding boxes away from each other.
-  set.seed(stats::rnorm(1))
+  # Make the repulsion reproducible if desired.
+  if (is.null(x$seed) || !is.na(x$seed)) {
+      set.seed(x$seed)
+  }
 
+  # Repel overlapping bounding boxes away from each other.
   repel <- repel_boxes(
     data_points = cbind(x$data$x, x$data$y),
     point_padding_x = point_padding_x,

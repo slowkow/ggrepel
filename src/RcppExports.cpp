@@ -60,3 +60,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"ggrepel_euclid", (DL_FUNC) &ggrepel_euclid, 2},
+    {"ggrepel_centroid", (DL_FUNC) &ggrepel_centroid, 1},
+    {"ggrepel_intersect_line_rectangle", (DL_FUNC) &ggrepel_intersect_line_rectangle, 3},
+    {"ggrepel_repel_boxes", (DL_FUNC) &ggrepel_repel_boxes, 9},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_ggrepel(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}

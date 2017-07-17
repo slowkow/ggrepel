@@ -31,6 +31,7 @@ geom_label_repel <- function(
   na.rm = FALSE,
   show.legend = NA,
   direction = c("both","y","x"),
+  seed = NA,
   inherit.aes = TRUE
 ) {
   layer(
@@ -61,6 +62,7 @@ geom_label_repel <- function(
       xlim = xlim,
       ylim = ylim,
       direction = match.arg(direction),
+      seed = seed,
       ...
     )
   )
@@ -100,7 +102,8 @@ GeomLabelRepel <- ggproto(
     xlim = c(NA, NA),
     ylim = c(NA, NA),
     max.iter = 2000,
-    direction = "both"
+    direction = "both",
+    seed = NA
   ) {
     lab <- data$label
     if (parse) {
@@ -150,6 +153,7 @@ GeomLabelRepel <- ggproto(
       force = force,
       max.iter = max.iter,
       direction = direction,
+      seed = seed,
       cl = "labelrepeltree"
     ))
   },
@@ -211,8 +215,12 @@ makeContent.labelrepeltree <- function(x) {
     )
   })
 
+  # Make the repulsion reproducible if desired.
+  if (is.null(x$seed) || !is.na(x$seed)) {
+      set.seed(x$seed)
+  }
+
   # Repel overlapping bounding boxes away from each other.
-  set.seed(stats::rnorm(1))
   repel <- repel_boxes(
     data_points = cbind(x$data$x, x$data$y),
     point_padding_x = point_padding_x,

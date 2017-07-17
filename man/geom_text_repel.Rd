@@ -12,7 +12,7 @@ geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   segment.alpha = NULL, min.segment.length = 0.5, arrow = NULL,
   force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA,
   NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
-  direction = c("both", "y", "x"), inherit.aes = TRUE)
+  direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = 0.25, point.padding = 1e-06,
@@ -20,7 +20,7 @@ geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   segment.alpha = NULL, min.segment.length = 0.5, arrow = NULL,
   force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA,
   NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
-  direction = c("both", "y", "x"), inherit.aes = TRUE)
+  direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -104,6 +104,9 @@ a warning.  If \code{TRUE} silently removes missing values.}
 \code{FALSE} never includes, and \code{TRUE} always includes.}
 
 \item{direction}{"both", "x", or "y" -- direction in which to adjust position of labels}
+
+\item{seed}{Random seed passed to \code{\link[base]{set.seed}}. Defaults to
+\code{NA}, which means that \code{set.seed} will not be called.}
 
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
