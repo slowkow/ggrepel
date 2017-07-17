@@ -74,6 +74,28 @@ test_that("calling geom_text_repel with seed creates identical plots", {
   expect_true(identical(pos1, pos2))
 })
 
+test_that("calling geom_text_repel without seed does not remove entropy", {
+  ix <- seq(1, nrow(mtcars), 4)
+  dat1 <- mtcars[ix,]
+  dat1$label <- rownames(mtcars)[ix]
+
+  # One random number will be generated after each plot and accumulated
+  random_seq = c()
+  for(s in 1:10) {
+    set.seed(s)
+    png("testthat_test-seed1.png")
+    p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
+    print(p1)
+    dev.off()
+    unlink("testthat_test-seed1.png")
+
+    random_seq = c(random_seq, rnorm(1))
+  }
+
+  # The random numbers are expected to be all different
+  expect_true(length(unique(random_seq))==length(random_seq))
+})
+
 test_that("calling geom_label_repel without seed creates different plots", {
   ix <- seq(1, nrow(mtcars), 4)
   dat1 <- mtcars[ix,]
@@ -130,5 +152,27 @@ test_that("calling geom_label_repel with seed creates identical plots", {
   expect_true(nrow(pos1) == nrow(dat1))
   expect_true(nrow(pos2) == nrow(dat1))
   expect_true(identical(pos1, pos2))
+})
+
+test_that("calling geom_label_repel without seed does not remove entropy", {
+  ix <- seq(1, nrow(mtcars), 4)
+  dat1 <- mtcars[ix,]
+  dat1$label <- rownames(mtcars)[ix]
+
+  # One random number will be generated after each plot and accumulated
+  random_seq = c()
+  for(s in 1:10) {
+    set.seed(s)
+    png("testthat_test-seed1.png")
+    p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
+    print(p1)
+    dev.off()
+    unlink("testthat_test-seed1.png")
+
+    random_seq = c(random_seq, rnorm(1))
+  }
+
+  # The random numbers are expected to be all different
+  expect_true(length(unique(random_seq))==length(random_seq))
 })
 
