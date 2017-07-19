@@ -81,7 +81,7 @@ test_that("calling geom_text_repel without seed does not remove entropy", {
 
   # One random number will be generated after each plot and accumulated
   random_seq = c()
-  for(s in 1:10) {
+  for(s in 1:2) {
     set.seed(s)
     png("testthat_test-seed1.png")
     p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
@@ -161,7 +161,7 @@ test_that("calling geom_label_repel without seed does not remove entropy", {
 
   # One random number will be generated after each plot and accumulated
   random_seq = c()
-  for(s in 1:10) {
+  for(s in 1:2) {
     set.seed(s)
     png("testthat_test-seed1.png")
     p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
