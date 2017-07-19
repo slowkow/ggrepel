@@ -6,7 +6,8 @@ Authors@R: c(
     person("Saulius", "Lukauskas", role = "ctb"),
     person("Alicia", "Schep", role = "ctb"),
     person("Zhian N", "Kamvar", role = "ctb"),
-    person("Sean", "Hughes", role = "ctb")
+    person("Sean", "Hughes", role = "ctb"),
+    person("Pierre", "Gramme", role = "ctb")
     )
 Title: Repulsive Text and Label Geoms for 'ggplot2'
 Description: Provides text and label geoms for 'ggplot2' that help to avoid
