@@ -13,8 +13,8 @@
 .Rbuildignore
 vignettes/cache
 
-# privateissues
-issues/private/
+# issues 
+issues/
 
 # debug figures in vignette
 vignettes/figures/ggrepel/gallery.html
