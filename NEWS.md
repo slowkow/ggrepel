@@ -1,4 +1,15 @@
 
+ggrepel 0.7.0 2017-09-28
+----------------------------------------------------------------
+
+FIXES
+
+* Fix intersection between lines and rectangles, to reproduce the same
+  aesthetically pleasant behavior as in version 0.6.5. 
+  
+  This is an improvement on the sloppy implementation introduced in 0.6.8. See
+  commit 28633db5eb3d3cc2bd935bd438a8bb36b5673951 for more information.
+
 ggrepel 0.6.12 2017-07-16
 ----------------------------------------------------------------
 
