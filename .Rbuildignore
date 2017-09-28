@@ -8,5 +8,8 @@
 ^vignettes/figures/ggrepel/gallery.html$
 ^vignettes/figures/ggrepel/geom_.*\.png$
 ^vignettes/figures/ggrepel/line_.*\.png$
+^vignettes/figures/ggrepel/direction.*\.png$
+^vignettes/figures/ggrepel/label.*\.png$
+^vignettes/figures/ggrepel/math.*\.png$
 ^vignettes/genes.txt.bz2$
 ^how_to_build.txt$
