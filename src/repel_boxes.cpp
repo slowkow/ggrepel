@@ -34,35 +34,56 @@ NumericVector centroid(NumericVector b) {
 NumericVector intersect_line_rectangle(
     NumericVector p1, NumericVector p2, NumericVector b
 ) {
-  double slope = (p2[1] - p1[1]) / std::max(p2[0] - p1[0], 0.0004);
+  // Sorry for the ugly code :(
+  double dy = p2[1] - p1[1];
+  double dx = p2[0] - p1[0];
+
+  double slope     = dy / dx;
   double intercept = p2[1] - p2[0] * slope;
+
   NumericMatrix retval(4, 2);
   std::fill(retval.begin(), retval.end(), -INFINITY);
 
   double x, y;
 
-  x = b[0];
-  y = slope * x + intercept;
-  if (b[1] <= y && y <= b[3]) {
-    retval(0, _) = NumericVector::create(x, y);
+  //   +----------+ < b[3]
+  //   |          |
+  //   |          | < y
+  //   |          |
+  //   +----------+ < b[1]
+  //   ^    ^     ^
+  //  b[0]  x    b[2]
+
+  if (dx != 0) {
+    // Left boundary
+    x = b[0];
+    y = dy == 0 ? p1[1] : slope * x + intercept;
+    if (b[1] <= y && y <= b[3]) {
+      retval(0, _) = NumericVector::create(x, y);
+    }
+
+    // Right boundary
+    x = b[2];
+    y = dy == 0 ? p1[1] : slope * x + intercept;
+    if (b[1] <= y && y <= b[3]) {
+      retval(1, _) = NumericVector::create(x, y);
+    }
   }
 
-  x = b[2];
-  y = slope * x + intercept;
-  if (b[1] <= y && y <= b[3]) {
-    retval(1, _) = NumericVector::create(x, y);
-  }
+  if (dy != 0) {
+      // Bottom boundary
+      y = b[1];
+      x = dx == 0 ? p1[0] : (y - intercept) / slope;
+      if (b[0] <= x && x <= b[2]) {
+        retval(2, _) = NumericVector::create(x, y);
+      }
 
-  y = b[1];
-  x = (y - intercept) / slope;
-  if (b[0] <= x && x <= b[2]) {
-    retval(2, _) = NumericVector::create(x, y);
-  }
-
-  y = b[3];
-  x = (y - intercept) / slope;
-  if (b[0] <= x && x <= b[2]) {
-    retval(3, _) = NumericVector::create(x, y);
+      // Top boundary
+      y = b[3];
+      x = dx == 0 ? p1[0] : (y - intercept) / slope;
+      if (b[0] <= x && x <= b[2]) {
+        retval(3, _) = NumericVector::create(x, y);
+      }
   }
 
   int i = 0;
