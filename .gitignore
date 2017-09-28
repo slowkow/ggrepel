@@ -13,8 +13,11 @@
 .Rbuildignore
 vignettes/cache
 
-# issues
-tests/issue*
+# privateissues
+issues/private/
 
 # debug figures in vignette
 vignettes/figures/ggrepel/gallery.html
+
+# MacOS
+.DS_Store

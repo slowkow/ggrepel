@@ -296,7 +296,7 @@ ggplot(genes, aes(x = log2FoldChange, y = -log10(pvalue))) +
     data = subset(genes, padj < 0.05),
     aes(label = Gene),
     size = 5,
-    box.padding = 0.35,
+    box.padding = 0.25,
     point.padding = 0.3
   )
 ggsave("figures/ggrepel/volcano-1.png", width = 12, height = 8, dpi = 84)

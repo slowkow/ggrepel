@@ -3,7 +3,7 @@
 ^vignettes/cache/.*$
 ^.travis\.yml$
 ^tests/benchmark\.R$
-^tests/issue.*$
+^issues/.*$
 ^vignettes/cache/.*$
 ^vignettes/figures/ggrepel/gallery.html$
 ^vignettes/figures/ggrepel/geom_.*\.png$

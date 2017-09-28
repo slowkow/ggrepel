@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // euclid
 double euclid(NumericVector a, NumericVector b);
-RcppExport SEXP ggrepel_euclid(SEXP aSEXP, SEXP bSEXP) {
+RcppExport SEXP _ggrepel_euclid(SEXP aSEXP, SEXP bSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -19,7 +19,7 @@ END_RCPP
 }
 // centroid
 NumericVector centroid(NumericVector b);
-RcppExport SEXP ggrepel_centroid(SEXP bSEXP) {
+RcppExport SEXP _ggrepel_centroid(SEXP bSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -30,7 +30,7 @@ END_RCPP
 }
 // intersect_line_rectangle
 NumericVector intersect_line_rectangle(NumericVector p1, NumericVector p2, NumericVector b);
-RcppExport SEXP ggrepel_intersect_line_rectangle(SEXP p1SEXP, SEXP p2SEXP, SEXP bSEXP) {
+RcppExport SEXP _ggrepel_intersect_line_rectangle(SEXP p1SEXP, SEXP p2SEXP, SEXP bSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -43,7 +43,7 @@ END_RCPP
 }
 // repel_boxes
 DataFrame repel_boxes(NumericMatrix data_points, double point_padding_x, double point_padding_y, NumericMatrix boxes, NumericVector xlim, NumericVector ylim, double force, int maxiter, std::string direction);
-RcppExport SEXP ggrepel_repel_boxes(SEXP data_pointsSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP forceSEXP, SEXP maxiterSEXP, SEXP directionSEXP) {
+RcppExport SEXP _ggrepel_repel_boxes(SEXP data_pointsSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP forceSEXP, SEXP maxiterSEXP, SEXP directionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -62,10 +62,10 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"ggrepel_euclid", (DL_FUNC) &ggrepel_euclid, 2},
-    {"ggrepel_centroid", (DL_FUNC) &ggrepel_centroid, 1},
-    {"ggrepel_intersect_line_rectangle", (DL_FUNC) &ggrepel_intersect_line_rectangle, 3},
-    {"ggrepel_repel_boxes", (DL_FUNC) &ggrepel_repel_boxes, 9},
+    {"_ggrepel_euclid", (DL_FUNC) &_ggrepel_euclid, 2},
+    {"_ggrepel_centroid", (DL_FUNC) &_ggrepel_centroid, 1},
+    {"_ggrepel_intersect_line_rectangle", (DL_FUNC) &_ggrepel_intersect_line_rectangle, 3},
+    {"_ggrepel_repel_boxes", (DL_FUNC) &_ggrepel_repel_boxes, 9},
     {NULL, NULL, 0}
 };
 

@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2017-07-08"
+date: "2017-09-28"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -310,7 +310,7 @@ ggplot(genes, aes(x = log2FoldChange, y = -log10(pvalue))) +
     data = subset(genes, padj < 0.05),
     aes(label = Gene),
     size = 5,
-    box.padding = 0.35,
+    box.padding = 0.25,
     point.padding = 0.3
   )
 ggsave("figures/ggrepel/volcano-1.png", width = 12, height = 8, dpi = 84)
@@ -431,41 +431,41 @@ devtools::session_info()
 ##  language (EN)                        
 ##  collate  en_US.UTF-8                 
 ##  tz       America/New_York            
-##  date     2017-07-08                  
+##  date     2017-09-28                  
 ## 
-##  package    * version date       source         
-##  base       * 3.4.0   2017-04-21 local          
-##  codetools    0.2-15  2016-10-05 CRAN (R 3.4.0) 
-##  colorspace   1.3-2   2016-12-14 CRAN (R 3.4.0) 
-##  compiler     3.4.0   2017-04-21 local          
-##  datasets   * 3.4.0   2017-04-21 local          
-##  devtools     1.13.0  2017-05-08 CRAN (R 3.4.0) 
-##  digest       0.6.12  2017-01-27 CRAN (R 3.4.0) 
-##  evaluate     0.10    2016-10-11 CRAN (R 3.4.0) 
-##  ggplot2    * 2.2.1   2016-12-30 CRAN (R 3.4.0) 
-##  ggrepel    * 0.6.10  2017-07-08 local          
-##  graphics   * 3.4.0   2017-04-21 local          
-##  grDevices  * 3.4.0   2017-04-21 local          
-##  grid         3.4.0   2017-04-21 local          
-##  gridExtra  * 2.2.1   2016-02-29 CRAN (R 3.4.0) 
-##  gtable       0.2.0   2016-02-26 CRAN (R 3.4.0) 
-##  highr        0.6     2016-05-09 CRAN (R 3.4.0) 
-##  knitr      * 1.15.1  2016-11-22 CRAN (R 3.4.0) 
-##  labeling     0.3     2014-08-23 CRAN (R 3.4.0) 
-##  lazyeval     0.2.0   2016-06-12 CRAN (R 3.4.0) 
-##  magrittr     1.5     2014-11-22 CRAN (R 3.4.0) 
-##  memoise      1.1.0   2017-04-21 CRAN (R 3.4.0) 
-##  methods    * 3.4.0   2017-04-21 local          
-##  munsell      0.4.3   2016-02-13 CRAN (R 3.4.0) 
-##  plyr         1.8.4   2016-06-08 CRAN (R 3.4.0) 
-##  Rcpp         0.12.11 2017-05-22 cran (@0.12.11)
-##  scales       0.4.1   2016-11-09 CRAN (R 3.4.0) 
-##  stats      * 3.4.0   2017-04-21 local          
-##  stringi      1.1.5   2017-04-07 CRAN (R 3.4.0) 
-##  stringr      1.2.0   2017-02-18 CRAN (R 3.4.0) 
-##  tibble       1.3.0   2017-04-01 CRAN (R 3.4.0) 
-##  tools        3.4.0   2017-04-21 local          
-##  utils      * 3.4.0   2017-04-21 local          
+##  package    * version date       source        
+##  base       * 3.4.0   2017-04-21 local         
+##  codetools    0.2-15  2016-10-05 CRAN (R 3.4.0)
+##  colorspace   1.3-2   2016-12-14 CRAN (R 3.4.0)
+##  compiler     3.4.0   2017-04-21 local         
+##  datasets   * 3.4.0   2017-04-21 local         
+##  devtools     1.13.0  2017-05-08 CRAN (R 3.4.0)
+##  digest       0.6.12  2017-01-27 CRAN (R 3.4.0)
+##  evaluate     0.10    2016-10-11 CRAN (R 3.4.0)
+##  ggplot2    * 2.2.1   2016-12-30 CRAN (R 3.4.0)
+##  ggrepel    * 0.7.0   2017-09-28 local         
+##  graphics   * 3.4.0   2017-04-21 local         
+##  grDevices  * 3.4.0   2017-04-21 local         
+##  grid         3.4.0   2017-04-21 local         
+##  gridExtra  * 2.2.1   2016-02-29 CRAN (R 3.4.0)
+##  gtable       0.2.0   2016-02-26 CRAN (R 3.4.0)
+##  highr        0.6     2016-05-09 CRAN (R 3.4.0)
+##  knitr      * 1.15.1  2016-11-22 CRAN (R 3.4.0)
+##  labeling     0.3     2014-08-23 CRAN (R 3.4.0)
+##  lazyeval     0.2.0   2016-06-12 CRAN (R 3.4.0)
+##  magrittr     1.5     2014-11-22 CRAN (R 3.4.0)
+##  memoise      1.1.0   2017-04-21 CRAN (R 3.4.0)
+##  methods    * 3.4.0   2017-04-21 local         
+##  munsell      0.4.3   2016-02-13 CRAN (R 3.4.0)
+##  plyr         1.8.4   2016-06-08 CRAN (R 3.4.0)
+##  Rcpp         0.12.12 2017-07-15 CRAN (R 3.4.1)
+##  scales       0.4.1   2016-11-09 CRAN (R 3.4.0)
+##  stats      * 3.4.0   2017-04-21 local         
+##  stringi      1.1.5   2017-04-07 CRAN (R 3.4.0)
+##  stringr      1.2.0   2017-02-18 CRAN (R 3.4.0)
+##  tibble       1.3.0   2017-04-01 CRAN (R 3.4.0)
+##  tools        3.4.0   2017-04-21 local         
+##  utils      * 3.4.0   2017-04-21 local         
 ##  withr        1.0.2   2016-06-20 CRAN (R 3.4.0)
 ```
 
