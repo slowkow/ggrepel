@@ -91,7 +91,7 @@ packages with `ggplot2`.
 [1]: https://gist.github.com/slowkow/003b4d9f3f59cee8551c
 
 
-[ggplot2]: http://ggplot2.org/
+[ggplot2]: http://ggplot2.tidyverse.org
 [vignette]: https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.md
 [directlabels]: https://cran.r-project.org/package=directlabels
 [wordcloud]: https://cran.r-project.org/package=wordcloud
