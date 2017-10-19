@@ -329,6 +329,7 @@ makeContent.textrepeltree <- function(x) {
 
   # Do not create text labels for empty strings.
   valid_strings <- which(not_empty(x$lab))
+  invalid_strings <- which(!not_empty(x$lab))
 
   # Create a dataframe with x1 y1 x2 y2
   boxes <- lapply(valid_strings, function(i) {
@@ -362,9 +363,14 @@ makeContent.textrepeltree <- function(x) {
       set.seed(x$seed)
   }
 
+  points_valid_first <- cbind(c(x$data$x[valid_strings],
+                                x$data$x[invalid_strings]),
+                              c(x$data$y[valid_strings],
+                                x$data$y[invalid_strings]))
+
   # Repel overlapping bounding boxes away from each other.
   repel <- repel_boxes(
-    data_points = cbind(x$data$x, x$data$y),
+    data_points = points_valid_first,
     point_padding_x = point_padding_x,
     point_padding_y = point_padding_y,
     boxes = do.call(rbind, boxes),

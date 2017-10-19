@@ -102,6 +102,7 @@ NumericVector intersect_line_rectangle(
   return retval(imin, _);
 }
 
+
 // Main code for text label placement -----------------------------------------
 
 typedef struct {
@@ -160,6 +161,62 @@ double euclid(Point a, Point b) {
 double euclid2(Point a, Point b) {
   Point dist = a - b;
   return dist.x * dist.x + dist.y * dist.y;
+}
+
+
+bool line_intersect(Point p1, Point q1, Point p2, Point q2, Box b1, Box b2){
+
+  // Special exception, where q1 and q2 are equal (do intersect)
+  if (q1.x == q2.x && q1.y == q2.y)
+    return false;
+
+  // Find point where line intersects box for box1
+
+  // Find point where line intersects box for box2
+
+
+  double dy1 = q1.y - p1.y;
+  double dx1 = q1.x - p1.x;
+
+  double slope1     = dy1 / dx1;
+  double intercept1 = q1.y - q1.x * slope1;
+
+  double dy2 = q2.y - p2.y;
+  double dx2 = q2.x - p2.x;
+
+  double slope2     = dy2 / dx2;
+  double intercept2 = q2.y - q2.x * slope2;
+
+  if (slope1 == slope2){
+    if (intercept1 == intercept2){
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  double x = (intercept2 - intercept1) / (slope1 - slope2);
+  double y = slope1 * x + intercept1;
+
+  if (x < p1.x && x < q1.x){
+    return false;
+  } else if (x > p1.x && x > q1.x){
+    return false;
+  } else if (y < p1.y && y < q1.y){
+    return false;
+  } else if (y > p1.y && y > q1.y){
+    return false;
+  } else if (x < p2.x && x < q2.x){
+    return false;
+  } else if (x > p2.x && x > q2.x){
+    return false;
+  } else if (y < p2.y && y < q2.y){
+    return false;
+  } else if (y > p2.y && y > q2.y){
+    return false;
+  } else{
+    return true;
+  }
 }
 
 //' Move a box into the area specificied by x limits and y limits.
@@ -259,8 +316,11 @@ Point repel_force_y(
   // Constrain the minimum distance, so it is never 0.
   double d2 = std::max(dx * dx + dy * dy, 0.0004);
   // Compute a unit vector in the direction of the force.
-  Point v = {0, (a.y - b.y) / sqrt(d2)};
-  // Divide the force by the squared distance.
+  Point v = {0,1};
+  if (a.y < b.y){
+    v.y = -1;
+  }
+  // Divide the force by the distance.
   Point f = force * v / d2 * 2;
   return f;
 }
@@ -273,7 +333,10 @@ Point repel_force_x(
   // Constrain the minimum distance, so it is never 0.
   double d2 = std::max(dx * dx + dy * dy, 0.0004);
   // Compute a unit vector in the direction of the force.
-  Point v = {(a.x - b.x) / sqrt(d2), 0};
+  Point v = {1,0};
+  if (a.x < b.x){
+    v.x = -1;
+  }
   // Divide the force by the squared distance.
   Point f = force * v / d2 * 2;
   return f;
@@ -308,54 +371,27 @@ Point repel_force(
 Point spring_force_both(
     Point a, Point b, double force = 0.000001
 ) {
-  double dx = fabs(a.x - b.x);
-  double dy = fabs(a.y - b.y);
-  double d = sqrt(dx * dx + dy * dy);
   Point f = {0, 0};
-  if (d > 0.02) {
-    // Compute a unit vector in the direction of the force.
-    Point v = (a - b) / d;
-    f = force * v * d;
-    if (dx < dy) {
-      f.y = f.y * 1.5;
-      f.x = f.x * 0.5;
-    } else {
-      f.y = f.y * 0.5;
-      f.x = f.x * 1.5;
-    }
-  }
+  Point v = (a - b) ;
+  f = force * v;
   return f;
 }
 
 Point spring_force_y(
     Point a, Point b, double force = 0.000001
 ) {
-  double dx = fabs(a.x - b.x);
-  double dy = fabs(a.y - b.y);
-  double d = sqrt(dx * dx + dy * dy);
   Point f = {0, 0};
-  if (d > 0.02) {
-    // Compute a unit vector in the direction of the force.
-    Point v = {0, (a.y - b.y) / d};
-    f = force * v * d;
-    f.y = f.y * 1.5;
-  }
+  Point v = {0, (a.y - b.y)};
+  f = force * v;
   return f;
 }
 
 Point spring_force_x(
     Point a, Point b, double force = 0.000001
 ) {
-  double dx = fabs(a.x - b.x);
-  double dy = fabs(a.y - b.y);
-  double d = sqrt(dx * dx + dy * dy);
   Point f = {0, 0};
-  if (d > 0.02) {
-    // Compute a unit vector in the direction of the force.
-    Point v = {(a.x - b.x) / d, 0};
-    f = force * v * d;
-    f.x = f.x * 1.5;
-  }
+  Point v = {(a.x - b.x), 0};
+  f = force * v ;
   return f;
 }
 
@@ -470,6 +506,7 @@ DataFrame repel_boxes(
     any_overlaps = false;
 
     for (int i = 0; i < n_texts; i++) {
+
       f.x = 0;
       f.y = 0;
 
@@ -488,12 +525,13 @@ DataFrame repel_boxes(
             f = f + repel_force(ci, Points[i], force, direction);
           }
         } else {
+          cj = centroid(TextBoxes[j]);
           // Repel the box from overlapping boxes.
           if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
             any_overlaps = true;
-            cj = centroid(TextBoxes[j]);
             f = f + repel_force(ci, cj, force * 3, direction);
           }
+
           // Skip the data points if the padding is 0.
           if (point_padding_x == 0 && point_padding_y == 0) {
             continue;
@@ -510,13 +548,29 @@ DataFrame repel_boxes(
       if (!any_overlaps) {
         f = f + spring_force(original_centroids[i], ci, force * 2e3, direction);
       }
-
-      // Dampen the forces.
-      f = f * (1 - 1e-3);
-
+      //Rcout << "adjusting " << iter << std::endl;
       TextBoxes[i] = TextBoxes[i] + f;
       TextBoxes[i] = put_within_bounds(TextBoxes[i], xbounds, ybounds);
+
+      // look for line clashes
+      if (!any_overlaps || iter % 10 == 0){
+      for (int j = 0; j < n_points; j++) {
+        cj = centroid(TextBoxes[j]);
+        ci = centroid(TextBoxes[i]);
+        // Switch label positions if lines overlap
+        if (i != j && j < n_texts && line_intersect(ci,Points[i],cj,Points[j],
+                                                    TextBoxes[i], TextBoxes[j])){
+          any_overlaps = true;
+          TextBoxes[i] = TextBoxes[i] + spring_force(cj, ci, 1 , direction);
+          TextBoxes[j] = TextBoxes[j] + spring_force(ci, cj, 1, direction);
+        }
+      }
+      }
     }
+
+    // Dampen the forces.
+
+    f = f * (1 - 1e-3);
   }
 
   NumericVector xs(n_texts);
