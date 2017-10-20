@@ -21,8 +21,8 @@ double euclid(NumericVector a, NumericVector b) {
 //' @param b A box like \code{c(x1, y1, x2, y2)}
 //' @noRd
 // [[Rcpp::export]]
-NumericVector centroid(NumericVector b) {
-  return NumericVector::create((b[0] + b[2]) / 2, (b[1] + b[3]) / 2);
+NumericVector centroid(NumericVector b, double hjust, double vjust) {
+  return NumericVector::create(b[0] + (b[2] - b[0]) * hjust, b[1] + (b[3] - b[1]) * vjust);
 }
 
 //' Find the intersections between a line and a rectangle.
@@ -267,8 +267,8 @@ Box put_within_bounds(Box b, Point xlim, Point ylim, double force = 1e-5) {
 //' Get the coordinates of the center of a box.
 //' @param b A box like \code{c(x1, y1, x2, y2)}
 //' @noRd
-Point centroid(Box b) {
-  Point p = {(b.x1 + b.x2) / 2, (b.y1 + b.y2) / 2};
+Point centroid(Box b, double hjust, double vjust) {
+  Point p = {(b.x1 + (b.x2 - b.x1) * hjust), b.y1 + (b.y2 - b.y1) * vjust};
   return p;
 }
 
@@ -440,6 +440,7 @@ DataFrame repel_boxes(
     double point_padding_x, double point_padding_y,
     NumericMatrix boxes,
     NumericVector xlim, NumericVector ylim,
+    NumericVector hjust, NumericVector vjust,
     double force = 1e-6, int maxiter = 2000,
     std::string direction = "both"
 ) {
@@ -496,7 +497,7 @@ DataFrame repel_boxes(
     // height over width
     ratios[i] = (TextBoxes[i].y2 - TextBoxes[i].y1)
       / (TextBoxes[i].x2 - TextBoxes[i].x1);
-    original_centroids[i] = centroid(TextBoxes[i]);
+    original_centroids[i] = centroid(TextBoxes[i], hjust[i], vjust[i]);
   }
 
   Point f, ci, cj;
@@ -510,7 +511,7 @@ DataFrame repel_boxes(
       f.x = 0;
       f.y = 0;
 
-      ci = centroid(TextBoxes[i]);
+      ci = centroid(TextBoxes[i], hjust[i], vjust[i]);
 
       for (int j = 0; j < n_points; j++) {
 
@@ -525,7 +526,7 @@ DataFrame repel_boxes(
             f = f + repel_force(ci, Points[i], force, direction);
           }
         } else {
-          cj = centroid(TextBoxes[j]);
+          cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
           // Repel the box from overlapping boxes.
           if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
             any_overlaps = true;
@@ -555,8 +556,8 @@ DataFrame repel_boxes(
       // look for line clashes
       if (!any_overlaps || iter % 10 == 0){
       for (int j = 0; j < n_points; j++) {
-        cj = centroid(TextBoxes[j]);
-        ci = centroid(TextBoxes[i]);
+        cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
+        ci = centroid(TextBoxes[i], hjust[i], vjust[i]);
         // Switch label positions if lines overlap
         if (i != j && j < n_texts && line_intersect(ci,Points[i],cj,Points[j],
                                                     TextBoxes[i], TextBoxes[j])){

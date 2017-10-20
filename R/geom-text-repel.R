@@ -25,11 +25,10 @@
 #' following parameters are \strong{not supported}:
 #'
 #' \itemize{
-#'   \item \code{hjust}
-#'   \item \code{vjust}
 #'   \item \code{position}
 #'   \item \code{check_overlap}
 #' }
+#'
 #'
 #' @param mapping Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
 #'   \code{\link[ggplot2]{aes_}}. If specified and \code{inherit.aes = TRUE} (the
@@ -376,6 +375,8 @@ makeContent.textrepeltree <- function(x) {
     boxes = do.call(rbind, boxes),
     xlim = range(x$limits$x),
     ylim = range(x$limits$y),
+    hjust = x$data$hjust,
+    vjust = x$data$vjust,
     force = x$force * 1e-6,
     maxiter = x$max.iter,
     direction = x$direction
@@ -408,7 +409,9 @@ makeContent.textrepeltree <- function(x) {
         lwd = x$segment.size * .pt
       ),
       arrow = x$arrow,
-      min.segment.length = x$min.segment.length
+      min.segment.length = x$min.segment.length,
+      hjust = x$data$hjust[i],
+      vjust = x$data$vjust[i]
     )
   })
   class(grobs) <- "gList"
@@ -434,7 +437,9 @@ textRepelGrob <- function(
   segment.gp = gpar(),
   vp = NULL,
   arrow = NULL,
-  min.segment.length = 0.5
+  min.segment.length = 0.5,
+  hjust = 0.5,
+  vjust = 0.5
 ) {
 
   stopifnot(length(label) == 1)
@@ -462,7 +467,9 @@ textRepelGrob <- function(
     vp = vp,
     cl = "textrepelgrob",
     arrow = arrow,
-    min.segment.length = min.segment.length
+    min.segment.length = min.segment.length,
+    hjust = hjust,
+    vjust = vjust
   )
 }
 
@@ -495,7 +502,7 @@ makeContent.textrepelgrob <- function(x) {
     convertHeight(x$y.orig, "native", TRUE)
   )
 
-  center <- centroid(c(x1, y1, x2, y2))
+  center <- centroid(c(x1, y1, x2, y2), x$hj, x$vjust)
 
   # Get the coordinates of the intersection between the line from the
   # original data point to the centroid and the rectangle's edges.

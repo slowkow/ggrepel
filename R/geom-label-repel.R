@@ -239,6 +239,8 @@ makeContent.labelrepeltree <- function(x) {
     boxes = do.call(rbind, boxes),
     xlim = range(x$limits$x),
     ylim = range(x$limits$y),
+    hjust = x$data$hjust,
+    vjust = x$data$vjust,
     force = x$force * 1e-6,
     maxiter = x$max.iter,
     direction = x$direction
@@ -274,7 +276,9 @@ makeContent.labelrepeltree <- function(x) {
         lwd = x$segment.size * .pt
       ),
       arrow = x$arrow,
-      min.segment.length = x$min.segment.length
+      min.segment.length = x$min.segment.length,
+      hjust = x$data$hjust[i],
+      vjust = x$data$vjust[i]
     )
   })
   class(grobs) <- "gList"
@@ -300,7 +304,9 @@ labelRepelGrob <- function(
   segment.gp = gpar(),
   vp = NULL,
   arrow = NULL,
-  min.segment.length = 0.5
+  min.segment.length = 0.5,
+  hjust = 0.5,
+  vjust = 0.5
 ) {
   stopifnot(length(label) == 1)
 
@@ -327,7 +333,9 @@ labelRepelGrob <- function(
     vp = vp,
     cl = "labelrepelgrob",
     arrow = arrow,
-    min.segment.length = min.segment.length
+    min.segment.length = min.segment.length,
+    hjust = hjust,
+    vjust = vjust
   )
 }
 
@@ -371,7 +379,7 @@ makeContent.labelrepelgrob <- function(x) {
     convertHeight(x$y.orig, "native", TRUE)
   )
 
-  center <- centroid(c(x1, y1, x2, y2))
+  center <- centroid(c(x1, y1, x2, y2), x$hjust, x$vjust)
 
   # Get the coordinates of the intersection between the line from the
   # original data point to the centroid and the rectangle's edges.
