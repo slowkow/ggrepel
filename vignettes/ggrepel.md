@@ -1,7 +1,7 @@
 ---
 title: "ggrepel Usage Examples"
 author: "Kamil Slowikowski"
-date: "2017-09-28"
+date: "2017-11-03"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel Usage Examples}
@@ -89,10 +89,10 @@ All options available for [geom_text] such as `size`, `angle`, `family`,
 
 However, the following parameters are not supported:
 
-- `hjust`
-- `vjust`
 - `position`
 - `check_overlap`
+
+Additionally, while `hjust` and `vjust` are supported, alignment may be disrupted if needed to move points. To ensure that alignment is maintained, the force can be limited to the "x" or "y" direction using the `direction` parameter.
 
 `ggrepel` provides additional parameters for `geom_text_repel` and `geom_label_repel`:
 
@@ -244,14 +244,21 @@ ggplot() +
 Use `direction` to limit label movement to the x-axis (left and right) or y-axis
 (up and down). The options are "both" (default), "x", or "y".
 
+The direction argument may be used in conjunction with the hjust or vjust arguments to ensure aligned labels.  
+
 
 ```r
 set.seed(42)
 
-ggplot(mtcars) +
-  geom_point(aes(wt, mpg), color = 'red') +
-  geom_text_repel(aes(wt, mpg, label = rownames(mtcars)), direction = "x") +
-  theme_classic(base_size = 16) + xlim(1,6)
+ggplot(mtcars, aes(x = wt, y = 1)) +
+    geom_point(color = 'red') +
+    geom_text_repel(aes(label = rownames(mtcars)), nudge_y = 0.2, direction = "x", 
+                    angle = 90, vjust = 0) + 
+    theme_classic(base_size = 16) + xlim(1,6) + ylim(1,1.3) + 
+  theme(axis.line.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank())
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/direction_x-1.png" title="plot of chunk direction_x" alt="plot of chunk direction_x" width="700" />
@@ -262,10 +269,17 @@ Setting `direction` to "y":
 ```r
 set.seed(42)
 
-ggplot(mtcars) +
-  geom_point(aes(wt, mpg), color = 'red') +
-  geom_text_repel(aes(wt, mpg, label = rownames(mtcars)), direction = "y") +
-  theme_classic(base_size = 16)
+ggplot(mtcars, aes(y = wt, x = 1)) +
+  geom_point(color = 'red') +
+  geom_text_repel(aes(label = rownames(mtcars)), nudge_x = 0.2, 
+                  direction = "y", 
+                  hjust = 1) + 
+  theme_classic(base_size = 16) + ylim(1,6) + 
+  xlim(1,1.25) + 
+  theme(axis.line.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.title.x = element_blank())
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/direction_y-1.png" title="plot of chunk direction_y" alt="plot of chunk direction_y" width="700" />
@@ -283,6 +297,7 @@ ggplot(Orange, aes(age, circumference, color = Tree)) +
     aes(label = paste("Tree", Tree)),
     size = 6,
     nudge_x = 45,
+    hjust = 0,
     segment.color = NA
   ) +
   theme_classic(base_size = 16) +
@@ -425,48 +440,49 @@ devtools::session_info()
 
 ```
 ##  setting  value                       
-##  version  R version 3.4.0 (2017-04-21)
-##  system   x86_64, darwin15.6.0        
+##  version  R version 3.4.2 (2017-09-28)
+##  system   x86_64, linux-gnu           
 ##  ui       X11                         
 ##  language (EN)                        
 ##  collate  en_US.UTF-8                 
-##  tz       America/New_York            
-##  date     2017-09-28                  
+##  tz       America/Los_Angeles         
+##  date     2017-11-03                  
 ## 
-##  package    * version date       source        
-##  base       * 3.4.0   2017-04-21 local         
-##  codetools    0.2-15  2016-10-05 CRAN (R 3.4.0)
-##  colorspace   1.3-2   2016-12-14 CRAN (R 3.4.0)
-##  compiler     3.4.0   2017-04-21 local         
-##  datasets   * 3.4.0   2017-04-21 local         
-##  devtools     1.13.0  2017-05-08 CRAN (R 3.4.0)
-##  digest       0.6.12  2017-01-27 CRAN (R 3.4.0)
-##  evaluate     0.10    2016-10-11 CRAN (R 3.4.0)
-##  ggplot2    * 2.2.1   2016-12-30 CRAN (R 3.4.0)
-##  ggrepel    * 0.7.0   2017-09-28 local         
-##  graphics   * 3.4.0   2017-04-21 local         
-##  grDevices  * 3.4.0   2017-04-21 local         
-##  grid         3.4.0   2017-04-21 local         
-##  gridExtra  * 2.2.1   2016-02-29 CRAN (R 3.4.0)
-##  gtable       0.2.0   2016-02-26 CRAN (R 3.4.0)
-##  highr        0.6     2016-05-09 CRAN (R 3.4.0)
-##  knitr      * 1.15.1  2016-11-22 CRAN (R 3.4.0)
-##  labeling     0.3     2014-08-23 CRAN (R 3.4.0)
-##  lazyeval     0.2.0   2016-06-12 CRAN (R 3.4.0)
-##  magrittr     1.5     2014-11-22 CRAN (R 3.4.0)
-##  memoise      1.1.0   2017-04-21 CRAN (R 3.4.0)
-##  methods    * 3.4.0   2017-04-21 local         
-##  munsell      0.4.3   2016-02-13 CRAN (R 3.4.0)
-##  plyr         1.8.4   2016-06-08 CRAN (R 3.4.0)
-##  Rcpp         0.12.12 2017-07-15 CRAN (R 3.4.1)
-##  scales       0.4.1   2016-11-09 CRAN (R 3.4.0)
-##  stats      * 3.4.0   2017-04-21 local         
-##  stringi      1.1.5   2017-04-07 CRAN (R 3.4.0)
-##  stringr      1.2.0   2017-02-18 CRAN (R 3.4.0)
-##  tibble       1.3.0   2017-04-01 CRAN (R 3.4.0)
-##  tools        3.4.0   2017-04-21 local         
-##  utils      * 3.4.0   2017-04-21 local         
-##  withr        1.0.2   2016-06-20 CRAN (R 3.4.0)
+##  package    * version    date       source         
+##  base       * 3.4.2      2017-09-29 local          
+##  codetools    0.2-15     2016-10-05 CRAN (R 3.4.0) 
+##  colorspace   1.3-2      2016-12-14 CRAN (R 3.4.0) 
+##  compiler     3.4.2      2017-09-29 local          
+##  datasets   * 3.4.2      2017-09-29 local          
+##  devtools     1.13.3     2017-08-02 CRAN (R 3.4.1) 
+##  digest       0.6.12     2017-01-27 CRAN (R 3.4.0) 
+##  evaluate     0.10.1     2017-06-24 CRAN (R 3.4.0) 
+##  ggplot2    * 2.2.1      2016-12-30 CRAN (R 3.4.0) 
+##  ggrepel    * 0.7.0.9999 2017-11-04 local          
+##  graphics   * 3.4.2      2017-09-29 local          
+##  grDevices  * 3.4.2      2017-09-29 local          
+##  grid         3.4.2      2017-09-29 local          
+##  gridExtra  * 2.3        2017-09-09 CRAN (R 3.4.2) 
+##  gtable       0.2.0      2016-02-26 CRAN (R 3.4.0) 
+##  highr        0.6        2016-05-09 CRAN (R 3.4.0) 
+##  knitr      * 1.17       2017-08-10 CRAN (R 3.4.2) 
+##  labeling     0.3        2014-08-23 CRAN (R 3.4.0) 
+##  lazyeval     0.2.0      2016-06-12 CRAN (R 3.4.0) 
+##  magrittr     1.5        2014-11-22 CRAN (R 3.4.0) 
+##  memoise      1.1.0      2017-04-21 CRAN (R 3.4.0) 
+##  methods    * 3.4.2      2017-09-29 local          
+##  munsell      0.4.3      2016-02-13 CRAN (R 3.4.0) 
+##  plyr         1.8.4      2016-06-08 CRAN (R 3.4.0) 
+##  Rcpp         0.12.13    2017-09-28 cran (@0.12.13)
+##  rlang        0.1.2      2017-08-09 CRAN (R 3.4.1) 
+##  scales       0.5.0      2017-08-24 CRAN (R 3.4.1) 
+##  stats      * 3.4.2      2017-09-29 local          
+##  stringi      1.1.5      2017-04-07 CRAN (R 3.4.0) 
+##  stringr      1.2.0      2017-02-18 CRAN (R 3.4.0) 
+##  tibble       1.3.4      2017-08-22 CRAN (R 3.4.1) 
+##  tools        3.4.2      2017-09-29 local          
+##  utils      * 3.4.2      2017-09-29 local          
+##  withr        2.0.0      2017-07-28 CRAN (R 3.4.1)
 ```
 
 [geom_text]: http://docs.ggplot2.org/current/geom_text.html
