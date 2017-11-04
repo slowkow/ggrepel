@@ -25,6 +25,8 @@ NumericVector centroid(NumericVector b, double hjust, double vjust) {
   return NumericVector::create(b[0] + (b[2] - b[0]) * hjust, b[1] + (b[3] - b[1]) * vjust);
 }
 
+
+
 //' Find the intersections between a line and a rectangle.
 //' @param p1 A point like \code{c(x, y)}
 //' @param p2 A point like \code{c(x, y)}
@@ -92,7 +94,6 @@ NumericVector intersect_line_rectangle(
   double dmin = INFINITY;
   for (i = 0; i < 4; i++) {
     d = euclid(retval(i, _), p1);
-    // Rcout << i << " euclid = " << d << std::endl;
     if (d < dmin) {
       dmin = d;
       imin = i;
@@ -102,6 +103,79 @@ NumericVector intersect_line_rectangle(
   return retval(imin, _);
 }
 
+
+// [[Rcpp::export]]
+NumericVector select_line_connection(
+    NumericVector p1, NumericVector b
+) {
+
+  NumericVector out(2);
+
+  // Find shortest path
+  //   +----------+ < b[3]
+  //   |          |
+  //   |          |
+  //   |          |
+  //   +----------+ < b[1]
+  //   ^          ^
+  //  b[0]      b[2]
+
+  bool top = false;
+  bool left = false;
+  bool right = false;
+  bool bottom = false;
+
+  if (p1[0] >= b[0] & p1[0] <= b[2]){
+    out[0] = p1[0];
+  } else if (p1[0] > b[2]){
+    out[0] = b[2];
+    right = true;
+  } else{
+    out[0] = b[0];
+    left = true;
+  }
+
+  if (p1[1] >= b[1] & p1[1] <= b[3]){
+    out[1] = p1[1];
+  } else if (p1[1] > b[3]){
+    out[1] = b[3];
+    top = true;
+  } else{
+    out[1] = b[1];
+    bottom = true;
+  }
+
+  // Nudge to center
+  double midx = (b[0] + b[2]) * 0.5;
+  double midy = (b[3] + b[1]) * 0.5;
+  double d = std::sqrt(std::pow(p1[0] - out[0], 2) +
+                              std::pow(p1[1] - out[1],2));
+
+
+  if ((top || bottom) && !left && !right){
+   // top or bottom
+    double altd = std::sqrt(std::pow(p1[0] - midx, 2) +
+                            std::pow(p1[1] - out[1],2));
+    out[0] = out[0] + (midx - out[0]) * d / altd;
+  } else if ((left || right) && !top && !bottom){
+    // left or right
+    double altd = std::sqrt(std::pow(p1[0] - out[0], 2) +
+      std::pow(p1[1] - midy, 2));
+    out[1] = out[1] + (midy - out[1]) * d / altd;
+  } else if ((left || right) && (top || bottom)){
+    double altd1 = std::sqrt(std::pow(p1[0] - midx, 2) +
+                            std::pow(p1[1] - out[1],2));
+    double altd2 = std::sqrt(std::pow(p1[0] - out[0], 2) +
+                            std::pow(p1[1] - midy, 2));
+    if (altd1 < altd2){
+      out[0] = out[0] + (midx - out[0]) * d / altd1;
+    } else{
+      out[1] = out[1] + (midy - out[1]) * d / altd2;
+    }
+  }
+
+  return out;
+}
 
 // Main code for text label placement -----------------------------------------
 
@@ -163,17 +237,22 @@ double euclid2(Point a, Point b) {
   return dist.x * dist.x + dist.y * dist.y;
 }
 
+// [[Rcpp::export]]
+bool approximately_equal(double x1, double x2){
+  return std::abs(x2 - x1) < (std::numeric_limits<double>::epsilon() * 100);
+}
 
-bool line_intersect(Point p1, Point q1, Point p2, Point q2, Box b1, Box b2){
+
+bool line_intersect(Point p1, Point q1, Point p2, Point q2){
 
   // Special exception, where q1 and q2 are equal (do intersect)
   if (q1.x == q2.x && q1.y == q2.y)
     return false;
-
-  // Find point where line intersects box for box1
-
-  // Find point where line intersects box for box2
-
+  // If line is point
+  if (p1.x == q1.x && p1.y == q1.y)
+    return false;
+  if (p2.x == q2.x && p2.y == q2.y)
+    return false;
 
   double dy1 = q1.y - p1.y;
   double dx1 = q1.x - p1.x;
@@ -187,16 +266,28 @@ bool line_intersect(Point p1, Point q1, Point p2, Point q2, Box b1, Box b2){
   double slope2     = dy2 / dx2;
   double intercept2 = q2.y - q2.x * slope2;
 
-  if (slope1 == slope2){
-    if (intercept1 == intercept2){
-      return true;
-    } else{
-      return false;
-    }
-  }
+  double x,y;
 
-  double x = (intercept2 - intercept1) / (slope1 - slope2);
-  double y = slope1 * x + intercept1;
+
+
+  // check if lines vertical
+  if (approximately_equal(dx1,0.0)){
+    if (approximately_equal(dx2,0.0)){
+      return false;
+    } else{
+      x = p1.x;
+      y = slope2 * x + intercept2;
+    }
+  } else if (approximately_equal(dx2,0.0)){
+    x = p2.x;
+    y = slope1 * x + intercept1;
+  } else{
+    if (approximately_equal(slope1,slope2)){
+        return false;
+    }
+    x = (intercept2 - intercept1) / (slope1 - slope2);
+    y = slope1 * x + intercept1;
+  }
 
   if (x < p1.x && x < q1.x){
     return false;
@@ -218,6 +309,7 @@ bool line_intersect(Point p1, Point q1, Point p2, Point q2, Box b1, Box b2){
     return true;
   }
 }
+
 
 //' Move a box into the area specificied by x limits and y limits.
 //' @param b A box like \code{c(x1, y1, x2, y2)}
@@ -449,6 +541,7 @@ DataFrame repel_boxes(
   // assert(n_points >= n_texts);
   int iter = 0;
   bool any_overlaps = true;
+  bool i_overlaps = true;
 
   if (NumericVector::is_na(force)) {
     force = 1e-6;
@@ -500,14 +593,14 @@ DataFrame repel_boxes(
     original_centroids[i] = centroid(TextBoxes[i], hjust[i], vjust[i]);
   }
 
-  Point f, ci, cj;
+  Point f, ci, cj, ci_line, cj_line;
 
   while (any_overlaps && iter < maxiter) {
     iter += 1;
     any_overlaps = false;
 
     for (int i = 0; i < n_texts; i++) {
-
+      i_overlaps = false;
       f.x = 0;
       f.y = 0;
 
@@ -523,6 +616,7 @@ DataFrame repel_boxes(
           // Repel the box from its data point.
           if (overlaps(DataBoxes[i], TextBoxes[i])) {
             any_overlaps = true;
+            i_overlaps = true;
             f = f + repel_force(ci, Points[i], force, direction);
           }
         } else {
@@ -530,6 +624,7 @@ DataFrame repel_boxes(
           // Repel the box from overlapping boxes.
           if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
             any_overlaps = true;
+            i_overlaps = true;
             f = f + repel_force(ci, cj, force * 3, direction);
           }
 
@@ -540,38 +635,48 @@ DataFrame repel_boxes(
           // Repel the box from other data points.
           if (overlaps(DataBoxes[j], TextBoxes[i])) {
             any_overlaps = true;
+            i_overlaps = true;
             f = f + repel_force(ci, Points[j], force, direction);
           }
         }
       }
 
       // Pull the box toward its original position.
-      if (!any_overlaps) {
+      if (!i_overlaps) {
         f = f + spring_force(original_centroids[i], ci, force * 2e3, direction);
       }
-      //Rcout << "adjusting " << iter << std::endl;
+
       TextBoxes[i] = TextBoxes[i] + f;
+      // Put boxes within bounds
       TextBoxes[i] = put_within_bounds(TextBoxes[i], xbounds, ybounds);
 
       // look for line clashes
-      if (!any_overlaps || iter % 10 == 0){
+      if (!any_overlaps || iter % 5 == 0){
       for (int j = 0; j < n_points; j++) {
         cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
         ci = centroid(TextBoxes[i], hjust[i], vjust[i]);
         // Switch label positions if lines overlap
-        if (i != j && j < n_texts && line_intersect(ci,Points[i],cj,Points[j],
-                                                    TextBoxes[i], TextBoxes[j])){
+        if (i != j && j < n_texts && line_intersect(ci,Points[i],cj,Points[j])){
           any_overlaps = true;
           TextBoxes[i] = TextBoxes[i] + spring_force(cj, ci, 1 , direction);
           TextBoxes[j] = TextBoxes[j] + spring_force(ci, cj, 1, direction);
+          // Check if resolved
+          cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
+          ci = centroid(TextBoxes[i], hjust[i], vjust[i]);
+          if (line_intersect(ci,Points[i],cj,Points[j])){
+            //Rcout << "unresolved overlap in iter " << iter << std::endl;
+            TextBoxes[i] = TextBoxes[i] + spring_force(cj, ci, 1.25, direction);
+            TextBoxes[j] = TextBoxes[j] + spring_force(ci, cj, 1.25, direction);
+          }
         }
       }
       }
+
     }
 
     // Dampen the forces.
 
-    f = f * (1 - 1e-3);
+    force = force * (1 - 1e-3);
   }
 
   NumericVector xs(n_texts);

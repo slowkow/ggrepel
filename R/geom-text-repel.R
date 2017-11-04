@@ -29,6 +29,10 @@
 #'   \item \code{check_overlap}
 #' }
 #'
+#' The parameters \code{hjust} and \code{vjust} are supported, but they only
+#' control the intial positioning and repulsive forces may disrupt alignment.
+#' Alignment will be preserved if the force is limited to not act in the
+#' direction of alignment using the \code{direction} parameter.
 #'
 #' @param mapping Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
 #'   \code{\link[ggplot2]{aes_}}. If specified and \code{inherit.aes = TRUE} (the
@@ -512,7 +516,8 @@ makeContent.textrepelgrob <- function(x) {
     x1 - extra_padding_x, y1 - extra_padding_y,
     x2 + extra_padding_x, y2 + extra_padding_y
   )
-  int <- intersect_line_rectangle(point_pos, center, text_box)
+  #int <- intersect_line_rectangle(point_pos, center, text_box)
+  int <- select_line_connection(point_pos, text_box)
 
   # Check if the data point is inside the label box.
   point_inside <- FALSE

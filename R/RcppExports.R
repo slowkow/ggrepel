@@ -83,6 +83,14 @@ intersect_line_rectangle <- function(p1, p2, b) {
     .Call('_ggrepel_intersect_line_rectangle', PACKAGE = 'ggrepel', p1, p2, b)
 }
 
+select_line_connection <- function(p1, b) {
+    .Call('_ggrepel_select_line_connection', PACKAGE = 'ggrepel', p1, b)
+}
+
+approximately_equal <- function(x1, x2) {
+    .Call('_ggrepel_approximately_equal', PACKAGE = 'ggrepel', x1, x2)
+}
+
 #' Adjust the layout of a list of potentially overlapping boxes.
 #' @param data_points A numeric matrix with rows representing points like
 #'   \code{rbind(c(x, y), c(x, y), ...)}

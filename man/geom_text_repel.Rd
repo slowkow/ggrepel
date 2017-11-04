@@ -143,11 +143,14 @@ The repulsive geoms reposition text labels to avoid overlap, so the
 following parameters are \strong{not supported}:
 
 \itemize{
-  \item \code{hjust}
-  \item \code{vjust}
   \item \code{position}
   \item \code{check_overlap}
 }
+
+The parameters \code{hjust} and \code{vjust} are supported, but they only
+control the intial positioning and repulsive forces may disrupt alignment.
+Alignment will be preserved if the force is limited to not act in the
+direction of alignment using the \code{direction} parameter.
 }
 
 \examples{

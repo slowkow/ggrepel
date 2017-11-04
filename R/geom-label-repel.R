@@ -384,7 +384,8 @@ makeContent.labelrepelgrob <- function(x) {
   # Get the coordinates of the intersection between the line from the
   # original data point to the centroid and the rectangle's edges.
   text_box <- c(x1, y1, x2, y2)
-  int <- intersect_line_rectangle(point_pos, center, c(x1, y1, x2, y2))
+  #int <- intersect_line_rectangle(point_pos, center, c(x1, y1, x2, y2))
+  int <- select_line_connection(point_pos, text_box)
 
   # Check if the data point is inside the label box.
   point_inside <- FALSE
