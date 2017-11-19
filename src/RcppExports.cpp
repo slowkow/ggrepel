@@ -18,13 +18,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // centroid
-NumericVector centroid(NumericVector b);
-RcppExport SEXP _ggrepel_centroid(SEXP bSEXP) {
+NumericVector centroid(NumericVector b, double hjust, double vjust);
+RcppExport SEXP _ggrepel_centroid(SEXP bSEXP, SEXP hjustSEXP, SEXP vjustSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
-    rcpp_result_gen = Rcpp::wrap(centroid(b));
+    Rcpp::traits::input_parameter< double >::type hjust(hjustSEXP);
+    Rcpp::traits::input_parameter< double >::type vjust(vjustSEXP);
+    rcpp_result_gen = Rcpp::wrap(centroid(b, hjust, vjust));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -41,9 +43,33 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// select_line_connection
+NumericVector select_line_connection(NumericVector p1, NumericVector b);
+RcppExport SEXP _ggrepel_select_line_connection(SEXP p1SEXP, SEXP bSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type p1(p1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
+    rcpp_result_gen = Rcpp::wrap(select_line_connection(p1, b));
+    return rcpp_result_gen;
+END_RCPP
+}
+// approximately_equal
+bool approximately_equal(double x1, double x2);
+RcppExport SEXP _ggrepel_approximately_equal(SEXP x1SEXP, SEXP x2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type x1(x1SEXP);
+    Rcpp::traits::input_parameter< double >::type x2(x2SEXP);
+    rcpp_result_gen = Rcpp::wrap(approximately_equal(x1, x2));
+    return rcpp_result_gen;
+END_RCPP
+}
 // repel_boxes
-DataFrame repel_boxes(NumericMatrix data_points, double point_padding_x, double point_padding_y, NumericMatrix boxes, NumericVector xlim, NumericVector ylim, double force, int maxiter, std::string direction);
-RcppExport SEXP _ggrepel_repel_boxes(SEXP data_pointsSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP forceSEXP, SEXP maxiterSEXP, SEXP directionSEXP) {
+DataFrame repel_boxes(NumericMatrix data_points, double point_padding_x, double point_padding_y, NumericMatrix boxes, NumericVector xlim, NumericVector ylim, NumericVector hjust, NumericVector vjust, double force, int maxiter, std::string direction);
+RcppExport SEXP _ggrepel_repel_boxes(SEXP data_pointsSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP hjustSEXP, SEXP vjustSEXP, SEXP forceSEXP, SEXP maxiterSEXP, SEXP directionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -53,19 +79,23 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type boxes(boxesSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type xlim(xlimSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type ylim(ylimSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type hjust(hjustSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type vjust(vjustSEXP);
     Rcpp::traits::input_parameter< double >::type force(forceSEXP);
     Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
     Rcpp::traits::input_parameter< std::string >::type direction(directionSEXP);
-    rcpp_result_gen = Rcpp::wrap(repel_boxes(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, force, maxiter, direction));
+    rcpp_result_gen = Rcpp::wrap(repel_boxes(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force, maxiter, direction));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
     {"_ggrepel_euclid", (DL_FUNC) &_ggrepel_euclid, 2},
-    {"_ggrepel_centroid", (DL_FUNC) &_ggrepel_centroid, 1},
+    {"_ggrepel_centroid", (DL_FUNC) &_ggrepel_centroid, 3},
     {"_ggrepel_intersect_line_rectangle", (DL_FUNC) &_ggrepel_intersect_line_rectangle, 3},
-    {"_ggrepel_repel_boxes", (DL_FUNC) &_ggrepel_repel_boxes, 9},
+    {"_ggrepel_select_line_connection", (DL_FUNC) &_ggrepel_select_line_connection, 2},
+    {"_ggrepel_approximately_equal", (DL_FUNC) &_ggrepel_approximately_equal, 2},
+    {"_ggrepel_repel_boxes", (DL_FUNC) &_ggrepel_repel_boxes, 11},
     {NULL, NULL, 0}
 };
 

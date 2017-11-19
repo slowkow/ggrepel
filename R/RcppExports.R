@@ -70,8 +70,8 @@ euclid <- function(a, b) {
 #' Get the coordinates of the center of a box.
 #' @param b A box like \code{c(x1, y1, x2, y2)}
 #' @noRd
-centroid <- function(b) {
-    .Call('_ggrepel_centroid', PACKAGE = 'ggrepel', b)
+centroid <- function(b, hjust, vjust) {
+    .Call('_ggrepel_centroid', PACKAGE = 'ggrepel', b, hjust, vjust)
 }
 
 #' Find the intersections between a line and a rectangle.
@@ -81,6 +81,14 @@ centroid <- function(b) {
 #' @noRd
 intersect_line_rectangle <- function(p1, p2, b) {
     .Call('_ggrepel_intersect_line_rectangle', PACKAGE = 'ggrepel', p1, p2, b)
+}
+
+select_line_connection <- function(p1, b) {
+    .Call('_ggrepel_select_line_connection', PACKAGE = 'ggrepel', p1, b)
+}
+
+approximately_equal <- function(x1, x2) {
+    .Call('_ggrepel_approximately_equal', PACKAGE = 'ggrepel', x1, x2)
 }
 
 #' Adjust the layout of a list of potentially overlapping boxes.
@@ -98,7 +106,7 @@ intersect_line_rectangle <- function(p1, p2, b) {
 #' @param maxiter Maximum number of iterations to try to resolve overlaps
 #'   (defaults to 2000)
 #' @noRd
-repel_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, force = 1e-6, maxiter = 2000L, direction = "both") {
-    .Call('_ggrepel_repel_boxes', PACKAGE = 'ggrepel', data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, force, maxiter, direction)
+repel_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force = 1e-6, maxiter = 2000L, direction = "both") {
+    .Call('_ggrepel_repel_boxes', PACKAGE = 'ggrepel', data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force, maxiter, direction)
 }
 
