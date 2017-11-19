@@ -237,41 +237,78 @@ ggplot() +
 
 ### Limit the direction of label movement
 
-Use `direction` to limit label movement to the x-axis (left and right) or y-axis
-(up and down). The options are "both" (default), "x", or "y".
+Use `direction` to limit label movement to the x-axis (left and right) or
+y-axis (up and down). The allowed values are "both" (default), "x", or "y".
 
-The direction argument may be used in conjunction with the hjust or vjust arguments to ensure aligned labels.  
+Use `direction` and `hjust` or `vjust` to align the labels neatly.
 
-```{r direction_x, echo=TRUE, fig.width=9, fig.height=7}
+```{r direction_x, echo=TRUE, fig.width=9, fig.height=3}
 set.seed(42)
 
 ggplot(mtcars, aes(x = wt, y = 1)) +
-    geom_point(color = 'red') +
-    geom_text_repel(aes(label = rownames(mtcars)), nudge_y = 0.2, direction = "x", 
-                    angle = 90, vjust = 0) + 
-    theme_classic(base_size = 16) + xlim(1,6) + ylim(1,1.3) + 
-  theme(axis.line.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.title.y = element_blank())
+  geom_point(color = 'red') +
+  geom_text_repel(
+    aes(label = rownames(mtcars)),
+    nudge_y = 0.05,
+    direction = "x",
+    angle = 90,
+    vjust = 0,
+    segment.size = 0.2
+  ) +
+  theme_classic(base_size = 16) +
+  xlim(1, 6) +
+  ylim(1, 0.8) +
+  theme(
+    axis.line.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank()
+  )
 ```
 
-Setting `direction` to "y":
+Set `direction` to "y" and try `hjust` 0.5, 0, and 1:
 
-```{r direction_y, echo=TRUE, fig.width=9, fig.height=7}
+```{r direction_y, echo=TRUE, fig.width=10, fig.height=8}
+library(gridExtra)
 set.seed(42)
 
-ggplot(mtcars, aes(y = wt, x = 1)) +
+p <- ggplot(mtcars, aes(y = wt, x = 1)) +
   geom_point(color = 'red') +
-  geom_text_repel(aes(label = rownames(mtcars)), nudge_x = 0.2, 
-                  direction = "y", 
-                  hjust = 1) + 
-  theme_classic(base_size = 16) + ylim(1,6) + 
-  xlim(1,1.25) + 
-  theme(axis.line.x = element_blank(),
-        axis.ticks.x = element_blank(),
-        axis.text.x = element_blank(),
-        axis.title.x = element_blank())
+  theme_classic(base_size = 16) +
+  ylim(1, 5.5) +
+  xlim(1, 1.375) +
+  theme(
+    axis.line.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.title.x = element_blank()
+  )
+
+p1 <- p + geom_text_repel(
+    aes(label = rownames(mtcars)),
+    nudge_x = 0.2,
+    direction = "y",
+    hjust = 0.5,
+    segment.size = 0.2
+  ) + ggtitle("hjust = 0.5 (default)")
+
+p2 <- p + geom_text_repel(
+    aes(label = rownames(mtcars)),
+    nudge_x = 0.15,
+    direction = "y",
+    hjust = 0,
+    segment.size = 0.2
+  ) + ggtitle("hjust = 0")
+
+p3 <- p + geom_text_repel(
+    aes(label = rownames(mtcars)),
+    nudge_x = 0.35,
+    direction = "y",
+    hjust = 1,
+    segment.size = 0.2
+  ) + ggtitle("hjust = 1")
+
+grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
 ### Line plot

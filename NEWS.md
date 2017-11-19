@@ -1,4 +1,17 @@
 
+ggrepel 0.7.1 2017-11-18
+----------------------------------------------------------------
+
+CHANGES (thanks to @AliciaSchep)
+
+* Add support for `hjust` and `vjust` parameters. See [issue 69][69].
+  Also see new examples in the [vignette].
+
+* Add code to avoid intersecting line segments. See [issue 34][34].
+
+[69]: https://github.com/slowkow/ggrepel/issues/69
+[34]: https://github.com/slowkow/ggrepel/issues/34
+
 ggrepel 0.7.0 2017-09-28
 ----------------------------------------------------------------
 
@@ -32,7 +45,7 @@ ggrepel 0.6.11 2017-07-08
 
 CHANGES (thanks to @seaaan)
 
-* Allow certain arguments to be passed as numbers or `unit()`
+* Allow certain parameters to be passed as numbers or `unit()`
   instead of only units. See [issue 79][79].
 
 [79]: https://github.com/slowkow/ggrepel/issues/79
@@ -144,7 +157,7 @@ ggrepel 0.6.1 2016-10-04
 CHANGES
 
 * Tweak `repel_boxes.cpp`. Dampen forces to tune how the labels move. The
-  result looks better, at least for the examples in the vignette.
+  result looks better, at least for the examples in the [vignette].
 
 ggrepel 0.6.0 2016-10-03
 ----------------------------------------------------------------
@@ -270,7 +283,7 @@ CHANGES
   The line segment will stop before reaching the coordinates of the point. The
   text labels are also now padded from the line segment to improve legibility.
 
-* Add volcano plot to the vignette usage examples.
+* Add volcano plot to the [vignette] usage examples.
 
 * Add Travis continuous integration to test against R-devel, R-release, and
   R-oldrel.
@@ -332,7 +345,7 @@ NEW FEATURES
 
 * Add man/ folder.
 
-* Add links to ggplot2 docs in vignette.
+* Add links to ggplot2 docs in [vignette].
 
 MINOR FEATURES
 
@@ -342,3 +355,5 @@ ggrepel 0.0.1 2016-01-04
 ----------------------------------------------------------------
 
 * Initial release to github.
+
+[vignette]: https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.md
