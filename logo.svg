@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 118.4 136.72">
+	<polygon fill="#fff" stroke="#000" stroke-width="4px" points="59.2 2.31 2 35.34 2 101.39 59.2 134.41 116.4 101.39 116.4 35.34 59.2 2.31"/>
+	<text font-family="Helvetica,sans-serif" font-size="24px" transform="translate(19.17 92.98)">ggrepel</text>
+	<line stroke="#000" stroke-width="3px" x1="59.2" y1="45.23" x2="59.2" y2="72.36"/>
+	<circle fill="#ed2024" cx="59.2" cy="41.23" r="10"/>
+</svg>

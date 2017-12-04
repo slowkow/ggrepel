@@ -1,55 +1,46 @@
-# ggrepel
+ggrepel <img src="logo.svg" width="120px" align="right" />
+============================================
 
 [![Build Status](https://travis-ci.org/slowkow/ggrepel.svg?branch=master)](https://travis-ci.org/slowkow/ggrepel)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggrepel)](https://CRAN.R-project.org/package=ggrepel)
 [![CRAN_Downloads_Badge](http://cranlogs.r-pkg.org/badges/grand-total/ggrepel?color=brightgreen)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggrepel)
 
-`ggrepel` provides geoms for [ggplot2] to repel overlapping text labels.
+Overview
+--------
+
+ggrepel provides geoms for [ggplot2] to repel overlapping text labels.
 
 ```r
-library(ggplot2)
 library(ggrepel)
-ggplot(mtcars, aes(wt, mpg)) +
+ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars))) +
+  geom_text_repel() +
   geom_point(color = 'red') +
-  geom_text_repel(aes(label = rownames(mtcars))) +
   theme_classic(base_size = 16)
 ```
 
-![geom_text_repel](https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/geom_text_repel-1.png) 
+<img src="fig.png" />
 
-## Usage
-
-See the [vignette] for more usage examples.
-
-Also, look at the help pages:
+Installation
+------------
 
 ```r
-?geom_text_repel
-?geom_label_repel
-```
-
-## Installation
-
-Install the latest stable release from CRAN:
-
-```r
+# The easiest way to get ggrepel is to install it from CRAN:
 install.packages("ggrepel")
-```
 
-Alternatively, install the latest development version from github:
-
-```r
-install.packages("devtools")
+# Or get the the development version from GitHub:
+# install.packages("devtools")
 devtools::install_github("slowkow/ggrepel")
 ```
 
-Or install a tagged version:
+Usage
+-----
 
-```r
-devtools::install_github("slowkow/ggrepel@0.6.2")
-```
+See the [vignette] for the code behind these examples:
 
-## Contributing
+<a href="vignettes/ggrepel.md#hide-some-of-the-labels"><img style="margin:1rem;" width="30%" src="vignettes/figures/ggrepel/empty_string-1.png" /></a> <a href="vignettes/ggrepel.md#do-not-repel-labels-from-data-points"><img style="margin:1rem;" width="30%" src="vignettes/figures/ggrepel/point_padding_na-1.png" /></a> <a href="vignettes/ggrepel.md#align-text-labels"><img style="margin:1rem;" width="30%" src="vignettes/figures/ggrepel/direction_y-1.png" /></a> <a href="vignettes/ggrepel.md#limit-labels-to-a-specific-area"><img style="margin:1rem;" width="30%" src="vignettes/figures/ggrepel/xlim-1.png" /></a> <a href="vignettes/ggrepel.md#polar-coordinates"><img style="margin:1rem;" width="30%" src="vignettes/figures/ggrepel/polar-1.png" /></a> <a href="vignettes/ggrepel.md#mathematical-expressions"><img style="margin:1rem;" width="30%" src="vignettes/figures/ggrepel/math-1.png" /></a>
+
+Contributing
+------------
 
 Please [submit an issue][issues] to report bugs or ask questions.
 
@@ -59,16 +50,16 @@ repository.
 [issues]: https://github.com/slowkow/ggrepel/issues
 [pull]: https://help.github.com/articles/using-pull-requests/
 
-## Related work
+Related work
+------------
 
 [directlabels]
 
-> This package is an attempt to make direct labeling a reality in everyday
-> statistical practice by making available a body of useful functions that
-> make direct labeling of common plots easy to do with high-level plotting
-> systems such as lattice and ggplot2. The main function that the package
-> provides is direct.label(p), which takes a lattice or ggplot2 plot p and
-> adds direct labels.
+> An extensible framework for automatically placing direct labels onto
+> multicolor 'lattice' or 'ggplot2' plots. Label positions are described
+> using Positioning Methods which can be re-used across several different
+> plots. There are heuristics for examining "trellis" and "ggplot" objects
+> and inferring an appropriate Positioning Method.
 
 [wordcloud]
 
@@ -90,10 +81,8 @@ packages with `ggplot2`.
 
 [1]: https://gist.github.com/slowkow/003b4d9f3f59cee8551c
 
-
 [ggplot2]: http://ggplot2.tidyverse.org
 [vignette]: https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.md
 [directlabels]: https://cran.r-project.org/package=directlabels
 [wordcloud]: https://cran.r-project.org/package=wordcloud
 [FField]: https://cran.r-project.org/package=FField
-
