@@ -18,7 +18,7 @@ ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars))) +
   theme_classic(base_size = 16)
 ```
 
-<img src="fig.png" />
+<img width="80%" src="fig.png" />
 
 Installation
 ------------
