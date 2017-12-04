@@ -72,19 +72,19 @@ disrupted in some cases. For best alignment, use `direction="x"` or
 ggrepel provides additional options for `geom_text_repel` and `geom_label_repel`:
 
 
-Option           Default       Description
----------------  ---------     ------------------------------------------------
-`segment.color`  `"black"`     line segment color
-`segment.size`   `0.5 mm`      line segment thickness
-`segment.alpha`  `1.0`         line segment transparency
-`box.padding`    `0.25 lines`  padding around the text box
-`point.padding`  `0 lines`     padding around the labeled point
-`arrow`          `NULL`        options for arrow heads created by `grid::arrow`
-`force`          `1`           force of repulsion between overlapping text labels
-`max.iter`       `2000`        maximum number of iterations to try to resolve overlaps
-`nudge_x`        `0`           shift the starting x position of the text label
-`nudge_y`        `0`           shift the starting y position of the text label
-`direction`      `"both"`      move text labels "both" (default), "x", or "y" directions
+|Option          | Default      | Description
+|--------------- | ---------    | ------------------------------------------------
+|`segment.color` | `"black"`    | line segment color
+|`segment.size`  | `0.5 mm`     | line segment thickness
+|`segment.alpha` | `1.0`        | line segment transparency
+|`box.padding`   | `0.25 lines` | padding around the text box
+|`point.padding` | `0 lines`    | padding around the labeled point
+|`arrow`         | `NULL`       | options for arrow heads created by `grid::arrow`
+|`force`         | `1`          | force of repulsion between overlapping text labels
+|`max.iter`      | `2000`       | maximum number of iterations to try to resolve overlaps
+|`nudge_x`       | `0`          | shift the starting x position of the text label
+|`nudge_y`       | `0`          | shift the starting y position of the text label
+|`direction`     | `"both"`     | move text labels "both" (default), "x", or "y" directions
 
 ## Hide some of the labels
 
