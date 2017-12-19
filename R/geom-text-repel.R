@@ -506,7 +506,7 @@ makeContent.textrepelgrob <- function(x) {
     convertHeight(x$y.orig, "native", TRUE)
   )
 
-  center <- centroid(c(x1, y1, x2, y2), x$hj, x$vjust)
+  center <- centroid(c(x1, y1, x2, y2), x$hjust, x$vjust)
 
   # Get the coordinates of the intersection between the line from the
   # original data point to the centroid and the rectangle's edges.
