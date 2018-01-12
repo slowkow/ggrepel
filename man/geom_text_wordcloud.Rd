@@ -8,9 +8,9 @@ geom_text_wordcloud(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = 0.025, point.padding = NA,
   segment.colour = NA, segment.color = NA, segment.size = 0.5,
   segment.alpha = NULL, min.segment.length = 0.5, arrow = NULL,
-  force = 1, rstep = 0.1, tstep = 0.1, max.iter = 2000, nudge_x = 0,
-  nudge_y = 0, xlim = c(NA, NA), ylim = c(NA, NA), na.rm = FALSE,
-  show.legend = NA, seed = NA, inherit.aes = TRUE)
+  rstep = 0.1, tstep = 0.1, max.iter = 2000, nudge_x = 0, nudge_y = 0,
+  xlim = c(NA, NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
+  seed = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -122,6 +122,10 @@ direction of alignment using the \code{direction} parameter.
 }
 
 \examples{
+p <- ggplot(mtcars,
+            aes(label = rownames(mtcars), size = mpg,
+                colour = factor(cyl)))
+
 p + geom_text_wordcloud()
 
 p + geom_text_wordcloud() +
