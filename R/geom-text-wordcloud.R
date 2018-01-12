@@ -86,6 +86,10 @@
 #'   \code{NA}, which means that \code{set.seed} will not be called.
 #'
 #' @examples
+#' p <- ggplot(mtcars,
+#'             aes(label = rownames(mtcars), size = mpg,
+#'                 colour = factor(cyl)))
+#'
 #' p + geom_text_wordcloud()
 #'
 #' p + geom_text_wordcloud() +
