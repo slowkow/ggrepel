@@ -706,3 +706,144 @@ DataFrame repel_boxes(
 }
 
 
+//' Adjust the layout of a list of potentially overlapping boxes.
+//' @param data_points A numeric matrix with rows representing points like
+//'   \code{rbind(c(x, y), c(x, y), ...)}
+//' @param point_padding_x Padding around each data point on the x axis.
+//' @param point_padding_y Padding around each data point on the y axis.
+//' @param boxes A numeric matrix with rows representing boxes like
+//'   \code{rbind(c(x1, y1, x2, y2), c(x1, y1, x2, y2), ...)}
+//' @param xlim A numeric vector representing the limits on the x axis like
+//'   \code{c(xmin, xmax)}
+//' @param ylim A numeric vector representing the limits on the y axis like
+//'   \code{c(ymin, ymax)}
+//' @param rstep radius increment after one rotation (defaults to \code{.1})
+//' @param tstep angle increment at each step (defaults to \code{.1})
+//' @param maxiter Maximum number of iterations to try to resolve overlaps
+//'   (defaults to 2000)
+//' @noRd
+// [[Rcpp::export]]
+DataFrame wordcloud_boxes(
+    NumericMatrix data_points,
+    double point_padding_x, double point_padding_y,
+    NumericMatrix boxes,
+    NumericVector xlim, NumericVector ylim,
+    NumericVector hjust, NumericVector vjust,
+    double rstep = .1, double tstep = .1,
+    int maxiter = 2000) {
+  int n_points = data_points.nrow();
+  int n_texts = boxes.nrow();
+  // assert(n_points >= n_texts);
+  int iter = 0;
+  bool i_overlaps = true;
+
+  if (NumericVector::is_na(rstep)) {
+    rstep = .1;
+  }
+  if (NumericVector::is_na(rstep)) {
+    rstep = .1;
+  }
+  Point xbounds, ybounds;
+  xbounds.x = xlim[0];
+  xbounds.y = xlim[1];
+  ybounds.x = ylim[0];
+  ybounds.y = ylim[1];
+
+  // Each data point gets a bounding box.
+  std::vector<Box> DataBoxes(n_points);
+  for (int i = 0; i < n_points; i++) {
+    DataBoxes[i].x1 = data_points(i, 0) - point_padding_x;
+    DataBoxes[i].y1 = data_points(i, 1) - point_padding_y;
+    DataBoxes[i].x2 = data_points(i, 0) + point_padding_x;
+    DataBoxes[i].y2 = data_points(i, 1) + point_padding_y;
+  }
+
+  std::vector<Point> Points(n_points);
+  for (int i = 0; i < n_points; i++) {
+    Points[i].x = data_points(i, 0);
+    Points[i].y = data_points(i, 1);
+  }
+
+  std::vector<Box> TextBoxes(n_texts);
+  std::vector<double> ratios(n_texts);
+  for (int i = 0; i < n_texts; i++) {
+    TextBoxes[i].x1 = boxes(i, 0);
+    TextBoxes[i].x2 = boxes(i, 2);
+    TextBoxes[i].y1 = boxes(i, 1);
+    TextBoxes[i].y2 = boxes(i, 3);
+    // height over width
+    ratios[i] = (TextBoxes[i].y2 - TextBoxes[i].y1)
+      / (TextBoxes[i].x2 - TextBoxes[i].x1);
+  }
+
+  Point d;
+  double r;
+  double theta;
+  Box TextBoxOri;
+
+  for (int i = 0; i < n_texts; i++) {
+    i_overlaps = true;
+    iter = 0;
+    r = 0;
+    theta = R::runif(0, 2 *M_PI);
+    d.x = 0;
+    d.y = 0;
+    TextBoxOri = TextBoxes[i];
+
+    while (i_overlaps && iter < maxiter) {
+      iter += 1;
+      i_overlaps = false;
+
+      TextBoxes[i] = TextBoxOri + d;
+      // Put boxes within bounds
+      TextBoxes[i] = put_within_bounds(TextBoxes[i], xbounds, ybounds);
+
+      // Repel the box from its data point
+      if (!(point_padding_x == 0 && point_padding_y == 0)) {
+        if (overlaps(DataBoxes[i], TextBoxes[i])) {
+          i_overlaps = true;
+        }
+      }
+
+      for (int j = 0; (!i_overlaps) && (j < i); j++) {
+        if (overlaps(TextBoxes[j], TextBoxes[i])) {
+          i_overlaps = true;
+        }
+      }
+
+      for (int j = 0; (!i_overlaps) && (j < i); j++) {
+        if (overlaps(TextBoxes[j], TextBoxes[i])) {
+          i_overlaps = true;
+        }
+      }
+
+      if (!(point_padding_x == 0 && point_padding_y == 0)) {
+        for (int j = 0; (!i_overlaps) && (j < n_points); j++) {
+          if (overlaps(DataBoxes[j], TextBoxes[i])) {
+            i_overlaps = true;
+          }
+        }
+      }
+
+      if (i_overlaps) {
+        theta += tstep;
+        r += rstep * tstep / (2 * M_PI);
+        d.x = r * cos(theta);
+        d.y = r * sin(theta);
+      }
+    } // loop over already positioned boxes
+  } // loop over texts
+
+  NumericVector xs(n_texts);
+  NumericVector ys(n_texts);
+
+  for (int i = 0; i < n_texts; i++) {
+    xs[i] = (TextBoxes[i].x1 + TextBoxes[i].x2) / 2;
+    ys[i] = (TextBoxes[i].y1 + TextBoxes[i].y2) / 2;
+  }
+
+  return Rcpp::DataFrame::create(
+    Rcpp::Named("x") = xs,
+    Rcpp::Named("y") = ys
+  );
+}

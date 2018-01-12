@@ -110,3 +110,23 @@ repel_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xl
     .Call('_ggrepel_repel_boxes', PACKAGE = 'ggrepel', data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force, maxiter, direction)
 }
 
+#' Adjust the layout of a list of potentially overlapping boxes.
+#' @param data_points A numeric matrix with rows representing points like
+#'   \code{rbind(c(x, y), c(x, y), ...)}
+#' @param point_padding_x Padding around each data point on the x axis.
+#' @param point_padding_y Padding around each data point on the y axis.
+#' @param boxes A numeric matrix with rows representing boxes like
+#'   \code{rbind(c(x1, y1, x2, y2), c(x1, y1, x2, y2), ...)}
+#' @param xlim A numeric vector representing the limits on the x axis like
+#'   \code{c(xmin, xmax)}
+#' @param ylim A numeric vector representing the limits on the y axis like
+#'   \code{c(ymin, ymax)}
+#' @param rstep radius increment after one rotation (defaults to \code{.1})
+#' @param tstep angle increment at each step (defaults to \code{.1})
+#' @param maxiter Maximum number of iterations to try to resolve overlaps
+#'   (defaults to 2000)
+#' @noRd
+wordcloud_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, rstep = .1, tstep = .1, maxiter = 2000L) {
+    .Call('_ggrepel_wordcloud_boxes', PACKAGE = 'ggrepel', data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, rstep, tstep, maxiter)
+}
+
