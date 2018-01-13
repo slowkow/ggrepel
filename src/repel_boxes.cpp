@@ -778,8 +778,13 @@ DataFrame wordcloud_boxes(
 
   Point d;
   double r;
+  double rscale = xlim[1]-xlim[0];
+  if ((ylim[1] - ylim[0]) > rscale) {
+    rscale = ylim[1] - ylim[0];
+  }
   double theta;
   Box TextBoxOri;
+
 
   for (int i = 0; i < n_texts; i++) {
     i_overlaps = true;
@@ -827,7 +832,7 @@ DataFrame wordcloud_boxes(
 
       if (i_overlaps) {
         theta += tstep;
-        r += rstep * tstep / (2 * M_PI);
+        r += rscale * rstep * tstep / (2 * M_PI);
         d.x = r * cos(theta);
         d.y = r * sin(theta);
       }

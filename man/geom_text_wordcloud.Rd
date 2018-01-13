@@ -17,7 +17,8 @@ geom_text_wordcloud(mapping = NULL, data = NULL, stat = "identity",
 \code{\link[ggplot2]{aes_}}. If specified and \code{inherit.aes = TRUE} (the
 default), is combined with the default mapping at the top level of the
 plot. You only need to supply \code{mapping} if there isn't a mapping
-defined for the plot.}
+defined for the plot. Note that \code{x} and \code{y} do not have to be
+specified and default to .5 if they are not specified.}
 
 \item{data}{A data frame. If specified, overrides the default data frame
 defined at the top level of the plot.}
@@ -63,7 +64,7 @@ specified by passing \code{unit(x, "units")}).}
 
 \item{arrow}{specification for arrow heads, as created by \code{\link[grid]{arrow}}}
 
-\item{rstep}{wordclould spiral radius increment after one full rotation. Default to .1.}
+\item{rstep}{relative wordclould spiral radius increment after one full rotation. Default to .1.}
 
 \item{tstep}{wordclould spiral angle increment at each step. Default to .1.}
 
@@ -93,7 +94,8 @@ that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
 }
 \description{
-\code{geom_text_wordcloud} adds text directly to the plot.
+\code{geom_text_wordcloud} adds a wordcloud directly to the plot. It is inspired
+by the layout of \code{\link[wordcloud]{wordcloud}}.
 }
 \details{
 This geom is based on \code{\link[ggplot2]{geom_text}}. See the

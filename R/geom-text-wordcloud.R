@@ -1,6 +1,7 @@
 #' Wordcloud.
 #'
-#' \code{geom_text_wordcloud} adds text directly to the plot.
+#' \code{geom_text_wordcloud} adds a wordcloud directly to the plot. It is inspired
+#' by the layout of \code{\link[wordcloud]{wordcloud}}.
 #'
 #' This geom is based on \code{\link[ggplot2]{geom_text}}. See the
 #' documentation for those functions for more details. Differences
@@ -30,7 +31,9 @@
 #'   \code{\link[ggplot2]{aes_}}. If specified and \code{inherit.aes = TRUE} (the
 #'   default), is combined with the default mapping at the top level of the
 #'   plot. You only need to supply \code{mapping} if there isn't a mapping
-#'   defined for the plot.
+#'   defined for the plot. Note that \code{x} and \code{y} do not have to be
+#'   specified and default to .5 if they are not specified.
+#'
 #' @param data A data frame. If specified, overrides the default data frame
 #'   defined at the top level of the plot.
 #' @param stat The statistical transformation to use on the data for this
@@ -78,7 +81,7 @@
 #'   number. Defaults to 0.5. (Default unit is lines, but other units can be
 #'   specified by passing \code{unit(x, "units")}).
 #' @param arrow specification for arrow heads, as created by \code{\link[grid]{arrow}}
-#' @param rstep wordclould spiral radius increment after one full rotation. Default to .1.
+#' @param rstep relative wordclould spiral radius increment after one full rotation. Default to .1.
 #' @param tstep wordclould spiral angle increment at each step. Default to .1.
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
 #'   Defaults to 2000.
