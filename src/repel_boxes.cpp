@@ -779,7 +779,7 @@ DataFrame wordcloud_boxes(
   Point d;
   double r;
   double rscale = xlim[1]-xlim[0];
-  if ((ylim[1] - ylim[0]) > rscale) {
+  if ((ylim[1] - ylim[0]) < rscale) {
     rscale = ylim[1] - ylim[0];
   }
   double theta;
