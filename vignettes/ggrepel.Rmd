@@ -32,7 +32,6 @@ opts_chunk$set(
 
 ```{r comparison, echo=TRUE, fig.width=9, fig.height=4}
 library(ggrepel)
-library(gridExtra)
 set.seed(42)
 
 dat <- subset(mtcars, wt > 2.75 & wt < 3.45)
@@ -46,7 +45,7 @@ p1 <- p + geom_text() + labs(title = "geom_text")
 
 p2 <- p + geom_text_repel() + labs(title = "geom_text_repel")
 
-grid.arrange(p1, p2, ncol = 2)
+gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
 
 ## Algorithm
@@ -188,7 +187,6 @@ ggplot(mtcars, aes(x = wt, y = 1, label = rownames(mtcars))) +
 Set `direction` to "y" and try `hjust` 0.5, 0, and 1:
 
 ```{r direction_y, echo=TRUE, fig.width=10, fig.height=8}
-library(gridExtra)
 set.seed(42)
 
 p <- ggplot(mtcars, aes(y = wt, x = 1, label = rownames(mtcars))) +
@@ -234,7 +232,7 @@ p3 <- p +
   ) +
   ggtitle("hjust = 1")
 
-grid.arrange(p1, p2, p3, ncol = 3)
+gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
 ## Polar coordinates
@@ -307,7 +305,7 @@ saveGIF(
 )
 ```
 
-<img src="figures/ggrepel/animated.gif" title="animation"
+<img src="https://i.imgur.com/vv7uTwI.gif" title="animation"
   alt="animation of geom_repel_text" width="700"/>
 
 ## R Session Info
