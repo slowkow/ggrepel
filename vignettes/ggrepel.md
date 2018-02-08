@@ -1,7 +1,7 @@
 ---
 title: "ggrepel examples"
 author: "Kamil Slowikowski"
-date: "2017-12-03"
+date: "2018-02-08"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ggrepel examples}
@@ -16,7 +16,6 @@ vignette: >
 
 ```r
 library(ggrepel)
-library(gridExtra)
 set.seed(42)
 
 dat <- subset(mtcars, wt > 2.75 & wt < 3.45)
@@ -30,7 +29,7 @@ p1 <- p + geom_text() + labs(title = "geom_text")
 
 p2 <- p + geom_text_repel() + labs(title = "geom_text_repel")
 
-grid.arrange(p1, p2, ncol = 2)
+gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/comparison-1.png" title="plot of chunk comparison" alt="plot of chunk comparison" width="700" />
@@ -187,7 +186,6 @@ Set `direction` to "y" and try `hjust` 0.5, 0, and 1:
 
 
 ```r
-library(gridExtra)
 set.seed(42)
 
 p <- ggplot(mtcars, aes(y = wt, x = 1, label = rownames(mtcars))) +
@@ -233,7 +231,7 @@ p3 <- p +
   ) +
   ggtitle("hjust = 1")
 
-grid.arrange(p1, p2, p3, ncol = 3)
+gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/direction_y-1.png" title="plot of chunk direction_y" alt="plot of chunk direction_y" width="700" />
@@ -315,7 +313,7 @@ saveGIF(
 )
 ```
 
-<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/animated.gif" title="animation"
+<img src="https://i.imgur.com/vv7uTwI.gif" title="animation"
   alt="animation of geom_repel_text" width="700"/>
 
 ## R Session Info
@@ -327,49 +325,50 @@ devtools::session_info()
 
 ```
 ##  setting  value                       
-##  version  R version 3.4.2 (2017-09-28)
+##  version  R version 3.4.3 (2017-11-30)
 ##  system   x86_64, darwin15.6.0        
 ##  ui       X11                         
 ##  language (EN)                        
 ##  collate  en_US.UTF-8                 
 ##  tz       America/New_York            
-##  date     2017-12-03                  
+##  date     2018-02-08                  
 ## 
-##  package    * version    date       source                            
-##  base       * 3.4.2      2017-10-04 local                             
-##  codetools    0.2-15     2016-10-05 CRAN (R 3.4.2)                    
-##  colorspace   1.3-2      2016-12-14 CRAN (R 3.4.0)                    
-##  compiler     3.4.2      2017-10-04 local                             
-##  datasets   * 3.4.2      2017-10-04 local                             
-##  devtools     1.13.4     2017-11-09 CRAN (R 3.4.2)                    
-##  digest       0.6.12     2017-01-27 CRAN (R 3.4.0)                    
-##  evaluate     0.10.1     2017-06-24 CRAN (R 3.4.1)                    
-##  ggplot2    * 2.2.1.9000 2017-12-01 Github (tidyverse/ggplot2@7b5c185)
-##  ggrepel    * 0.7.1      2017-11-20 Github (slowkow/ggrepel@f31f09f)  
-##  graphics   * 3.4.2      2017-10-04 local                             
-##  grDevices  * 3.4.2      2017-10-04 local                             
-##  grid         3.4.2      2017-10-04 local                             
-##  gridExtra  * 2.3        2017-09-09 CRAN (R 3.4.1)                    
-##  gtable       0.2.0      2016-02-26 CRAN (R 3.4.0)                    
-##  highr        0.6        2016-05-09 CRAN (R 3.4.0)                    
-##  knitr      * 1.17       2017-08-10 CRAN (R 3.4.1)                    
-##  labeling     0.3        2014-08-23 CRAN (R 3.4.0)                    
-##  lazyeval     0.2.1      2017-10-29 CRAN (R 3.4.2)                    
-##  magrittr     1.5        2014-11-22 CRAN (R 3.4.0)                    
-##  memoise      1.1.0      2017-04-21 CRAN (R 3.4.0)                    
-##  methods    * 3.4.2      2017-10-04 local                             
-##  munsell      0.4.3      2016-02-13 CRAN (R 3.4.0)                    
-##  plyr         1.8.4      2016-06-08 CRAN (R 3.4.0)                    
-##  Rcpp         0.12.14    2017-11-23 CRAN (R 3.4.3)                    
-##  rlang        0.1.4      2017-11-05 CRAN (R 3.4.2)                    
-##  scales       0.5.0.9000 2017-12-01 Github (hadley/scales@d767915)    
-##  stats      * 3.4.2      2017-10-04 local                             
-##  stringi      1.1.6      2017-11-17 CRAN (R 3.4.2)                    
-##  stringr      1.2.0      2017-02-18 CRAN (R 3.4.0)                    
-##  tibble       1.3.4      2017-08-22 CRAN (R 3.4.1)                    
-##  tools        3.4.2      2017-10-04 local                             
-##  utils      * 3.4.2      2017-10-04 local                             
-##  withr        2.1.0.9000 2017-12-01 Github (jimhester/withr@fe81c00)
+##  package    * version    date       source                          
+##  base       * 3.4.3      2017-12-07 local                           
+##  codetools    0.2-15     2016-10-05 CRAN (R 3.4.3)                  
+##  colorspace   1.3-2      2016-12-14 CRAN (R 3.4.0)                  
+##  compiler     3.4.3      2017-12-07 local                           
+##  datasets   * 3.4.3      2017-12-07 local                           
+##  devtools     1.13.4     2017-11-09 CRAN (R 3.4.2)                  
+##  digest       0.6.15     2018-01-28 cran (@0.6.15)                  
+##  evaluate     0.10.1     2017-06-24 CRAN (R 3.4.1)                  
+##  ggplot2    * 2.2.1      2016-12-30 CRAN (R 3.4.0)                  
+##  ggrepel    * 0.7.2      2018-02-08 local                           
+##  graphics   * 3.4.3      2017-12-07 local                           
+##  grDevices  * 3.4.3      2017-12-07 local                           
+##  grid         3.4.3      2017-12-07 local                           
+##  gridExtra    2.3        2017-09-09 CRAN (R 3.4.1)                  
+##  gtable       0.2.0      2016-02-26 CRAN (R 3.4.0)                  
+##  highr        0.6        2016-05-09 CRAN (R 3.4.0)                  
+##  knitr      * 1.17       2017-08-10 CRAN (R 3.4.1)                  
+##  labeling     0.3        2014-08-23 CRAN (R 3.4.0)                  
+##  lazyeval     0.2.1      2017-10-29 CRAN (R 3.4.2)                  
+##  magrittr     1.5        2014-11-22 CRAN (R 3.4.0)                  
+##  memoise      1.1.0      2017-04-21 CRAN (R 3.4.0)                  
+##  methods    * 3.4.3      2017-12-07 local                           
+##  munsell      0.4.3      2016-02-13 CRAN (R 3.4.0)                  
+##  pillar       1.1.0      2018-01-14 cran (@1.1.0)                   
+##  plyr         1.8.4      2016-06-08 CRAN (R 3.4.0)                  
+##  Rcpp         0.12.15    2018-01-20 cran (@0.12.15)                 
+##  rlang        0.1.6.9003 2018-02-01 Github (tidyverse/rlang@c6747f9)
+##  scales       0.5.0.9000 2017-12-01 Github (hadley/scales@d767915)  
+##  stats      * 3.4.3      2017-12-07 local                           
+##  stringi      1.1.6      2017-11-17 CRAN (R 3.4.2)                  
+##  stringr      1.2.0      2017-02-18 CRAN (R 3.4.0)                  
+##  tibble       1.4.2      2018-01-22 cran (@1.4.2)                   
+##  tools        3.4.3      2017-12-07 local                           
+##  utils      * 3.4.3      2017-12-07 local                           
+##  withr        2.1.1.9000 2017-12-20 Github (jimhester/withr@df18523)
 ```
 
 [geom_text]: http://ggplot2.tidyverse.org/reference/geom_text.html
