@@ -1,4 +1,27 @@
 
+ggrepel 0.7.3 2018-02-09
+----------------------------------------------------------------
+
+CHANGES
+
+* Add support for `position` parameter. See [issue 69][69].
+  Also see new examples in the [vignette].
+
+[69]: https://github.com/slowkow/ggrepel/issues/69
+
+ggrepel 0.7.2 2018-01-14
+----------------------------------------------------------------
+
+FIXES (thanks to @AliciaSchep and @aphalo)
+
+* Fix warning about `hjust`. See [issue 93][93].
+
+* Fix bug when subset of points is labeled in `geom_label_repel`.
+  See [issue 92][92].
+
+[92]: https://github.com/slowkow/ggrepel/issues/92
+[93]: https://github.com/slowkow/ggrepel/issues/93
+
 ggrepel 0.7.1 2017-11-18
 ----------------------------------------------------------------
 
