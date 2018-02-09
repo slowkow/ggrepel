@@ -8,7 +8,7 @@
 #' @param label.size Size of label border, in mm.
 #' @export
 geom_label_repel <- function(
-  mapping = NULL, data = NULL, stat = "identity",
+  mapping = NULL, data = NULL, stat = "identity", position = "identity",
   parse = FALSE,
   ...,
   box.padding = 0.25,
@@ -34,12 +34,18 @@ geom_label_repel <- function(
   seed = NA,
   inherit.aes = TRUE
 ) {
+  if (!missing(nudge_x) || !missing(nudge_y)) {
+    if (!missing(position)) {
+      stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
+    }
+    #position <- position_nudge(nudge_x, nudge_y)
+  }
   layer(
     data = data,
     mapping = mapping,
     stat = stat,
     geom = GeomLabelRepel,
-    position = "identity",
+    position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(

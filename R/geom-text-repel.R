@@ -43,6 +43,8 @@
 #'   defined at the top level of the plot.
 #' @param stat The statistical transformation to use on the data for this
 #'    layer, as a string.
+#' @param position Position adjustment, either as a string, or the result of
+#'  a call to a position adjustment function.
 #' @param parse If TRUE, the labels will be parsed into expressions and
 #'   displayed as described in ?plotmath
 #' @param na.rm If \code{FALSE} (the default), removes missing values with
@@ -164,7 +166,7 @@
 #' }
 #' @export
 geom_text_repel <- function(
-  mapping = NULL, data = NULL, stat = "identity",
+  mapping = NULL, data = NULL, stat = "identity", position = "identity",
   parse = FALSE,
   ...,
   box.padding = 0.25,
@@ -187,12 +189,18 @@ geom_text_repel <- function(
   seed = NA,
   inherit.aes = TRUE
 ) {
+  if (!missing(nudge_x) || !missing(nudge_y)) {
+    if (!missing(position)) {
+      stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
+    }
+    #position <- position_nudge(nudge_x, nudge_y)
+  }
   layer(
     data = data,
     mapping = mapping,
     stat = stat,
     geom = GeomTextRepel,
-    position = "identity",
+    position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(

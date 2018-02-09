@@ -6,20 +6,20 @@
 \title{Repulsive textual annotations.}
 \usage{
 geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
-  parse = FALSE, ..., box.padding = 0.25, label.padding = 0.25,
-  point.padding = 1e-06, label.r = 0.15, label.size = 0.25,
-  segment.colour = NULL, segment.color = NULL, segment.size = 0.5,
-  segment.alpha = NULL, min.segment.length = 0.5, arrow = NULL,
-  force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA,
-  NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
+  position = "identity", parse = FALSE, ..., box.padding = 0.25,
+  label.padding = 0.25, point.padding = 1e-06, label.r = 0.15,
+  label.size = 0.25, segment.colour = NULL, segment.color = NULL,
+  segment.size = 0.5, segment.alpha = NULL, min.segment.length = 0.5,
+  arrow = NULL, force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0,
+  xlim = c(NA, NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
   direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
-  parse = FALSE, ..., box.padding = 0.25, point.padding = 1e-06,
-  segment.colour = NULL, segment.color = NULL, segment.size = 0.5,
-  segment.alpha = NULL, min.segment.length = 0.5, arrow = NULL,
-  force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA,
-  NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
+  position = "identity", parse = FALSE, ..., box.padding = 0.25,
+  point.padding = 1e-06, segment.colour = NULL, segment.color = NULL,
+  segment.size = 0.5, segment.alpha = NULL, min.segment.length = 0.5,
+  arrow = NULL, force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0,
+  xlim = c(NA, NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
   direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
 }
 \arguments{
@@ -34,6 +34,9 @@ defined at the top level of the plot.}
 
 \item{stat}{The statistical transformation to use on the data for this
 layer, as a string.}
+
+\item{position}{Position adjustment, either as a string, or the result of
+a call to a position adjustment function.}
 
 \item{parse}{If TRUE, the labels will be parsed into expressions and
 displayed as described in ?plotmath}
