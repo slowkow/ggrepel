@@ -14,7 +14,7 @@
 vignettes/cache
 
 # issues 
-issues/
+scripts/issues/
 
 # debug figures in vignette
 vignettes/figures/ggrepel/gallery.html
