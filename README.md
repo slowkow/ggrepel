@@ -1,9 +1,19 @@
 ggrepel <img src="logo.svg" width="120px" align="right" />
 ============================================
 
-CRAN: [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggrepel?color=blue)](https://CRAN.R-project.org/package=ggrepel) [![CRAN_Downloads_Badge](http://cranlogs.r-pkg.org/badges/grand-total/ggrepel?color=blue)](https://www.r-pkg.org/pkg/ggrepel)
+[![GitHub Version][gb]][releases] [![Build Status][bb]][travis] [![CRAN_Status_Badge][cb]][cran] [![CRAN_Downloads_Badge][db]][r-pkg]
 
-GitHub: [![GitHub Version](https://badge.fury.io/gh/slowkow%2Fggrepel.svg)](https://github.com/slowkow/ggrepel) [![Build Status](https://travis-ci.org/slowkow/ggrepel.svg?branch=master)](https://travis-ci.org/slowkow/ggrepel)
+[cb]: http://www.r-pkg.org/badges/version/ggrepel?color=blue
+[cran]: https://CRAN.R-project.org/package=ggrepel
+
+[db]: http://cranlogs.r-pkg.org/badges/grand-total/ggrepel?color=blue
+[r-pkg]: https://www.r-pkg.org/pkg/ggrepel
+
+[gb]: https://badge.fury.io/gh/slowkow%2Fggrepel.svg?text=Github
+[releases]: https://github.com/slowkow/ggrepel/releases
+
+[bb]: https://travis-ci.org/slowkow/ggrepel.svg?branch=master
+[travis]: https://travis-ci.org/slowkow/ggrepel
 
 Overview
 --------
