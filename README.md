@@ -63,6 +63,19 @@ repository.
 Related work
 ------------
 
+### Python
+
+[adjustText]
+
+> A small library for automatically adjusting text position in matplotlib plots to minimize overlaps.
+
+Ilya Flyamer's Python library that extends [matplotlib].
+
+[adjustText]: https://github.com/Phlya/adjustText
+[matplotlib]: https://matplotlib.org/
+
+### R
+
 [directlabels]
 
 > An extensible framework for automatically placing direct labels onto
