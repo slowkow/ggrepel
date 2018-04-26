@@ -63,6 +63,26 @@ repository.
 Related work
 ------------
 
+### Academic Papers
+
+[An Efficient Algorithm for Scatter Chart Labeling][aaai]
+
+Sebastian Theophil, Arno Schödl
+
+> This paper presents an efficient algorithm for a new variation of the point
+> feature labeling problem. The goal is to position the largest number of point
+> labels such that they do not intersect each other or their points. First we
+> present an algorithm using a greedy algorithm with limited lookahead. We then
+> present an algorithm that iteratively regroups labels, calling the first
+> algorithm on each group, thereby identifying a close to optimal labeling
+> order. The presented algorithm is being used in a commercial product to label
+> charts, and our evaluation shows that it produces results far superior to
+> those of other labeling algorithms.
+
+This might be a good start for a revision of ggrepel.
+
+[aaai]: http://www.aaai.org/Papers/AAAI/2006/AAAI06-167.pdf
+
 ### Python
 
 [adjustText]
