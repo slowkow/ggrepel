@@ -1,6 +1,6 @@
 
 ggrepel 0.8.0.9000
-----------------------------------------------------------------
+========================
 
 ## Bug fixes and improvements
 
@@ -12,7 +12,7 @@ ggrepel 0.8.0.9000
 [issue 104]: https://github.com/slowkow/ggrepel/issues/104
 
 ggrepel 0.7.3 2018-02-09
-----------------------------------------------------------------
+========================
 
 NEW FEATURES
 
@@ -25,7 +25,7 @@ NEW FEATURES
 [issue 69]: https://github.com/slowkow/ggrepel/issues/69
 
 ggrepel 0.7.2 2018-01-14
-----------------------------------------------------------------
+========================
 
 FIXES (thanks to @AliciaSchep and @aphalo)
 
@@ -38,7 +38,7 @@ FIXES (thanks to @AliciaSchep and @aphalo)
 [issue 93]: https://github.com/slowkow/ggrepel/issues/93
 
 ggrepel 0.7.1 2017-11-18
-----------------------------------------------------------------
+========================
 
 CHANGES (thanks to @AliciaSchep)
 
@@ -51,7 +51,7 @@ CHANGES (thanks to @AliciaSchep)
 [issue 34]: https://github.com/slowkow/ggrepel/issues/34
 
 ggrepel 0.7.0 2017-09-28
-----------------------------------------------------------------
+========================
 
 FIXES
 
@@ -64,7 +64,7 @@ FIXES
 [commit 28633d]: https://github.com/slowkow/ggrepel/commit/28633db5eb3d3cc2bd935bd438a8bb36b5673951
 
 ggrepel 0.6.12 2017-07-16
-----------------------------------------------------------------
+========================
 
 NEW FEATURE
 
@@ -79,7 +79,7 @@ NEW FEATURE
 [issue 73]: https://github.com/slowkow/ggrepel/issues/73
 
 ggrepel 0.6.11 2017-07-08
-----------------------------------------------------------------
+========================
 
 CHANGES (thanks to @seaaan)
 
@@ -89,7 +89,7 @@ CHANGES (thanks to @seaaan)
 [issue 79]: https://github.com/slowkow/ggrepel/issues/79
 
 ggrepel 0.6.10 2017-03-07
-----------------------------------------------------------------
+========================
 
 FIXES (thanks to @zkamvar)
 
@@ -99,7 +99,7 @@ FIXES (thanks to @zkamvar)
 [pull 74]: https://github.com/slowkow/ggrepel/pull/74
 
 ggrepel 0.6.9 2017-03-07
-----------------------------------------------------------------
+========================
 
 FIXES (thanks to @pcroteau)
 
@@ -109,7 +109,7 @@ FIXES (thanks to @pcroteau)
 [pull 70]: https://github.com/slowkow/ggrepel/pull/70
 
 ggrepel 0.6.8 2017-02-12
-----------------------------------------------------------------
+========================
 
 NEW FEATURE (thanks to @AliciaSchep)
 
@@ -119,7 +119,7 @@ NEW FEATURE (thanks to @AliciaSchep)
 [pull 68]: https://github.com/slowkow/ggrepel/pull/68
 
 ggrepel 0.6.7 2017-01-09
-----------------------------------------------------------------
+========================
 
 CHANGES (thanks to @lukauskas)
 
@@ -129,7 +129,7 @@ CHANGES (thanks to @lukauskas)
 [pull 67]: https://github.com/slowkow/ggrepel/pull/67
 
 ggrepel 0.6.6 2016-11-28
-----------------------------------------------------------------
+========================
 
 FIXES (thanks to @fawda123)
 
@@ -139,7 +139,7 @@ FIXES (thanks to @fawda123)
 [issue 60]: https://github.com/slowkow/ggrepel/issues/60
 
 ggrepel 0.6.5 2016-11-22
-----------------------------------------------------------------
+========================
 
 CHANGES (thanks to @jiho)
 
@@ -156,7 +156,7 @@ FIXES (thanks to @jiho)
 * Call `scales::alpha()` instead of `alpha()`.
 
 ggrepel 0.6.4 2016-11-08
-----------------------------------------------------------------
+========================
 
 FIXES
 
@@ -166,14 +166,14 @@ FIXES
 [issue 56]: https://github.com/slowkow/ggrepel/issues/56
 
 ggrepel 0.6.3 2016-10-14
-----------------------------------------------------------------
+========================
 
 NEW FEATURES
 
 * Use `point.padding=NA` to ignore data points in repulsion calculations.
 
 ggrepel 0.6.2 2016-10-06
-----------------------------------------------------------------
+========================
 
 FIXES
 
@@ -190,7 +190,7 @@ NEW FEATURES
 * Add `min.segment.length` to `geom_text_repel()` and `geom_label_repel()`.
 
 ggrepel 0.6.1 2016-10-04
-----------------------------------------------------------------
+========================
 
 CHANGES
 
@@ -198,7 +198,7 @@ CHANGES
   result looks better, at least for the examples in the [vignette].
 
 ggrepel 0.6.0 2016-10-03
-----------------------------------------------------------------
+========================
 
 NEW FEATURES
 
@@ -228,17 +228,17 @@ CHANGES
   rotating text labels.
 
 ggrepel 0.5.1 2016-02-22
-----------------------------------------------------------------
+========================
 
 * Optimize C++ code further by reducing number of calls to `rnorm()`.
 
 ggrepel 0.5 2016-02-08
-----------------------------------------------------------------
+========================
 
 * First push to CRAN.
 
 ggrepel 0.4.6 2016-02-07
-----------------------------------------------------------------
+========================
 
 CHANGES
 
@@ -246,7 +246,7 @@ CHANGES
   away from data points.
 
 ggrepel 0.4.5 2016-02-06
-----------------------------------------------------------------
+========================
 
 CHANGES
 
@@ -255,7 +255,7 @@ CHANGES
 * Delete unnecessary .Rd files.
 
 ggrepel 0.4.4 2016-02-05
-----------------------------------------------------------------
+========================
 
 FIXES
 
@@ -267,7 +267,7 @@ CHANGES
 * Automatically recompute repulsion between labels after resizing the plot.
 
 ggrepel 0.4.3 2016-01-18
-----------------------------------------------------------------
+========================
 
 CHANGES
 
@@ -275,7 +275,7 @@ CHANGES
   is no gap between the end of the segment and the label border.
 
 ggrepel 0.4.2 2016-01-15
-----------------------------------------------------------------
+========================
 
 FIXES
 
@@ -286,7 +286,7 @@ CHANGES
 * Add `nudge_x` and `nudge_y` to better control positioning of labels.
 
 ggrepel 0.4.1 2016-01-13
-----------------------------------------------------------------
+========================
 
 CHANGES
 
@@ -303,7 +303,7 @@ FIXES
 * Tweak forces to improve layout near borders and in crowded areas.
 
 ggrepel 0.4 2016-01-12
-----------------------------------------------------------------
+========================
 
 FIXES
 
@@ -332,7 +332,7 @@ CHANGES
 
 
 ggrepel 0.3 2016-01-08
-----------------------------------------------------------------
+========================
 
 CHANGES
 
@@ -349,7 +349,7 @@ CHANGES
 * Remove unused code.
 
 ggrepel 0.2.0 2016-01-07
-----------------------------------------------------------------
+========================
 
 CHANGES
 
@@ -371,7 +371,7 @@ DOCUMENTATION
 * Add roxygen docs to all functions.
 
 ggrepel 0.1.0 2016-01-05
-----------------------------------------------------------------
+========================
 
 NEW FEATURES
 
@@ -390,7 +390,7 @@ MINOR FEATURES
 * Add unused R implementation of `repel_boxes()`, just for your reference.
 
 ggrepel 0.0.1 2016-01-04
-----------------------------------------------------------------
+========================
 
 * Initial release to github.
 
