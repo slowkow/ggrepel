@@ -1,5 +1,5 @@
 Package: ggrepel
-Version: 0.7.3
+Version: 0.8.0.9000
 Authors@R: c(
     person("Kamil", "Slowikowski", email = "kslowikowski@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2843-6370")),
     person("Jean-Olivier", "Irisson", role = "ctb", comment = c(ORCID = "0000-0003-4920-3880")),
@@ -9,7 +9,7 @@ Authors@R: c(
     person("Sean", "Hughes", role = "ctb"),
     person("Pierre", "Gramme", role = "ctb")
     )
-Title: Repulsive Text and Label Geoms for 'ggplot2'
+Title: Automatically Position Non-Overlapping Text Labels with 'ggplot2'
 Description: Provides text and label geoms for 'ggplot2' that help to avoid
     overlapping text labels. Labels repel away from each other and away from the
     data points.
