@@ -15,4 +15,4 @@
 ^vignettes/figures/ggrepel/.*\.png$
 ^vignettes/figures/ggrepel/.*\.sh$
 ^how_to_build.txt$
-^ISSUE_TEMPLATE.md$
+^.github/.*$
