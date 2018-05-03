@@ -187,6 +187,9 @@ makeContent.labelrepeltree <- function(x) {
   box_padding_y <- convertHeight(x$box.padding, "npc", valueOnly = TRUE)
 
   # The padding around each point.
+  if (is.na(x$point.padding)) {
+    x$point.padding = unit(0, "lines")
+  }
   point_padding_x <- convertWidth(x$point.padding, "native", valueOnly = TRUE)
   point_padding_y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
 
@@ -329,8 +332,10 @@ labelRepelGrob <- function(
 
   gTree(
     label = label,
+    # Position of text bounding boxes.
     x = x,
     y = y,
+    # Position of original data points.
     x.orig = x.orig,
     y.orig = y.orig,
     just = just,
