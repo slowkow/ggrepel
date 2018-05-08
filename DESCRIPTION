@@ -2,11 +2,14 @@ Package: ggrepel
 Version: 0.8.0.9000
 Authors@R: c(
     person("Kamil", "Slowikowski", email = "kslowikowski@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2843-6370")),
-    person("Jean-Olivier", "Irisson", role = "ctb", comment = c(ORCID = "0000-0003-4920-3880")),
-    person("Saulius", "Lukauskas", role = "ctb"),
     person("Alicia", "Schep", role = "ctb", comment = c(ORCID = "0000-0002-3915-0618")),
-    person("Zhian N", "Kamvar", role = "ctb", comment = c(ORCID = "0000-0003-1458-7108")),
     person("Sean", "Hughes", role = "ctb"),
+    person("Saulius", "Lukauskas", role = "ctb"),
+    person("Jean-Olivier", "Irisson", role = "ctb", comment = c(ORCID = "0000-0003-4920-3880")),
+    person("Zhian N", "Kamvar", role = "ctb", comment = c(ORCID = "0000-0003-1458-7108")),
+    person("Thompson", "Ryan", role = "ctb", comment = c(ORCID = "0000-0002-0450-8181")),
+    person("Dervieux", "Christophe", role = "ctb", comment = c(ORCID = "0000-0003-4474-2498")),
+    person("Yutani", "Hiroaki", role = "ctb"),
     person("Pierre", "Gramme", role = "ctb")
     )
 Title: Automatically Position Non-Overlapping Text Labels with 'ggplot2'
