@@ -135,25 +135,17 @@ the axes changes. The text labels are repositioned after resizing a plot.
 }
 \section{\code{geom_label_repel}}{
 
-Currently \code{geom_label_repel} does not support the \code{rot} parameter
+Currently \code{geom_label_repel} does not support the \code{rot} argument
 and is considerably slower than \code{geom_text_repel}. The \code{fill}
 aesthetic controls the background colour of the label.
 }
 
-\section{Alignment}{
+\section{Alignment with \code{hjust} or \code{vjust}}{
 
-The repulsive geoms reposition text labels to avoid overlap, so the
-following parameters are \strong{not supported}:
-
-\itemize{
-  \item \code{position}
-  \item \code{check_overlap}
-}
-
-The parameters \code{hjust} and \code{vjust} are supported, but they only
-control the intial positioning and repulsive forces may disrupt alignment.
-Alignment will be preserved if the force is limited to not act in the
-direction of alignment using the \code{direction} parameter.
+The arguments \code{hjust} and \code{vjust} are supported, but they only
+control the initial positioning, so repulsive forces may disrupt alignment.
+Alignment with \code{hjust} will be preserved if labels only move up and down
+by using \code{direction="y"}. For \code{vjust}, use \code{direction="x"}.
 }
 
 \examples{
