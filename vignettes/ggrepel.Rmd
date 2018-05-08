@@ -100,12 +100,11 @@ source("https://install-github.me/slowkow/ggrepel")
 
 ## Options
 
-Options available for [geom_text()][geom_text] and [geom_label()][geom_label]
+Options available for [geom_text()][geom_text] and [geom_label()][geom_text]
 are also available for `geom_text_repel()` and `geom_label_repel()`,
 including `size`, `angle`, `family`, `fontface`, etc.
 
 [geom_text]: http://ggplot2.tidyverse.org/reference/geom_text.html
-[geom_label]: http://ggplot2.tidyverse.org/reference/geom_label.html
 
 ggrepel provides additional options for `geom_text_repel` and `geom_label_repel`:
 
