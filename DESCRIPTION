@@ -28,7 +28,8 @@ Suggests:
     rmarkdown,
     testthat,
     gridExtra,
-    devtools
+    devtools,
+    prettydoc
 VignetteBuilder: knitr
 License: GPL-3 | file LICENSE
 URL: http://github.com/slowkow/ggrepel
