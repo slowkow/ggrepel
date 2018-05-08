@@ -18,7 +18,13 @@ ggrepel <img src="logo.svg" width="120px" align="right" />
 Overview
 --------
 
-ggrepel provides geoms for [ggplot2] to repel overlapping text labels.
+ggrepel provides geoms for [ggplot2] to repel overlapping text labels:
+
+- `geom_text_repel()`
+- `geom_label_repel()`
+
+Text labels repel away from each other, away from data points, and away
+from edges of the plotting area.
 
 ```r
 library(ggrepel)
@@ -40,6 +46,9 @@ install.packages("ggrepel")
 # Or get the the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("slowkow/ggrepel")
+
+# Or use the install-github.me service
+source("https://install-github.me/slowkow/ggrepel")
 ```
 
 Usage
