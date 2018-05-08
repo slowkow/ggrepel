@@ -1,4 +1,4 @@
-ggrepel <img src="logo.svg" width="120px" align="right" />
+ggrepel <img src="tools/logo.svg" width="120px" align="right" />
 ============================================
 
 [![GitHub Version][gb]][releases] [![Build Status][bb]][travis] [![CRAN_Status_Badge][cb]][cran] [![CRAN_Downloads_Badge][db]][r-pkg]
@@ -34,7 +34,7 @@ ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars))) +
   theme_classic(base_size = 16)
 ```
 
-<img width="80%" src="fig.png" />
+<img width="80%" src="tools/fig.png" />
 
 Installation
 ------------

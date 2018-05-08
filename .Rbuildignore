@@ -1,8 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^.travis\.yml$
-^fig\.png$
-^logo\.svg$
 ^tests/benchmark\.R$
 ^issues
 ^scripts
