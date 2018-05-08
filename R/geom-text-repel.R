@@ -20,12 +20,11 @@
 #' and is considerably slower than \code{geom_text_repel}. The \code{fill}
 #' aesthetic controls the background colour of the label.
 #'
-#' @section Alignment with \code{hjust} or \code{vjust}
-#'
+#' @section Alignment with \code{hjust} or \code{vjust}:
 #' The arguments \code{hjust} and \code{vjust} are supported, but they only
 #' control the initial positioning, so repulsive forces may disrupt alignment.
 #' Alignment with \code{hjust} will be preserved if labels only move up and down
-#' by using \code{direction = "y"}. For \code{vjust}, use \code{direction = "x"}.
+#' by using \code{direction="y"}. For \code{vjust}, use \code{direction="x"}.
 #'
 #' @param mapping Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
 #'   \code{\link[ggplot2]{aes_}}. If specified and \code{inherit.aes = TRUE} (the
