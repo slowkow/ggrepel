@@ -36,6 +36,7 @@ opts_chunk$set(
 knit_hooks$set(
   pngquant = hook_pngquant
 )
+library(gridExtra)
 library(ggplot2)
 theme_set(theme_classic(base_size = 18) %+replace% theme(
   axis.line.y = element_line(colour = "black", size = 0.2),
