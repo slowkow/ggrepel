@@ -1,7 +1,7 @@
 ---
 title: "ggrepel examples"
 author: "Kamil Slowikowski"
-date: "2018-05-08"
+date: "2018-05-09"
 output:
   prettydoc::html_pretty:
     theme: hpstr
@@ -78,12 +78,11 @@ source("https://install-github.me/slowkow/ggrepel")
 
 ## Options
 
-Options available for [geom_text()][geom_text] and [geom_label()][geom_label]
+Options available for [geom_text()][geom_text] and [geom_label()][geom_text]
 are also available for `geom_text_repel()` and `geom_label_repel()`,
 including `size`, `angle`, `family`, `fontface`, etc.
 
 [geom_text]: http://ggplot2.tidyverse.org/reference/geom_text.html
-[geom_label]: http://ggplot2.tidyverse.org/reference/geom_label.html
 
 ggrepel provides additional options for `geom_text_repel` and `geom_label_repel`:
 
@@ -433,7 +432,8 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggrepel_0.8.0      ggplot2_2.2.1.9000 knitr_1.20        
+## [1] ggrepel_0.8.0      ggplot2_2.2.1.9000 gridExtra_2.3     
+## [4] knitr_1.20        
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.16      codetools_0.2-15  digest_0.6.15    
@@ -443,7 +443,7 @@ sessionInfo()
 ## [13] rlang_0.2.0.9001  stringi_1.1.7     lazyeval_0.2.1   
 ## [16] labeling_0.3      tools_3.5.0       stringr_1.3.0    
 ## [19] munsell_0.4.3     compiler_3.5.0    colorspace_1.3-2 
-## [22] gridExtra_2.3     tibble_1.4.2
+## [22] tibble_1.4.2
 ```
 
 [xlim]: http://ggplot2.tidyverse.org/reference/lims.html

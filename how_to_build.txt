@@ -1,9 +1,12 @@
-1. Manually run volcano and animation chunks in `vignettes/ggrepel.Rmd`
+Make and optimize figures:
 
-2. Make and optimize figures: `cd vignettes && make -B`
+    cd ~/work/ggrepel/vignettes && make -B
 
-3. Run CHECK with RStudio
+Build a source package:
 
-4. Run BUILD SOURCE with RStudio
+    cd ~/work/ggrepel
+    R CMD build --compact-vignettes=both --resave-data=best . && tar tvf ggrepel_*.tar.gz
 
-5. Manually inspect the contents of `ggrepel_*.tar.gz`
+Check the package:
+
+    R CMD check --as-cran ggrepel_*.tar.gz
