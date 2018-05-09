@@ -4,3 +4,7 @@ r:
   - oldrel
   - release
   - devel
+addons:
+  apt:
+    packages:
+      - pngquant
