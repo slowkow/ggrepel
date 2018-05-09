@@ -1,5 +1,5 @@
 Package: ggrepel
-Version: 0.8.0
+Version: 0.8.0.9000
 Authors@R: c(
     person("Kamil", "Slowikowski", email = "kslowikowski@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2843-6370")),
     person("Alicia", "Schep", role = "ctb", comment = c(ORCID = "0000-0002-3915-0618")),
@@ -29,7 +29,8 @@ Suggests:
     testthat,
     gridExtra,
     devtools,
-    prettydoc
+    prettydoc,
+    ggbeeswarm
 VignetteBuilder: knitr
 License: GPL-3 | file LICENSE
 URL: http://github.com/slowkow/ggrepel

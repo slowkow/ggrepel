@@ -328,6 +328,54 @@ ggplot(dat, aes(wt, mpg, label = car)) +
   geom_point(color = "red")
 ```
 
+### Label jittered points
+
+**Note:** This example will not work with ggplot2 version 2.2.1 or older.
+
+To get the latest development version of ggplot2, try:
+
+```{r ggplot2, echo=TRUE, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("tidyverse/ggplot2")
+
+# Or use the install-github.me service
+source("https://install-github.me/tidyverse/ggplot2")
+```
+
+If your ggplot2 is newer than 2.2.1, try this example:
+
+```{r jitter, echo=TRUE, fig.width=6, fig.height=4}
+mtcars$label <- rownames(mtcars)
+mtcars$label[mtcars$cyl != 6] <- ""
+
+# New! (not available in ggplot2 version 2.2.1)
+pos <- position_jitter(width = 0.3, seed = 2)
+
+ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
+  geom_point(position = pos) +
+  geom_text_repel(position = pos, force = 2) +
+  theme(legend.position = "none")
+```
+
+You can also use other position functions, like `position_quasirandom()` from
+the [ggbeeswarm] package by [Erik Clarke]:
+
+[ggbeeswarm]: https://github.com/eclarke/ggbeeswarm
+[Erik Clarke]: https://github.com/eclarke
+
+```{r quasirandom, echo=TRUE, fig.width=6, fig.height=4}
+mtcars$label <- rownames(mtcars)
+mtcars$label[mtcars$cyl != 6] <- ""
+
+library(ggbeeswarm)
+pos <- position_quasirandom()
+
+ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
+  geom_point(position = pos) +
+  geom_text_repel(position = pos, force = 2) +
+  theme(legend.position = "none")
+```
+
 ### Polar coordinates
 
 ```{r polar, echo=TRUE, fig.width=5, fig.height=4}

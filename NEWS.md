@@ -1,4 +1,12 @@
 
+ggrepel 0.8.0.9000
+========================
+
+## Changes
+
+* Add examples to the [vignette] for `ggplot2::position_jitter()` and
+  `ggbeeswarm::position_quasirandom()`
+
 ggrepel 0.8.0 2018-05-09
 ========================
 

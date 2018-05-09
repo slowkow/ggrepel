@@ -53,7 +53,7 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)
 
 ## Installation
 
-[ggrepel version 0.8.0][cran] is available on CRAN:
+[ggrepel version 0.8.0.9000][cran] is available on CRAN:
 
 
 ```r
@@ -326,6 +326,61 @@ ggplot(dat, aes(wt, mpg, label = car)) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/neat-offset-y-1.png" title="plot of chunk neat-offset-y" alt="plot of chunk neat-offset-y" width="700" />
 
+### Label jittered points
+
+**Note:** This example will not work with ggplot2 version 2.2.1 or older.
+
+To get the latest development version of ggplot2, try:
+
+
+```r
+# install.packages("devtools")
+devtools::install_github("tidyverse/ggplot2")
+
+# Or use the install-github.me service
+source("https://install-github.me/tidyverse/ggplot2")
+```
+
+If your ggplot2 is newer than 2.2.1, try this example:
+
+
+```r
+mtcars$label <- rownames(mtcars)
+mtcars$label[mtcars$cyl != 6] <- ""
+
+# New! (not available in ggplot2 version 2.2.1)
+pos <- position_jitter(width = 0.3, seed = 2)
+
+ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
+  geom_point(position = pos) +
+  geom_text_repel(position = pos, force = 2) +
+  theme(legend.position = "none")
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/jitter-1.png" title="plot of chunk jitter" alt="plot of chunk jitter" width="700" />
+
+You can also use other position functions, like `position_quasirandom()` from
+the [ggbeeswarm] package by [Erik Clarke]:
+
+[ggbeeswarm]: https://github.com/eclarke/ggbeeswarm
+[Erik Clarke]: https://github.com/eclarke
+
+
+```r
+mtcars$label <- rownames(mtcars)
+mtcars$label[mtcars$cyl != 6] <- ""
+
+library(ggbeeswarm)
+pos <- position_quasirandom()
+
+ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
+  geom_point(position = pos) +
+  geom_text_repel(position = pos, force = 2) +
+  theme(legend.position = "none")
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/quasirandom-1.png" title="plot of chunk quasirandom" alt="plot of chunk quasirandom" width="700" />
+
 ### Polar coordinates
 
 
@@ -432,18 +487,18 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggrepel_0.8.0      ggplot2_2.2.1.9000 gridExtra_2.3     
-## [4] knitr_1.20        
+## [1] ggbeeswarm_0.6.0   ggrepel_0.8.0.9000 ggplot2_2.2.1.9000
+## [4] gridExtra_2.3      knitr_1.20        
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.16      codetools_0.2-15  digest_0.6.15    
-##  [4] withr_2.1.2       grid_3.5.0        plyr_1.8.4       
-##  [7] gtable_0.2.0      magrittr_1.5      evaluate_0.10.1  
-## [10] scales_0.5.0.9000 highr_0.6         pillar_1.2.2     
-## [13] rlang_0.2.0.9001  stringi_1.1.7     lazyeval_0.2.1   
-## [16] labeling_0.3      tools_3.5.0       stringr_1.3.0    
-## [19] munsell_0.4.3     compiler_3.5.0    colorspace_1.3-2 
-## [22] tibble_1.4.2
+##  [1] Rcpp_0.12.16      magrittr_1.5      munsell_0.4.3    
+##  [4] colorspace_1.3-2  rlang_0.2.0.9001  vipor_0.4.5      
+##  [7] stringr_1.3.0     highr_0.6         plyr_1.8.4       
+## [10] tools_3.5.0       grid_3.5.0        beeswarm_0.2.3   
+## [13] gtable_0.2.0      withr_2.1.2       lazyeval_0.2.1   
+## [16] digest_0.6.15     tibble_1.4.2      codetools_0.2-15 
+## [19] evaluate_0.10.1   labeling_0.3      stringi_1.1.7    
+## [22] compiler_3.5.0    pillar_1.2.2      scales_0.5.0.9000
 ```
 
 [xlim]: http://ggplot2.tidyverse.org/reference/lims.html
