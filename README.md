@@ -131,7 +131,7 @@ packages with `ggplot2`.
 [1]: https://gist.github.com/slowkow/003b4d9f3f59cee8551c
 
 [ggplot2]: http://ggplot2.tidyverse.org
-[vignette]: https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.md
+[vignette]: https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html
 [directlabels]: https://cran.r-project.org/package=directlabels
 [wordcloud]: https://cran.r-project.org/package=wordcloud
 [FField]: https://cran.r-project.org/package=FField
