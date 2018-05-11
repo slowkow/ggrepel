@@ -5,27 +5,12 @@
 #'
 #' This geom is based on \code{\link[ggplot2]{geom_text}}. See the
 #' documentation for those functions for more details. Differences
-#'  from those functions are noted here.
+#' from those functions are noted here.
 #'
 #' Text labels have height and width, but they are physical units, not data
 #' units. The amount of space they occupy on that plot is not constant in data
 #' units: when you resize a plot, labels stay the same size, but the size of
 #' the axes changes. The text labels are repositioned after resizing a plot.
-#'
-#'
-#' @section Alignment:
-#' The repulsive geoms reposition text labels to avoid overlap, so the
-#' following parameters are \strong{not supported}:
-#'
-#' \itemize{
-#'   \item \code{position}
-#'   \item \code{check_overlap}
-#' }
-#'
-#' The parameters \code{hjust} and \code{vjust} are supported, but they only
-#' control the intial positioning and repulsive forces may disrupt alignment.
-#' Alignment will be preserved if the force is limited to not act in the
-#' direction of alignment using the \code{direction} parameter.
 #'
 #' @param mapping Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
 #'   \code{\link[ggplot2]{aes_}}. If specified and \code{inherit.aes = TRUE} (the
@@ -70,17 +55,6 @@
 #' @param point.padding Amount of padding around labeled point, as unit or
 #'   number. Defaults to 0. (Default unit is lines, but other units can be
 #'   specified by passing \code{unit(x, "units")}).
-#' @param segment.size Width of line segment connecting the data point to
-#'   the text label, in mm.
-#' @param segment.colour,segment.color Colour of the line segment. Defaults to the same colour
-#'   as the text. In the unlikely event you specify both US and UK spellings of colour, the
-#'   US spelling will take precedence. Default is NA so that no segment are drawn
-#' @param segment.alpha Transparency of the line segment. Defaults to the same
-#'   transparency as the text.
-#' @param min.segment.length Skip drawing segments shorter than this, as unit or
-#'   number. Defaults to 0.5. (Default unit is lines, but other units can be
-#'   specified by passing \code{unit(x, "units")}).
-#' @param arrow specification for arrow heads, as created by \code{\link[grid]{arrow}}
 #' @param rstep relative wordclould spiral radius increment after one full rotation. Default to .1.
 #' @param tstep wordclould spiral angle increment at each step. Default to .1.
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
@@ -109,11 +83,6 @@ geom_text_wordcloud <- function(
   ...,
   box.padding = 0.025,
   point.padding = NA,
-  segment.colour = NA,
-  segment.color = NA,
-  segment.size = 0.5,
-  segment.alpha = NULL,
-  min.segment.length = 0.5,
   arrow = NULL,
   rstep = .1,
   tstep = .1,
@@ -140,11 +109,6 @@ geom_text_wordcloud <- function(
       na.rm = na.rm,
       box.padding = to_unit(box.padding),
       point.padding = to_unit(point.padding),
-      segment.colour = segment.color %||% segment.colour,
-      segment.size = segment.size,
-      segment.alpha = segment.alpha,
-      min.segment.length = to_unit(min.segment.length),
-      arrow = arrow,
       rstep = rstep,
       tstep = tstep,
       max.iter = max.iter,
@@ -169,8 +133,7 @@ GeomTextWordcloud <- ggproto("GeomTextWordcloud", Geom,
   default_aes = aes(
     x = .5, y = .5,
     colour = "black", size = 3.88, angle = 0,
-    alpha = NA, family = "", fontface = 1, lineheight = 1.2,
-    hjust = 0.5, vjust = 0.5
+    alpha = NA, family = "", fontface = 1, lineheight = 1.2
   ),
 
   draw_panel = function(
@@ -179,12 +142,6 @@ GeomTextWordcloud <- ggproto("GeomTextWordcloud", Geom,
     na.rm = FALSE,
     box.padding = 0.025,
     point.padding = NA,
-    segment.colour = NA,
-    segment.color = NA,
-    segment.size = 0.5,
-    segment.alpha = NULL,
-    min.segment.length = 0.5,
-    arrow = NULL,
     rstep = .1,
     tstep = .1,
     max.iter = 2000,
@@ -224,14 +181,6 @@ GeomTextWordcloud <- ggproto("GeomTextWordcloud", Geom,
     limits$x[is.na(limits$x)] <- c(0, 1)[is.na(limits$x)]
     limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
 
-    # Convert hjust and vjust to numeric if character
-    if (is.character(data$vjust)) {
-      data$vjust <- compute_just(data$vjust, data$y)
-    }
-    if (is.character(data$hjust)) {
-      data$hjust <- compute_just(data$hjust, data$x)
-    }
-
     ggname("geom_text_wordcloud", gTree(
       limits = limits,
       data = data,
@@ -239,11 +188,6 @@ GeomTextWordcloud <- ggproto("GeomTextWordcloud", Geom,
       nudges = nudges,
       box.padding = to_unit(box.padding),
       point.padding = to_unit(point.padding),
-      segment.colour = segment.colour,
-      segment.size = segment.size,
-      segment.alpha = segment.alpha,
-      min.segment.length = to_unit(min.segment.length),
-      arrow = arrow,
       rstep = rstep,
       tstep = tstep,
       max.iter = max.iter,
@@ -279,8 +223,6 @@ makeContent.textwordcloudtree <- function(x) {
   # Create a dataframe with x1 y1 x2 y2
   boxes <- lapply(valid_strings, function(i) {
     row <- x$data[i, , drop = FALSE]
-    hj <- x$data$hjust[i]
-    vj <- x$data$vjust[i]
     tg <- textGrob(
       x$lab[i],
       row$x, row$y, default.units = "native",
@@ -296,10 +238,10 @@ makeContent.textwordcloudtree <- function(x) {
     gh <- convertHeight(grobHeight(tg), "native", TRUE)
 
     c(
-      "x1" = row$x - gw * hj  - box_padding_x + x$nudges$x[i],
-      "y1" = row$y - gh * vj - box_padding_y + x$nudges$y[i],
-      "x2" = row$x + gw * (1 - hj) + box_padding_x + x$nudges$x[i],
-      "y2" = row$y + gh * (1 - vj) + box_padding_y + x$nudges$y[i]
+      "x1" = row$x - box_padding_x + x$nudges$x[i],
+      "y1" = row$y - box_padding_y + x$nudges$y[i],
+      "x2" = row$x + gw + box_padding_x + x$nudges$x[i],
+      "y2" = row$y + gh + box_padding_y + x$nudges$y[i]
     )
   })
 
@@ -321,8 +263,6 @@ makeContent.textwordcloudtree <- function(x) {
     boxes = do.call(rbind, boxes),
     xlim = range(x$limits$x),
     ylim = range(x$limits$y),
-    hjust = x$data$hjust,
-    vjust = x$data$vjust,
     rstep = x$tstep,
     tstep = x$tstep,
     maxiter = x$max.iter
@@ -350,14 +290,7 @@ makeContent.textwordcloudtree <- function(x) {
         fontface = row$fontface,
         lineheight = row$lineheight
       ),
-      segment.gp = gpar(
-        col = scales::alpha(x$segment.colour %||% row$colour, x$segment.alpha %||% row$alpha),
-        lwd = x$segment.size * .pt
-      ),
-      arrow = x$arrow,
-      min.segment.length = x$min.segment.length,
-      hjust = x$data$hjust[i],
-      vjust = x$data$vjust[i]
+      min.segment.length = to_unit(100)
     )
   })
   class(grobs) <- "gList"

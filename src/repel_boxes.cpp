@@ -728,9 +728,9 @@ DataFrame wordcloud_boxes(
     double point_padding_x, double point_padding_y,
     NumericMatrix boxes,
     NumericVector xlim, NumericVector ylim,
-    NumericVector hjust, NumericVector vjust,
-    double rstep = .1, double tstep = .1,
-    int maxiter = 2000) {
+    double rstep = 0.1, double tstep = 0.1,
+    int maxiter = 2000
+) {
   int n_points = data_points.nrow();
   int n_texts = boxes.nrow();
   // assert(n_points >= n_texts);
@@ -738,10 +738,10 @@ DataFrame wordcloud_boxes(
   bool i_overlaps = true;
 
   if (NumericVector::is_na(rstep)) {
-    rstep = .1;
+    rstep = 0.1;
   }
   if (NumericVector::is_na(rstep)) {
-    rstep = .1;
+    rstep = 0.1;
   }
   Point xbounds, ybounds;
   xbounds.x = xlim[0];
@@ -785,16 +785,16 @@ DataFrame wordcloud_boxes(
   double theta;
   Box TextBoxOri;
 
-
   for (int i = 0; i < n_texts; i++) {
     i_overlaps = true;
-    iter = 0;
-    r = 0;
-    theta = R::runif(0, 2 *M_PI);
-    d.x = 0;
-    d.y = 0;
+    iter       = 0;
+    r          = 0;
+    theta      = R::runif(0, 2 * M_PI);
+    d.x        = 0;
+    d.y        = 0;
     TextBoxOri = TextBoxes[i];
 
+    // Try to position the current text box
     while (i_overlaps && iter < maxiter) {
       iter += 1;
       i_overlaps = false;
@@ -803,26 +803,9 @@ DataFrame wordcloud_boxes(
       // Put boxes within bounds
       TextBoxes[i] = put_within_bounds(TextBoxes[i], xbounds, ybounds);
 
-      // Repel the box from its data point
-      if (!(point_padding_x == 0 && point_padding_y == 0)) {
-        if (overlaps(DataBoxes[i], TextBoxes[i])) {
-          i_overlaps = true;
-        }
-      }
-
-      for (int j = 0; (!i_overlaps) && (j < i); j++) {
-        if (overlaps(TextBoxes[j], TextBoxes[i])) {
-          i_overlaps = true;
-        }
-      }
-
-      for (int j = 0; (!i_overlaps) && (j < i); j++) {
-        if (overlaps(TextBoxes[j], TextBoxes[i])) {
-          i_overlaps = true;
-        }
-      }
-
-      if (!(point_padding_x == 0 && point_padding_y == 0)) {
+      // Ignore data points unless they have nonzero padding
+      if (point_padding_x != 0 || point_padding_y != 0) {
+        // Check overlap with all data point boxes.
         for (int j = 0; (!i_overlaps) && (j < n_points); j++) {
           if (overlaps(DataBoxes[j], TextBoxes[i])) {
             i_overlaps = true;
@@ -830,13 +813,21 @@ DataFrame wordcloud_boxes(
         }
       }
 
+      // Check overlap with the boxes that are already positioned
+      for (int j = 0; (!i_overlaps) && (j < i); j++) {
+        if (overlaps(TextBoxes[j], TextBoxes[i])) {
+          i_overlaps = true;
+        }
+      }
+
       if (i_overlaps) {
         theta += tstep;
-        r += rscale * rstep * tstep / (2 * M_PI);
-        d.x = r * cos(theta);
-        d.y = r * sin(theta);
+        r     += rscale * rstep * tstep / (2 * M_PI);
+        d.x    = r * cos(theta);
+        d.y    = r * sin(theta);
       }
     } // loop over already positioned boxes
+
   } // loop over texts
 
   NumericVector xs(n_texts);

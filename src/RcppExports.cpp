@@ -89,8 +89,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // wordcloud_boxes
-DataFrame wordcloud_boxes(NumericMatrix data_points, double point_padding_x, double point_padding_y, NumericMatrix boxes, NumericVector xlim, NumericVector ylim, NumericVector hjust, NumericVector vjust, double rstep, double tstep, int maxiter);
-RcppExport SEXP _ggrepel_wordcloud_boxes(SEXP data_pointsSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP hjustSEXP, SEXP vjustSEXP, SEXP rstepSEXP, SEXP tstepSEXP, SEXP maxiterSEXP) {
+DataFrame wordcloud_boxes(NumericMatrix data_points, double point_padding_x, double point_padding_y, NumericMatrix boxes, NumericVector xlim, NumericVector ylim, double rstep, double tstep, int maxiter);
+RcppExport SEXP _ggrepel_wordcloud_boxes(SEXP data_pointsSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP rstepSEXP, SEXP tstepSEXP, SEXP maxiterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -100,12 +100,10 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type boxes(boxesSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type xlim(xlimSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type ylim(ylimSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type hjust(hjustSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type vjust(vjustSEXP);
     Rcpp::traits::input_parameter< double >::type rstep(rstepSEXP);
     Rcpp::traits::input_parameter< double >::type tstep(tstepSEXP);
     Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
-    rcpp_result_gen = Rcpp::wrap(wordcloud_boxes(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, rstep, tstep, maxiter));
+    rcpp_result_gen = Rcpp::wrap(wordcloud_boxes(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, rstep, tstep, maxiter));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -117,7 +115,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ggrepel_select_line_connection", (DL_FUNC) &_ggrepel_select_line_connection, 2},
     {"_ggrepel_approximately_equal", (DL_FUNC) &_ggrepel_approximately_equal, 2},
     {"_ggrepel_repel_boxes", (DL_FUNC) &_ggrepel_repel_boxes, 11},
-    {"_ggrepel_wordcloud_boxes", (DL_FUNC) &_ggrepel_wordcloud_boxes, 11},
+    {"_ggrepel_wordcloud_boxes", (DL_FUNC) &_ggrepel_wordcloud_boxes, 9},
     {NULL, NULL, 0}
 };
 

@@ -543,7 +543,7 @@ makeContent.textrepelgrob <- function(x) {
   dy <- abs(int[2] - point_pos[2])
   d <- sqrt(dx * dx + dy * dy)
   # Scale the unit vector by the minimum segment length.
-  if (d > 0) {
+  if (d > 0 && is.finite(x$min.segment.length)) {
     mx <- convertWidth(x$min.segment.length, "native", TRUE)
     my <- convertHeight(x$min.segment.length, "native", TRUE)
     min.segment.length <- sqrt((mx * dx / d) ^ 2 + (my * dy / d) ^ 2)

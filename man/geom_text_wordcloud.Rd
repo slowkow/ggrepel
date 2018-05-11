@@ -6,11 +6,9 @@
 \usage{
 geom_text_wordcloud(mapping = NULL, data = NULL, stat = "identity",
   parse = FALSE, ..., box.padding = 0.025, point.padding = NA,
-  segment.colour = NA, segment.color = NA, segment.size = 0.5,
-  segment.alpha = NULL, min.segment.length = 0.5, arrow = NULL,
-  rstep = 0.1, tstep = 0.1, max.iter = 2000, nudge_x = 0, nudge_y = 0,
-  xlim = c(NA, NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
-  seed = NA, inherit.aes = TRUE)
+  arrow = NULL, rstep = 0.1, tstep = 0.1, max.iter = 2000,
+  nudge_x = 0, nudge_y = 0, xlim = c(NA, NA), ylim = c(NA, NA),
+  na.rm = FALSE, show.legend = NA, seed = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -48,22 +46,6 @@ by passing \code{unit(x, "units")}).}
 number. Defaults to 0. (Default unit is lines, but other units can be
 specified by passing \code{unit(x, "units")}).}
 
-\item{segment.colour, segment.color}{Colour of the line segment. Defaults to the same colour
-as the text. In the unlikely event you specify both US and UK spellings of colour, the
-US spelling will take precedence. Default is NA so that no segment are drawn}
-
-\item{segment.size}{Width of line segment connecting the data point to
-the text label, in mm.}
-
-\item{segment.alpha}{Transparency of the line segment. Defaults to the same
-transparency as the text.}
-
-\item{min.segment.length}{Skip drawing segments shorter than this, as unit or
-number. Defaults to 0.5. (Default unit is lines, but other units can be
-specified by passing \code{unit(x, "units")}).}
-
-\item{arrow}{specification for arrow heads, as created by \code{\link[grid]{arrow}}}
-
 \item{rstep}{relative wordclould spiral radius increment after one full rotation. Default to .1.}
 
 \item{tstep}{wordclould spiral angle increment at each step. Default to .1.}
@@ -100,29 +82,13 @@ by the layout of \code{\link[wordcloud]{wordcloud}}.
 \details{
 This geom is based on \code{\link[ggplot2]{geom_text}}. See the
 documentation for those functions for more details. Differences
- from those functions are noted here.
+from those functions are noted here.
 
 Text labels have height and width, but they are physical units, not data
 units. The amount of space they occupy on that plot is not constant in data
 units: when you resize a plot, labels stay the same size, but the size of
 the axes changes. The text labels are repositioned after resizing a plot.
 }
-\section{Alignment}{
-
-The repulsive geoms reposition text labels to avoid overlap, so the
-following parameters are \strong{not supported}:
-
-\itemize{
-  \item \code{position}
-  \item \code{check_overlap}
-}
-
-The parameters \code{hjust} and \code{vjust} are supported, but they only
-control the intial positioning and repulsive forces may disrupt alignment.
-Alignment will be preserved if the force is limited to not act in the
-direction of alignment using the \code{direction} parameter.
-}
-
 \examples{
 p <- ggplot(mtcars,
             aes(label = rownames(mtcars), size = mpg,

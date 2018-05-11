@@ -126,7 +126,7 @@ repel_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xl
 #' @param maxiter Maximum number of iterations to try to resolve overlaps
 #'   (defaults to 2000)
 #' @noRd
-wordcloud_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, rstep = .1, tstep = .1, maxiter = 2000L) {
-    .Call('_ggrepel_wordcloud_boxes', PACKAGE = 'ggrepel', data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, rstep, tstep, maxiter)
+wordcloud_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, rstep = 0.1, tstep = 0.1, maxiter = 2000L) {
+    .Call('_ggrepel_wordcloud_boxes', PACKAGE = 'ggrepel', data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, rstep, tstep, maxiter)
 }
 
