@@ -601,11 +601,14 @@ DataFrame repel_boxes(
     original_centroids[i] = centroid(TextBoxes[i], hjust[i], vjust[i]);
   }
 
+  double force_pull = force * 1000;
+  double force_push = force * 4;
   Point f, ci, cj;
 
   while (any_overlaps && iter < maxiter) {
     iter += 1;
     any_overlaps = false;
+    force_push *= 0.9999;
 
     for (int i = 0; i < n_texts; i++) {
       i_overlaps = false;
@@ -633,7 +636,7 @@ DataFrame repel_boxes(
           if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
             any_overlaps = true;
             i_overlaps = true;
-            f = f + repel_force(ci, cj, force * 3, direction);
+            f = f + repel_force(ci, cj, force_push, direction);
           }
 
           // Skip the data points if the padding is 0.
@@ -651,7 +654,9 @@ DataFrame repel_boxes(
 
       // Pull the box toward its original position.
       if (!i_overlaps) {
-        f = f + spring_force(original_centroids[i], ci, force * 2e3, direction);
+        force_pull *= 0.999;
+        f = f + spring_force(
+            original_centroids[i], ci, force_pull, direction);
       }
 
       TextBoxes[i] = TextBoxes[i] + f;
