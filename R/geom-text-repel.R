@@ -82,6 +82,8 @@
 #' @param arrow specification for arrow heads, as created by \code{\link[grid]{arrow}}
 #' @param force Force of repulsion between overlapping text labels. Defaults
 #'   to 1.
+#' @param force_pull Force of attraction between a text label and its
+#'   corresponding data point. Defaults to 1.
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
 #'   Defaults to 2000.
 #' @param direction "both", "x", or "y" -- direction in which to adjust position of labels
@@ -170,6 +172,7 @@ geom_text_repel <- function(
   min.segment.length = 0.5,
   arrow = NULL,
   force = 1,
+  force_pull = 1,
   max.iter = 2000,
   nudge_x = 0,
   nudge_y = 0,
@@ -206,6 +209,7 @@ geom_text_repel <- function(
       min.segment.length = to_unit(min.segment.length),
       arrow = arrow,
       force = force,
+      force_pull = force_pull,
       max.iter = max.iter,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
@@ -244,6 +248,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     min.segment.length = 0.5,
     arrow = NULL,
     force = 1,
+    force_pull = 1,
     max.iter = 2000,
     nudge_x = 0,
     nudge_y = 0,
@@ -303,6 +308,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       min.segment.length = to_unit(min.segment.length),
       arrow = arrow,
       force = force,
+      force_pull = force_pull,
       max.iter = max.iter,
       direction = direction,
       seed = seed,
@@ -381,7 +387,8 @@ makeContent.textrepeltree <- function(x) {
     ylim = range(x$limits$y),
     hjust = x$data$hjust,
     vjust = x$data$vjust,
-    force = x$force * 1e-6,
+    force_push = x$force * 1e-6,
+    force_pull = x$force_pull * 1e-2,
     maxiter = x$max.iter,
     direction = x$direction
   )
