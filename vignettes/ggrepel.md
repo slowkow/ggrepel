@@ -1,7 +1,7 @@
 ---
 title: "ggrepel examples"
 author: "Kamil Slowikowski"
-date: "2018-05-09"
+date: "2018-06-10"
 output:
   prettydoc::html_pretty:
     theme: hpstr
@@ -11,8 +11,10 @@ output:
     self_contained: true
 vignette: >
   %\VignetteIndexEntry{ggrepel examples}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -50,6 +52,11 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/comparison-1.png" title="plot of chunk comparison" alt="plot of chunk comparison" width="700" />
+
+```
+## [1] "unit"
+## [1] 0.25lines
+```
 
 ## Installation
 
@@ -125,6 +132,11 @@ ggplot(dat2, aes(wt, mpg, label = car)) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/empty_string-1.png" title="plot of chunk empty_string" alt="plot of chunk empty_string" width="700" />
 
+```
+## [1] "unit"
+## [1] 0.25lines
+```
+
 ### Do not repel labels from data points
 
 Set `point.padding = NA` to prevent label repulsion away from data points.
@@ -140,6 +152,11 @@ ggplot(dat, aes(wt, mpg, label = car)) +
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/point_padding_na-1.png" title="plot of chunk point_padding_na" alt="plot of chunk point_padding_na" width="700" />
+
+```
+## [1] "unit"
+## [1] 0.25lines
+```
 
 ### Limit labels to a specific area
 
@@ -192,6 +209,7 @@ set.seed(42)
 ggplot(mtcars, aes(x = wt, y = 1, label = rownames(mtcars))) +
   geom_point(color = "red") +
   geom_text_repel(
+    force        = 0.5,
     nudge_y      = 0.05,
     direction    = "x",
     angle        = 90,
@@ -209,6 +227,11 @@ ggplot(mtcars, aes(x = wt, y = 1, label = rownames(mtcars))) +
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/direction_x-1.png" title="plot of chunk direction_x" alt="plot of chunk direction_x" width="700" />
+
+```
+## [1] "unit"
+## [1] 0.25lines
+```
 
 Align text vertically with `nudge_y` and allow the labels to move horizontally
 with `direction = "x"`:
@@ -235,6 +258,11 @@ ggplot(dat, aes(qsec, mpg, label = car)) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/neat-offset-x-1.png" title="plot of chunk neat-offset-x" alt="plot of chunk neat-offset-x" width="700" />
 
+```
+## [1] "unit"
+## [1] 0.25lines
+```
+
 ### Align labels on the left or right edge
 
 Set `direction` to "y" and try `hjust` 0.5, 0, and 1:
@@ -257,6 +285,7 @@ p <- ggplot(mtcars, aes(y = wt, x = 1, label = rownames(mtcars))) +
 p1 <- p +
   xlim(1, 1.375) +
   geom_text_repel(
+    force        = 0.5,
     nudge_x      = 0.15,
     direction    = "y",
     hjust        = 0,
@@ -267,6 +296,7 @@ p1 <- p +
 p2 <- p + 
   xlim(1, 1.375) +
   geom_text_repel(
+    force        = 0.5,
     nudge_x      = 0.2,
     direction    = "y",
     hjust        = 0.5,
@@ -278,7 +308,8 @@ p3 <- p +
   xlim(0.25, 1) +
   scale_y_continuous(position = "right") +
   geom_text_repel(
-    nudge_x      = -0.35,
+    force        = 0.5,
+    nudge_x      = -0.25,
     direction    = "y",
     hjust        = 1,
     segment.size = 0.2
@@ -289,6 +320,15 @@ gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/direction_y-1.png" title="plot of chunk direction_y" alt="plot of chunk direction_y" width="700" />
+
+```
+## [1] "unit"
+## [1] 0.25lines
+## [1] "unit"
+## [1] 0.25lines
+## [1] "unit"
+## [1] 0.25lines
+```
 
 Align text horizontally with `nudge_x` and `hjust`, and allow the labels to
 move vertically with `direction = "y"`:
@@ -326,6 +366,13 @@ ggplot(dat, aes(wt, mpg, label = car)) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/neat-offset-y-1.png" title="plot of chunk neat-offset-y" alt="plot of chunk neat-offset-y" width="700" />
 
+```
+## [1] "unit"
+## [1] 0.25lines
+## [1] "unit"
+## [1] 0.25lines
+```
+
 ### Label jittered points
 
 **Note:** This example will not work with ggplot2 version 2.2.1 or older.
@@ -353,11 +400,17 @@ pos <- position_jitter(width = 0.3, seed = 2)
 
 ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
   geom_point(position = pos) +
-  geom_text_repel(position = pos, force = 2) +
-  theme(legend.position = "none")
+  geom_text_repel(position = pos, force = 1) +
+  theme(legend.position = "none") +
+  labs(title = "position_jitter()")
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/jitter-1.png" title="plot of chunk jitter" alt="plot of chunk jitter" width="700" />
+
+```
+## [1] "unit"
+## [1] 0.25lines
+```
 
 You can also use other position functions, like `position_quasirandom()` from
 the [ggbeeswarm] package by [Erik Clarke]:
@@ -375,11 +428,63 @@ pos <- position_quasirandom()
 
 ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
   geom_point(position = pos) +
-  geom_text_repel(position = pos, force = 2) +
-  theme(legend.position = "none")
+  geom_text_repel(position = pos, force = 1) +
+  theme(legend.position = "none") +
+  labs(title = "position_quasirandom()")
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/quasirandom-1.png" title="plot of chunk quasirandom" alt="plot of chunk quasirandom" width="700" />
+
+```
+## [1] "unit"
+## [1] 0.25lines
+```
+
+### Wordcloud
+
+
+```r
+# x <- cumprod(c(2e3, rep(1.0004, 1999)))
+# i <- 1:2000
+# plot(i, x)
+# 
+# x <- cumprod(c(3, rep(0.999, 1999)))
+# i <- 1:2000
+# plot(i, x)
+
+set.seed(42)
+ggplot(mtcars) +
+  geom_text_repel(
+    aes(
+      label  = rownames(mtcars),
+      size   = mpg > 15,
+      colour = factor(cyl),
+      x      = 0,
+      y      = 0
+    ),
+    force = 1,
+    max.iter = 1e4,
+    segment.color = NA,
+    point.padding = NA
+  ) +
+  theme_void() +
+  theme(strip.text = element_text(size = 16)) +
+  facet_wrap(~ factor(cyl)) +
+  scale_color_discrete(name = "Cylinders") +
+  scale_size_manual(values = c(2, 3)) +
+  theme(strip.text = element_blank())
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/wordcloud-1.png" title="plot of chunk wordcloud" alt="plot of chunk wordcloud" width="700" />
+
+```
+## [1] "unit"
+## [1] 0.25lines
+## [1] "unit"
+## [1] 0.25lines
+## [1] "unit"
+## [1] 0.25lines
+```
 
 ### Polar coordinates
 
@@ -399,6 +504,11 @@ ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl), label = label)) +
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/polar-1.png" title="plot of chunk polar" alt="plot of chunk polar" width="700" />
+
+```
+## [1] "unit"
+## [1] 0.25lines
+```
 
 ### Mathematical expressions
 
@@ -438,16 +548,20 @@ library(animation)
 plot_frame <- function(n) {
   set.seed(42)
   p <- ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars))) +
-    geom_point(color = "red") +
     geom_text_repel(
-      size = 5, force = 3, max.iter = n
+      size = 5, force = 1, max.iter = n
     ) +
-    theme_minimal(base_size = 16)
+    geom_point(color = "red") +
+    theme_minimal(base_size = 16) +
+    labs(title = n)
   print(p)
 }
 
+xs <- ceiling(1.4^(1:26))
+# plot(xs)
+
 saveGIF(
-  lapply(ceiling(1.75^(1:12)), function(i) {
+  lapply(xs, function(i) {
     plot_frame(i)
   }),
   interval   = 0.20,
@@ -478,7 +592,7 @@ sessionInfo()
 ## Running under: macOS High Sierra 10.13.3
 ## 
 ## Matrix products: default
-## BLAS/LAPACK: /usr/local/Cellar/openblas/0.2.20_2/lib/libopenblasp-r0.2.20.dylib
+## BLAS/LAPACK: /usr/local/Cellar/openblas/0.3.0/lib/libopenblasp-r0.3.0.dev.dylib
 ## 
 ## locale:
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -491,14 +605,17 @@ sessionInfo()
 ## [4] gridExtra_2.3      knitr_1.20        
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.16      magrittr_1.5      munsell_0.4.3    
-##  [4] colorspace_1.3-2  rlang_0.2.0.9001  vipor_0.4.5      
-##  [7] stringr_1.3.0     highr_0.6         plyr_1.8.4       
-## [10] tools_3.5.0       grid_3.5.0        beeswarm_0.2.3   
-## [13] gtable_0.2.0      withr_2.1.2       lazyeval_0.2.1   
-## [16] digest_0.6.15     tibble_1.4.2      codetools_0.2-15 
-## [19] evaluate_0.10.1   labeling_0.3      stringi_1.1.7    
-## [22] compiler_3.5.0    pillar_1.2.2      scales_0.5.0.9000
+##  [1] Rcpp_0.12.17      bindr_0.1.1       magrittr_1.5     
+##  [4] tidyselect_0.2.4  munsell_0.4.3     colorspace_1.3-2 
+##  [7] R6_2.2.2          rlang_0.2.0.9001  vipor_0.4.5      
+## [10] highr_0.6         stringr_1.3.1     plyr_1.8.4       
+## [13] dplyr_0.7.5       tools_3.5.0       grid_3.5.0       
+## [16] beeswarm_0.2.3    gtable_0.2.0      withr_2.1.2      
+## [19] digest_0.6.15     lazyeval_0.2.1    assertthat_0.2.0 
+## [22] tibble_1.4.2      bindrcpp_0.2.2    purrr_0.2.4      
+## [25] glue_1.2.0        evaluate_0.10.1   labeling_0.3     
+## [28] stringi_1.2.2     compiler_3.5.0    pillar_1.2.2     
+## [31] scales_0.5.0.9000 pkgconfig_2.0.1
 ```
 
 [xlim]: http://ggplot2.tidyverse.org/reference/lims.html
