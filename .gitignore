@@ -14,7 +14,7 @@
 vignettes/cache
 
 # issues 
-issues/
+scripts/issues/
 
 # debug figures in vignette
 vignettes/figures/ggrepel/gallery.html
@@ -22,3 +22,4 @@ vignettes/figures/ggrepel/make_gallery_html.sh
 
 # MacOS
 .DS_Store
+inst/

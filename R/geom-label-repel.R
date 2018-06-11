@@ -8,7 +8,7 @@
 #' @param label.size Size of label border, in mm.
 #' @export
 geom_label_repel <- function(
-  mapping = NULL, data = NULL, stat = "identity",
+  mapping = NULL, data = NULL, stat = "identity", position = "identity",
   parse = FALSE,
   ...,
   box.padding = 0.25,
@@ -23,6 +23,7 @@ geom_label_repel <- function(
   min.segment.length = 0.5,
   arrow = NULL,
   force = 1,
+  force_pull = 1,
   max.iter = 2000,
   nudge_x = 0,
   nudge_y = 0,
@@ -34,12 +35,18 @@ geom_label_repel <- function(
   seed = NA,
   inherit.aes = TRUE
 ) {
+  if (!missing(nudge_x) || !missing(nudge_y)) {
+    if (!missing(position)) {
+      stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
+    }
+    #position <- position_nudge(nudge_x, nudge_y)
+  }
   layer(
     data = data,
     mapping = mapping,
     stat = stat,
     geom = GeomLabelRepel,
-    position = "identity",
+    position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(
@@ -56,6 +63,7 @@ geom_label_repel <- function(
       arrow = arrow,
       na.rm = na.rm,
       force = force,
+      force_pull = force_pull,
       max.iter = max.iter,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
@@ -98,6 +106,7 @@ GeomLabelRepel <- ggproto(
     min.segment.length = 0.5,
     arrow = NULL,
     force = 1,
+    force_pull = 1,
     nudge_x = 0,
     nudge_y = 0,
     xlim = c(NA, NA),
@@ -116,8 +125,8 @@ GeomLabelRepel <- ggproto(
 
     # Transform the nudges to the panel scales.
     nudges <- data.frame(
-      x = data$x + nudge_x,
-      y = data$y + nudge_y
+      x = data$x + rep_len(nudge_x, length.out = nrow(data)),
+      y = data$y + rep_len(nudge_y, length.out = nrow(data))
     )
     nudges <- coord$transform(nudges, panel_scales)
 
@@ -160,6 +169,7 @@ GeomLabelRepel <- ggproto(
       min.segment.length = to_unit(min.segment.length),
       arrow = arrow,
       force = force,
+      force_pull = force_pull,
       max.iter = max.iter,
       direction = direction,
       seed = seed,
@@ -181,11 +191,15 @@ makeContent.labelrepeltree <- function(x) {
   box_padding_y <- convertHeight(x$box.padding, "npc", valueOnly = TRUE)
 
   # The padding around each point.
+  if (is.na(x$point.padding)) {
+    x$point.padding = unit(0, "lines")
+  }
   point_padding_x <- convertWidth(x$point.padding, "native", valueOnly = TRUE)
   point_padding_y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
 
   # Do not create text labels for empty strings.
   valid_strings <- which(not_empty(x$lab))
+  invalid_strings <- which(!not_empty(x$lab))
 
   # Create a dataframe with x y width height
   boxes <- lapply(valid_strings, function(i) {
@@ -231,9 +245,14 @@ makeContent.labelrepeltree <- function(x) {
       set.seed(x$seed)
   }
 
+  points_valid_first <- cbind(c(x$data$x[valid_strings],
+                                x$data$x[invalid_strings]),
+                              c(x$data$y[valid_strings],
+                                x$data$y[invalid_strings]))
+
   # Repel overlapping bounding boxes away from each other.
   repel <- repel_boxes(
-    data_points = cbind(x$data$x, x$data$y),
+    data_points = points_valid_first,
     point_padding_x = point_padding_x,
     point_padding_y = point_padding_y,
     boxes = do.call(rbind, boxes),
@@ -241,7 +260,8 @@ makeContent.labelrepeltree <- function(x) {
     ylim = range(x$limits$y),
     hjust = x$data$hjust,
     vjust = x$data$vjust,
-    force = x$force * 1e-6,
+    force_push = x$force * 1e-6,
+    force_pull = x$force_pull * 1e-2,
     maxiter = x$max.iter,
     direction = x$direction
   )
@@ -317,8 +337,10 @@ labelRepelGrob <- function(
 
   gTree(
     label = label,
+    # Position of text bounding boxes.
     x = x,
     y = y,
+    # Position of original data points.
     x.orig = x.orig,
     y.orig = y.orig,
     just = just,

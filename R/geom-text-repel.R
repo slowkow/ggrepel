@@ -16,23 +16,15 @@
 #' the axes changes. The text labels are repositioned after resizing a plot.
 #'
 #' @section \code{geom_label_repel}:
-#' Currently \code{geom_label_repel} does not support the \code{rot} parameter
+#' Currently \code{geom_label_repel} does not support the \code{rot} argument
 #' and is considerably slower than \code{geom_text_repel}. The \code{fill}
 #' aesthetic controls the background colour of the label.
 #'
-#' @section Alignment:
-#' The repulsive geoms reposition text labels to avoid overlap, so the
-#' following parameters are \strong{not supported}:
-#'
-#' \itemize{
-#'   \item \code{position}
-#'   \item \code{check_overlap}
-#' }
-#'
-#' The parameters \code{hjust} and \code{vjust} are supported, but they only
-#' control the intial positioning and repulsive forces may disrupt alignment.
-#' Alignment will be preserved if the force is limited to not act in the
-#' direction of alignment using the \code{direction} parameter.
+#' @section Alignment with \code{hjust} or \code{vjust}:
+#' The arguments \code{hjust} and \code{vjust} are supported, but they only
+#' control the initial positioning, so repulsive forces may disrupt alignment.
+#' Alignment with \code{hjust} will be preserved if labels only move up and down
+#' by using \code{direction="y"}. For \code{vjust}, use \code{direction="x"}.
 #'
 #' @param mapping Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
 #'   \code{\link[ggplot2]{aes_}}. If specified and \code{inherit.aes = TRUE} (the
@@ -43,6 +35,8 @@
 #'   defined at the top level of the plot.
 #' @param stat The statistical transformation to use on the data for this
 #'    layer, as a string.
+#' @param position Position adjustment, either as a string, or the result of
+#'  a call to a position adjustment function.
 #' @param parse If TRUE, the labels will be parsed into expressions and
 #'   displayed as described in ?plotmath
 #' @param na.rm If \code{FALSE} (the default), removes missing values with
@@ -88,6 +82,8 @@
 #' @param arrow specification for arrow heads, as created by \code{\link[grid]{arrow}}
 #' @param force Force of repulsion between overlapping text labels. Defaults
 #'   to 1.
+#' @param force_pull Force of attraction between a text label and its
+#'   corresponding data point. Defaults to 1.
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
 #'   Defaults to 2000.
 #' @param direction "both", "x", or "y" -- direction in which to adjust position of labels
@@ -164,7 +160,7 @@
 #' }
 #' @export
 geom_text_repel <- function(
-  mapping = NULL, data = NULL, stat = "identity",
+  mapping = NULL, data = NULL, stat = "identity", position = "identity",
   parse = FALSE,
   ...,
   box.padding = 0.25,
@@ -176,6 +172,7 @@ geom_text_repel <- function(
   min.segment.length = 0.5,
   arrow = NULL,
   force = 1,
+  force_pull = 1,
   max.iter = 2000,
   nudge_x = 0,
   nudge_y = 0,
@@ -187,12 +184,18 @@ geom_text_repel <- function(
   seed = NA,
   inherit.aes = TRUE
 ) {
+  if (!missing(nudge_x) || !missing(nudge_y)) {
+    if (!missing(position)) {
+      stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
+    }
+    #position <- position_nudge(nudge_x, nudge_y)
+  }
   layer(
     data = data,
     mapping = mapping,
     stat = stat,
     geom = GeomTextRepel,
-    position = "identity",
+    position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(
@@ -206,6 +209,7 @@ geom_text_repel <- function(
       min.segment.length = to_unit(min.segment.length),
       arrow = arrow,
       force = force,
+      force_pull = force_pull,
       max.iter = max.iter,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
@@ -244,6 +248,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     min.segment.length = 0.5,
     arrow = NULL,
     force = 1,
+    force_pull = 1,
     max.iter = 2000,
     nudge_x = 0,
     nudge_y = 0,
@@ -262,8 +267,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
 
     # Transform the nudges to the panel scales.
     nudges <- data.frame(
-      x = data$x + nudge_x,
-      y = data$y + nudge_y
+      x = data$x + rep_len(nudge_x, length.out = nrow(data)),
+      y = data$y + rep_len(nudge_y, length.out = nrow(data))
     )
     nudges <- coord$transform(nudges, panel_scales)
 
@@ -303,6 +308,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       min.segment.length = to_unit(min.segment.length),
       arrow = arrow,
       force = force,
+      force_pull = force_pull,
       max.iter = max.iter,
       direction = direction,
       seed = seed,
@@ -381,7 +387,8 @@ makeContent.textrepeltree <- function(x) {
     ylim = range(x$limits$y),
     hjust = x$data$hjust,
     vjust = x$data$vjust,
-    force = x$force * 1e-6,
+    force_push = x$force * 1e-6,
+    force_pull = x$force_pull * 1e-2,
     maxiter = x$max.iter,
     direction = x$direction
   )

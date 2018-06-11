@@ -1,4 +1,5 @@
 library(microbenchmark)
+library(ggrepel)
 
 d <- mtcars
 d$name <- rownames(mtcars)
@@ -23,6 +24,12 @@ microbenchmark(
   },
   times = 25L
 )
+
+# 2018-02-11 ggrepel-0.7.3 ggplot2-2.2.1
+# Unit: milliseconds
+#            expr       min        lq      mean    median        uq       max neval
+# geom_text_repel 1233.0252 1317.1580 1368.4266 1326.6279 1353.8870 1833.3384    25
+#       geom_text  587.5614  601.8036  647.0909  666.5325  686.1348  758.1243    25
 
 # Github:
 # Unit: milliseconds

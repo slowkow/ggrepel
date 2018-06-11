@@ -1,7 +1,10 @@
 language: r
+cache: packages
 r:
   - oldrel
   - release
   - devel
-r_packages:
-  - gridExtra
+addons:
+  apt:
+    packages:
+      - pngquant

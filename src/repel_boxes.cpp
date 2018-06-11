@@ -125,7 +125,7 @@ NumericVector select_line_connection(
   bool right = false;
   bool bottom = false;
 
-  if (p1[0] >= b[0] & p1[0] <= b[2]) {
+  if ((p1[0] >= b[0]) & (p1[0] <= b[2])) {
     out[0] = p1[0];
   } else if (p1[0] > b[2]) {
     out[0] = b[2];
@@ -135,7 +135,7 @@ NumericVector select_line_connection(
     left = true;
   }
 
-  if (p1[1] >= b[1] & p1[1] <= b[3]) {
+  if ((p1[1] >= b[1]) & (p1[1] <= b[3])) {
     out[1] = p1[1];
   } else if (p1[1] > b[3]) {
     out[1] = b[3];
@@ -541,7 +541,9 @@ DataFrame repel_boxes(
     NumericMatrix boxes,
     NumericVector xlim, NumericVector ylim,
     NumericVector hjust, NumericVector vjust,
-    double force = 1e-6, int maxiter = 2000,
+    double force_push = 1e-7,
+    double force_pull = 1e-7,
+    int maxiter = 2000,
     std::string direction = "both"
 ) {
   int n_points = data_points.nrow();
@@ -551,8 +553,11 @@ DataFrame repel_boxes(
   bool any_overlaps = true;
   bool i_overlaps = true;
 
-  if (NumericVector::is_na(force)) {
-    force = 1e-6;
+  if (NumericVector::is_na(force_push)) {
+    force_push = 1e-6;
+  }
+  if (NumericVector::is_na(force_pull)) {
+    force_pull = 1e-6;
   }
 
   Point xbounds, ybounds;
@@ -577,7 +582,7 @@ DataFrame repel_boxes(
   }
 
   // Add a tiny bit of jitter to each text box at the start.
-  NumericVector r = rnorm(n_texts, 0, force);
+  NumericVector r = rnorm(n_texts, 0, force_push);
   std::vector<Box> TextBoxes(n_texts);
   std::vector<double> ratios(n_texts);
   std::vector<Point> original_centroids(n_texts);
@@ -601,11 +606,20 @@ DataFrame repel_boxes(
     original_centroids[i] = centroid(TextBoxes[i], hjust[i], vjust[i]);
   }
 
+  std::vector<Point> velocities(n_texts);
+  double velocity_decay = 0.7;
+
+  // double force_pull = force * 0.1;
+  // double force_push = force * 8;
   Point f, ci, cj;
 
   while (any_overlaps && iter < maxiter) {
     iter += 1;
     any_overlaps = false;
+    // The forces get weaker over time.
+    force_push *= 0.99999;
+    force_pull *= 0.9999;
+    // velocity_decay *= 0.999;
 
     for (int i = 0; i < n_texts; i++) {
       i_overlaps = false;
@@ -625,7 +639,7 @@ DataFrame repel_boxes(
           if (overlaps(DataBoxes[i], TextBoxes[i])) {
             any_overlaps = true;
             i_overlaps = true;
-            f = f + repel_force(ci, Points[i], force, direction);
+            f = f + repel_force(ci, Points[i], force_push, direction);
           }
         } else {
           cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
@@ -633,7 +647,7 @@ DataFrame repel_boxes(
           if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
             any_overlaps = true;
             i_overlaps = true;
-            f = f + repel_force(ci, cj, force * 3, direction);
+            f = f + repel_force(ci, cj, force_push, direction);
           }
 
           // Skip the data points if the padding is 0.
@@ -644,17 +658,20 @@ DataFrame repel_boxes(
           if (overlaps(DataBoxes[j], TextBoxes[i])) {
             any_overlaps = true;
             i_overlaps = true;
-            f = f + repel_force(ci, Points[j], force, direction);
+            f = f + repel_force(ci, Points[j], force_push, direction);
           }
         }
       }
 
       // Pull the box toward its original position.
       if (!i_overlaps) {
-        f = f + spring_force(original_centroids[i], ci, force * 2e3, direction);
+        // force_pull *= 0.999;
+        f = f + spring_force(
+            original_centroids[i], ci, force_pull, direction);
       }
 
-      TextBoxes[i] = TextBoxes[i] + f;
+      velocities[i] = velocities[i] * velocity_decay + f;
+      TextBoxes[i] = TextBoxes[i] + velocities[i];
       // Put boxes within bounds
       TextBoxes[i] = put_within_bounds(TextBoxes[i], xbounds, ybounds);
 

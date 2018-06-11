@@ -1,14 +1,27 @@
-ggrepel <img src="logo.svg" width="120px" align="right" />
+ggrepel <img src="tools/logo.svg" width="120px" align="right" />
 ============================================
 
-[![Build Status](https://travis-ci.org/slowkow/ggrepel.svg?branch=master)](https://travis-ci.org/slowkow/ggrepel)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggrepel)](https://CRAN.R-project.org/package=ggrepel)
-[![CRAN_Downloads_Badge](http://cranlogs.r-pkg.org/badges/grand-total/ggrepel?color=brightgreen)](http://cranlogs.r-pkg.org/downloads/total/last-month/ggrepel)
+[![Build Status][bb]][travis] [![CRAN_Status_Badge][cb]][cran] [![CRAN_Downloads_Badge][db]][r-pkg]
+
+[bb]: https://travis-ci.org/slowkow/ggrepel.svg?branch=master
+[travis]: https://travis-ci.org/slowkow/ggrepel
+
+[cb]: http://www.r-pkg.org/badges/version/ggrepel?color=blue
+[cran]: https://CRAN.R-project.org/package=ggrepel
+
+[db]: http://cranlogs.r-pkg.org/badges/grand-total/ggrepel?color=blue
+[r-pkg]: https://www.r-pkg.org/pkg/ggrepel
 
 Overview
 --------
 
-ggrepel provides geoms for [ggplot2] to repel overlapping text labels.
+ggrepel provides geoms for [ggplot2] to repel overlapping text labels:
+
+- `geom_text_repel()`
+- `geom_label_repel()`
+
+Text labels repel away from each other, away from data points, and away
+from edges of the plotting area.
 
 ```r
 library(ggrepel)
@@ -18,7 +31,7 @@ ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars))) +
   theme_classic(base_size = 16)
 ```
 
-<img width="80%" src="fig.png" />
+<img src="tools/fig.png" />
 
 Installation
 ------------
@@ -30,6 +43,9 @@ install.packages("ggrepel")
 # Or get the the development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("slowkow/ggrepel")
+
+# Or use the install-github.me service
+source("https://install-github.me/slowkow/ggrepel")
 ```
 
 Usage
@@ -52,6 +68,39 @@ repository.
 
 Related work
 ------------
+
+### Academic Papers
+
+[An Efficient Algorithm for Scatter Chart Labeling][aaai]
+
+Sebastian Theophil, Arno Schödl
+
+> This paper presents an efficient algorithm for a new variation of the point
+> feature labeling problem. The goal is to position the largest number of point
+> labels such that they do not intersect each other or their points. First we
+> present an algorithm using a greedy algorithm with limited lookahead. We then
+> present an algorithm that iteratively regroups labels, calling the first
+> algorithm on each group, thereby identifying a close to optimal labeling
+> order. The presented algorithm is being used in a commercial product to label
+> charts, and our evaluation shows that it produces results far superior to
+> those of other labeling algorithms.
+
+This might be a good start for a revision of ggrepel.
+
+[aaai]: http://www.aaai.org/Papers/AAAI/2006/AAAI06-167.pdf
+
+### Python
+
+[adjustText]
+
+> A small library for automatically adjusting text position in matplotlib plots to minimize overlaps.
+
+Ilya Flyamer's Python library that extends [matplotlib].
+
+[adjustText]: https://github.com/Phlya/adjustText
+[matplotlib]: https://matplotlib.org/
+
+### R
 
 [directlabels]
 
@@ -82,7 +131,7 @@ packages with `ggplot2`.
 [1]: https://gist.github.com/slowkow/003b4d9f3f59cee8551c
 
 [ggplot2]: http://ggplot2.tidyverse.org
-[vignette]: https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.md
+[vignette]: https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html
 [directlabels]: https://cran.r-project.org/package=directlabels
 [wordcloud]: https://cran.r-project.org/package=wordcloud
 [FField]: https://cran.r-project.org/package=FField

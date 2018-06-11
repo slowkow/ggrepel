@@ -6,21 +6,23 @@
 \title{Repulsive textual annotations.}
 \usage{
 geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
-  parse = FALSE, ..., box.padding = 0.25, label.padding = 0.25,
-  point.padding = 1e-06, label.r = 0.15, label.size = 0.25,
-  segment.colour = NULL, segment.color = NULL, segment.size = 0.5,
-  segment.alpha = NULL, min.segment.length = 0.5, arrow = NULL,
-  force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA,
-  NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
-  direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
+  position = "identity", parse = FALSE, ..., box.padding = 0.25,
+  label.padding = 0.25, point.padding = 1e-06, label.r = 0.15,
+  label.size = 0.25, segment.colour = NULL, segment.color = NULL,
+  segment.size = 0.5, segment.alpha = NULL, min.segment.length = 0.5,
+  arrow = NULL, force = 1, force_pull = 1, max.iter = 2000,
+  nudge_x = 0, nudge_y = 0, xlim = c(NA, NA), ylim = c(NA, NA),
+  na.rm = FALSE, show.legend = NA, direction = c("both", "y", "x"),
+  seed = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
-  parse = FALSE, ..., box.padding = 0.25, point.padding = 1e-06,
-  segment.colour = NULL, segment.color = NULL, segment.size = 0.5,
-  segment.alpha = NULL, min.segment.length = 0.5, arrow = NULL,
-  force = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0, xlim = c(NA,
-  NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
-  direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
+  position = "identity", parse = FALSE, ..., box.padding = 0.25,
+  point.padding = 1e-06, segment.colour = NULL, segment.color = NULL,
+  segment.size = 0.5, segment.alpha = NULL, min.segment.length = 0.5,
+  arrow = NULL, force = 1, force_pull = 1, max.iter = 2000,
+  nudge_x = 0, nudge_y = 0, xlim = c(NA, NA), ylim = c(NA, NA),
+  na.rm = FALSE, show.legend = NA, direction = c("both", "y", "x"),
+  seed = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -34,6 +36,9 @@ defined at the top level of the plot.}
 
 \item{stat}{The statistical transformation to use on the data for this
 layer, as a string.}
+
+\item{position}{Position adjustment, either as a string, or the result of
+a call to a position adjustment function.}
 
 \item{parse}{If TRUE, the labels will be parsed into expressions and
 displayed as described in ?plotmath}
@@ -86,6 +91,9 @@ specified by passing \code{unit(x, "units")}).}
 \item{force}{Force of repulsion between overlapping text labels. Defaults
 to 1.}
 
+\item{force_pull}{Force of attraction between a text label and its
+corresponding data point. Defaults to 1.}
+
 \item{max.iter}{Maximum number of iterations to try to resolve overlaps.
 Defaults to 2000.}
 
@@ -132,25 +140,17 @@ the axes changes. The text labels are repositioned after resizing a plot.
 }
 \section{\code{geom_label_repel}}{
 
-Currently \code{geom_label_repel} does not support the \code{rot} parameter
+Currently \code{geom_label_repel} does not support the \code{rot} argument
 and is considerably slower than \code{geom_text_repel}. The \code{fill}
 aesthetic controls the background colour of the label.
 }
 
-\section{Alignment}{
+\section{Alignment with \code{hjust} or \code{vjust}}{
 
-The repulsive geoms reposition text labels to avoid overlap, so the
-following parameters are \strong{not supported}:
-
-\itemize{
-  \item \code{position}
-  \item \code{check_overlap}
-}
-
-The parameters \code{hjust} and \code{vjust} are supported, but they only
-control the intial positioning and repulsive forces may disrupt alignment.
-Alignment will be preserved if the force is limited to not act in the
-direction of alignment using the \code{direction} parameter.
+The arguments \code{hjust} and \code{vjust} are supported, but they only
+control the initial positioning, so repulsive forces may disrupt alignment.
+Alignment with \code{hjust} will be preserved if labels only move up and down
+by using \code{direction="y"}. For \code{vjust}, use \code{direction="x"}.
 }
 
 \examples{
