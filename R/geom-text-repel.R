@@ -262,8 +262,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
 
     # Transform the nudges to the panel scales.
     nudges <- data.frame(
-      x = data$x + nudge_x,
-      y = data$y + nudge_y
+      x = data$x + rep_len(nudge_x, length.out = nrow(data)),
+      y = data$y + rep_len(nudge_y, length.out = nrow(data))
     )
     nudges <- coord$transform(nudges, panel_scales)
 
