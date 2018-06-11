@@ -68,8 +68,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // repel_boxes
-DataFrame repel_boxes(NumericMatrix data_points, double point_padding_x, double point_padding_y, NumericMatrix boxes, NumericVector xlim, NumericVector ylim, NumericVector hjust, NumericVector vjust, double force, int maxiter, std::string direction);
-RcppExport SEXP _ggrepel_repel_boxes(SEXP data_pointsSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP hjustSEXP, SEXP vjustSEXP, SEXP forceSEXP, SEXP maxiterSEXP, SEXP directionSEXP) {
+DataFrame repel_boxes(NumericMatrix data_points, double point_padding_x, double point_padding_y, NumericMatrix boxes, NumericVector xlim, NumericVector ylim, NumericVector hjust, NumericVector vjust, double force_push, double force_pull, int maxiter, std::string direction);
+RcppExport SEXP _ggrepel_repel_boxes(SEXP data_pointsSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP hjustSEXP, SEXP vjustSEXP, SEXP force_pushSEXP, SEXP force_pullSEXP, SEXP maxiterSEXP, SEXP directionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -81,10 +81,11 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type ylim(ylimSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type hjust(hjustSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type vjust(vjustSEXP);
-    Rcpp::traits::input_parameter< double >::type force(forceSEXP);
+    Rcpp::traits::input_parameter< double >::type force_push(force_pushSEXP);
+    Rcpp::traits::input_parameter< double >::type force_pull(force_pullSEXP);
     Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
     Rcpp::traits::input_parameter< std::string >::type direction(directionSEXP);
-    rcpp_result_gen = Rcpp::wrap(repel_boxes(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force, maxiter, direction));
+    rcpp_result_gen = Rcpp::wrap(repel_boxes(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, maxiter, direction));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -95,7 +96,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ggrepel_intersect_line_rectangle", (DL_FUNC) &_ggrepel_intersect_line_rectangle, 3},
     {"_ggrepel_select_line_connection", (DL_FUNC) &_ggrepel_select_line_connection, 2},
     {"_ggrepel_approximately_equal", (DL_FUNC) &_ggrepel_approximately_equal, 2},
-    {"_ggrepel_repel_boxes", (DL_FUNC) &_ggrepel_repel_boxes, 11},
+    {"_ggrepel_repel_boxes", (DL_FUNC) &_ggrepel_repel_boxes, 12},
     {NULL, NULL, 0}
 };
 
