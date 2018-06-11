@@ -6,23 +6,23 @@
 \title{Repulsive textual annotations.}
 \usage{
 geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", parse = FALSE, ..., box.padding = 0.25,
-  label.padding = 0.25, point.padding = 1e-06, label.r = 0.15,
-  label.size = 0.25, segment.colour = NULL, segment.color = NULL,
-  segment.size = 0.5, segment.alpha = NULL, min.segment.length = 0.5,
-  arrow = NULL, force = 1, force_pull = 1, max.iter = 2000,
-  nudge_x = 0, nudge_y = 0, xlim = c(NA, NA), ylim = c(NA, NA),
-  na.rm = FALSE, show.legend = NA, direction = c("both", "y", "x"),
-  seed = NA, inherit.aes = TRUE)
+  position = "identity", parse = FALSE, ..., method = "repel",
+  box.padding = 0.25, label.padding = 0.25, point.padding = 1e-06,
+  label.r = 0.15, label.size = 0.25, segment.colour = NULL,
+  segment.color = NULL, segment.size = 0.5, segment.alpha = NULL,
+  min.segment.length = 0.5, arrow = NULL, force = 1, force_pull = 1,
+  rstep = 0.1, tstep = 0.1, max.iter = 2000, nudge_x = 0, nudge_y = 0,
+  xlim = c(NA, NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
+  direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", parse = FALSE, ..., box.padding = 0.25,
-  point.padding = 1e-06, segment.colour = NULL, segment.color = NULL,
-  segment.size = 0.5, segment.alpha = NULL, min.segment.length = 0.5,
-  arrow = NULL, force = 1, force_pull = 1, max.iter = 2000,
-  nudge_x = 0, nudge_y = 0, xlim = c(NA, NA), ylim = c(NA, NA),
-  na.rm = FALSE, show.legend = NA, direction = c("both", "y", "x"),
-  seed = NA, inherit.aes = TRUE)
+  position = "identity", parse = FALSE, ..., method = "repel",
+  box.padding = 0.25, point.padding = 1e-06, segment.colour = NULL,
+  segment.color = NULL, segment.size = 0.5, segment.alpha = NULL,
+  min.segment.length = 0.5, arrow = NULL, force = 1, force_pull = 1,
+  rstep = 0.1, tstep = 0.1, max.iter = 2000, nudge_x = 0, nudge_y = 0,
+  xlim = c(NA, NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
+  direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
