@@ -11,14 +11,16 @@ output:
     self_contained: true
 vignette: >
   %\VignetteIndexEntry{ggrepel examples}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, echo=FALSE, results='hide', warning=FALSE, error=FALSE, message=FALSE, cache=FALSE}
 library(knitr)
 opts_chunk$set(
-  cache       = TRUE,
+  cache       = FALSE,
   autodep     = TRUE,
   echo        = FALSE,
   warning     = FALSE,
@@ -39,9 +41,12 @@ knit_hooks$set(
 library(gridExtra)
 library(ggplot2)
 theme_set(theme_classic(base_size = 18) %+replace% theme(
-  axis.line.y = element_line(colour = "black", size = 0.2),
-  axis.line.x = element_line(colour = "black", size = 0.2),
-  axis.ticks = element_line(colour = "black", size = 0.2)
+  # axis.line.y = element_line(colour = "black", size = 0.2),
+  # axis.line.x = element_line(colour = "black", size = 0.2),
+  axis.ticks   = element_line(colour = "black", size = 0.3),
+  panel.border = element_rect(size = 0.3, fill = NA),
+  axis.line    = element_blank(),
+  plot.title   = element_text(size = 18, vjust = 2, hjust = 0.5)
 ))
 ```
 
@@ -91,9 +96,6 @@ it from GitHub:
 # Use the devtools package
 # install.packages("devtools")
 devtools::install_github("slowkow/ggrepel")
-
-# Or use the install-github.me service
-source("https://install-github.me/slowkow/ggrepel")
 ```
 
 [cran]: https://CRAN.R-project.org/package=ggrepel
@@ -177,7 +179,7 @@ ggplot(dat, aes(wt, mpg, label = car, color = factor(cyl))) +
   geom_point() +
   geom_label_repel(
     arrow = arrow(length = unit(0.03, "npc"), type = "closed", ends = "first"),
-    force = 10,
+    force = 5,
     xlim  = x_limits
   ) +
   scale_color_discrete(name = "cyl")
@@ -205,6 +207,7 @@ set.seed(42)
 ggplot(mtcars, aes(x = wt, y = 1, label = rownames(mtcars))) +
   geom_point(color = "red") +
   geom_text_repel(
+    force        = 0.5,
     nudge_y      = 0.05,
     direction    = "x",
     angle        = 90,
@@ -257,13 +260,13 @@ p <- ggplot(mtcars, aes(y = wt, x = 1, label = rownames(mtcars))) +
     axis.line.x  = element_blank(),
     axis.ticks.x = element_blank(),
     axis.text.x  = element_blank(),
-    axis.title.x = element_blank(),
-    plot.title   = element_text(hjust = 0.5)
+    axis.title.x = element_blank()
   )
 
 p1 <- p +
   xlim(1, 1.375) +
   geom_text_repel(
+    force        = 0.5,
     nudge_x      = 0.15,
     direction    = "y",
     hjust        = 0,
@@ -274,6 +277,7 @@ p1 <- p +
 p2 <- p + 
   xlim(1, 1.375) +
   geom_text_repel(
+    force        = 0.5,
     nudge_x      = 0.2,
     direction    = "y",
     hjust        = 0.5,
@@ -285,7 +289,8 @@ p3 <- p +
   xlim(0.25, 1) +
   scale_y_continuous(position = "right") +
   geom_text_repel(
-    nudge_x      = -0.35,
+    force        = 0.5,
+    nudge_x      = -0.25,
     direction    = "y",
     hjust        = 1,
     segment.size = 0.2
@@ -298,7 +303,7 @@ gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 Align text horizontally with `nudge_x` and `hjust`, and allow the labels to
 move vertically with `direction = "y"`:
 
-```{r neat-offset-y, echo=TRUE, fig.width=7, fig.height=4}
+```{r neat-offset-y, echo=TRUE, fig.width=7, fig.height=3}
 set.seed(42)
 
 dat <- subset(mtcars, wt > 2.75 & wt < 3.45)
@@ -337,24 +342,22 @@ To get the latest development version of ggplot2, try:
 ```{r ggplot2, echo=TRUE, eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("tidyverse/ggplot2")
-
-# Or use the install-github.me service
-source("https://install-github.me/tidyverse/ggplot2")
 ```
 
 If your ggplot2 is newer than 2.2.1, try this example:
 
-```{r jitter, echo=TRUE, fig.width=6, fig.height=4}
+```{r jitter, echo=TRUE, fig.width=6, fig.height=5}
 mtcars$label <- rownames(mtcars)
 mtcars$label[mtcars$cyl != 6] <- ""
 
-# New! (not available in ggplot2 version 2.2.1)
+# New! (not available in ggplot2 version 2.2.1 or earlier)
 pos <- position_jitter(width = 0.3, seed = 2)
 
 ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
   geom_point(position = pos) +
-  geom_text_repel(position = pos, force = 2) +
-  theme(legend.position = "none")
+  geom_text_repel(position = pos) +
+  theme(legend.position = "none") +
+  labs(title = "position_jitter()")
 ```
 
 You can also use other position functions, like `position_quasirandom()` from
@@ -363,7 +366,7 @@ the [ggbeeswarm] package by [Erik Clarke]:
 [ggbeeswarm]: https://github.com/eclarke/ggbeeswarm
 [Erik Clarke]: https://github.com/eclarke
 
-```{r quasirandom, echo=TRUE, fig.width=6, fig.height=4}
+```{r quasirandom, echo=TRUE, fig.width=6, fig.height=5}
 mtcars$label <- rownames(mtcars)
 mtcars$label[mtcars$cyl != 6] <- ""
 
@@ -372,8 +375,46 @@ pos <- position_quasirandom()
 
 ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
   geom_point(position = pos) +
-  geom_text_repel(position = pos, force = 2) +
-  theme(legend.position = "none")
+  geom_text_repel(position = pos) +
+  theme(legend.position = "none") +
+  labs(title = "position_quasirandom()")
+```
+
+### Word cloud
+
+The `force` option controls the strength of repulsion.
+
+The `force_pull` option controls the strength of the spring that pulls the text
+label toward its data point.
+
+To make a word cloud, we can assign all of the text labels the same data point
+at the origin (0, 0) and set `force_pull = 0` to disable the springs.
+
+```{r wordcloud, echo=TRUE, fig.width=7, fig.height=2}
+set.seed(42)
+ggplot(mtcars) +
+  geom_text_repel(
+    aes(
+      label  = rownames(mtcars),
+      size   = mpg > 15,
+      colour = factor(cyl),
+      x      = 0,
+      y      = 0
+    ),
+    force_pull    = 0, # do not pull text toward the point at (0,0)
+    max.iter      = 1e4,
+    segment.color = NA,
+    point.padding = NA
+  ) +
+  theme_void() +
+  theme(strip.text = element_text(size = 16)) +
+  facet_wrap(~ factor(cyl)) +
+  scale_color_discrete(name = "Cylinders") +
+  scale_size_manual(values = c(2, 3)) +
+  theme(
+    strip.text   = element_blank(),
+    panel.border = element_rect(size = 0.2, fill = NA)
+  )
 ```
 
 ### Polar coordinates
@@ -426,19 +467,25 @@ library(animation)
 plot_frame <- function(n) {
   set.seed(42)
   p <- ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars))) +
-    geom_point(color = "red") +
     geom_text_repel(
-      size = 5, force = 3, max.iter = n
+      size = 5, force = 1, max.iter = n
     ) +
-    theme_minimal(base_size = 16)
+    geom_point(color = "red") +
+    # theme_minimal(base_size = 16) +
+    labs(title = n)
   print(p)
 }
 
+xs <- ceiling(1.18^(1:52))
+# xs <- ceiling(1.4^(1:26))
+xs <- c(xs, rep(xs[length(xs)], 15))
+# plot(xs)
+
 saveGIF(
-  lapply(ceiling(1.75^(1:12)), function(i) {
+  lapply(xs, function(i) {
     plot_frame(i)
   }),
-  interval   = 0.20,
+  interval   = 0.15,
   ani.width  = 800,
   ani.heigth = 600,
   movie.name = "animated.gif"
