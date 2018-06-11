@@ -11,6 +11,7 @@ geom_label_repel <- function(
   mapping = NULL, data = NULL, stat = "identity", position = "identity",
   parse = FALSE,
   ...,
+  method = "repel",
   box.padding = 0.25,
   label.padding = 0.25,
   point.padding = 1e-6,
@@ -24,6 +25,8 @@ geom_label_repel <- function(
   arrow = NULL,
   force = 1,
   force_pull = 1,
+  rstep = .05,
+  tstep = .05,
   max.iter = 2000,
   nudge_x = 0,
   nudge_y = 0,
@@ -51,6 +54,7 @@ geom_label_repel <- function(
     inherit.aes = inherit.aes,
     params = list(
       parse = parse,
+      method = method,
       box.padding  = to_unit(box.padding),
       label.padding = to_unit(label.padding),
       point.padding  = to_unit(point.padding),
@@ -64,6 +68,8 @@ geom_label_repel <- function(
       na.rm = na.rm,
       force = force,
       force_pull = force_pull,
+      rstep = rstep,
+      tstep = tstep,
       max.iter = max.iter,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
@@ -94,6 +100,7 @@ GeomLabelRepel <- ggproto(
   draw_panel = function(
     self, data, panel_scales, coord,
     parse = FALSE,
+    method = "repel",
     na.rm = FALSE,
     box.padding = 0.25,
     label.padding = 0.25,
@@ -107,6 +114,8 @@ GeomLabelRepel <- ggproto(
     arrow = NULL,
     force = 1,
     force_pull = 1,
+    rstep = .05,
+    tstep = .05,
     nudge_x = 0,
     nudge_y = 0,
     xlim = c(NA, NA),
@@ -154,6 +163,7 @@ GeomLabelRepel <- ggproto(
     }
 
     ggname("geom_label_repel", gTree(
+      method = method,
       limits = limits,
       data = data,
       lab = lab,
@@ -170,6 +180,8 @@ GeomLabelRepel <- ggproto(
       arrow = arrow,
       force = force,
       force_pull = force_pull,
+      rstep = rstep,
+      tstep = tstep,
       max.iter = max.iter,
       direction = direction,
       seed = seed,
@@ -251,20 +263,34 @@ makeContent.labelrepeltree <- function(x) {
                                 x$data$y[invalid_strings]))
 
   # Repel overlapping bounding boxes away from each other.
-  repel <- repel_boxes(
-    data_points = points_valid_first,
-    point_padding_x = point_padding_x,
-    point_padding_y = point_padding_y,
-    boxes = do.call(rbind, boxes),
-    xlim = range(x$limits$x),
-    ylim = range(x$limits$y),
-    hjust = x$data$hjust,
-    vjust = x$data$vjust,
-    force_push = x$force * 1e-6,
-    force_pull = x$force_pull * 1e-2,
-    maxiter = x$max.iter,
-    direction = x$direction
-  )
+  if (x$method == "spiral") {
+    repel <- wordcloud_boxes(
+      data_points = points_valid_first,
+      point_padding_x = point_padding_x,
+      point_padding_y = point_padding_y,
+      boxes = do.call(rbind, boxes),
+      xlim = range(x$limits$x),
+      ylim = range(x$limits$y),
+      rstep = x$rstep,
+      tstep = x$tstep,
+      maxiter = x$max.iter
+    )
+  } else {
+    repel <- repel_boxes(
+      data_points = points_valid_first,
+      point_padding_x = point_padding_x,
+      point_padding_y = point_padding_y,
+      boxes = do.call(rbind, boxes),
+      xlim = range(x$limits$x),
+      ylim = range(x$limits$y),
+      hjust = x$data$hjust,
+      vjust = x$data$vjust,
+      force_push = x$force * 1e-6,
+      force_pull = x$force_pull * 1e-2,
+      maxiter = x$max.iter,
+      direction = x$direction
+    )
+  }
 
   grobs <- lapply(seq_along(valid_strings), function(i) {
     xi <- valid_strings[i]

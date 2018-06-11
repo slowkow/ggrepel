@@ -78,14 +78,22 @@
 #'   scale_x_continuous(limits = c(3, 9))
 #' @export
 geom_text_wordcloud <- function(
-  mapping = NULL, data = NULL, stat = "identity",
+  mapping = NULL, data = NULL, stat = "identity", position = "identity",
   parse = FALSE,
   ...,
-  box.padding = 0.025,
-  point.padding = NA,
+  method = "spiral",
+  box.padding = 0.05,
+  point.padding = 1e-6,
+  segment.colour = NA,
+  segment.color = NA,
+  segment.size = 0.5,
+  segment.alpha = NULL,
+  min.segment.length = 0.5,
   arrow = NULL,
-  rstep = .1,
-  tstep = .1,
+  force = 1,
+  force_pull = 1,
+  rstep = .05,
+  tstep = .05,
   max.iter = 2000,
   nudge_x = 0,
   nudge_y = 0,
@@ -93,22 +101,37 @@ geom_text_wordcloud <- function(
   ylim = c(NA, NA),
   na.rm = FALSE,
   show.legend = NA,
+  direction = c("both","y","x"),
   seed = NA,
   inherit.aes = TRUE
 ) {
+  if (!missing(nudge_x) || !missing(nudge_y)) {
+    if (!missing(position)) {
+      stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
+    }
+    #position <- position_nudge(nudge_x, nudge_y)
+  }
   layer(
     data = data,
     mapping = mapping,
     stat = stat,
-    geom = GeomTextWordcloud,
-    position = "identity",
+    geom = GeomTextRepel,
+    position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(
       parse = parse,
+      method = method,
       na.rm = na.rm,
       box.padding = to_unit(box.padding),
       point.padding = to_unit(point.padding),
+      segment.colour = segment.color %||% segment.colour,
+      segment.size = segment.size,
+      segment.alpha = segment.alpha,
+      min.segment.length = to_unit(min.segment.length),
+      arrow = arrow,
+      force = force,
+      force_pull = force_pull,
       rstep = rstep,
       tstep = tstep,
       max.iter = max.iter,
@@ -116,184 +139,9 @@ geom_text_wordcloud <- function(
       nudge_y = nudge_y,
       xlim = xlim,
       ylim = ylim,
+      direction = match.arg(direction),
       seed = seed,
       ...
     )
   )
-}
-
-#' GeomTextWordcloud
-#' @rdname ggplot2-ggproto
-#' @format NULL
-#' @usage NULL
-#' @export
-GeomTextWordcloud <- ggproto("GeomTextWordcloud", Geom,
-  required_aes = c("label"),
-
-  default_aes = aes(
-    x = .5, y = .5,
-    colour = "black", size = 3.88, angle = 0,
-    alpha = NA, family = "", fontface = 1, lineheight = 1.2
-  ),
-
-  draw_panel = function(
-    data, panel_scales, coord,
-    parse = FALSE,
-    na.rm = FALSE,
-    box.padding = 0.025,
-    point.padding = NA,
-    rstep = .1,
-    tstep = .1,
-    max.iter = 2000,
-    nudge_x = 0,
-    nudge_y = 0,
-    xlim = c(NA, NA),
-    ylim = c(NA, NA),
-    seed = NA
-  ) {
-    lab <- data$label
-    if (parse) {
-      lab <- parse(text = as.character(lab))
-    }
-    if (!length(which(not_empty(lab)))) {
-      return()
-    }
-
-    # Transform the nudges to the panel scales.
-    nudges <- data.frame(
-      x = data$x + nudge_x,
-      y = data$y + nudge_y
-    )
-    nudges <- coord$transform(nudges, panel_scales)
-
-    # Transform the raw data to the panel scales.
-    data <- coord$transform(data, panel_scales)
-
-    # The nudge is relative to the data.
-    nudges$x <- nudges$x - data$x
-    nudges$y <- nudges$y - data$y
-
-    # Transform limits to panel scales.
-    limits <- data.frame(x = xlim, y = ylim)
-    limits <- coord$transform(limits, panel_scales)
-
-    # Fill NAs with defaults.
-    limits$x[is.na(limits$x)] <- c(0, 1)[is.na(limits$x)]
-    limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
-
-    ggname("geom_text_wordcloud", gTree(
-      limits = limits,
-      data = data,
-      lab = lab,
-      nudges = nudges,
-      box.padding = to_unit(box.padding),
-      point.padding = to_unit(point.padding),
-      rstep = rstep,
-      tstep = tstep,
-      max.iter = max.iter,
-      seed = seed,
-      cl = "textwordcloudtree"
-    ))
-  },
-
-  draw_key = draw_key_text
-)
-
-#' grid::makeContent function for the grobTree of textRepelGrob objects
-#' @param x A grid grobTree.
-#' @export
-#' @noRd
-makeContent.textwordcloudtree <- function(x) {
-
-  # The padding around each bounding box.
-  box_padding_x <- convertWidth(x$box.padding, "native", valueOnly = TRUE)
-  box_padding_y <- convertHeight(x$box.padding, "native", valueOnly = TRUE)
-
-  # The padding around each point.
-  if (is.na(x$point.padding)) {
-    x$point.padding = unit(0, "lines")
-  }
-  point_padding_x <- convertWidth(x$point.padding, "native", valueOnly = TRUE)
-  point_padding_y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
-
-  # Do not create text labels for empty strings.
-  valid_strings <- which(not_empty(x$lab))
-  invalid_strings <- which(!not_empty(x$lab))
-
-  # Create a dataframe with x1 y1 x2 y2
-  boxes <- lapply(valid_strings, function(i) {
-    row <- x$data[i, , drop = FALSE]
-    tg <- textGrob(
-      x$lab[i],
-      row$x, row$y, default.units = "native",
-      rot = row$angle,
-      gp = gpar(
-        fontsize = row$size * .pt,
-        fontfamily = row$family,
-        fontface = row$fontface,
-        lineheight = row$lineheight
-      )
-    )
-    gw <- convertWidth(grobWidth(tg), "native", TRUE)
-    gh <- convertHeight(grobHeight(tg), "native", TRUE)
-
-    c(
-      "x1" = row$x - box_padding_x + x$nudges$x[i],
-      "y1" = row$y - box_padding_y + x$nudges$y[i],
-      "x2" = row$x + gw + box_padding_x + x$nudges$x[i],
-      "y2" = row$y + gh + box_padding_y + x$nudges$y[i]
-    )
-  })
-
-  # Make the repulsion reproducible if desired.
-  if (is.null(x$seed) || !is.na(x$seed)) {
-      set.seed(x$seed)
-  }
-
-  points_valid_first <- cbind(c(x$data$x[valid_strings],
-                                x$data$x[invalid_strings]),
-                              c(x$data$y[valid_strings],
-                                x$data$y[invalid_strings]))
-
-
-  repel <- wordcloud_boxes(
-    data_points = points_valid_first,
-    point_padding_x = point_padding_x,
-    point_padding_y = point_padding_y,
-    boxes = do.call(rbind, boxes),
-    xlim = range(x$limits$x),
-    ylim = range(x$limits$y),
-    rstep = x$tstep,
-    tstep = x$tstep,
-    maxiter = x$max.iter
-  )
-
-  grobs <- lapply(seq_along(valid_strings), function(i) {
-    xi <- valid_strings[i]
-    row <- x$data[xi, , drop = FALSE]
-    # browser()
-    textRepelGrob(
-      x$lab[xi],
-      # Position of text bounding boxes.
-      x = unit(repel$x[i], "native"),
-      y = unit(repel$y[i], "native"),
-      # Position of original data points.
-      x.orig = unit(x$data$x[xi], "native"),
-      y.orig = unit(x$data$y[xi], "native"),
-      rot = row$angle,
-      box.padding = x$box.padding,
-      point.padding = x$point.padding,
-      text.gp = gpar(
-        col = scales::alpha(row$colour, row$alpha),
-        fontsize = row$size * .pt,
-        fontfamily = row$family,
-        fontface = row$fontface,
-        lineheight = row$lineheight
-      ),
-      min.segment.length = to_unit(100)
-    )
-  })
-  class(grobs) <- "gList"
-
-  setChildren(x, grobs)
 }
