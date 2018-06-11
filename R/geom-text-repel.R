@@ -3,7 +3,11 @@
 #' \code{geom_text_repel} adds text directly to the plot.
 #' \code{geom_label_repel} draws a rectangle underneath the text, making it
 #' easier to read. The text labels repel away from each other and away from
-#' the data points.
+#' the data points. Two positioning algorithms are available: the default and original
+#'  one "repel" uses a repulsive field to repeal the text label away and a simpler one "spiral" inspired
+#'  by the wordcloud package.
+#'
+#'  \code{geom_text_wordcloud} is a variant of \code{geom_text_repel} using the "spiral" positioning algorithm.
 #'
 #' These geoms are based on \code{\link[ggplot2]{geom_text}} and
 #' \code{\link[ggplot2]{geom_label}}. See the documentation for those
@@ -37,8 +41,10 @@
 #'    layer, as a string.
 #' @param position Position adjustment, either as a string, or the result of
 #'  a call to a position adjustment function.
-#' @param parse If TRUE, the labels will be parsed into expressions and
+#' @param parse If \code{TRUE}, the labels will be parsed into expressions and
 #'   displayed as described in ?plotmath
+#' @param method If set to \code{"repel"}, the default, uses the original repulsive algorithm.
+#'   If set to \code{"spiral"}, uses the spiral algorithm of the wordcloud package.
 #' @param na.rm If \code{FALSE} (the default), removes missing values with
 #'    a warning.  If \code{TRUE} silently removes missing values.
 #' @param show.legend logical. Should this layer be included in the legends?
@@ -84,6 +90,8 @@
 #'   to 1.
 #' @param force_pull Force of attraction between a text label and its
 #'   corresponding data point. Defaults to 1.
+#' @param rstep relative wordclould spiral radius increment after one full rotation. Default to .05.
+#' @param tstep wordclould spiral angle increment at each step. Default to .05.
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
 #'   Defaults to 2000.
 #' @param direction "both", "x", or "y" -- direction in which to adjust position of labels
