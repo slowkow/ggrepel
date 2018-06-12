@@ -1,5 +1,5 @@
 #include <Rcpp.h>
-//#include <Rcpp/Benchmark/Timer.h>
+#include <Rcpp/Benchmark/Timer.h>
 #include <deque>
 #include "AABB.h"
 using namespace Rcpp;
@@ -533,8 +533,8 @@ Point spring_force(
 //' @param ylim A numeric vector representing the limits on the y axis like
 //'   \code{c(ymin, ymax)}
 //' @param force Magnitude of the force (defaults to \code{1e-6})
-//' @param maxiter Maximum number of iterations to try to resolve overlaps
-//'   (defaults to 2000)
+//' @param max_time Maximum number of seconds to try to resolve overlaps
+//'   (defaults to 1.0)
 //' @noRd
 // [[Rcpp::export]]
 DataFrame repel_boxes(
@@ -545,7 +545,8 @@ DataFrame repel_boxes(
     NumericVector hjust, NumericVector vjust,
     double force_push = 1e-7,
     double force_pull = 1e-7,
-    int maxiter = 2000,
+    double max_time = 1.0,
+    bool use_tree = true,
     std::string direction = "both"
 ) {
   int n_points = data_points.nrow();
@@ -553,20 +554,20 @@ DataFrame repel_boxes(
 
   // Choose the algorithm based on the size of the problem.
   // This threshold is based on a rough test, could be tested more thoroughly.
-  bool alg_tree = false;
-  if (n_points + n_texts > 400) {
-    alg_tree = true;
-  }
+  bool alg_tree = use_tree;
+//  if (n_points + n_texts > 400) {
+//    alg_tree = true;
+//  }
 
   int iter = 0;
   bool any_overlaps = true;
   bool i_overlaps = true;
 
   if (NumericVector::is_na(force_push)) {
-    force_push = 1e-6;
+    force_push = 1e-7;
   }
   if (NumericVector::is_na(force_pull)) {
-    force_pull = 1e-6;
+    force_pull = 1e-7;
   }
 
   Point xbounds, ybounds;
@@ -622,9 +623,8 @@ DataFrame repel_boxes(
   std::vector<double> upperBound(2);
   if (alg_tree) {
     // Make a AABB trees for the data points and text labels.
-    // aabb::Tree treeSmall(2, 0.1, n_points);
-    treeSmall = aabb::Tree(2, 0.1, n_points);
-    treeLarge = aabb::Tree(2, 0.1, n_texts);
+    treeSmall = aabb::Tree(2, 0, n_points);
+    treeLarge = aabb::Tree(2, 0.05, n_texts);
 
     // Insert data points into the small tree.
     if (
@@ -656,7 +656,7 @@ DataFrame repel_boxes(
   }
 
   std::vector<Point> velocities(n_texts);
-  double velocity_decay = 0.7;
+  double velocity_decay = 0.5;
 
   Point f, ci, cj;
 
@@ -664,15 +664,17 @@ DataFrame repel_boxes(
   std::vector<unsigned int> points;
   aabb::AABB this_label;
 
-  //Timer timer;
-  //timer.step("start");
-  while (any_overlaps && iter < maxiter) {
-    iter += 1;
+  unsigned int good_iterations = 0;
+  Timer timer;
+  timer.step("start");
+  nanotime_t start_time = get_nanotime();
+  while (iter++ < 1e5) {
     any_overlaps = false;
-    // The forces get weaker over time.
-    force_push *= 0.99999;
-    force_pull *= 0.9999;
-    // velocity_decay *= 0.999;
+
+    // Maximum time limit.
+    if (iter % 10 == 0 && (get_nanotime() - start_time) / 1e9 > max_time) {
+      break;
+    }
 
     for (int i = 0; i < n_texts; i++) {
       i_overlaps = false;
@@ -693,15 +695,17 @@ DataFrame repel_boxes(
             f = f + repel_force(ci, cj, force_push, direction);
           }
         }
-        // Find overlapping data points.
-        this_label = treeLarge.getAABB(i);
-        points = treeSmall.query(this_label);
-        for (unsigned int j = 0; j < points.size(); j++) {
-          unsigned int jj = points[j];
-          if (jj < n_points && overlaps(DataBoxes[jj], TextBoxes[i])) {
-            any_overlaps = true;
-            i_overlaps = true;
-            f = f + repel_force(ci, Points[jj], force_push, direction);
+        if (point_padding_x > 0 && point_padding_y > 0) {
+          // Find overlapping data points.
+          this_label = treeLarge.getAABB(i);
+          points = treeSmall.query(this_label);
+          for (unsigned int j = 0; j < points.size(); j++) {
+            unsigned int jj = points[j];
+            if (jj < n_points && overlaps(DataBoxes[jj], TextBoxes[i])) {
+              any_overlaps = true;
+              i_overlaps = true;
+              f = f + repel_force(ci, Points[jj], force_push, direction);
+            }
           }
         }
       } else {
@@ -787,15 +791,41 @@ DataFrame repel_boxes(
           }
         }
       }
+
     } // loop through all text labels
+
+    // The forces get weaker over time.
+    // force_push *= 0.99999;
+    // force_pull *= 0.9999;
+    // velocity_decay *= 0.999;
+
+    // The forces get stronger if we still have overlaps.
+    //if (any_overlaps) {
+    //  force_push *= 1.001;
+    //}
+    
+    // Quit if we have a good solution.
+    if (!any_overlaps) {
+      if (++good_iterations > 1000) {
+        break;
+      }
+    }
+
   } // while any overlaps exist and we haven't reached max iterations
 
-  //timer.step("end");
-  //NumericVector res(timer);
+  timer.step("end");
+  NumericVector res(timer);
   //for (int i = 0; i < res.size(); i++) {
-  //  res[i] = res[i] / 1000000;
+  //  res[i] = res[i] / iter;
   //}
-  //Rcpp::Rcout << round(res[1] - res[0]) << " ms" << std::endl;
+  Rcpp::Rcout << (alg_tree ? "nlogn" : "n2") << "\t";
+  Rcpp::Rcout << (n_points + n_texts) << "\t";
+  Rcpp::Rcout << iter << "\t";
+  Rcpp::Rcout << round(((res[1] - res[0]) / 1000) / iter) << "\t";
+  Rcpp::Rcout << ((get_nanotime() - start_time) / 1e9) << "\t";
+  Rcpp::Rcout << good_iterations << std::endl;
+  //Rcpp::Rcout << iter << " iterations" << std::endl;
+  //Rcpp::Rcout << round(((res[1] - res[0]) / 1000) / iter) << " µs per iteration" << std::endl;
 
   NumericVector xs(n_texts);
   NumericVector ys(n_texts);

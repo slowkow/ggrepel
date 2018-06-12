@@ -84,8 +84,8 @@
 #'   to 1.
 #' @param force_pull Force of attraction between a text label and its
 #'   corresponding data point. Defaults to 1.
-#' @param max.iter Maximum number of iterations to try to resolve overlaps.
-#'   Defaults to 2000.
+#' @param max_time Maximum number of seconds to try to resolve overlaps.
+#'   Defaults to 0.1. 
 #' @param direction "both", "x", or "y" -- direction in which to adjust position of labels
 #' @param seed Random seed passed to \code{\link[base]{set.seed}}. Defaults to
 #'   \code{NA}, which means that \code{set.seed} will not be called.
@@ -173,7 +173,8 @@ geom_text_repel <- function(
   arrow = NULL,
   force = 1,
   force_pull = 1,
-  max.iter = 2000,
+  max_time = 0.1,
+  use_tree = FALSE,
   nudge_x = 0,
   nudge_y = 0,
   xlim = c(NA, NA),
@@ -210,7 +211,8 @@ geom_text_repel <- function(
       arrow = arrow,
       force = force,
       force_pull = force_pull,
-      max.iter = max.iter,
+      max_time = max_time,
+      use_tree = use_tree,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
       xlim = xlim,
@@ -249,7 +251,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     arrow = NULL,
     force = 1,
     force_pull = 1,
-    max.iter = 2000,
+    max_time = 0.1,
+    use_tree = FALSE,
     nudge_x = 0,
     nudge_y = 0,
     xlim = c(NA, NA),
@@ -309,7 +312,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       arrow = arrow,
       force = force,
       force_pull = force_pull,
-      max.iter = max.iter,
+      max_time = max_time,
+      use_tree = use_tree,
       direction = direction,
       seed = seed,
       cl = "textrepeltree"
@@ -389,7 +393,8 @@ makeContent.textrepeltree <- function(x) {
     vjust = x$data$vjust,
     force_push = x$force * 1e-6,
     force_pull = x$force_pull * 1e-2,
-    maxiter = x$max.iter,
+    max_time = x$max_time,
+    use_tree = x$use_tree,
     direction = x$direction
   )
 
