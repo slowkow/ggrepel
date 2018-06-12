@@ -1,5 +1,5 @@
 #include <Rcpp.h>
-#include <Rcpp/Benchmark/Timer.h>
+//#include <Rcpp/Benchmark/Timer.h>
 #include <deque>
 #include "AABB.h"
 using namespace Rcpp;
@@ -550,7 +550,14 @@ DataFrame repel_boxes(
 ) {
   int n_points = data_points.nrow();
   int n_texts = boxes.nrow();
-  // assert(n_points >= n_texts);
+
+  // Choose the algorithm based on the size of the problem.
+  // This threshold is based on a rough test, could be tested more thoroughly.
+  bool alg_tree = false;
+  if (n_points + n_texts > 400) {
+    alg_tree = true;
+  }
+
   int iter = 0;
   bool any_overlaps = true;
   bool i_overlaps = true;
@@ -608,39 +615,44 @@ DataFrame repel_boxes(
     original_centroids[i] = centroid(TextBoxes[i], hjust[i], vjust[i]);
   }
 
-  // Make a AABB trees for the data points and text labels.
-  aabb::Tree treeSmall(2, 0.1, n_points);
-  aabb::Tree treeLarge(2, 0.1, n_texts);
-
-  // Insert data points into the small tree.
+  aabb::Tree treeSmall;
+  aabb::Tree treeLarge;
   std::vector<double> position(2);
   std::vector<double> lowerBound(2);
   std::vector<double> upperBound(2);
-  if (
-      !NumericVector::is_na(point_padding_x) &&
-        !NumericVector::is_na(point_padding_y) &&
-        point_padding_x > 0 &&
-        point_padding_y > 0
-  ) {
-    for (int i = 0; i < n_points; i++) {
-      position[0] = data_points(i, 0);
-      //Rcpp::Rcout << "position[0] = " << position[0] << std::endl;
-      position[1] = data_points(i, 1);
-      lowerBound[0] = position[0] - point_padding_x;
-      lowerBound[1] = position[1] - point_padding_y;
-      upperBound[0] = position[0] + point_padding_x;
-      upperBound[1] = position[1] + point_padding_y;
-      treeSmall.insertParticle(i, lowerBound, upperBound);
-    }
-  }
+  if (alg_tree) {
+    // Make a AABB trees for the data points and text labels.
+    // aabb::Tree treeSmall(2, 0.1, n_points);
+    treeSmall = aabb::Tree(2, 0.1, n_points);
+    treeLarge = aabb::Tree(2, 0.1, n_texts);
 
-  // Insert text labels into the big tree.
-  for (int i = 0; i < n_texts; i++) {
-    lowerBound[0] = TextBoxes[i].x1;
-    lowerBound[1] = TextBoxes[i].y1;
-    upperBound[0] = TextBoxes[i].x2;
-    upperBound[1] = TextBoxes[i].y2;
-    treeLarge.insertParticle(i, lowerBound, upperBound);
+    // Insert data points into the small tree.
+    if (
+      !NumericVector::is_na(point_padding_x) &&
+      !NumericVector::is_na(point_padding_y) &&
+      point_padding_x > 0 &&
+      point_padding_y > 0
+    ) {
+      for (int i = 0; i < n_points; i++) {
+        position[0] = data_points(i, 0);
+        //Rcpp::Rcout << "position[0] = " << position[0] << std::endl;
+        position[1] = data_points(i, 1);
+        lowerBound[0] = position[0] - point_padding_x;
+        lowerBound[1] = position[1] - point_padding_y;
+        upperBound[0] = position[0] + point_padding_x;
+        upperBound[1] = position[1] + point_padding_y;
+        treeSmall.insertParticle(i, lowerBound, upperBound);
+      }
+    }
+
+    // Insert text labels into the big tree.
+    for (int i = 0; i < n_texts; i++) {
+      lowerBound[0] = TextBoxes[i].x1;
+      lowerBound[1] = TextBoxes[i].y1;
+      upperBound[0] = TextBoxes[i].x2;
+      upperBound[1] = TextBoxes[i].y2;
+      treeLarge.insertParticle(i, lowerBound, upperBound);
+    }
   }
 
   std::vector<Point> velocities(n_texts);
@@ -650,9 +662,10 @@ DataFrame repel_boxes(
 
   std::vector<unsigned int> labels;
   std::vector<unsigned int> points;
+  aabb::AABB this_label;
 
-  Timer timer;
-  timer.step("start");
+  //Timer timer;
+  //timer.step("start");
   while (any_overlaps && iter < maxiter) {
     iter += 1;
     any_overlaps = false;
@@ -668,68 +681,65 @@ DataFrame repel_boxes(
 
       ci = centroid(TextBoxes[i], hjust[i], vjust[i]);
 
-// NEW AABB CODE
-      // Find overlapping text labels.
-      labels = treeLarge.query(i);
-      for (unsigned int j = 0; j < labels.size(); j++) {
-        unsigned int jj = labels[j];
-        cj = centroid(TextBoxes[jj], hjust[jj], vjust[jj]);
-        if (jj != i && jj < n_texts && overlaps(TextBoxes[i], TextBoxes[jj])) {
-          any_overlaps = true;
-          i_overlaps = true;
-          f = f + repel_force(ci, cj, force_push, direction);
+      if (alg_tree) {
+        // Find overlapping text labels.
+        labels = treeLarge.query(i);
+        for (unsigned int j = 0; j < labels.size(); j++) {
+          unsigned int jj = labels[j];
+          cj = centroid(TextBoxes[jj], hjust[jj], vjust[jj]);
+          if (jj != i && jj < n_texts && overlaps(TextBoxes[i], TextBoxes[jj])) {
+            any_overlaps = true;
+            i_overlaps = true;
+            f = f + repel_force(ci, cj, force_push, direction);
+          }
+        }
+        // Find overlapping data points.
+        this_label = treeLarge.getAABB(i);
+        points = treeSmall.query(this_label);
+        for (unsigned int j = 0; j < points.size(); j++) {
+          unsigned int jj = points[j];
+          if (jj < n_points && overlaps(DataBoxes[jj], TextBoxes[i])) {
+            any_overlaps = true;
+            i_overlaps = true;
+            f = f + repel_force(ci, Points[jj], force_push, direction);
+          }
+        }
+      } else {
+        for (int j = 0; j < n_points; j++) {
+
+          if (i == j) {
+            // Skip the data points if the padding is 0.
+            if (point_padding_x == 0 && point_padding_y == 0) {
+              continue;
+            }
+            // Repel the box from its data point.
+            if (overlaps(DataBoxes[i], TextBoxes[i])) {
+              any_overlaps = true;
+              i_overlaps = true;
+              f = f + repel_force(ci, Points[i], force_push, direction);
+            }
+          } else {
+            cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
+            // Repel the box from overlapping boxes.
+            if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
+              any_overlaps = true;
+              i_overlaps = true;
+              f = f + repel_force(ci, cj, force_push, direction);
+            }
+
+            // Skip the data points if the padding is 0.
+            if (point_padding_x == 0 && point_padding_y == 0) {
+              continue;
+            }
+            // Repel the box from other data points.
+            if (overlaps(DataBoxes[j], TextBoxes[i])) {
+              any_overlaps = true;
+              i_overlaps = true;
+              f = f + repel_force(ci, Points[j], force_push, direction);
+            }
+          }
         }
       }
-
-      // Find overlapping data points.
-      aabb::AABB this_label = treeLarge.getAABB(i);
-      points = treeSmall.query(this_label);
-      for (unsigned int j = 0; j < points.size(); j++) {
-        unsigned int jj = points[j];
-        if (jj < n_points && overlaps(DataBoxes[jj], TextBoxes[i])) {
-          any_overlaps = true;
-          i_overlaps = true;
-          f = f + repel_force(ci, Points[jj], force_push, direction);
-        }
-      }
-// NEW AABB CODE
-
-// OLD BRUTE FORCE CODE
-//      for (int j = 0; j < n_points; j++) {
-//
-//        if (i == j) {
-//          // Skip the data points if the padding is 0.
-//          if (point_padding_x == 0 && point_padding_y == 0) {
-//            continue;
-//          }
-//          // Repel the box from its data point.
-//          if (overlaps(DataBoxes[i], TextBoxes[i])) {
-//            any_overlaps = true;
-//            i_overlaps = true;
-//            f = f + repel_force(ci, Points[i], force_push, direction);
-//          }
-//        } else {
-//          cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
-//          // Repel the box from overlapping boxes.
-//          if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
-//            any_overlaps = true;
-//            i_overlaps = true;
-//            f = f + repel_force(ci, cj, force_push, direction);
-//          }
-//
-//          // Skip the data points if the padding is 0.
-//          if (point_padding_x == 0 && point_padding_y == 0) {
-//            continue;
-//          }
-//          // Repel the box from other data points.
-//          if (overlaps(DataBoxes[j], TextBoxes[i])) {
-//            any_overlaps = true;
-//            i_overlaps = true;
-//            f = f + repel_force(ci, Points[j], force_push, direction);
-//          }
-//        }
-//      }
-// OLD BRUTE FORCE CODE
 
       // Pull the box toward its original position.
       if (!i_overlaps) {
@@ -743,11 +753,13 @@ DataFrame repel_boxes(
       // Put boxes within bounds
       TextBoxes[i] = put_within_bounds(TextBoxes[i], xbounds, ybounds);
 
-      lowerBound[0] = TextBoxes[i].x1;
-      lowerBound[1] = TextBoxes[i].y1;
-      upperBound[0] = TextBoxes[i].x2;
-      upperBound[1] = TextBoxes[i].y2;
-      treeLarge.updateParticle(i, lowerBound, upperBound);
+      if (alg_tree) {
+        lowerBound[0] = TextBoxes[i].x1;
+        lowerBound[1] = TextBoxes[i].y1;
+        upperBound[0] = TextBoxes[i].x2;
+        upperBound[1] = TextBoxes[i].y2;
+        treeLarge.updateParticle(i, lowerBound, upperBound);
+      }
 
       // look for line clashes
       if (!any_overlaps || iter % 5 == 0) {
@@ -775,19 +787,15 @@ DataFrame repel_boxes(
           }
         }
       }
-
-      // Dampen force after each iteration.
-      // force = force * 0.9999;
-
     } // loop through all text labels
   } // while any overlaps exist and we haven't reached max iterations
 
-  timer.step("end");
-  NumericVector res(timer);
-  for (int i = 0; i < res.size(); i++) {
-    res[i] = res[i] / 1000000;
-  }
-  Rcpp::Rcout << round(res[1] - res[0]) << " ms" << std::endl;
+  //timer.step("end");
+  //NumericVector res(timer);
+  //for (int i = 0; i < res.size(); i++) {
+  //  res[i] = res[i] / 1000000;
+  //}
+  //Rcpp::Rcout << round(res[1] - res[0]) << " ms" << std::endl;
 
   NumericVector xs(n_texts);
   NumericVector ys(n_texts);
