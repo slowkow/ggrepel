@@ -139,12 +139,36 @@ dat2 <- subset(mtcars, wt > 3 & wt < 4)
 # Hide all of the text labels.
 dat2$car <- ""
 # Let's just label these items.
-ix_label <- c(2,3,16)
+ix_label <- c(2,3,14)
 dat2$car[ix_label] <- rownames(dat2)[ix_label]
 
 ggplot(dat2, aes(wt, mpg, label = car)) +
-  geom_point(color = ifelse(dat2$car == "", "grey50", "red")) +
-  geom_text_repel()
+  geom_text_repel() +
+  geom_point(color = ifelse(dat2$car == "", "grey50", "red"))
+```
+
+Thanks to the [AABB.cc] library by [Lester Hedges], we can quickly repel a few
+text labels from many thousands of data points.
+
+[AABB.cc]: https://github.com/lohedges/aabbcc
+[Lester Hedges]: http://lesterhedges.net/
+
+```{r empty_string_big, echo=TRUE, fig.width=6, fig.height=3}
+set.seed(42)
+
+dat3 <- rbind(
+  data.frame(
+    wt  = rnorm(n = 10000, mean = 3),
+    mpg = rnorm(n = 10000, mean = 19),
+    car = ""
+  ),
+  dat2[,c("wt", "mpg", "car")]
+)
+
+ggplot(dat3, aes(wt, mpg, label = car)) +
+  geom_point(data = dat3[dat3$car == "",], color = "grey50") +
+  geom_text_repel(box.padding = 0.5) +
+  geom_point(data = dat3[dat3$car != "",], color = "red")
 ```
 
 ### Do not repel labels from data points

@@ -1,7 +1,7 @@
 ---
 title: "ggrepel examples"
 author: "Kamil Slowikowski"
-date: "2018-06-10"
+date: "2018-06-11"
 output:
   prettydoc::html_pretty:
     theme: hpstr
@@ -53,11 +53,6 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/comparison-1.png" title="plot of chunk comparison" alt="plot of chunk comparison" width="700" />
 
-```
-## [1] "unit"
-## [1] 0.25lines
-```
-
 ## Installation
 
 [ggrepel version 0.8.0.9000][cran] is available on CRAN:
@@ -75,9 +70,6 @@ it from GitHub:
 # Use the devtools package
 # install.packages("devtools")
 devtools::install_github("slowkow/ggrepel")
-
-# Or use the install-github.me service
-source("https://install-github.me/slowkow/ggrepel")
 ```
 
 [cran]: https://CRAN.R-project.org/package=ggrepel
@@ -122,20 +114,42 @@ dat2 <- subset(mtcars, wt > 3 & wt < 4)
 # Hide all of the text labels.
 dat2$car <- ""
 # Let's just label these items.
-ix_label <- c(2,3,16)
+ix_label <- c(2,3,14)
 dat2$car[ix_label] <- rownames(dat2)[ix_label]
 
 ggplot(dat2, aes(wt, mpg, label = car)) +
-  geom_point(color = ifelse(dat2$car == "", "grey50", "red")) +
-  geom_text_repel()
+  geom_text_repel() +
+  geom_point(color = ifelse(dat2$car == "", "grey50", "red"))
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/empty_string-1.png" title="plot of chunk empty_string" alt="plot of chunk empty_string" width="700" />
 
+Thanks to the [AABB.cc] library by [Lester Hedges], we can quickly repel a few
+text labels from many thousands of data points.
+
+[AABB.cc]: https://github.com/lohedges/aabbcc
+[Lester Hedges]: http://lesterhedges.net/
+
+
+```r
+set.seed(42)
+
+dat3 <- rbind(
+  data.frame(
+    wt  = rnorm(n = 10000, mean = 3),
+    mpg = rnorm(n = 10000, mean = 19),
+    car = ""
+  ),
+  dat2[,c("wt", "mpg", "car")]
+)
+
+ggplot(dat3, aes(wt, mpg, label = car)) +
+  geom_point(data = dat3[dat3$car == "",], color = "grey50") +
+  geom_text_repel(box.padding = 0.5) +
+  geom_point(data = dat3[dat3$car != "",], color = "red")
 ```
-## [1] "unit"
-## [1] 0.25lines
-```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/empty_string_big-1.png" title="plot of chunk empty_string_big" alt="plot of chunk empty_string_big" width="700" />
 
 ### Do not repel labels from data points
 
@@ -152,11 +166,6 @@ ggplot(dat, aes(wt, mpg, label = car)) +
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/point_padding_na-1.png" title="plot of chunk point_padding_na" alt="plot of chunk point_padding_na" width="700" />
-
-```
-## [1] "unit"
-## [1] 0.25lines
-```
 
 ### Limit labels to a specific area
 
@@ -178,7 +187,7 @@ ggplot(dat, aes(wt, mpg, label = car, color = factor(cyl))) +
   geom_point() +
   geom_label_repel(
     arrow = arrow(length = unit(0.03, "npc"), type = "closed", ends = "first"),
-    force = 10,
+    force = 5,
     xlim  = x_limits
   ) +
   scale_color_discrete(name = "cyl")
@@ -228,11 +237,6 @@ ggplot(mtcars, aes(x = wt, y = 1, label = rownames(mtcars))) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/direction_x-1.png" title="plot of chunk direction_x" alt="plot of chunk direction_x" width="700" />
 
-```
-## [1] "unit"
-## [1] 0.25lines
-```
-
 Align text vertically with `nudge_y` and allow the labels to move horizontally
 with `direction = "x"`:
 
@@ -258,11 +262,6 @@ ggplot(dat, aes(qsec, mpg, label = car)) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/neat-offset-x-1.png" title="plot of chunk neat-offset-x" alt="plot of chunk neat-offset-x" width="700" />
 
-```
-## [1] "unit"
-## [1] 0.25lines
-```
-
 ### Align labels on the left or right edge
 
 Set `direction` to "y" and try `hjust` 0.5, 0, and 1:
@@ -278,8 +277,7 @@ p <- ggplot(mtcars, aes(y = wt, x = 1, label = rownames(mtcars))) +
     axis.line.x  = element_blank(),
     axis.ticks.x = element_blank(),
     axis.text.x  = element_blank(),
-    axis.title.x = element_blank(),
-    plot.title   = element_text(hjust = 0.5)
+    axis.title.x = element_blank()
   )
 
 p1 <- p +
@@ -321,15 +319,6 @@ gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/direction_y-1.png" title="plot of chunk direction_y" alt="plot of chunk direction_y" width="700" />
 
-```
-## [1] "unit"
-## [1] 0.25lines
-## [1] "unit"
-## [1] 0.25lines
-## [1] "unit"
-## [1] 0.25lines
-```
-
 Align text horizontally with `nudge_x` and `hjust`, and allow the labels to
 move vertically with `direction = "y"`:
 
@@ -366,13 +355,6 @@ ggplot(dat, aes(wt, mpg, label = car)) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/neat-offset-y-1.png" title="plot of chunk neat-offset-y" alt="plot of chunk neat-offset-y" width="700" />
 
-```
-## [1] "unit"
-## [1] 0.25lines
-## [1] "unit"
-## [1] 0.25lines
-```
-
 ### Label jittered points
 
 **Note:** This example will not work with ggplot2 version 2.2.1 or older.
@@ -383,9 +365,6 @@ To get the latest development version of ggplot2, try:
 ```r
 # install.packages("devtools")
 devtools::install_github("tidyverse/ggplot2")
-
-# Or use the install-github.me service
-source("https://install-github.me/tidyverse/ggplot2")
 ```
 
 If your ggplot2 is newer than 2.2.1, try this example:
@@ -395,22 +374,17 @@ If your ggplot2 is newer than 2.2.1, try this example:
 mtcars$label <- rownames(mtcars)
 mtcars$label[mtcars$cyl != 6] <- ""
 
-# New! (not available in ggplot2 version 2.2.1)
+# New! (not available in ggplot2 version 2.2.1 or earlier)
 pos <- position_jitter(width = 0.3, seed = 2)
 
 ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
   geom_point(position = pos) +
-  geom_text_repel(position = pos, force = 1) +
+  geom_text_repel(position = pos) +
   theme(legend.position = "none") +
   labs(title = "position_jitter()")
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/jitter-1.png" title="plot of chunk jitter" alt="plot of chunk jitter" width="700" />
-
-```
-## [1] "unit"
-## [1] 0.25lines
-```
 
 You can also use other position functions, like `position_quasirandom()` from
 the [ggbeeswarm] package by [Erik Clarke]:
@@ -428,30 +402,25 @@ pos <- position_quasirandom()
 
 ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
   geom_point(position = pos) +
-  geom_text_repel(position = pos, force = 1) +
+  geom_text_repel(position = pos) +
   theme(legend.position = "none") +
   labs(title = "position_quasirandom()")
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/quasirandom-1.png" title="plot of chunk quasirandom" alt="plot of chunk quasirandom" width="700" />
 
-```
-## [1] "unit"
-## [1] 0.25lines
-```
+### Word cloud
 
-### Wordcloud
+The `force` option controls the strength of repulsion.
+
+The `force_pull` option controls the strength of the spring that pulls the text
+label toward its data point.
+
+To make a word cloud, we can assign all of the text labels the same data point
+at the origin (0, 0) and set `force_pull = 0` to disable the springs.
 
 
 ```r
-# x <- cumprod(c(2e3, rep(1.0004, 1999)))
-# i <- 1:2000
-# plot(i, x)
-# 
-# x <- cumprod(c(3, rep(0.999, 1999)))
-# i <- 1:2000
-# plot(i, x)
-
 set.seed(42)
 ggplot(mtcars) +
   geom_text_repel(
@@ -462,8 +431,8 @@ ggplot(mtcars) +
       x      = 0,
       y      = 0
     ),
-    force = 1,
-    max.iter = 1e4,
+    force_pull    = 0, # do not pull text toward the point at (0,0)
+    max.iter      = 1e4,
     segment.color = NA,
     point.padding = NA
   ) +
@@ -472,19 +441,13 @@ ggplot(mtcars) +
   facet_wrap(~ factor(cyl)) +
   scale_color_discrete(name = "Cylinders") +
   scale_size_manual(values = c(2, 3)) +
-  theme(strip.text = element_blank())
+  theme(
+    strip.text   = element_blank(),
+    panel.border = element_rect(size = 0.2, fill = NA)
+  )
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/wordcloud-1.png" title="plot of chunk wordcloud" alt="plot of chunk wordcloud" width="700" />
-
-```
-## [1] "unit"
-## [1] 0.25lines
-## [1] "unit"
-## [1] 0.25lines
-## [1] "unit"
-## [1] 0.25lines
-```
 
 ### Polar coordinates
 
@@ -504,11 +467,6 @@ ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl), label = label)) +
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/polar-1.png" title="plot of chunk polar" alt="plot of chunk polar" width="700" />
-
-```
-## [1] "unit"
-## [1] 0.25lines
-```
 
 ### Mathematical expressions
 
@@ -552,19 +510,21 @@ plot_frame <- function(n) {
       size = 5, force = 1, max.iter = n
     ) +
     geom_point(color = "red") +
-    theme_minimal(base_size = 16) +
+    # theme_minimal(base_size = 16) +
     labs(title = n)
   print(p)
 }
 
-xs <- ceiling(1.4^(1:26))
+xs <- ceiling(1.18^(1:52))
+# xs <- ceiling(1.4^(1:26))
+xs <- c(xs, rep(xs[length(xs)], 15))
 # plot(xs)
 
 saveGIF(
   lapply(xs, function(i) {
     plot_frame(i)
   }),
-  interval   = 0.20,
+  interval   = 0.15,
   ani.width  = 800,
   ani.heigth = 600,
   movie.name = "animated.gif"
@@ -607,14 +567,14 @@ sessionInfo()
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.17      bindr_0.1.1       magrittr_1.5     
 ##  [4] tidyselect_0.2.4  munsell_0.4.3     colorspace_1.3-2 
-##  [7] R6_2.2.2          rlang_0.2.0.9001  vipor_0.4.5      
+##  [7] R6_2.2.2          rlang_0.2.1       vipor_0.4.5      
 ## [10] highr_0.6         stringr_1.3.1     plyr_1.8.4       
 ## [13] dplyr_0.7.5       tools_3.5.0       grid_3.5.0       
 ## [16] beeswarm_0.2.3    gtable_0.2.0      withr_2.1.2      
 ## [19] digest_0.6.15     lazyeval_0.2.1    assertthat_0.2.0 
 ## [22] tibble_1.4.2      bindrcpp_0.2.2    purrr_0.2.4      
 ## [25] glue_1.2.0        evaluate_0.10.1   labeling_0.3     
-## [28] stringi_1.2.2     compiler_3.5.0    pillar_1.2.2     
+## [28] stringi_1.2.2     compiler_3.5.0    pillar_1.2.3     
 ## [31] scales_0.5.0.9000 pkgconfig_2.0.1
 ```
 
