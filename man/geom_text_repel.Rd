@@ -11,17 +11,17 @@ geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   label.size = 0.25, segment.colour = NULL, segment.color = NULL,
   segment.size = 0.5, segment.alpha = NULL, min.segment.length = 0.5,
   arrow = NULL, force = 1, force_pull = 1, max_time = 0.1,
-  nudge_x = 0, nudge_y = 0, xlim = c(NA, NA), ylim = c(NA, NA),
-  na.rm = FALSE, show.legend = NA, direction = c("both", "y", "x"),
-  seed = NA, inherit.aes = TRUE)
+  max_iter = 1e+05, nudge_x = 0, nudge_y = 0, xlim = c(NA, NA),
+  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
+  direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   position = "identity", parse = FALSE, ..., box.padding = 0.25,
   point.padding = 1e-06, segment.colour = NULL, segment.color = NULL,
   segment.size = 0.5, segment.alpha = NULL, min.segment.length = 0.5,
   arrow = NULL, force = 1, force_pull = 1, max_time = 0.1,
-  use_tree = FALSE, nudge_x = 0, nudge_y = 0, xlim = c(NA, NA),
-  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
+  max_iter = 1e+05, use_tree = FALSE, nudge_x = 0, nudge_y = 0,
+  xlim = c(NA, NA), ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
   direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
 }
 \arguments{
@@ -95,7 +95,9 @@ to 1.}
 corresponding data point. Defaults to 1.}
 
 \item{max_time}{Maximum number of seconds to try to resolve overlaps.
-Defaults to 0.1.}
+Defaults to 0.1.
+@param max_iter Maximum number of iterations to try to resolve overlaps.
+Defaults to 1e5.}
 
 \item{nudge_x, nudge_y}{Horizontal and vertical adjustments to nudge the
 starting position of each text label.}
