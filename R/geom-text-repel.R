@@ -86,6 +86,8 @@
 #'   corresponding data point. Defaults to 1.
 #' @param max_time Maximum number of seconds to try to resolve overlaps.
 #'   Defaults to 0.1.
+#'   @param max_iter Maximum number of iterations to try to resolve overlaps.
+#'   Defaults to 1e5.
 #' @param direction "both", "x", or "y" -- direction in which to adjust position of labels
 #' @param seed Random seed passed to \code{\link[base]{set.seed}}. Defaults to
 #'   \code{NA}, which means that \code{set.seed} will not be called.

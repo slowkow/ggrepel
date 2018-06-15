@@ -534,7 +534,7 @@ Point spring_force(
 //'   \code{c(ymin, ymax)}
 //' @param force Magnitude of the force (defaults to \code{1e-6})
 //' @param max_time Maximum number of seconds to try to resolve overlaps
-//'   (defaults to 1.0)
+//'   (defaults to 0.1)
 //' @noRd
 // [[Rcpp::export]]
 DataFrame repel_boxes(
@@ -545,7 +545,7 @@ DataFrame repel_boxes(
     NumericVector hjust, NumericVector vjust,
     double force_push = 1e-7,
     double force_pull = 1e-7,
-    double max_time = 1.0,
+    double max_time = 0.1,
     int max_iter = 1e5,
     bool use_tree = true,
     std::string direction = "both"

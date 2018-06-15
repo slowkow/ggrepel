@@ -25,6 +25,7 @@ geom_label_repel <- function(
   force = 1,
   force_pull = 1,
   max_time = 0.1,
+  max_iter = 1e5,
   nudge_x = 0,
   nudge_y = 0,
   xlim = c(NA, NA),
@@ -65,6 +66,7 @@ geom_label_repel <- function(
       force = force,
       force_pull = force_pull,
       max_time = max_time,
+      max_iter = max_iter,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
       xlim = xlim,
@@ -112,6 +114,7 @@ GeomLabelRepel <- ggproto(
     xlim = c(NA, NA),
     ylim = c(NA, NA),
     max_time = 0.1,
+    max_iter = 1e5,
     direction = "both",
     seed = NA
   ) {
@@ -171,6 +174,7 @@ GeomLabelRepel <- ggproto(
       force = force,
       force_pull = force_pull,
       max_time = max_time,
+      max_iter = max_iter,
       direction = direction,
       seed = seed,
       cl = "labelrepeltree"
@@ -263,6 +267,7 @@ makeContent.labelrepeltree <- function(x) {
     force_push = x$force * 1e-6,
     force_pull = x$force_pull * 1e-2,
     max_time = x$max_time,
+    max_iter = x$max_iter,
     direction = x$direction
   )
 
