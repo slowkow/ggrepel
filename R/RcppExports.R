@@ -103,10 +103,10 @@ approximately_equal <- function(x1, x2) {
 #' @param ylim A numeric vector representing the limits on the y axis like
 #'   \code{c(ymin, ymax)}
 #' @param force Magnitude of the force (defaults to \code{1e-6})
-#' @param maxiter Maximum number of iterations to try to resolve overlaps
-#'   (defaults to 2000)
+#' @param max_time Maximum number of seconds to try to resolve overlaps
+#'   (defaults to 1.0)
 #' @noRd
-repel_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push = 1e-7, force_pull = 1e-7, maxiter = 2000L, direction = "both") {
-    .Call('_ggrepel_repel_boxes', PACKAGE = 'ggrepel', data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, maxiter, direction)
+repel_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push = 1e-7, force_pull = 1e-7, max_time = 1.0, max_iter = 1e5L, use_tree = TRUE, direction = "both") {
+    .Call('_ggrepel_repel_boxes', PACKAGE = 'ggrepel', data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, max_time, max_iter, use_tree, direction)
 }
 
