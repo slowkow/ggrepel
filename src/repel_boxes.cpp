@@ -220,9 +220,9 @@ Point operator *(const Point& a, const double& b) {
   return p;
 }
 
-typedef struct {
+struct Box {
   double x1, y1, x2, y2;
-} Box;
+};
 
 Box operator +(const Box& b, const Point& p) {
   Box c = {b.x1 + p.x, b.y1 + p.y, b.x2 + p.x, b.y2 + p.y};
@@ -595,7 +595,6 @@ DataFrame repel_boxes(
   // Add a tiny bit of jitter to each text box at the start.
   NumericVector r = rnorm(n_texts, 0, force_push);
   std::vector<Box> TextBoxes(n_texts);
-  std::vector<double> ratios(n_texts);
   std::vector<Point> original_centroids(n_texts);
   for (int i = 0; i < n_texts; i++) {
     TextBoxes[i].x1 = boxes(i, 0);
@@ -611,9 +610,6 @@ DataFrame repel_boxes(
       TextBoxes[i].y1 += r[i];
       TextBoxes[i].y2 += r[i];
     }
-    // height over width
-    ratios[i] = (TextBoxes[i].y2 - TextBoxes[i].y1)
-      / (TextBoxes[i].x2 - TextBoxes[i].x1);
     original_centroids[i] = centroid(TextBoxes[i], hjust[i], vjust[i]);
   }
 
