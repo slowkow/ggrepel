@@ -95,12 +95,21 @@ This might be a good start for a revision of ggrepel.
 
 > A D3 plug-in for automatic label placement using simulated annealing
 
-[Evan Wang]'s plugin that extends [d3]. He also described the approach in his [paper][evan-paper].
+[Evan Wang]'s plugin that extends [D3] v3. He also described the approach in his [paper][evan-paper].
 
-[d3]: https://github.com/d3/d3
+[D3]: https://github.com/d3/d3
 [D3-Labeler]: https://github.com/tinker10/D3-Labeler
 [evan-paper]: http://vis.berkeley.edu/courses/cs294-10-fa13/wiki/images/5/55/FP_EvanWang_paper.pdf
 [Evan Wang]: https://github.com/tinker10
+
+[d3fc-label-layout]
+
+> A D3 layout that places labels avoiding overlaps, with strategies including simulated annealing, greedy and a strategy that removes overlapping labels.
+
+[Colin Eberhardt]'s implementation for [D3] v4.
+
+[d3fc-label-layout]: https://github.com/d3fc/d3fc-label-layout
+[Colin Eberhardt]: https://github.com/ColinEberhardt
 
 [d3-voronoi-labels]
 
