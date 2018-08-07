@@ -1,4 +1,4 @@
-ggrepel <img src="tools/logo.svg" width="120px" align="right" />
+ggrepel <img src="tools/logo.svg" width="181px" align="right" />
 ============================================
 
 [![Build Status][bb]][travis] [![CRAN_Status_Badge][cb]][cran] [![CRAN_Downloads_Badge][db]][r-pkg]
