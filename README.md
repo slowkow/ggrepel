@@ -89,16 +89,45 @@ This might be a good start for a revision of ggrepel.
 
 [aaai]: http://www.aaai.org/Papers/AAAI/2006/AAAI06-167.pdf
 
+### Javascript
+
+[D3-Labeler]
+
+> A D3 plug-in for automatic label placement using simulated annealing
+
+[Evan Wang]'s plugin that extends [D3] v3. He also described the approach in his [paper][evan-paper].
+
+[D3]: https://github.com/d3/d3
+[D3-Labeler]: https://github.com/tinker10/D3-Labeler
+[evan-paper]: http://vis.berkeley.edu/courses/cs294-10-fa13/wiki/images/5/55/FP_EvanWang_paper.pdf
+[Evan Wang]: https://github.com/tinker10
+
+[d3fc-label-layout]
+
+> A D3 layout that places labels avoiding overlaps, with strategies including simulated annealing, greedy and a strategy that removes overlapping labels.
+
+[Colin Eberhardt]'s implementation for [D3] v4.
+
+[d3fc-label-layout]: https://github.com/d3fc/d3fc-label-layout
+[Colin Eberhardt]: https://github.com/ColinEberhardt
+
+[d3-voronoi-labels]
+
+> A Voronoi tessellation can assist in labeling scatterplots. The area of the Voronoi cell associated with each point determines whether the point is labeled: points with larger cells tend to have room to accommodate labels.
+
+[d3-voronoi-labels]: https://beta.observablehq.com/@mbostock/d3-voronoi-labels
+
 ### Python
 
 [adjustText]
 
 > A small library for automatically adjusting text position in matplotlib plots to minimize overlaps.
 
-Ilya Flyamer's Python library that extends [matplotlib].
+[Ilya Flyamer]'s Python library that extends [matplotlib].
 
 [adjustText]: https://github.com/Phlya/adjustText
 [matplotlib]: https://matplotlib.org/
+[Ilya Flyamer]: https://github.com/Phlya
 
 ### R
 
