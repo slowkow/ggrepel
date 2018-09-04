@@ -259,7 +259,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
   ) {
     lab <- data$label
     if (parse) {
-      lab <- parse(text = as.character(lab))
+      lab <- parse_safe(as.character(lab))
     }
     if (!length(which(not_empty(lab)))) {
       return()
