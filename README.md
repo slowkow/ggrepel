@@ -30,8 +30,9 @@ ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars))) +
   geom_point(color = 'red') +
   theme_classic(base_size = 16)
 ```
-
-<img src="tools/fig.png" />
+<p align="center">
+<img src="https://imgur.com/ii9ova8.gif" />
+</p>
 
 Installation
 ------------
