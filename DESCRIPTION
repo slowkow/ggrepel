@@ -10,7 +10,8 @@ Authors@R: c(
     person("Thompson", "Ryan", role = "ctb", comment = c(ORCID = "0000-0002-0450-8181")),
     person("Dervieux", "Christophe", role = "ctb", comment = c(ORCID = "0000-0003-4474-2498")),
     person("Yutani", "Hiroaki", role = "ctb"),
-    person("Pierre", "Gramme", role = "ctb")
+    person("Pierre", "Gramme", role = "ctb"),
+    person("Amir", "Masoud Abdol", role = "ctb")
     )
 Title: Automatically Position Non-Overlapping Text Labels with 'ggplot2'
 Description: Provides text and label geoms for 'ggplot2' that help to avoid
