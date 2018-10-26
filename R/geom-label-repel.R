@@ -266,10 +266,10 @@ makeContent.labelrepeltree <- function(x) {
     direction = x$direction
   )
 
-  grobs <- lapply(seq_along(valid_strings), function(i) {
+  grobs_nested <- lapply(seq_along(valid_strings), function(i) {
     xi <- valid_strings[i]
     row <- x$data[xi, , drop = FALSE]
-    labelRepelGrob(
+    makeLabelRepelGrobs(
       x$lab[xi],
       x = unit(repel$x[i], "native"),
       y = unit(repel$y[i], "native"),
@@ -301,12 +301,18 @@ makeContent.labelrepeltree <- function(x) {
       vjust = x$data$vjust[i]
     )
   })
+  # Get list of segment, rect and text grobs from grobs_nested
+  # then concaternate them in that order
+  grobs = do.call(c, lapply(c("segment", "rect", "text"), function(grob) {
+    Filter(function(x) !is.null(x),
+           lapply(grobs_nested, "[[", grob))
+  }))
   class(grobs) <- "gList"
 
   setChildren(x, grobs)
 }
 
-labelRepelGrob <- function(
+makeLabelRepelGrobs <- function(
   label,
   x = unit(0.5, "npc"),
   y = unit(0.5, "npc"),
@@ -335,73 +341,41 @@ labelRepelGrob <- function(
   if (!is.unit(y))
     y <- unit(y, default.units)
 
-  gTree(
-    label = label,
-    # Position of text bounding boxes.
-    x = x,
-    y = y,
-    # Position of original data points.
-    x.orig = x.orig,
-    y.orig = y.orig,
-    just = just,
-    box.padding = box.padding,
-    label.padding = label.padding,
-    point.padding = point.padding,
-    r = r,
-    name = name,
-    text.gp = text.gp,
-    rect.gp = rect.gp,
-    segment.gp = segment.gp,
-    vp = vp,
-    cl = "labelrepelgrob",
-    arrow = arrow,
-    min.segment.length = min.segment.length,
-    hjust = hjust,
-    vjust = vjust
-  )
-}
-
-#' grid::makeContent function for labelRepelGrob.
-#'
-#' @param x A grid grob.
-#' @export
-#' @noRd
-makeContent.labelrepelgrob <- function(x) {
-  hj <- resolveHJust(x$just, NULL)
-  vj <- resolveVJust(x$just, NULL)
+  hj <- resolveHJust(just, NULL)
+  vj <- resolveVJust(just, NULL)
 
   t <- textGrob(
-    x$label,
-    x$x + 2 * (0.5 - hj) * x$box.padding,
-    x$y + 2 * (0.5 - vj) * x$box.padding,
+    label,
+    x + 2 * (0.5 - hj) * box.padding,
+    y + 2 * (0.5 - vj) * box.padding,
     just = c(hj, vj),
-    gp = x$text.gp,
-    name = "text"
+    gp = text.gp,
+    name = paste0("text", label)
   )
 
   r <- roundrectGrob(
-    x$x + 2 * (0.5 - hj) * x$box.padding,
-    x$y + 2 * (0.5 - vj) * x$box.padding,
+    x + 2 * (0.5 - hj) * box.padding,
+    y + 2 * (0.5 - vj) * box.padding,
     default.units = "native",
-    width = grobWidth(t) + 2 * x$label.padding,
-    height = grobHeight(t) + 2 * x$label.padding,
+    width = grobWidth(t) + 2 * label.padding,
+    height = grobHeight(t) + 2 * label.padding,
     just = c(hj, vj),
-    r = x$r,
-    gp = x$rect.gp,
-    name = "box"
+    r = r,
+    gp = rect.gp,
+    name = paste0("box", label)
   )
 
-  x1 <- convertWidth(x$x - 0.5 * grobWidth(r), "native", TRUE)
-  x2 <- convertWidth(x$x + 0.5 * grobWidth(r), "native", TRUE)
-  y1 <- convertHeight(x$y - 0.5 * grobHeight(r), "native", TRUE)
-  y2 <- convertHeight(x$y + 0.5 * grobHeight(r), "native", TRUE)
+  x1 <- convertWidth(x - 0.5 * grobWidth(r), "native", TRUE)
+  x2 <- convertWidth(x + 0.5 * grobWidth(r), "native", TRUE)
+  y1 <- convertHeight(y - 0.5 * grobHeight(r), "native", TRUE)
+  y2 <- convertHeight(y + 0.5 * grobHeight(r), "native", TRUE)
 
   point_pos <- c(
-    convertWidth(x$x.orig, "native", TRUE),
-    convertHeight(x$y.orig, "native", TRUE)
+    convertWidth(x.orig, "native", TRUE),
+    convertHeight(y.orig, "native", TRUE)
   )
 
-  center <- centroid(c(x1, y1, x2, y2), x$hjust, x$vjust)
+  center <- centroid(c(x1, y1, x2, y2), hjust, vjust)
 
   # Get the coordinates of the intersection between the line from the
   # original data point to the centroid and the rectangle's edges.
@@ -417,8 +391,8 @@ makeContent.labelrepelgrob <- function(x) {
   }
 
   # Nudge the original data point toward the label with point.padding.
-  point_padding_x <- convertWidth(x$point.padding, "native", TRUE) / 2
-  point_padding_y <- convertHeight(x$point.padding, "native", TRUE) / 2
+  point_padding_x <- convertWidth(point.padding, "native", TRUE) / 2
+  point_padding_y <- convertHeight(point.padding, "native", TRUE) / 2
   point_padding <- point_padding_x > 0 & point_padding_y > 0
   if (point_padding) {
     point_box <- c(
@@ -434,10 +408,12 @@ makeContent.labelrepelgrob <- function(x) {
   d <- sqrt(dx * dx + dy * dy)
   # Scale the unit vector by the minimum segment length.
   if (d > 0) {
-    mx <- convertWidth(x$min.segment.length, "native", TRUE)
-    my <- convertHeight(x$min.segment.length, "native", TRUE)
+    mx <- convertWidth(min.segment.length, "native", TRUE)
+    my <- convertHeight(min.segment.length, "native", TRUE)
     min.segment.length <- sqrt((mx * dx / d) ^ 2 + (my * dy / d) ^ 2)
   }
+
+  grobs <- list(text = t, rect = r)
 
   if (!point_inside && d > 0 && euclid(int, point_pos) > min.segment.length) {
     s <- segmentsGrob(
@@ -446,12 +422,12 @@ makeContent.labelrepelgrob <- function(x) {
       x1 = point_pos[1],
       y1 = point_pos[2],
       default.units = "native",
-      gp = x$segment.gp,
-      name = "segment",
-      arrow = x$arrow
+      gp = segment.gp,
+      name = paste0("segment", label),
+      arrow = arrow
     )
-    setChildren(x, gList(s, r, t))
-  } else {
-    setChildren(x, gList(r, t))
+    grobs[["segment"]] <- s
   }
+
+  grobs
 }
