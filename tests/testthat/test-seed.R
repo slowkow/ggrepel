@@ -6,13 +6,14 @@ context("seed")
 
 library(grid)
 
-# Get the positions of text labels from geom_text_repel or geom_label_repel
 pos_df <- function(pos) {
   data.frame(
-    x = sapply(pos, "[[", "x"),
-    y = sapply(pos, "[[", "y"),
-    x.orig = sapply(pos, "[[", "x.orig"),
-    y.orig = sapply(pos, "[[", "y.orig")
+    x = sapply(pos, function(x) {
+      convertWidth(x[["x"]], "native")
+    }),
+    y = sapply(pos, function(x) {
+      convertHeight(x[["y"]], "native")
+    })
   )
 }
 
@@ -106,7 +107,7 @@ test_that("calling geom_label_repel without seed creates different plots", {
   p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
   print(p1)
   grid.force()
-  pos1 <- pos_df(grid.get("labelrepelgrob", grep = TRUE, global = TRUE))
+  pos1 <- pos_df(grid.get("textrepelgrob", grep = TRUE, global = TRUE))
   dev.off()
   unlink("testthat_test-seed1.png")
 
@@ -115,7 +116,7 @@ test_that("calling geom_label_repel without seed creates different plots", {
   p2 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
   print(p2)
   grid.force()
-  pos2 <- pos_df(grid.get("labelrepelgrob", grep = TRUE, global = TRUE))
+  pos2 <- pos_df(grid.get("textrepelgrob", grep = TRUE, global = TRUE))
   dev.off()
   unlink("testthat_test-seed2.png")
 
@@ -135,7 +136,7 @@ test_that("calling geom_label_repel with seed creates identical plots", {
   p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label), seed = 10)
   print(p1)
   grid.force()
-  pos1 <- pos_df(grid.get("labelrepelgrob", grep = TRUE, global = TRUE))
+  pos1 <- pos_df(grid.get("textrepelgrob", grep = TRUE, global = TRUE))
   dev.off()
   unlink("testthat_test-seed1.png")
 
@@ -144,7 +145,7 @@ test_that("calling geom_label_repel with seed creates identical plots", {
   p2 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label), seed = 10)
   print(p2)
   grid.force()
-  pos2 <- pos_df(grid.get("labelrepelgrob", grep = TRUE, global = TRUE))
+  pos2 <- pos_df(grid.get("textrepelgrob", grep = TRUE, global = TRUE))
   dev.off()
   unlink("testthat_test-seed2.png")
 

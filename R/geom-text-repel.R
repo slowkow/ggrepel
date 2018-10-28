@@ -385,8 +385,8 @@ makeContent.textrepeltree <- function(x) {
     boxes = do.call(rbind, boxes),
     xlim = range(x$limits$x),
     ylim = range(x$limits$y),
-    hjust = x$data$hjust,
-    vjust = x$data$vjust,
+    hjust = x$data$hjust %||% 0.5,
+    vjust = x$data$vjust %||% 0.5,
     force_push = x$force * 1e-6,
     force_pull = x$force_pull * 1e-2,
     maxiter = x$max.iter,
@@ -477,7 +477,7 @@ makeTextRepelGrobs <- function(
     rot = rot,
     just = c(hj, vj),
     gp = text.gp,
-    name = paste0("text", i)
+    name = sprintf("textrepelgrob%s", i)
   )
 
   x1 <- convertWidth(x - 0.5 * grobWidth(t), "native", TRUE)
@@ -543,7 +543,7 @@ makeTextRepelGrobs <- function(
       y1 = point_pos[2],
       default.units = "native",
       gp = segment.gp,
-      name = paste0("segment", i),
+      name = sprintf("segmentrepelgrob%s", i),
       arrow = arrow
     )
     grobs[["segment"]] <- s
