@@ -398,6 +398,7 @@ makeContent.textrepeltree <- function(x) {
     row <- x$data[xi, , drop = FALSE]
     # browser()
     makeTextRepelGrobs(
+      i,
       x$lab[xi],
       # Position of text bounding boxes.
       x = unit(repel$x[i], "native"),
@@ -437,6 +438,7 @@ makeContent.textrepeltree <- function(x) {
 }
 
 makeTextRepelGrobs <- function(
+  i,
   label,
   # Position of text bounding boxes.
   x = unit(0.5, "npc"),
@@ -475,7 +477,7 @@ makeTextRepelGrobs <- function(
     rot = rot,
     just = c(hj, vj),
     gp = text.gp,
-    name = paste0("text", label)
+    name = paste0("text", i)
   )
 
   x1 <- convertWidth(x - 0.5 * grobWidth(t), "native", TRUE)
@@ -541,7 +543,7 @@ makeTextRepelGrobs <- function(
       y1 = point_pos[2],
       default.units = "native",
       gp = segment.gp,
-      name = "segment",
+      name = paste0("segment", i),
       arrow = arrow
     )
     grobs[["segment"]] <- s

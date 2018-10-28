@@ -270,6 +270,7 @@ makeContent.labelrepeltree <- function(x) {
     xi <- valid_strings[i]
     row <- x$data[xi, , drop = FALSE]
     makeLabelRepelGrobs(
+      i,
       x$lab[xi],
       x = unit(repel$x[i], "native"),
       y = unit(repel$y[i], "native"),
@@ -302,17 +303,16 @@ makeContent.labelrepeltree <- function(x) {
     )
   })
   # Get list of segment, rect and text grobs from grobs_nested
-  # then concaternate them in that order
-  grobs = do.call(c, lapply(c("segment", "rect", "text"), function(grob) {
-    Filter(function(x) !is.null(x),
-           lapply(grobs_nested, "[[", grob))
-  }))
+  # All the segment grobs come first,
+  # then rect grob 1, text grob 1, rect grob 2, text grob 2, ...
+  grobs <- arrange_label_repel_grobs(grobs_nested)
   class(grobs) <- "gList"
 
   setChildren(x, grobs)
 }
 
 makeLabelRepelGrobs <- function(
+  i,
   label,
   x = unit(0.5, "npc"),
   y = unit(0.5, "npc"),
@@ -350,7 +350,7 @@ makeLabelRepelGrobs <- function(
     y + 2 * (0.5 - vj) * box.padding,
     just = c(hj, vj),
     gp = text.gp,
-    name = paste0("text", label)
+    name = paste0("text", i)
   )
 
   r <- roundrectGrob(
@@ -362,7 +362,7 @@ makeLabelRepelGrobs <- function(
     just = c(hj, vj),
     r = r,
     gp = rect.gp,
-    name = paste0("box", label)
+    name = paste0("box", i)
   )
 
   x1 <- convertWidth(x - 0.5 * grobWidth(r), "native", TRUE)
@@ -413,7 +413,7 @@ makeLabelRepelGrobs <- function(
     min.segment.length <- sqrt((mx * dx / d) ^ 2 + (my * dy / d) ^ 2)
   }
 
-  grobs <- list(text = t, rect = r)
+  grobs <- list(textbox = list(rect = r, text = t))
 
   if (!point_inside && d > 0 && euclid(int, point_pos) > min.segment.length) {
     s <- segmentsGrob(
@@ -423,11 +423,21 @@ makeLabelRepelGrobs <- function(
       y1 = point_pos[2],
       default.units = "native",
       gp = segment.gp,
-      name = paste0("segment", label),
+      name = paste0("segment", i),
       arrow = arrow
     )
     grobs[["segment"]] <- s
   }
 
   grobs
+}
+
+# Convert a list of list(segment = segmentsGrob,
+#                        textbox = list(textGrob, roundrectGrob))
+# to a list(segmentsGrob, segmentsGrob, ...
+#           roundrectGrob, textGrob, roundrectGrob, textGrob, ...)
+arrange_label_repel_grobs <- function(grobs) {
+  c(Filter(function(x) !is.null(x), lapply(grobs, "[[", "segment")),
+    unlist(lapply(grobs, "[[", "textbox"),
+           recursive = FALSE, use.names = FALSE))
 }
