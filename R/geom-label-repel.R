@@ -433,7 +433,7 @@ makeLabelRepelGrobs <- function(
 }
 
 # Convert a list of list(segment = segmentsGrob,
-#                        textbox = list(textGrob, roundrectGrob))
+#                        textbox = list(roundrectGrob, textGrob))
 # to a list(segmentsGrob, segmentsGrob, ...
 #           roundrectGrob, textGrob, roundrectGrob, textGrob, ...)
 arrange_label_repel_grobs <- function(grobs) {
