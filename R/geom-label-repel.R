@@ -266,7 +266,7 @@ makeContent.labelrepeltree <- function(x) {
     direction = x$direction
   )
 
-  grobs_nested <- lapply(seq_along(valid_strings), function(i) {
+  grobs <- lapply(seq_along(valid_strings), function(i) {
     xi <- valid_strings[i]
     row <- x$data[xi, , drop = FALSE]
     makeLabelRepelGrobs(
@@ -302,10 +302,14 @@ makeContent.labelrepeltree <- function(x) {
       vjust = x$data$vjust[i]
     )
   })
-  # Get list of segment, rect and text grobs from grobs_nested
-  # All the segment grobs come first,
-  # then rect grob 1, text grob 1, rect grob 2, text grob 2, ...
-  grobs <- arrange_label_repel_grobs(grobs_nested)
+  # Put segment grobs before text grobs, rect grobs before text grobs.
+  grobs <- c(
+    Filter(Negate(is.null), lapply(grobs, "[[", "segment")),
+    unlist(
+      lapply(grobs, "[[", "textbox"),
+      recursive = FALSE, use.names = FALSE
+    )
+  )
   class(grobs) <- "gList"
 
   setChildren(x, grobs)
@@ -430,14 +434,4 @@ makeLabelRepelGrobs <- function(
   }
 
   grobs
-}
-
-# Convert a list of list(segment = segmentsGrob,
-#                        textbox = list(roundrectGrob, textGrob))
-# to a list(segmentsGrob, segmentsGrob, ...
-#           roundrectGrob, textGrob, roundrectGrob, textGrob, ...)
-arrange_label_repel_grobs <- function(grobs) {
-  c(Filter(function(x) !is.null(x), lapply(grobs, "[[", "segment")),
-    unlist(lapply(grobs, "[[", "textbox"),
-           recursive = FALSE, use.names = FALSE))
 }

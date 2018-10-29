@@ -393,7 +393,7 @@ makeContent.textrepeltree <- function(x) {
     direction = x$direction
   )
 
-  grobs_nested <- lapply(seq_along(valid_strings), function(i) {
+  grobs <- lapply(seq_along(valid_strings), function(i) {
     xi <- valid_strings[i]
     row <- x$data[xi, , drop = FALSE]
     # browser()
@@ -426,12 +426,11 @@ makeContent.textrepeltree <- function(x) {
       vjust = x$data$vjust[i]
     )
   })
-  # Get list of segment and text grobs from grobs_nested
-  # then concaternate them in that order
-  grobs = do.call(c, lapply(c("segment", "text"), function(grob) {
-    Filter(function(x) !is.null(x),
-           lapply(grobs_nested, "[[", grob))
-  }))
+  # Put segment grobs before text grobs.
+  grobs <- c(
+    Filter(Negate(is.null), lapply(grobs, "[[", "segment")),
+    Filter(Negate(is.null), lapply(grobs, "[[", "text"))
+  )
   class(grobs) <- "gList"
 
   setChildren(x, grobs)
