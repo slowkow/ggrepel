@@ -41,13 +41,27 @@ test_that("for geom_label_repel, all rect grobs come before text grobs", {
   dev.off()
   unlink("testthat_test-grob-order1.png")
 
-  ix_segment <- max(which(startsWith(grobnames, "segmentrepelgrob")))
-  ix_rect    <- min(which(startsWith(grobnames, "rectrepelgrob")))
-  ix_text    <- min(which(startsWith(grobnames, "textrepelgrob")))
+  isrect <- startsWith(grobnames, "rectrepelgrob")
+  istext <- startsWith(grobnames, "textrepelgrob")
+  ix_rect <- which(isrect)
+  ix_text <- which(istext)
+
+  # Confirm that number of segment grobs is equal to number of text grobs.
+  expect_true(length(ix_rect) == length(ix_text))
+
+  rectnames <- grobnames[isrect]
+  textnames <- grobnames[istext]
+  ix_rect_ordered <- ix_rect[order(rectnames)]
+  ix_text_ordered <- ix_text[order(textnames)]
+
+  # Confirm that a rect grob always appears before its corresponding text grob
+  expect_true(all(ix_rect_ordered < ix_text_ordered))
+
+  ix_segment_max <- max(which(startsWith(grobnames, "segmentrepelgrob")))
+  ix_rect_min    <- min(ix_rect)
+  ix_text_min    <- min(ix_text)
 
   # Confirm that all segment grobs appear before rect and text grobs.
-  expect_true(ix_segment < ix_text)
-  expect_true(ix_segment < ix_rect)
-  # Confirm that all rect grobs appear before text grobs.
-  expect_true(ix_rect < ix_text)
+  expect_true(ix_segment_max < ix_text_min)
+  expect_true(ix_segment_max < ix_rect_min)
 })
