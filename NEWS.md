@@ -7,6 +7,13 @@ ggrepel 0.8.0.9000
 * Add examples to the [vignette] for `ggplot2::position_jitter()` and
   `ggbeeswarm::position_quasirandom()`
 
+## Bug fixes and improvements
+
+* Put text labels on top of all line segments (@kiendang). This fixes
+  [issue 35], where line segments sometimes appear on top of text.
+
+[issue 35]: https://github.com/slowkow/ggrepel/issues/35
+
 ggrepel 0.8.0 2018-05-09
 ========================
 
