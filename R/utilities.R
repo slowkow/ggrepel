@@ -31,7 +31,7 @@ to_unit <- function(x) {
   }
 
   # NA used to exclude points from repulsion calculations
-  if (is.na(x)) {
+  if (length(x) == 1 && is.na(x)) {
     return(NA)
   }
 

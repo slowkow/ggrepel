@@ -164,6 +164,7 @@ geom_text_repel <- function(
   parse = FALSE,
   ...,
   box.padding = 0.25,
+  point.size = 0,
   point.padding = 1e-6,
   segment.colour = NULL,
   segment.color = NULL,
@@ -202,6 +203,7 @@ geom_text_repel <- function(
       parse = parse,
       na.rm = na.rm,
       box.padding = to_unit(box.padding),
+      point.size = to_unit(point.size),
       point.padding = to_unit(point.padding),
       segment.colour = segment.color %||% segment.colour,
       segment.size = segment.size,
@@ -241,6 +243,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     parse = FALSE,
     na.rm = FALSE,
     box.padding = 0.25,
+    point.size = 0,
     point.padding = 1e-6,
     segment.colour = NULL,
     segment.size = 0.5,
@@ -301,6 +304,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       lab = lab,
       nudges = nudges,
       box.padding = to_unit(box.padding),
+      point.size = to_unit(point.size),
       point.padding = to_unit(point.padding),
       segment.colour = segment.colour,
       segment.size = segment.size,
@@ -335,6 +339,12 @@ makeContent.textrepeltree <- function(x) {
   }
   point_padding_x <- convertWidth(x$point.padding, "native", valueOnly = TRUE)
   point_padding_y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
+
+  # The padding around each point.
+  if (length(x$point.size) == 1 && is.na(x$point.size)) {
+    x$point.size = unit(0, "lines")
+  }
+  point_size <- convertWidth(x$point.size, "native", valueOnly = TRUE)
 
   # Do not create text labels for empty strings.
   valid_strings <- which(not_empty(x$lab))
@@ -377,9 +387,17 @@ makeContent.textrepeltree <- function(x) {
                               c(x$data$y[valid_strings],
                                 x$data$y[invalid_strings]))
 
+  point_size <- x$point.size
+  if (length(point_size) != nrow(x$data)) {
+    point_size <- rep_len(point_size, length.out = nrow(x$data))
+  }
+  point_size <- c(point_size[valid_strings], point_size[invalid_strings])
+  point_size <- convertWidth(to_unit(point_size), "native", valueOnly = TRUE)
+
   # Repel overlapping bounding boxes away from each other.
-  repel <- repel_boxes(
+  repel <- repel_boxes2(
     data_points = points_valid_first,
+    point_size = point_size,
     point_padding_x = point_padding_x,
     point_padding_y = point_padding_y,
     boxes = do.call(rbind, boxes),
@@ -408,6 +426,7 @@ makeContent.textrepeltree <- function(x) {
       y.orig = unit(x$data$y[xi], "native"),
       rot = row$angle,
       box.padding = x$box.padding,
+      point.size = point_size[i],
       point.padding = x$point.padding,
       text.gp = gpar(
         col = scales::alpha(row$colour, row$alpha),
@@ -449,6 +468,7 @@ makeTextRepelGrobs <- function(
   default.units = "npc",
   just = "center",
   box.padding = 0.25,
+  point.size = 0,
   point.padding = 1e-6,
   name = NULL,
   text.gp = gpar(),
@@ -509,16 +529,32 @@ makeTextRepelGrobs <- function(
     point_inside <- TRUE
   }
 
-  # Nudge the original data point toward the label with point.padding.
-  point_padding_x <- convertWidth(point.padding, "native", TRUE) / 2
-  point_padding_y <- convertHeight(point.padding, "native", TRUE) / 2
-  point_padding <- point_padding_x > 0 & point_padding_y > 0
-  if (point_padding) {
-    point_box <- c(
-      point_pos[1] - point_padding_x, point_pos[2] - point_padding_y,
-      point_pos[1] + point_padding_x, point_pos[2] + point_padding_y
+  # # Nudge the original data point toward the label with point.padding.
+  # point_padding_x <- convertWidth(point.padding, "native", TRUE) / 2
+  # point_padding_y <- convertHeight(point.padding, "native", TRUE) / 2
+  # point_padding <- point_padding_x > 0 & point_padding_y > 0
+  # if (point_padding) {
+  #   point_box <- c(
+  #     point_pos[1] - point_padding_x, point_pos[2] - point_padding_y,
+  #     point_pos[1] + point_padding_x, point_pos[2] + point_padding_y
+  #   )
+  #   point_pos <- intersect_line_rectangle(center, point_pos, point_box)
+  # }
+
+  dx <- abs(int[1] - point_pos[1])
+  dy <- abs(int[2] - point_pos[2])
+  d1 <- sqrt(dx * dx + dy * dy)
+  if (d1 > 0) {
+    new_pos <- c(
+      point_pos[1] - (as.numeric(point.size) / 10 + as.numeric(point.padding)) * (dx / d1),
+      point_pos[2] - (as.numeric(point.size) / 10 + as.numeric(point.padding)) * (dy / d1)
     )
-    point_pos <- intersect_line_rectangle(center, point_pos, point_box)
+    dx <- abs(int[1] - new_pos[1])
+    dy <- abs(int[2] - new_pos[2])
+    d2 <- sqrt(dx * dx + dy * dy)
+  }
+  if (d2 < d1) {
+    point_pos <- new_pos
   }
 
   # Compute the distance between the data point and the edge of the text box.

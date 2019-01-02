@@ -23,3 +23,5 @@ vignettes/figures/ggrepel/make_gallery_html.sh
 # MacOS
 .DS_Store
 inst/
+scripts
+movies

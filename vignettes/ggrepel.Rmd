@@ -141,17 +141,16 @@ dat2$car <- ""
 # Let's just label these items.
 ix_label <- c(2,3,14)
 dat2$car[ix_label] <- rownames(dat2)[ix_label]
+dat2$point_size <- 0
+dat2$point_size[ix_label] <- c(0, 40, 0)
+dat2$car[ix_label]
 
 ggplot(dat2, aes(wt, mpg, label = car)) +
-  geom_text_repel() +
+  geom_text_repel(point.size = dat2$point_size) +
   geom_point(color = ifelse(dat2$car == "", "grey50", "red"))
 ```
 
-Thanks to the [AABB.cc] library by [Lester Hedges], we can quickly repel a few
-text labels from many thousands of data points.
-
-[AABB.cc]: https://github.com/lohedges/aabbcc
-[Lester Hedges]: http://lesterhedges.net/
+We can quickly repel a few text labels from 10,000 data points:
 
 ```{r empty_string_big, echo=TRUE, fig.width=6, fig.height=3}
 set.seed(42)
@@ -182,6 +181,24 @@ set.seed(42)
 ggplot(dat, aes(wt, mpg, label = car)) +
   geom_point(color = "red") +
   geom_text_repel(point.padding = NA)
+```
+
+### Repel labels from data points with different sizes
+
+```{r point_size, echo=TRUE, fig.width=5, fig.height=4}
+library(ggrepel)
+
+d <- data.frame(
+  x = c(1, 2, 2, 3),
+  y = c(1, 2, 3, 1),
+  pointsize = factor(c(0, 1, 1, 0)),
+  label = sprintf("label%s", 1:4)
+)
+
+ggplot(d, aes(x, y)) +
+  geom_point(aes(size = pointsize)) +
+  scale_size_manual(values = c(1, 15)) +
+  geom_text_repel(aes(label = label), size = 5, point.size = d$pointsize)
 ```
 
 ### Limit labels to a specific area
