@@ -489,8 +489,6 @@ makeTextRepelGrobs <- function(
     convertHeight(y.orig, "native", TRUE)
   )
 
-  center <- centroid(c(x1, y1, x2, y2), hjust, vjust)
-
   # Get the coordinates of the intersection between the line from the
   # original data point to the centroid and the rectangle's edges.
   extra_padding_x <- convertWidth(unit(0.25, "lines"), "native", TRUE) / 2
@@ -518,7 +516,7 @@ makeTextRepelGrobs <- function(
       point_pos[1] - point_padding_x, point_pos[2] - point_padding_y,
       point_pos[1] + point_padding_x, point_pos[2] + point_padding_y
     )
-    point_pos <- intersect_line_rectangle(center, point_pos, point_box)
+    point_pos <- intersect_line_rectangle(int, point_pos, point_box)
   }
 
   # Compute the distance between the data point and the edge of the text box.
