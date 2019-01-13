@@ -541,20 +541,33 @@ makeTextRepelGrobs <- function(
   #   point_pos <- intersect_line_rectangle(center, point_pos, point_box)
   # }
 
-  dx <- abs(int[1] - point_pos[1])
-  dy <- abs(int[2] - point_pos[2])
-  d1 <- sqrt(dx * dx + dy * dy)
+  d1x <- abs(int[1] - point_pos[1])
+  d1y <- abs(int[2] - point_pos[2])
+  d1 <- sqrt(d1x * d1x + d1y * d1y)
   if (d1 > 0) {
     new_pos <- c(
-      point_pos[1] - (as.numeric(point.size) / 10 + as.numeric(point.padding)) * (dx / d1),
-      point_pos[2] - (as.numeric(point.size) / 10 + as.numeric(point.padding)) * (dy / d1)
+      # point_pos[1] - (as.numeric(point.size) / 10 + as.numeric(point.padding) / 10) * (dx / d1),
+      # point_pos[2] - (as.numeric(point.size) / 10 + as.numeric(point.padding) / 10) * (dy / d1)
+      # This one is pretty good!
+      # point_pos[1] + sign(int[1] - point_pos[1]) * 0.5 * d1 * (d1x / d1),
+      # point_pos[2] + sign(int[2] - point_pos[2]) * 0.5 * d1 * (d1y / d1)
+      # This is ok.
+      # point_pos[1] + sign(int[1] - point_pos[1]) * as.numeric(point.padding) * d1 * (d1x / d1),
+      # point_pos[2] + sign(int[2] - point_pos[2]) * as.numeric(point.padding) * d1 * (d1y / d1)
+      # This seems like the best?
+      point_pos[1] + 0.8 * sign(int[1] - point_pos[1]) * as.numeric(point.padding) * as.numeric(point.size) * (d1x / d1),
+      point_pos[2] + 0.8 * sign(int[2] - point_pos[2]) * as.numeric(point.padding) * as.numeric(point.size) * (d1y / d1)
     )
-    dx <- abs(int[1] - new_pos[1])
-    dy <- abs(int[2] - new_pos[2])
-    d2 <- sqrt(dx * dx + dy * dy)
-  }
-  if (d2 < d1) {
-    point_pos <- new_pos
+    d2x <- abs(int[1] - new_pos[1])
+    d2y <- abs(int[2] - new_pos[2])
+    d2 <- sqrt(d2x * d2x + d2y * d2y)
+    signs_match <- (
+      sign(int[1] - new_pos[1]) == sign(int[1] - point_pos[1]) &&
+      sign(int[2] - new_pos[2]) == sign(int[2] - point_pos[2])
+    )
+    if (d2 < d1 && signs_match) {
+      point_pos <- new_pos
+    }
   }
 
   # Compute the distance between the data point and the edge of the text box.
