@@ -141,12 +141,9 @@ dat2$car <- ""
 # Let's just label these items.
 ix_label <- c(2,3,14)
 dat2$car[ix_label] <- rownames(dat2)[ix_label]
-dat2$point_size <- 0
-dat2$point_size[ix_label] <- c(0, 40, 0)
-dat2$car[ix_label]
 
 ggplot(dat2, aes(wt, mpg, label = car)) +
-  geom_text_repel(point.size = dat2$point_size) +
+  geom_text_repel() +
   geom_point(color = ifelse(dat2$car == "", "grey50", "red"))
 ```
 
@@ -184,6 +181,11 @@ ggplot(dat, aes(wt, mpg, label = car)) +
 ```
 
 ### Repel labels from data points with different sizes
+
+TODO: This example should be improved:
+
+- Use real data.
+- Show a side-by-side comparison with and without `point.size`.
 
 ```{r point_size, echo=TRUE, fig.width=5, fig.height=4}
 library(ggrepel)
