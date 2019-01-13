@@ -693,8 +693,6 @@ DataFrame repel_boxes(
 
   Point f, ci, cj;
 
-  std::vector<unsigned int> labels;
-  std::vector<unsigned int> points;
 
   //Timer timer;
   //timer.step("start");
@@ -810,6 +808,14 @@ DataFrame repel_boxes(
   );
 }
 
+std::vector<double> rescale(std::vector<double> v) {
+  double min_value = *std::min_element(v.begin(), v.end());
+  double max_value = *std::max_element(v.begin(), v.end());
+  for (int i = 0; i < v.size(); i++) {
+    v[i] = (v[i] - min_value) / max_value;
+  }
+  return v;
+}
 
 //' Adjust the layout of a list of potentially overlapping boxes.
 //' @param data_points A numeric matrix with rows representing points like
@@ -875,11 +881,13 @@ DataFrame repel_boxes2(
   NumericVector r = rnorm(n_texts, 0, force_push);
   std::vector<Box> TextBoxes(n_texts);
   std::vector<Point> original_centroids(n_texts);
+  std::vector<double> TextBoxWidths(n_texts);
   for (int i = 0; i < n_texts; i++) {
     TextBoxes[i].x1 = boxes(i, 0);
     TextBoxes[i].x2 = boxes(i, 2);
     TextBoxes[i].y1 = boxes(i, 1);
     TextBoxes[i].y2 = boxes(i, 3);
+    TextBoxWidths[i] = std::abs(TextBoxes[i].x2 - TextBoxes[i].x1);
     // Don't add jitter if the user wants to repel in just one direction.
     if (direction != "y") {
       TextBoxes[i].x1 += r[i];
@@ -892,13 +900,17 @@ DataFrame repel_boxes2(
     original_centroids[i] = centroid(TextBoxes[i], hjust[i], vjust[i]);
   }
 
+  // Rescale to be in the range [0,1]
+  TextBoxWidths = rescale(TextBoxWidths);
+  // for (int i = 0; i < n_texts; i++) {
+  //   Rcout << "[" << i << "] = " << TextBoxWidths[i] << "; ";
+  // }
+  // Rcout << std::endl;
+
   std::vector<Point> velocities(n_texts);
   double velocity_decay = 0.7;
 
   Point f, ci, cj;
-
-  std::vector<unsigned int> labels;
-  std::vector<unsigned int> points;
 
   //Timer timer;
   //timer.step("start");
@@ -959,7 +971,8 @@ DataFrame repel_boxes2(
             original_centroids[i], ci, force_pull, direction);
       }
 
-      velocities[i] = velocities[i] * velocity_decay + f;
+      velocities[i] = velocities[i] * (TextBoxWidths[i] + 1e-6) * velocity_decay + f;
+      // velocities[i] = velocities[i] * velocity_decay + f;
       TextBoxes[i] = TextBoxes[i] + velocities[i];
       // Put boxes within bounds
       TextBoxes[i] = put_within_bounds(TextBoxes[i], xbounds, ybounds);
