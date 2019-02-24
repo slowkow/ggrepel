@@ -547,6 +547,7 @@ DataFrame repel_boxes(
     int maxiter = 2000,
     std::string direction = "both"
 ) {
+  // n_texts <= n_points
   int n_points = data_points.nrow();
   int n_texts = boxes.nrow();
 
@@ -646,9 +647,9 @@ DataFrame repel_boxes(
             f = f + repel_force(ci, Points[i], force_push, direction);
           }
         } else {
-          cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
           // Repel the box from overlapping boxes.
           if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
+            cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
             any_overlaps = true;
             i_overlaps = true;
             f = f + repel_force(ci, cj, force_push, direction);
@@ -681,12 +682,12 @@ DataFrame repel_boxes(
 
       // look for line clashes
       if (!any_overlaps || iter % 5 == 0) {
-        for (int j = 0; j < n_points; j++) {
+        for (int j = 0; j < n_texts; j++) {
           cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
           ci = centroid(TextBoxes[i], hjust[i], vjust[i]);
           // Switch label positions if lines overlap
           if (
-            i != j && j < n_texts &&
+            i != j &&
             line_intersect(ci, Points[i], cj, Points[j])
           ) {
             any_overlaps = true;
