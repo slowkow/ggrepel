@@ -509,8 +509,6 @@ makeTextRepelGrobs <- function(
     convertHeight(y.orig, "native", TRUE)
   )
 
-  center <- centroid(c(x1, y1, x2, y2), hjust, vjust)
-
   # Get the coordinates of the intersection between the line from the
   # original data point to the centroid and the rectangle's edges.
   extra_padding_x <- convertWidth(unit(0.25, "lines"), "native", TRUE) / 2
@@ -541,33 +539,47 @@ makeTextRepelGrobs <- function(
   #   point_pos <- intersect_line_rectangle(center, point_pos, point_box)
   # }
 
-  d1x <- abs(int[1] - point_pos[1])
-  d1y <- abs(int[2] - point_pos[2])
-  d1 <- sqrt(d1x * d1x + d1y * d1y)
-  if (d1 > 0) {
-    new_pos <- c(
-      # point_pos[1] - (as.numeric(point.size) / 10 + as.numeric(point.padding) / 10) * (dx / d1),
-      # point_pos[2] - (as.numeric(point.size) / 10 + as.numeric(point.padding) / 10) * (dy / d1)
-      # This one is pretty good!
-      # point_pos[1] + sign(int[1] - point_pos[1]) * 0.5 * d1 * (d1x / d1),
-      # point_pos[2] + sign(int[2] - point_pos[2]) * 0.5 * d1 * (d1y / d1)
-      # This is ok.
-      # point_pos[1] + sign(int[1] - point_pos[1]) * as.numeric(point.padding) * d1 * (d1x / d1),
-      # point_pos[2] + sign(int[2] - point_pos[2]) * as.numeric(point.padding) * d1 * (d1y / d1)
-      # This seems like the best?
-      point_pos[1] + 0.8 * sign(int[1] - point_pos[1]) * as.numeric(point.padding) * as.numeric(point.size) * (d1x / d1),
-      point_pos[2] + 0.8 * sign(int[2] - point_pos[2]) * as.numeric(point.padding) * as.numeric(point.size) * (d1y / d1)
+# {{ Trying out some new point padding code.
+#   d1x <- abs(int[1] - point_pos[1])
+#   d1y <- abs(int[2] - point_pos[2])
+#   d1 <- sqrt(d1x * d1x + d1y * d1y)
+#   if (d1 > 0) {
+#     new_pos <- c(
+#       # point_pos[1] - (as.numeric(point.size) / 10 + as.numeric(point.padding) / 10) * (dx / d1),
+#       # point_pos[2] - (as.numeric(point.size) / 10 + as.numeric(point.padding) / 10) * (dy / d1)
+#       # This one is pretty good!
+#       # point_pos[1] + sign(int[1] - point_pos[1]) * 0.5 * d1 * (d1x / d1),
+#       # point_pos[2] + sign(int[2] - point_pos[2]) * 0.5 * d1 * (d1y / d1)
+#       # This is ok.
+#       # point_pos[1] + sign(int[1] - point_pos[1]) * as.numeric(point.padding) * d1 * (d1x / d1),
+#       # point_pos[2] + sign(int[2] - point_pos[2]) * as.numeric(point.padding) * d1 * (d1y / d1)
+#       # This seems like the best?
+#       point_pos[1] + 0.8 * sign(int[1] - point_pos[1]) * as.numeric(point.padding) * as.numeric(point.size) * (d1x / d1),
+#       point_pos[2] + 0.8 * sign(int[2] - point_pos[2]) * as.numeric(point.padding) * as.numeric(point.size) * (d1y / d1)
+#     )
+#     d2x <- abs(int[1] - new_pos[1])
+#     d2y <- abs(int[2] - new_pos[2])
+#     d2 <- sqrt(d2x * d2x + d2y * d2y)
+#     signs_match <- (
+#       sign(int[1] - new_pos[1]) == sign(int[1] - point_pos[1]) &&
+#       sign(int[2] - new_pos[2]) == sign(int[2] - point_pos[2])
+#     )
+#     if (d2 < d1 && signs_match) {
+#       point_pos <- new_pos
+#     }
+#   }
+# }}
+
+  # Nudge the original data point toward the label with point.padding.
+  point_padding_x <- convertWidth(point.padding, "native", TRUE) / 2
+  point_padding_y <- convertHeight(point.padding, "native", TRUE) / 2
+  point_padding <- point_padding_x > 0 & point_padding_y > 0
+  if (point_padding) {
+    point_box <- c(
+      point_pos[1] - point_padding_x, point_pos[2] - point_padding_y,
+      point_pos[1] + point_padding_x, point_pos[2] + point_padding_y
     )
-    d2x <- abs(int[1] - new_pos[1])
-    d2y <- abs(int[2] - new_pos[2])
-    d2 <- sqrt(d2x * d2x + d2y * d2y)
-    signs_match <- (
-      sign(int[1] - new_pos[1]) == sign(int[1] - point_pos[1]) &&
-      sign(int[2] - new_pos[2]) == sign(int[2] - point_pos[2])
-    )
-    if (d2 < d1 && signs_match) {
-      point_pos <- new_pos
-    }
+    point_pos <- intersect_line_rectangle(int, point_pos, point_box)
   }
 
   # Compute the distance between the data point and the edge of the text box.
