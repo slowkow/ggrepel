@@ -66,6 +66,8 @@
 #' @param box.padding Amount of padding around bounding box, as unit or number.
 #'   Defaults to 0.25. (Default unit is lines, but other units can be specified
 #'   by passing \code{unit(x, "units")}).
+#' @param point.size Size of each data point, so non-uniform points can be
+#'   labeled without overlaps.
 #' @param point.padding Amount of padding around labeled point, as unit or
 #'   number. Defaults to 0. (Default unit is lines, but other units can be
 #'   specified by passing \code{unit(x, "units")}).

@@ -12,3 +12,4 @@
 ^vignettes/Makefile$
 ^vignettes/.*\.md$
 ^how_to_build.txt$
+movies/

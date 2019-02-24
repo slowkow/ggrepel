@@ -34,7 +34,11 @@ Suggests:
     gridExtra,
     devtools,
     prettydoc,
-    ggbeeswarm
+    ggbeeswarm,
+    dplyr,
+    magrittr,
+    readr,
+    stringr
 VignetteBuilder: knitr
 License: GPL-3 | file LICENSE
 URL: http://github.com/slowkow/ggrepel

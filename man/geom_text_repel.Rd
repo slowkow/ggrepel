@@ -121,6 +121,9 @@ a warning.  If \code{TRUE} silently removes missing values.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
+
+\item{point.size}{Size of each data point, so non-uniform points can be
+labeled without overlaps.}
 }
 \description{
 \code{geom_text_repel} adds text directly to the plot.
