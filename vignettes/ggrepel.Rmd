@@ -112,7 +112,7 @@ including `size`, `angle`, `family`, `fontface`, etc.
 ggrepel provides additional options for `geom_text_repel` and `geom_label_repel`:
 
 |Option          | Default      | Description
-|--------------- | ---------    | ------------------------------------------------
+|--------------- | ------------ | ------------------------------------------------
 |`force`         | `1`          | force of repulsion between overlapping text labels
 |`direction`     | `"both"`     | move text labels "both" (default), "x", or "y" directions
 |`max.iter`      | `2000`       | maximum number of iterations to try to resolve overlaps
@@ -123,6 +123,9 @@ ggrepel provides additional options for `geom_text_repel` and `geom_label_repel`
 |`segment.color` | `"black"`    | line segment color
 |`segment.size`  | `0.5 mm`     | line segment thickness
 |`segment.alpha` | `1.0`        | line segment transparency
+|`segment.curvature` | `0`      | line segment curve
+|`segment.angle` | `90`         | line segment curve angle
+|`segment.npc`   | `1`          | line segment curve control points
 |`arrow`         | `NULL`       | render line segment as an arrow with `grid::arrow()`
 
 ## Examples
@@ -139,7 +142,7 @@ dat2 <- subset(mtcars, wt > 3 & wt < 4)
 # Hide all of the text labels.
 dat2$car <- ""
 # Let's just label these items.
-ix_label <- c(2,3,14)
+ix_label <- c(2, 3, 14)
 dat2$car[ix_label] <- rownames(dat2)[ix_label]
 
 ggplot(dat2, aes(wt, mpg, label = car)) +
@@ -178,6 +181,38 @@ set.seed(42)
 ggplot(dat, aes(wt, mpg, label = car)) +
   geom_point(color = "red") +
   geom_text_repel(point.padding = NA)
+```
+
+### Curve line segment
+
+The line segments can also be curved, as in `geom_curve()`. Use `segment.curvature` to control the curve, increase `segment.ncp` for a smoother curve, and use `segment.angle` to control the skew of the curve.
+
+```{r line_curve, echo=TRUE, fig.width=5, fig.height=4}
+set.seed(42)
+ggplot(dat, aes(wt, mpg, label = car)) +
+  geom_point(color = "red") +
+  geom_text_repel(
+    nudge_x = .15,
+    nudge_y = 1,
+    segment.curvature = -.5,
+    segment.ncp = 3
+  )
+```
+
+Setting the curvature very low will also allow an angle in the line segment.
+
+```{r line_curve_annotate, echo=TRUE, fig.width=5, fig.height=4}
+set.seed(42)
+cars <- c("Volvo 142E", "Merc 230")
+ggplot(dat, aes(wt, mpg, label = ifelse(!(car %in% cars), "", car))) +
+  geom_point(color = "red") +
+  geom_text_repel(
+    point.padding = .6, 
+    nudge_x = .15,
+    nudge_y = .5,
+    segment.curvature = -1e-20,
+    arrow = arrow(length = unit(0.015, "npc"))
+  )
 ```
 
 ### Repel labels from data points with different sizes

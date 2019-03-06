@@ -6,6 +6,9 @@ ggrepel 0.8.0.9000
 
 * Add examples to the [vignette] for `ggplot2::position_jitter()` and
   `ggbeeswarm::position_quasirandom()`
+  
+* Line segments can now be curved (#131, @malcolmbarrett). Add examples
+   to the [vignette] showing different options.
 
 ## Bug fixes and improvements
 
