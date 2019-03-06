@@ -10,6 +10,7 @@ geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   label.padding = 0.25, point.padding = 1e-06, label.r = 0.15,
   label.size = 0.25, segment.colour = NULL, segment.color = NULL,
   segment.size = 0.5, segment.alpha = NULL, min.segment.length = 0.5,
+  segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
   arrow = NULL, force = 1, force_pull = 1, max.iter = 2000,
   nudge_x = 0, nudge_y = 0, xlim = c(NA, NA), ylim = c(NA, NA),
   na.rm = FALSE, show.legend = NA, direction = c("both", "y", "x"),
@@ -19,7 +20,8 @@ geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   position = "identity", parse = FALSE, ..., box.padding = 0.25,
   point.size = 0, point.padding = 1e-06, segment.colour = NULL,
   segment.color = NULL, segment.size = 0.5, segment.alpha = NULL,
-  min.segment.length = 0.5, arrow = NULL, force = 1,
+  min.segment.length = 0.5, segment.curvature = 0,
+  segment.angle = 90, segment.ncp = 1, arrow = NULL, force = 1,
   force_pull = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0,
   xlim = c(NA, NA), ylim = c(NA, NA), na.rm = FALSE,
   show.legend = NA, direction = c("both", "y", "x"), seed = NA,
@@ -86,6 +88,18 @@ transparency as the text.}
 \item{min.segment.length}{Skip drawing segments shorter than this, as unit or
 number. Defaults to 0.5. (Default unit is lines, but other units can be
 specified by passing \code{unit(x, "units")}).}
+
+\item{segment.curvature}{A numeric value giving the amount of curvature.
+Negative values produce left-hand curves, positive values produce
+right-hand curves, and zero produces a straight line.}
+
+\item{segment.angle}{A numeric value between 0 and 180, giving an amount to
+skew the control points of the curve. Values less than 90 skew the curve
+towards the start point and values greater than 90 skew the curve towards
+the end point.}
+
+\item{segment.ncp}{The number of control points used to draw the curve. More
+control points creates a smoother curve.}
 
 \item{arrow}{specification for arrow heads, as created by \code{\link[grid]{arrow}}}
 

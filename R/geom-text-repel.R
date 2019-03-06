@@ -81,6 +81,15 @@
 #' @param min.segment.length Skip drawing segments shorter than this, as unit or
 #'   number. Defaults to 0.5. (Default unit is lines, but other units can be
 #'   specified by passing \code{unit(x, "units")}).
+#' @param segment.curvature A numeric value giving the amount of curvature.
+#'   Negative values produce left-hand curves, positive values produce
+#'   right-hand curves, and zero produces a straight line.
+#' @param segment.angle A numeric value between 0 and 180, giving an amount to
+#'   skew the control points of the curve. Values less than 90 skew the curve
+#'   towards the start point and values greater than 90 skew the curve towards
+#'   the end point.
+#' @param segment.ncp The number of control points used to draw the curve. More
+#'   control points creates a smoother curve.
 #' @param arrow specification for arrow heads, as created by \code{\link[grid]{arrow}}
 #' @param force Force of repulsion between overlapping text labels. Defaults
 #'   to 1.
@@ -173,6 +182,9 @@ geom_text_repel <- function(
   segment.size = 0.5,
   segment.alpha = NULL,
   min.segment.length = 0.5,
+  segment.curvature = 0,
+  segment.angle = 90,
+  segment.ncp = 1,
   arrow = NULL,
   force = 1,
   force_pull = 1,
@@ -211,6 +223,9 @@ geom_text_repel <- function(
       segment.size = segment.size,
       segment.alpha = segment.alpha,
       min.segment.length = to_unit(min.segment.length),
+      segment.curvature = segment.curvature,
+      segment.angle = segment.angle,
+      segment.ncp = segment.ncp,
       arrow = arrow,
       force = force,
       force_pull = force_pull,
@@ -251,6 +266,9 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     segment.size = 0.5,
     segment.alpha = NULL,
     min.segment.length = 0.5,
+    segment.curvature = 0,
+    segment.angle = 90,
+    segment.ncp = 1,
     arrow = NULL,
     force = 1,
     force_pull = 1,
@@ -311,6 +329,9 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       segment.colour = segment.colour,
       segment.size = segment.size,
       segment.alpha = segment.alpha,
+      segment.curvature = segment.curvature,
+      segment.angle = segment.angle,
+      segment.ncp = segment.ncp,
       min.segment.length = to_unit(min.segment.length),
       arrow = arrow,
       force = force,
@@ -430,6 +451,9 @@ makeContent.textrepeltree <- function(x) {
       box.padding = x$box.padding,
       point.size = point_size[i],
       point.padding = x$point.padding,
+      segment.curvature = x$segment.curvature,
+      segment.angle = x$segment.angle,
+      segment.ncp = x$segment.ncp,
       text.gp = gpar(
         col = scales::alpha(row$colour, row$alpha),
         fontsize = row$size * .pt,
@@ -472,6 +496,9 @@ makeTextRepelGrobs <- function(
   box.padding = 0.25,
   point.size = 0,
   point.padding = 1e-6,
+  segment.curvature = 0,
+  segment.angle = 90,
+  segment.ncp = 1,
   name = NULL,
   text.gp = gpar(),
   segment.gp = gpar(),
@@ -598,12 +625,15 @@ makeTextRepelGrobs <- function(
   grobs <- list(text = t)
 
   if (!point_inside && d > 0 && euclid(int, point_pos) > min.segment.length) {
-    s <- segmentsGrob(
-      x0 = int[1],
-      y0 = int[2],
-      x1 = point_pos[1],
-      y1 = point_pos[2],
+    s <- curveGrob(
+      x1 = int[1],
+      y1 = int[2],
+      x2 = point_pos[1],
+      y2 = point_pos[2],
       default.units = "native",
+      curvature = segment.curvature,
+      angle = segment.angle,
+      ncp = segment.ncp,
       gp = segment.gp,
       name = sprintf("segmentrepelgrob%s", i),
       arrow = arrow

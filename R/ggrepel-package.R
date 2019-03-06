@@ -39,6 +39,7 @@
 #'   resolveVJust
 #'   roundrectGrob
 #'   segmentsGrob
+#'   curveGrob
 #'   setChildren
 #'   textGrob
 #' @useDynLib ggrepel
