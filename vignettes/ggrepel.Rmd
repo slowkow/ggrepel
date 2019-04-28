@@ -35,9 +35,9 @@ opts_chunk$set(
   pngquant    = "--speed=1 --quality=0-10",
   concordance = TRUE
 )
-knit_hooks$set(
-  pngquant = hook_pngquant
-)
+# knit_hooks$set(
+#   pngquant = hook_pngquant
+# )
 library(gridExtra)
 library(ggplot2)
 theme_set(theme_classic(base_size = 18) %+replace% theme(
@@ -123,9 +123,9 @@ ggrepel provides additional options for `geom_text_repel` and `geom_label_repel`
 |`segment.color` | `"black"`    | line segment color
 |`segment.size`  | `0.5 mm`     | line segment thickness
 |`segment.alpha` | `1.0`        | line segment transparency
-|`segment.curvature` | `0`      | line segment curve
-|`segment.angle` | `90`         | line segment curve angle
-|`segment.npc`   | `1`          | line segment curve control points
+|`segment.curvature` | `0`      | numeric, negative for left-hand and positive for right-hand curves, 0 for straight lines
+|`segment.angle` | `90`         | 0-180, less than 90 skews control points toward the start point
+|`segment.ncp`   | `1`          | number of control points to make a smoother curve
 |`arrow`         | `NULL`       | render line segment as an arrow with `grid::arrow()`
 
 ## Examples
@@ -185,26 +185,36 @@ ggplot(dat, aes(wt, mpg, label = car)) +
 
 ### Curve line segment
 
-The line segments can also be curved, as in `geom_curve()`. Use `segment.curvature` to control the curve, increase `segment.ncp` for a smoother curve, and use `segment.angle` to control the skew of the curve.
+The line segments can also be curved, as in `geom_curve()` from ggplot2.
+
+- `segment.curvature = 1` increases right-hand curvature, negative values would
+  increase left-hand curvature, 0 makes straight lines
+- `segment.ncp = 3` gives 3 control points for the curve
+- `segment.angle = 20` skews the curve towards the start, values greater than
+  90 would skew toward the end
 
 ```{r line_curve, echo=TRUE, fig.width=5, fig.height=4}
 set.seed(42)
+
 ggplot(dat, aes(wt, mpg, label = car)) +
   geom_point(color = "red") +
   geom_text_repel(
     nudge_x = .15,
     nudge_y = 1,
-    segment.curvature = -.5,
-    segment.ncp = 3
+    segment.curvature = -0.1,
+    segment.ncp = 3,
+    segment.angle = 20
   )
+
 ```
 
-Setting the curvature very low will also allow an angle in the line segment.
+Setting the curvature to a value near zero gives a sharp angle:
 
 ```{r line_curve_annotate, echo=TRUE, fig.width=5, fig.height=4}
 set.seed(42)
 cars <- c("Volvo 142E", "Merc 230")
-ggplot(dat, aes(wt, mpg, label = ifelse(!(car %in% cars), "", car))) +
+
+ggplot(dat, aes(wt, mpg, label = ifelse(car %in% cars, car, ""))) +
   geom_point(color = "red") +
   geom_text_repel(
     point.padding = .6, 
@@ -213,6 +223,7 @@ ggplot(dat, aes(wt, mpg, label = ifelse(!(car %in% cars), "", car))) +
     segment.curvature = -1e-20,
     arrow = arrow(length = unit(0.015, "npc"))
   )
+
 ```
 
 ### Repel labels from data points with different sizes
