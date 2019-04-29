@@ -183,9 +183,9 @@ ggplot(dat, aes(wt, mpg, label = car)) +
   geom_text_repel(point.padding = NA)
 ```
 
-### Curve line segment
+### Make curved line segments
 
-The line segments can also be curved, as in `geom_curve()` from ggplot2.
+The line segments can be curved as in `geom_curve()` from ggplot2.
 
 - `segment.curvature = 1` increases right-hand curvature, negative values would
   increase left-hand curvature, 0 makes straight lines
@@ -200,6 +200,7 @@ ggplot(dat, aes(wt, mpg, label = car)) +
   geom_point(color = "red") +
   geom_text_repel(
     nudge_x = .15,
+    box.padding = 0.5,
     nudge_y = 1,
     segment.curvature = -0.1,
     segment.ncp = 3,

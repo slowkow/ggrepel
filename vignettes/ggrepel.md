@@ -1,7 +1,7 @@
 ---
 title: "ggrepel examples"
 author: "Kamil Slowikowski"
-date: "2018-06-11"
+date: "2019-04-28"
 output:
   prettydoc::html_pretty:
     theme: hpstr
@@ -86,7 +86,7 @@ including `size`, `angle`, `family`, `fontface`, etc.
 ggrepel provides additional options for `geom_text_repel` and `geom_label_repel`:
 
 |Option          | Default      | Description
-|--------------- | ---------    | ------------------------------------------------
+|--------------- | ------------ | ------------------------------------------------
 |`force`         | `1`          | force of repulsion between overlapping text labels
 |`direction`     | `"both"`     | move text labels "both" (default), "x", or "y" directions
 |`max.iter`      | `2000`       | maximum number of iterations to try to resolve overlaps
@@ -97,6 +97,9 @@ ggrepel provides additional options for `geom_text_repel` and `geom_label_repel`
 |`segment.color` | `"black"`    | line segment color
 |`segment.size`  | `0.5 mm`     | line segment thickness
 |`segment.alpha` | `1.0`        | line segment transparency
+|`segment.curvature` | `0`      | numeric, negative for left-hand and positive for right-hand curves, 0 for straight lines
+|`segment.angle` | `90`         | 0-180, less than 90 skews control points toward the start point
+|`segment.ncp`   | `1`          | number of control points to make a smoother curve
 |`arrow`         | `NULL`       | render line segment as an arrow with `grid::arrow()`
 
 ## Examples
@@ -114,7 +117,7 @@ dat2 <- subset(mtcars, wt > 3 & wt < 4)
 # Hide all of the text labels.
 dat2$car <- ""
 # Let's just label these items.
-ix_label <- c(2,3,14)
+ix_label <- c(2, 3, 14)
 dat2$car[ix_label] <- rownames(dat2)[ix_label]
 
 ggplot(dat2, aes(wt, mpg, label = car)) +
@@ -124,11 +127,7 @@ ggplot(dat2, aes(wt, mpg, label = car)) +
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/empty_string-1.png" title="plot of chunk empty_string" alt="plot of chunk empty_string" width="700" />
 
-Thanks to the [AABB.cc] library by [Lester Hedges], we can quickly repel a few
-text labels from many thousands of data points.
-
-[AABB.cc]: https://github.com/lohedges/aabbcc
-[Lester Hedges]: http://lesterhedges.net/
+We can quickly repel a few text labels from 10,000 data points:
 
 
 ```r
@@ -166,6 +165,80 @@ ggplot(dat, aes(wt, mpg, label = car)) +
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/point_padding_na-1.png" title="plot of chunk point_padding_na" alt="plot of chunk point_padding_na" width="700" />
+
+### Make curved line segments
+
+The line segments can be curved as in `geom_curve()` from ggplot2.
+
+- `segment.curvature = 1` increases right-hand curvature, negative values would
+  increase left-hand curvature, 0 makes straight lines
+- `segment.ncp = 3` gives 3 control points for the curve
+- `segment.angle = 20` skews the curve towards the start, values greater than
+  90 would skew toward the end
+
+
+```r
+set.seed(42)
+
+ggplot(dat, aes(wt, mpg, label = car)) +
+  geom_point(color = "red") +
+  geom_text_repel(
+    nudge_x = .15,
+    box.padding = 0.5,
+    nudge_y = 1,
+    segment.curvature = -0.1,
+    segment.ncp = 3,
+    segment.angle = 20
+  )
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/line_curve-1.png" title="plot of chunk line_curve" alt="plot of chunk line_curve" width="700" />
+
+Setting the curvature to a value near zero gives a sharp angle:
+
+
+```r
+set.seed(42)
+cars <- c("Volvo 142E", "Merc 230")
+
+ggplot(dat, aes(wt, mpg, label = ifelse(car %in% cars, car, ""))) +
+  geom_point(color = "red") +
+  geom_text_repel(
+    point.padding = .6, 
+    nudge_x = .15,
+    nudge_y = .5,
+    segment.curvature = -1e-20,
+    arrow = arrow(length = unit(0.015, "npc"))
+  )
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/line_curve_annotate-1.png" title="plot of chunk line_curve_annotate" alt="plot of chunk line_curve_annotate" width="700" />
+
+### Repel labels from data points with different sizes
+
+TODO: This example should be improved:
+
+- Use real data.
+- Show a side-by-side comparison with and without `point.size`.
+
+
+```r
+library(ggrepel)
+
+d <- data.frame(
+  x = c(1, 2, 2, 3),
+  y = c(1, 2, 3, 1),
+  pointsize = factor(c(0, 1, 1, 0)),
+  label = sprintf("label%s", 1:4)
+)
+
+ggplot(d, aes(x, y)) +
+  geom_point(aes(size = pointsize)) +
+  scale_size_manual(values = c(1, 15)) +
+  geom_text_repel(aes(label = label), size = 5, point.size = d$pointsize)
+```
+
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/point_size-1.png" title="plot of chunk point_size" alt="plot of chunk point_size" width="700" />
 
 ### Limit labels to a specific area
 
@@ -547,12 +620,13 @@ sessionInfo()
 ```
 
 ```
-## R version 3.5.0 (2018-04-23)
-## Platform: x86_64-apple-darwin17.4.0 (64-bit)
-## Running under: macOS High Sierra 10.13.3
+## R version 3.5.1 (2018-07-02)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS High Sierra 10.13.6
 ## 
 ## Matrix products: default
-## BLAS/LAPACK: /usr/local/Cellar/openblas/0.3.0/lib/libopenblasp-r0.3.0.dev.dylib
+## BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
 ## 
 ## locale:
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -561,21 +635,18 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggbeeswarm_0.6.0   ggrepel_0.8.0.9000 ggplot2_2.2.1.9000
-## [4] gridExtra_2.3      knitr_1.20        
+## [1] ggbeeswarm_0.6.0   ggrepel_0.8.0.9000 ggplot2_3.1.0     
+## [4] gridExtra_2.3      knitr_1.21        
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.17      bindr_0.1.1       magrittr_1.5     
-##  [4] tidyselect_0.2.4  munsell_0.4.3     colorspace_1.3-2 
-##  [7] R6_2.2.2          rlang_0.2.1       vipor_0.4.5      
-## [10] highr_0.6         stringr_1.3.1     plyr_1.8.4       
-## [13] dplyr_0.7.5       tools_3.5.0       grid_3.5.0       
-## [16] beeswarm_0.2.3    gtable_0.2.0      withr_2.1.2      
-## [19] digest_0.6.15     lazyeval_0.2.1    assertthat_0.2.0 
-## [22] tibble_1.4.2      bindrcpp_0.2.2    purrr_0.2.4      
-## [25] glue_1.2.0        evaluate_0.10.1   labeling_0.3     
-## [28] stringi_1.2.2     compiler_3.5.0    pillar_1.2.3     
-## [31] scales_0.5.0.9000 pkgconfig_2.0.1
+##  [1] Rcpp_1.0.1       magrittr_1.5     tidyselect_0.2.5 munsell_0.5.0   
+##  [5] colorspace_1.4-1 R6_2.4.0         rlang_0.3.1.9000 vipor_0.4.5     
+##  [9] highr_0.7        stringr_1.4.0    plyr_1.8.4       dplyr_0.8.0.9002
+## [13] tools_3.5.1      grid_3.5.1       beeswarm_0.2.3   gtable_0.3.0    
+## [17] xfun_0.5         withr_2.1.2      digest_0.6.18    lazyeval_0.2.2  
+## [21] assertthat_0.2.1 tibble_2.1.1     crayon_1.3.4     purrr_0.3.0     
+## [25] glue_1.3.1       evaluate_0.13    labeling_0.3     stringi_1.4.3   
+## [29] compiler_3.5.1   pillar_1.3.1     scales_1.0.0     pkgconfig_2.0.2
 ```
 
 [xlim]: http://ggplot2.tidyverse.org/reference/lims.html
