@@ -42,7 +42,7 @@ geom_label_repel <- function(
     if (!missing(position)) {
       stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
     }
-    #position <- position_nudge(nudge_x, nudge_y)
+    position <- position_nudge2(nudge_x, nudge_y)
   }
   layer(
     data = data,
@@ -132,19 +132,23 @@ GeomLabelRepel <- ggproto(
       return()
     }
 
+    # position_nudge2() should have added these columns.
+    for (this_dim in c("x", "y")) {
+      this_nudge <- sprintf("nudge_%s", this_dim)
+      if (!this_nudge %in% colnames(data)) {
+        data[[this_nudge]] <- data[[this_dim]]
+      }
+    }
     # Transform the nudges to the panel scales.
-    nudges <- data.frame(
-      x = data$x + rep_len(nudge_x, length.out = nrow(data)),
-      y = data$y + rep_len(nudge_y, length.out = nrow(data))
-    )
+    nudges <- data.frame(x = data$nudge_x, y = data$nudge_y)
     nudges <- coord$transform(nudges, panel_scales)
 
     # Transform the raw data to the panel scales.
     data <- coord$transform(data, panel_scales)
 
     # The nudge is relative to the data.
-    nudges$x <- nudges$x - data$x
-    nudges$y <- nudges$y - data$y
+    data$nudge_x <- nudges$x - data$x
+    data$nudge_y <- nudges$y - data$y
 
     # Transform limits to panel scales.
     limits <- data.frame(x = xlim, y = ylim)
@@ -166,7 +170,6 @@ GeomLabelRepel <- ggproto(
       limits = limits,
       data = data,
       lab = lab,
-      nudges = nudges,
       box.padding = to_unit(box.padding),
       label.padding = to_unit(label.padding),
       point.padding = to_unit(point.padding),
@@ -216,6 +219,8 @@ makeContent.labelrepeltree <- function(x) {
   # Create a dataframe with x y width height
   boxes <- lapply(valid_strings, function(i) {
     row <- x$data[i, , drop = FALSE]
+    nx <- x$data$nudge_x[i]
+    ny <- x$data$nudge_y[i]
     hj <- x$data$hjust[i]
     vj <- x$data$vjust[i]
     t <- textGrob(
@@ -245,12 +250,12 @@ makeContent.labelrepeltree <- function(x) {
     gw <- convertWidth(grobWidth(r), "native", TRUE)
     gh <- convertHeight(grobHeight(r), "native", TRUE)
     c(
-      "x1" = row$x - gw * hj  - box_padding_x + x$nudges$x[i],
-      "y1" = row$y - gh * vj - box_padding_y + x$nudges$y[i],
-      "x2" = row$x + gw * (1 - hj) + box_padding_x + x$nudges$x[i],
-      "y2" = row$y + gh * (1 - vj) + box_padding_y + x$nudges$y[i]
+      "x1" = row$x - gw * hj - box_padding_x + nx,
+      "y1" = row$y - gh * vj - box_padding_y + ny,
+      "x2" = row$x + gw * (1 - hj) + box_padding_x + nx,
+      "y2" = row$y + gh * (1 - vj) + box_padding_y + ny
     )
-    })
+  })
 
   # Make the repulsion reproducible if desired.
   if (is.null(x$seed) || !is.na(x$seed)) {
@@ -313,8 +318,8 @@ makeContent.labelrepeltree <- function(x) {
       ),
       arrow = x$arrow,
       min.segment.length = x$min.segment.length,
-      hjust = x$data$hjust[i],
-      vjust = x$data$vjust[i]
+      hjust = row$hjust,
+      vjust = row$vjust
     )
   })
   # Put segment grobs before text grobs, rect grobs before text grobs.
