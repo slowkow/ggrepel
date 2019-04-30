@@ -1,25 +1,24 @@
+Meta
+doc
 # History files
 .Rhistory
 .Rapp.history
+*.swp
 
 # Compiled objects
 *.o
 *.so
 *.dll
-
 # Rstudio files
 ..Rcheck/
 .Rproj.user
 .Rbuildignore
 vignettes/cache
-
 # issues 
 scripts/issues/
-
 # debug figures in vignette
 vignettes/figures/ggrepel/gallery.html
 vignettes/figures/ggrepel/make_gallery_html.sh
-
 # MacOS
 .DS_Store
 inst/
