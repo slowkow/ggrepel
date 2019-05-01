@@ -247,6 +247,8 @@ geom_text_repel <- function(
 GeomTextRepel <- ggproto("GeomTextRepel", Geom,
   required_aes = c("x", "y", "label"),
 
+  non_missing_aes = c("point.size"),
+
   default_aes = aes(
     colour = "black", size = 3.88, angle = 0,
     alpha = NA, family = "", fontface = 1, lineheight = 1.2,
@@ -488,6 +490,7 @@ makeTextRepelGrobs <- function(
   default.units = "npc",
   just = "center",
   box.padding = 0.25,
+  point.size = 1,
   point.padding = 1e-6,
   segment.curvature = 0,
   segment.angle = 90,

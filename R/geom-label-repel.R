@@ -93,10 +93,12 @@ GeomLabelRepel <- ggproto(
   "GeomLabelRepel", Geom,
   required_aes = c("x", "y", "label"),
 
+  non_missing_aes = c("point.size"),
+
   default_aes = aes(
     colour = "black", fill = "white", size = 3.88, angle = 0,
     alpha = NA, family = "", fontface = 1, lineheight = 1.2,
-    hjust = 0.5, vjust = 0.5
+    hjust = 0.5, vjust = 0.5, point.size = 1
   ),
 
   draw_panel = function(
@@ -216,12 +218,6 @@ makeContent.labelrepeltree <- function(x) {
   point_padding_x <- convertWidth(x$point.padding, "native", valueOnly = TRUE)
   point_padding_y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
 
-  # The padding around each point.
-  if (length(x$point.size) == 1 && is.na(x$point.size)) {
-    x$point.size = unit(0, "lines")
-  }
-  point_size <- convertWidth(x$point.size, "native", valueOnly = TRUE)
-
   # Do not create text labels for empty strings.
   valid_strings <- which(not_empty(x$lab))
   invalid_strings <- which(!not_empty(x$lab))
@@ -278,14 +274,7 @@ makeContent.labelrepeltree <- function(x) {
                                 x$data$y[invalid_strings]))
 
   point_size <- c(x$data$point.size[valid_strings], x$data$point.size[invalid_strings])
-  point_size <- convertWidth(to_unit(x$data$point.size), "native", valueOnly = TRUE)
-
-  # point_size <- x$point.size
-  # if (length(point_size) != nrow(x$data)) {
-  #   point_size <- rep_len(point_size, length.out = nrow(x$data))
-  # }
-  # point_size <- c(point_size[valid_strings], point_size[invalid_strings])
-  # point_size <- convertWidth(to_unit(point_size), "native", valueOnly = TRUE)
+  point_size <- convertWidth(to_unit(point_size), "native", valueOnly = TRUE)
 
   # Repel overlapping bounding boxes away from each other.
   repel <- repel_boxes2(
@@ -317,6 +306,7 @@ makeContent.labelrepeltree <- function(x) {
       y.orig = unit(x$data$y[xi], "native"),
       box.padding = x$box.padding,
       label.padding = x$label.padding,
+      point.size = point_size[i],
       point.padding = x$point.padding,
       segment.curvature = x$segment.curvature,
       segment.angle = x$segment.angle,
@@ -368,6 +358,7 @@ makeLabelRepelGrobs <- function(
   just = "center",
   box.padding = 0.25,
   label.padding = 0.25,
+  point.size = 1,
   point.padding = 1e-6,
   segment.curvature = 0,
   segment.angle = 90,
