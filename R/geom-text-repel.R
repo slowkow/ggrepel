@@ -66,8 +66,6 @@
 #' @param box.padding Amount of padding around bounding box, as unit or number.
 #'   Defaults to 0.25. (Default unit is lines, but other units can be specified
 #'   by passing \code{unit(x, "units")}).
-#' @param point.size Size of each data point, so non-uniform points can be
-#'   labeled without overlaps.
 #' @param point.padding Amount of padding around labeled point, as unit or
 #'   number. Defaults to 0. (Default unit is lines, but other units can be
 #'   specified by passing \code{unit(x, "units")}).
@@ -175,7 +173,6 @@ geom_text_repel <- function(
   parse = FALSE,
   ...,
   box.padding = 0.25,
-  point.size = 0,
   point.padding = 1e-6,
   segment.colour = NULL,
   segment.color = NULL,
@@ -188,6 +185,7 @@ geom_text_repel <- function(
   arrow = NULL,
   force = 1,
   force_pull = 1,
+  max.time = 0.1,
   max.iter = 2000,
   nudge_x = 0,
   nudge_y = 0,
@@ -217,7 +215,6 @@ geom_text_repel <- function(
       parse = parse,
       na.rm = na.rm,
       box.padding = to_unit(box.padding),
-      point.size = to_unit(point.size),
       point.padding = to_unit(point.padding),
       segment.colour = segment.color %||% segment.colour,
       segment.size = segment.size,
@@ -229,6 +226,7 @@ geom_text_repel <- function(
       arrow = arrow,
       force = force,
       force_pull = force_pull,
+      max.time = max.time,
       max.iter = max.iter,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
@@ -252,7 +250,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
   default_aes = aes(
     colour = "black", size = 3.88, angle = 0,
     alpha = NA, family = "", fontface = 1, lineheight = 1.2,
-    hjust = 0.5, vjust = 0.5
+    hjust = 0.5, vjust = 0.5, point.size = 1
   ),
 
   draw_panel = function(
@@ -260,7 +258,6 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     parse = FALSE,
     na.rm = FALSE,
     box.padding = 0.25,
-    point.size = 0,
     point.padding = 1e-6,
     segment.colour = NULL,
     segment.size = 0.5,
@@ -272,6 +269,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     arrow = NULL,
     force = 1,
     force_pull = 1,
+    max.time = 0.1,
     max.iter = 2000,
     nudge_x = 0,
     nudge_y = 0,
@@ -327,7 +325,6 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       data = data,
       lab = lab,
       box.padding = to_unit(box.padding),
-      point.size = to_unit(point.size),
       point.padding = to_unit(point.padding),
       segment.colour = segment.colour,
       segment.size = segment.size,
@@ -339,6 +336,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       arrow = arrow,
       force = force,
       force_pull = force_pull,
+      max.time = max.time,
       max.iter = max.iter,
       direction = direction,
       seed = seed,
@@ -365,12 +363,6 @@ makeContent.textrepeltree <- function(x) {
   }
   point_padding_x <- convertWidth(x$point.padding, "native", valueOnly = TRUE)
   point_padding_y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
-
-  # The padding around each point.
-  if (length(x$point.size) == 1 && is.na(x$point.size)) {
-    x$point.size = unit(0, "lines")
-  }
-  point_size <- convertWidth(x$point.size, "native", valueOnly = TRUE)
 
   # Do not create text labels for empty strings.
   valid_strings <- which(not_empty(x$lab))
@@ -415,12 +407,8 @@ makeContent.textrepeltree <- function(x) {
                               c(x$data$y[valid_strings],
                                 x$data$y[invalid_strings]))
 
-  point_size <- x$point.size
-  if (length(point_size) != nrow(x$data)) {
-    point_size <- rep_len(point_size, length.out = nrow(x$data))
-  }
-  point_size <- c(point_size[valid_strings], point_size[invalid_strings])
-  point_size <- convertWidth(to_unit(point_size), "native", valueOnly = TRUE)
+  point_size <- c(x$data$point.size[valid_strings], x$data$point.size[invalid_strings])
+  point_size <- convertWidth(to_unit(x$data$point.size), "native", valueOnly = TRUE)
 
   # Repel overlapping bounding boxes away from each other.
   repel <- repel_boxes2(
@@ -435,7 +423,8 @@ makeContent.textrepeltree <- function(x) {
     vjust = x$data$vjust %||% 0.5,
     force_push = x$force * 1e-6,
     force_pull = x$force_pull * 1e-2,
-    maxiter = x$max.iter,
+    max_time = x$max.time,
+    max_iter = x$max.iter,
     direction = x$direction
   )
 
@@ -499,7 +488,6 @@ makeTextRepelGrobs <- function(
   default.units = "npc",
   just = "center",
   box.padding = 0.25,
-  point.size = 0,
   point.padding = 1e-6,
   segment.curvature = 0,
   segment.angle = 90,

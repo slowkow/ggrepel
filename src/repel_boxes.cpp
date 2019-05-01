@@ -1,5 +1,5 @@
 #include <Rcpp.h>
-//#include <Rcpp/Benchmark/Timer.h>
+#include <Rcpp/Benchmark/Timer.h>
 #include <deque>
 using namespace Rcpp;
 
@@ -458,8 +458,9 @@ bool overlaps(Circle c, Box r) {
   if (cy > yDist) {
     return false;
   }
-  if (cx <= r_halfwidth || cy <= r_halfheight)
+  if (cx <= r_halfwidth || cy <= r_halfheight) {
     return true;
+  }
   double xCornerDist = cx - r_halfwidth;
   double yCornerDist = cy - r_halfheight;
   double xCornerDistSq = xCornerDist * xCornerDist;
@@ -613,7 +614,7 @@ Point spring_force(
 //' @param ylim A numeric vector representing the limits on the y axis like
 //'   \code{c(ymin, ymax)}
 //' @param force Magnitude of the force (defaults to \code{1e-6})
-//' @param maxiter Maximum number of iterations to try to resolve overlaps
+//' @param max_iter Maximum number of iterations to try to resolve overlaps
 //'   (defaults to 2000)
 //' @noRd
 // [[Rcpp::export]]
@@ -625,7 +626,7 @@ DataFrame repel_boxes(
     NumericVector hjust, NumericVector vjust,
     double force_push = 1e-7,
     double force_pull = 1e-7,
-    int maxiter = 2000,
+    int max_iter = 2000,
     std::string direction = "both"
 ) {
   // n_texts <= n_points
@@ -697,7 +698,7 @@ DataFrame repel_boxes(
 
   //Timer timer;
   //timer.step("start");
-  while (any_overlaps && iter < maxiter) {
+  while (any_overlaps && iter < max_iter) {
     iter += 1;
     any_overlaps = false;
     // The forces get weaker over time.
@@ -831,7 +832,9 @@ std::vector<double> rescale(std::vector<double> v) {
 //' @param ylim A numeric vector representing the limits on the y axis like
 //'   \code{c(ymin, ymax)}
 //' @param force Magnitude of the force (defaults to \code{1e-6})
-//' @param maxiter Maximum number of iterations to try to resolve overlaps
+//' @param max_time Maximum number of seconds to try to resolve overlaps
+//'   (defaults to 0.1)
+//' @param max_iter Maximum number of iterations to try to resolve overlaps
 //'   (defaults to 2000)
 //' @noRd
 // [[Rcpp::export]]
@@ -844,7 +847,8 @@ DataFrame repel_boxes2(
     NumericVector hjust, NumericVector vjust,
     double force_push = 1e-7,
     double force_pull = 1e-7,
-    int maxiter = 2000,
+    double max_time = 0.1,
+    int max_iter = 2000,
     std::string direction = "both"
 ) {
   int n_points = data_points.nrow();
@@ -915,9 +919,24 @@ DataFrame repel_boxes2(
 
   //Timer timer;
   //timer.step("start");
-  while (any_overlaps && iter < maxiter) {
+
+  nanotime_t start_time = get_nanotime();
+  nanotime_t elapsed_time = 0;
+
+  while (any_overlaps && iter < max_iter) {
     iter += 1;
     any_overlaps = false;
+
+    // Maximum time limit.
+    if (iter % 10 == 0) {
+      // Convert elapsed time to seconds.
+      elapsed_time = (get_nanotime() - start_time) / 1e9;
+      // Stop trying to layout the text after some time.
+      if (elapsed_time > max_time) {
+        break;
+      }
+    }
+
     // The forces get weaker over time.
     force_push *= 0.99999;
     force_pull *= 0.9999;
