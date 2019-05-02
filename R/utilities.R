@@ -1,3 +1,14 @@
+# Name ggplot grid object
+# Convenience function to name grid objects
+#
+# @keyword internal
+ggname <- function(prefix, grob) {
+  grob$name <- grobName(grob, prefix)
+  grob
+}
+
+.pt <- 72.27 / 25.4
+
 "%||%" <- function(a, b) {
   if (!is.null(a)) a else b
 }
