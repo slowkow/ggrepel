@@ -369,33 +369,31 @@ makeContent.textrepeltree <- function(x) {
   # Do not create text labels for empty strings.
   valid_strings <- which(not_empty(x$lab))
   invalid_strings <- which(!not_empty(x$lab))
+  ix <- c(valid_strings, invalid_strings)
+  x$data <- x$data[ix,]
+  x$lab <- x$lab[ix]
 
   # Create a dataframe with x1 y1 x2 y2
-  boxes <- lapply(valid_strings, function(i) {
+  boxes <- lapply(seq_along(valid_strings), function(i) {
     row <- x$data[i, , drop = FALSE]
-    nx <- x$data$nudge_x[i]
-    ny <- x$data$nudge_y[i]
-    hj <- x$data$hjust[i]
-    vj <- x$data$vjust[i]
     tg <- textGrob(
       x$lab[i],
       row$x, row$y, default.units = "native",
       rot = row$angle,
       gp = gpar(
-        fontsize = row$size * .pt,
+        fontsize   = row$size * .pt,
         fontfamily = row$family,
-        fontface = row$fontface,
+        fontface   = row$fontface,
         lineheight = row$lineheight
       )
     )
     gw <- convertWidth(grobWidth(tg), "native", TRUE)
     gh <- convertHeight(grobHeight(tg), "native", TRUE)
-
     c(
-      "x1" = row$x - gw * hj - box_padding_x + nx,
-      "y1" = row$y - gh * vj - box_padding_y + ny,
-      "x2" = row$x + gw * (1 - hj) + box_padding_x + nx,
-      "y2" = row$y + gh * (1 - vj) + box_padding_y + ny
+      "x1" = row$x - gw *       row$hjust - box_padding_x + row$nudge_x,
+      "y1" = row$y - gh *       row$vjust - box_padding_y + row$nudge_y,
+      "x2" = row$x + gw * (1 - row$hjust) + box_padding_x + row$nudge_x,
+      "y2" = row$y + gh * (1 - row$vjust) + box_padding_y + row$nudge_y 
     )
   })
 
@@ -404,45 +402,40 @@ makeContent.textrepeltree <- function(x) {
       set.seed(x$seed)
   }
 
-  points_valid_first <- cbind(c(x$data$x[valid_strings],
-                                x$data$x[invalid_strings]),
-                              c(x$data$y[valid_strings],
-                                x$data$y[invalid_strings]))
+  # The points are represented by circles.
+  point_size <- convertWidth(to_unit(x$data$point.size), "native", valueOnly = TRUE) / 10
 
-  point_size <- c(x$data$point.size[valid_strings], x$data$point.size[invalid_strings])
-  point_size <- convertWidth(to_unit(x$data$point.size), "native", valueOnly = TRUE)
-
+  # browser()
   # Repel overlapping bounding boxes away from each other.
   repel <- repel_boxes2(
-    data_points = points_valid_first,
-    point_size = point_size,
+    data_points     = as.matrix(x$data[,c("x","y")]),
+    point_size      = point_size,
     point_padding_x = point_padding_x,
     point_padding_y = point_padding_y,
-    boxes = do.call(rbind, boxes),
-    xlim = range(x$limits$x),
-    ylim = range(x$limits$y),
-    hjust = x$data$hjust %||% 0.5,
-    vjust = x$data$vjust %||% 0.5,
-    force_push = x$force * 1e-6,
-    force_pull = x$force_pull * 1e-2,
-    max_time = x$max.time,
-    max_iter = x$max.iter,
-    direction = x$direction
+    boxes           = do.call(rbind, boxes),
+    xlim            = range(x$limits$x),
+    ylim            = range(x$limits$y),
+    hjust           = x$data$hjust %||% 0.5,
+    vjust           = x$data$vjust %||% 0.5,
+    force_push      = x$force * 1e-6,
+    force_pull      = x$force_pull * 1e-2,
+    max_time        = x$max.time,
+    max_iter        = x$max.iter,
+    direction       = x$direction
   )
 
   grobs <- lapply(seq_along(valid_strings), function(i) {
-    xi <- valid_strings[i]
-    row <- x$data[xi, , drop = FALSE]
+    row <- x$data[i, , drop = FALSE]
     # browser()
     makeTextRepelGrobs(
       i,
-      x$lab[xi],
+      x$lab[i],
       # Position of text bounding boxes.
       x = unit(repel$x[i], "native"),
       y = unit(repel$y[i], "native"),
       # Position of original data points.
-      x.orig = unit(x$data$x[xi], "native"),
-      y.orig = unit(x$data$y[xi], "native"),
+      x.orig = unit(row$x, "native"),
+      y.orig = unit(row$y, "native"),
       rot = row$angle,
       box.padding = x$box.padding,
       point.size = point_size[i],
