@@ -174,14 +174,7 @@ geom_text_repel <- function(
   ...,
   box.padding = 0.25,
   point.padding = 1e-6,
-  segment.colour = NULL,
-  segment.color = NULL,
-  segment.size = 0.5,
-  segment.alpha = NULL,
   min.segment.length = 0.5,
-  segment.curvature = 0,
-  segment.angle = 90,
-  segment.ncp = 1,
   arrow = NULL,
   force = 1,
   force_pull = 1,
@@ -216,13 +209,7 @@ geom_text_repel <- function(
       na.rm = na.rm,
       box.padding = to_unit(box.padding),
       point.padding = to_unit(point.padding),
-      segment.colour = segment.color %||% segment.colour,
-      segment.size = segment.size,
-      segment.alpha = segment.alpha,
       min.segment.length = to_unit(min.segment.length),
-      segment.curvature = segment.curvature,
-      segment.angle = segment.angle,
-      segment.ncp = segment.ncp,
       arrow = arrow,
       force = force,
       force_pull = force_pull,
@@ -247,12 +234,12 @@ geom_text_repel <- function(
 GeomTextRepel <- ggproto("GeomTextRepel", Geom,
   required_aes = c("x", "y", "label"),
 
-  non_missing_aes = c("point.size"),
-
   default_aes = aes(
     colour = "black", size = 3.88, angle = 0,
     alpha = NA, family = "", fontface = 1, lineheight = 1.2,
-    hjust = 0.5, vjust = 0.5, point.size = 1
+    hjust = 0.5, vjust = 0.5, point.size = 1,
+    segment.colour = "black", segment.size = 0.5, segment.alpha = 1,
+    segment.curvature = 0, segment.angle = 90, segment.ncp = 1
   ),
 
   draw_panel = function(
@@ -261,13 +248,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     na.rm = FALSE,
     box.padding = 0.25,
     point.padding = 1e-6,
-    segment.colour = NULL,
-    segment.size = 0.5,
-    segment.alpha = NULL,
     min.segment.length = 0.5,
-    segment.curvature = 0,
-    segment.angle = 90,
-    segment.ncp = 1,
     arrow = NULL,
     force = 1,
     force_pull = 1,
@@ -328,12 +309,6 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       lab = lab,
       box.padding = to_unit(box.padding),
       point.padding = to_unit(point.padding),
-      segment.colour = segment.colour,
-      segment.size = segment.size,
-      segment.alpha = segment.alpha,
-      segment.curvature = segment.curvature,
-      segment.angle = segment.angle,
-      segment.ncp = segment.ncp,
       min.segment.length = to_unit(min.segment.length),
       arrow = arrow,
       force = force,
@@ -426,7 +401,6 @@ makeContent.textrepeltree <- function(x) {
 
   grobs <- lapply(seq_along(valid_strings), function(i) {
     row <- x$data[i, , drop = FALSE]
-    # browser()
     makeTextRepelGrobs(
       i,
       x$lab[i],
@@ -440,9 +414,9 @@ makeContent.textrepeltree <- function(x) {
       box.padding = x$box.padding,
       point.size = point_size[i],
       point.padding = x$point.padding,
-      segment.curvature = x$segment.curvature,
-      segment.angle = x$segment.angle,
-      segment.ncp = x$segment.ncp,
+      segment.curvature = row$segment.curvature,
+      segment.angle     = row$segment.angle,
+      segment.ncp       = row$segment.ncp,
       text.gp = gpar(
         col = scales::alpha(row$colour, row$alpha),
         fontsize = row$size * .pt,
@@ -451,8 +425,8 @@ makeContent.textrepeltree <- function(x) {
         lineheight = row$lineheight
       ),
       segment.gp = gpar(
-        col = scales::alpha(x$segment.colour %||% row$colour, x$segment.alpha %||% row$alpha),
-        lwd = x$segment.size * .pt
+        col = scales::alpha(row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha),
+        lwd = row$segment.size * .pt
       ),
       arrow = x$arrow,
       min.segment.length = x$min.segment.length,
