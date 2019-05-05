@@ -858,6 +858,9 @@ DataFrame repel_boxes2(
   bool any_overlaps = true;
   bool i_overlaps = true;
 
+  // Larger data points push text away with greater force.
+  double force_point_size = 100.0;
+
   if (NumericVector::is_na(force_push)) {
     force_push = 1e-6;
   }
@@ -960,7 +963,12 @@ DataFrame repel_boxes2(
           if (overlaps(DataCircles[i], TextBoxes[i])) {
             any_overlaps = true;
             i_overlaps = true;
-            f = f + repel_force(ci, Points[i], force_push, direction);
+            f = f + repel_force(
+              ci, Points[i],
+              // force_push,
+              point_size[i] * force_point_size * force_push,
+              direction
+            );
           }
         } else {
           cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
@@ -979,7 +987,12 @@ DataFrame repel_boxes2(
           if (overlaps(DataCircles[j], TextBoxes[i])) {
             any_overlaps = true;
             i_overlaps = true;
-            f = f + repel_force(ci, Points[j], force_push, direction);
+            f = f + repel_force(
+              ci, Points[j],
+              // force_push,
+              point_size[i] * force_point_size * force_push,
+              direction
+            );
           }
         }
       }
