@@ -74,6 +74,8 @@
 #' @param segment.colour,segment.color Colour of the line segment. Defaults to the same colour
 #'   as the text. In the unlikely event you specify both US and UK spellings of colour, the
 #'   US spelling will take precedence.
+#' @param segment.linetype Type of the line segment (solid, dashed). Defaults to 1, which
+#'   is a solid line.
 #' @param segment.alpha Transparency of the line segment. Defaults to the same
 #'   transparency as the text.
 #' @param min.segment.length Skip drawing segments shorter than this, as unit or
@@ -93,6 +95,8 @@
 #'   to 1.
 #' @param force_pull Force of attraction between a text label and its
 #'   corresponding data point. Defaults to 1.
+#' @param max.time Maximum number of seconds to try to resolve overlaps.
+#'   Defaults to 0.1.
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
 #'   Defaults to 2000.
 #' @param direction "both", "x", or "y" -- direction in which to adjust position of labels
@@ -238,7 +242,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     colour = "black", size = 3.88, angle = 0,
     alpha = NA, family = "", fontface = 1, lineheight = 1.2,
     hjust = 0.5, vjust = 0.5, point.size = 1,
-    segment.colour = "black", segment.size = 0.5, segment.alpha = 1,
+    segment.linetype = 1, segment.colour = "black", segment.size = 0.5, segment.alpha = 1,
     segment.curvature = 0, segment.angle = 90, segment.ncp = 1
   ),
 
@@ -338,8 +342,8 @@ makeContent.textrepeltree <- function(x) {
   if (is.na(x$point.padding)) {
     x$point.padding = unit(0, "lines")
   }
-  point_padding_x <- convertWidth(x$point.padding, "native", valueOnly = TRUE)
-  point_padding_y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
+  # point_padding_x <- convertWidth(x$point.padding, "native", valueOnly = TRUE)
+  # point_padding_y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
 
   # Do not create text labels for empty strings.
   valid_strings <- which(not_empty(x$lab))
@@ -368,7 +372,7 @@ makeContent.textrepeltree <- function(x) {
       "x1" = row$x - gw *       row$hjust - box_padding_x + row$nudge_x,
       "y1" = row$y - gh *       row$vjust - box_padding_y + row$nudge_y,
       "x2" = row$x + gw * (1 - row$hjust) + box_padding_x + row$nudge_x,
-      "y2" = row$y + gh * (1 - row$vjust) + box_padding_y + row$nudge_y 
+      "y2" = row$y + gh * (1 - row$vjust) + box_padding_y + row$nudge_y
     )
   })
 
@@ -378,15 +382,26 @@ makeContent.textrepeltree <- function(x) {
   }
 
   # The points are represented by circles.
-  point_size <- convertWidth(to_unit(x$data$point.size), "native", valueOnly = TRUE) / 10
+  x$data$point.size[is.na(x$data$point.size)] <- 0
 
-  # browser()
+  # Beware the magic numbers. I do not understand them.
+  # I just accept them as necessary to get the code to work.
+  p_width <- convertWidth(unit(1, "npc"), "inch", TRUE)
+  p_height <- convertHeight(unit(1, "npc"), "inch", TRUE)
+  p_ratio <- (p_width / p_height)
+  if (p_ratio > 1) {
+    p_ratio <- p_ratio ^ (1 / (1.15 * p_ratio))
+  }
+  point_size <- p_ratio * convertWidth(
+    to_unit(x$data$point.size), "native", valueOnly = TRUE
+  ) / 13
+
   # Repel overlapping bounding boxes away from each other.
   repel <- repel_boxes2(
     data_points     = as.matrix(x$data[,c("x","y")]),
     point_size      = point_size,
-    point_padding_x = point_padding_x,
-    point_padding_y = point_padding_y,
+    point_padding_x = p_ratio * convertWidth(x$point.padding, "native", valueOnly = TRUE) / 13,
+    point_padding_y = p_ratio * convertWidth(x$point.padding, "native", valueOnly = TRUE) / 13,
     boxes           = do.call(rbind, boxes),
     xlim            = range(x$limits$x),
     ylim            = range(x$limits$y),
@@ -408,8 +423,8 @@ makeContent.textrepeltree <- function(x) {
       x = unit(repel$x[i], "native"),
       y = unit(repel$y[i], "native"),
       # Position of original data points.
-      x.orig = unit(row$x, "native"),
-      y.orig = unit(row$y, "native"),
+      x.orig = row$x,
+      y.orig = row$y,
       rot = row$angle,
       box.padding = x$box.padding,
       point.size = point_size[i],
@@ -426,7 +441,8 @@ makeContent.textrepeltree <- function(x) {
       ),
       segment.gp = gpar(
         col = scales::alpha(row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha),
-        lwd = row$segment.size * .pt
+        lwd = row$segment.size * .pt,
+        lty = row$segment.linetype %||% 1
       ),
       arrow = x$arrow,
       min.segment.length = x$min.segment.length,
@@ -451,8 +467,8 @@ makeTextRepelGrobs <- function(
   x = unit(0.5, "npc"),
   y = unit(0.5, "npc"),
   # Position of original data points.
-  x.orig = unit(0.5, "npc"),
-  y.orig = unit(0.5, "npc"),
+  x.orig = 0.5,
+  y.orig = 0.5,
   rot = 0,
   default.units = "npc",
   just = "center",
@@ -496,10 +512,7 @@ makeTextRepelGrobs <- function(
   y1 <- convertHeight(y - 0.5 * grobHeight(t), "native", TRUE)
   y2 <- convertHeight(y + 0.5 * grobHeight(t), "native", TRUE)
 
-  point_pos <- c(
-    convertWidth(x.orig, "native", TRUE),
-    convertHeight(y.orig, "native", TRUE)
-  )
+  point_pos <- c(x.orig, y.orig)
 
   # Get the coordinates of the intersection between the line from the
   # original data point to the centroid and the rectangle's edges.
@@ -513,71 +526,31 @@ makeTextRepelGrobs <- function(
   int <- select_line_connection(point_pos, text_box)
 
   # Check if the data point is inside the label box.
-  point_inside <- FALSE
+  point_inside_text <- FALSE
   if (text_box[1] <= point_pos[1] && point_pos[1] <= text_box[3] &&
       text_box[2] <= point_pos[2] && point_pos[2] <= text_box[4]) {
-    point_inside <- TRUE
+    point_inside_text <- TRUE
   }
 
-  # # Nudge the original data point toward the label with point.padding.
-  # point_padding_x <- convertWidth(point.padding, "native", TRUE) / 2
-  # point_padding_y <- convertHeight(point.padding, "native", TRUE) / 2
-  # point_padding <- point_padding_x > 0 & point_padding_y > 0
-  # if (point_padding) {
-  #   point_box <- c(
-  #     point_pos[1] - point_padding_x, point_pos[2] - point_padding_y,
-  #     point_pos[1] + point_padding_x, point_pos[2] + point_padding_y
-  #   )
-  #   point_pos <- intersect_line_rectangle(center, point_pos, point_box)
-  # }
+  # This is too short.
+  # ps <- convertWidth(to_unit(point.size * 10), "native", TRUE)
 
-# {{ Trying out some new point padding code.
-#   d1x <- abs(int[1] - point_pos[1])
-#   d1y <- abs(int[2] - point_pos[2])
-#   d1 <- sqrt(d1x * d1x + d1y * d1y)
-#   if (d1 > 0) {
-#     new_pos <- c(
-#       # point_pos[1] - (as.numeric(point.size) / 10 + as.numeric(point.padding) / 10) * (dx / d1),
-#       # point_pos[2] - (as.numeric(point.size) / 10 + as.numeric(point.padding) / 10) * (dy / d1)
-#       # This one is pretty good!
-#       # point_pos[1] + sign(int[1] - point_pos[1]) * 0.5 * d1 * (d1x / d1),
-#       # point_pos[2] + sign(int[2] - point_pos[2]) * 0.5 * d1 * (d1y / d1)
-#       # This is ok.
-#       # point_pos[1] + sign(int[1] - point_pos[1]) * as.numeric(point.padding) * d1 * (d1x / d1),
-#       # point_pos[2] + sign(int[2] - point_pos[2]) * as.numeric(point.padding) * d1 * (d1y / d1)
-#       # This seems like the best?
-#       point_pos[1] + 0.8 * sign(int[1] - point_pos[1]) * as.numeric(point.padding) * as.numeric(point.size) * (d1x / d1),
-#       point_pos[2] + 0.8 * sign(int[2] - point_pos[2]) * as.numeric(point.padding) * as.numeric(point.size) * (d1y / d1)
-#     )
-#     d2x <- abs(int[1] - new_pos[1])
-#     d2y <- abs(int[2] - new_pos[2])
-#     d2 <- sqrt(d2x * d2x + d2y * d2y)
-#     signs_match <- (
-#       sign(int[1] - new_pos[1]) == sign(int[1] - point_pos[1]) &&
-#       sign(int[2] - new_pos[2]) == sign(int[2] - point_pos[2])
-#     )
-#     if (d2 < d1 && signs_match) {
-#       point_pos <- new_pos
-#     }
-#   }
-# }}
+  # This was working well enough.
+  # # pp <- convertWidth(to_unit(point.padding), "native", TRUE) / 2
+  # ppw <- convertWidth(point.padding, "native", TRUE)
+  # pph <- convertHeight(point.padding, "native", TRUE)
+  # pp <- (ppw + pph) / 4
 
-  # Nudge the original data point toward the label with point.padding.
-  point_padding_x <- convertWidth(point.padding, "native", TRUE) / 2
-  point_padding_y <- convertHeight(point.padding, "native", TRUE) / 2
-  point_padding <- point_padding_x > 0 & point_padding_y > 0
-  if (point_padding) {
-    point_box <- c(
-      point_pos[1] - point_padding_x, point_pos[2] - point_padding_y,
-      point_pos[1] + point_padding_x, point_pos[2] + point_padding_y
-    )
-    point_pos <- intersect_line_rectangle(int, point_pos, point_box)
-  }
+  # This seems just fine.
+  point.padding <- convertWidth(to_unit(point.padding), "native", TRUE) / 2
+
+  point_int <- intersect_line_circle(int, point_pos, (point.size + point.padding))
 
   # Compute the distance between the data point and the edge of the text box.
-  dx <- abs(int[1] - point_pos[1])
-  dy <- abs(int[2] - point_pos[2])
+  dx <- abs(int[1] - point_int[1])
+  dy <- abs(int[2] - point_int[2])
   d <- sqrt(dx * dx + dy * dy)
+
   # Scale the unit vector by the minimum segment length.
   if (d > 0) {
     mx <- convertWidth(min.segment.length, "native", TRUE)
@@ -587,12 +560,23 @@ makeTextRepelGrobs <- function(
 
   grobs <- list(text = t)
 
-  if (!point_inside && d > 0 && euclid(int, point_pos) > min.segment.length) {
+  if (
+    !point_inside_text &&
+    d > 0 &&
+    # Distance from label to point edge is greater than minimum.
+    euclid(int, point_int) > min.segment.length &&
+    # Distance from label to point edge is less than from label to point center.
+    euclid(int, point_int) < euclid(int, point_pos) &&
+    # Distance from label to point center is greater than point size.
+    euclid(int, point_pos) > point.size &&
+    # Distance from label to point center is greater than from point edge to point center.
+    euclid(int, point_pos) > euclid(point_int, point_pos)
+  ) {
     s <- curveGrob(
       x1 = int[1],
       y1 = int[2],
-      x2 = point_pos[1],
-      y2 = point_pos[2],
+      x2 = point_int[1],
+      y2 = point_int[2],
       default.units = "native",
       curvature = segment.curvature,
       angle = segment.angle,
