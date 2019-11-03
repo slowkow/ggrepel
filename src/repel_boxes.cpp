@@ -65,6 +65,23 @@ bool intersect_circle_rectangle(NumericVector c, NumericVector r) {
   return xCornerDistSq + yCornerDistSq <= maxCornerDistSq;
 }
 
+//' Find the intersection between a line and a circle.
+//' @param p1 A point on the line like \code{c(x, y)}
+//' @param p2 A point at the circle's center
+//' @param r The circle's radius
+//' @noRd
+// [[Rcpp::export]]
+NumericVector intersect_line_circle(
+    NumericVector p1, NumericVector p2, double r
+) {
+  // 0 = x, 1 = y
+  double theta = std::atan2(p1[1] - p2[1], p1[0] - p2[0]);
+  return NumericVector::create(
+      p2[0] + r * std::cos(theta),
+      p2[1] + r * std::sin(theta)
+  );
+}
+
 //' Find the intersections between a line and a rectangle.
 //' @param p1 A point like \code{c(x, y)}
 //' @param p2 A point like \code{c(x, y)}
@@ -880,7 +897,7 @@ DataFrame repel_boxes2(
   for (int i = 0; i < n_points; i++) {
     DataCircles[i].x = data_points(i, 0);
     DataCircles[i].y = data_points(i, 1);
-    DataCircles[i].r = point_size[i];
+    DataCircles[i].r = point_size[i] + (point_padding_x + point_padding_y) / 4.0;
     Points[i].x = data_points(i, 0);
     Points[i].y = data_points(i, 1);
   }
@@ -926,6 +943,8 @@ DataFrame repel_boxes2(
   nanotime_t start_time = get_nanotime();
   nanotime_t elapsed_time = 0;
 
+  std::vector<double> total_overlaps(n_texts, 1.0);
+
   while (any_overlaps && iter < max_iter) {
     iter += 1;
     any_overlaps = false;
@@ -963,6 +982,7 @@ DataFrame repel_boxes2(
           if (overlaps(DataCircles[i], TextBoxes[i])) {
             any_overlaps = true;
             i_overlaps = true;
+            total_overlaps[i] += 0.05;
             f = f + repel_force(
               ci, Points[i],
               // force_push,
@@ -976,6 +996,7 @@ DataFrame repel_boxes2(
           if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
             any_overlaps = true;
             i_overlaps = true;
+            total_overlaps[i] += 0.05;
             f = f + repel_force(ci, cj, force_push, direction);
           }
 
@@ -987,6 +1008,7 @@ DataFrame repel_boxes2(
           if (overlaps(DataCircles[j], TextBoxes[i])) {
             any_overlaps = true;
             i_overlaps = true;
+            total_overlaps[i] += 0.05;
             f = f + repel_force(
               ci, Points[j],
               // force_push,
@@ -999,12 +1021,16 @@ DataFrame repel_boxes2(
 
       // Pull the box toward its original position.
       if (!i_overlaps) {
+        total_overlaps[i] = 1.0;
         // force_pull *= 0.999;
         f = f + spring_force(
             original_centroids[i], ci, force_pull, direction);
       }
+      if (total_overlaps[i] > 1.5) {
+        total_overlaps[i] = 1.5;
+      }
 
-      velocities[i] = velocities[i] * (TextBoxWidths[i] + 1e-6) * velocity_decay + f;
+      velocities[i] = total_overlaps[i] * velocities[i] * (TextBoxWidths[i] + 1e-6) * velocity_decay + f;
       // velocities[i] = velocities[i] * velocity_decay + f;
       TextBoxes[i] = TextBoxes[i] + velocities[i];
       // Put boxes within bounds
