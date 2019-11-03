@@ -1,14 +1,34 @@
 
-ggrepel 0.8.0.9000
+ggrepel 0.9.0.9000
+========================
+
+ggrepel 0.9.0 2019-11-03
 ========================
 
 ## Changes
+
+* Points can be different sizes. Repel text labels from large points and small
+  points. New examples in the vignette show how to do this. See discussion about
+  this feature in [issue 83].
+
+[issue 83]: https://github.com/slowkow/ggrepel/issues/83
 
 * Add examples to the [vignette] for `ggplot2::position_jitter()` and
   `ggbeeswarm::position_quasirandom()`
   
 * Line segments can now be curved (#131, @malcolmbarrett). Add examples
-   to the [vignette] showing different options.
+  to the [vignette] showing different options.
+
+* Add support for new aesthetics:
+  - segment.size
+  - segment.colour
+  - segment.alpha
+  - segment.curvature
+  - segment.angle
+  - segment.ncp
+
+* Add `max.time` option to limit the number of seconds spent trying to position
+  the text labels.
 
 ## Bug fixes and improvements
 
@@ -16,6 +36,23 @@ ggrepel 0.8.0.9000
   [issue 35], where line segments sometimes appear on top of text.
 
 [issue 35]: https://github.com/slowkow/ggrepel/issues/35
+
+* Thanks to Paul Murrell (@pmur002) for notifying us to use `is.unit(x)`
+  instead of `class(x) == "unit"` in [issue 141]. This should future-proof
+  ggrepel for new versions of the grid package.
+
+[issue 141]: https://github.com/slowkow/ggrepel/issues/141
+
+ggrepel 0.8.1 2019-05-07
+========================
+
+## Bug fixes and improvements
+
+* Fix heap buffer overflow that causes R to crash. See [issue 115]. Thanks to
+  Brodie Gaslam (@brodieG) for helping me to setup an environment to reproduce
+  the bug on my own system.
+
+[issue 115]: https://github.com/slowkow/ggrepel/issues/115
 
 ggrepel 0.8.0 2018-05-09
 ========================
@@ -25,14 +62,12 @@ ggrepel 0.8.0 2018-05-09
 * Fix `geom_label_repel(..., point.padding=NA)`. Reported by @mlell in
   [issue 104].
 
-* See below for other changes made after ggrepel 0.7.0
-
 [issue 104]: https://github.com/slowkow/ggrepel/issues/104
 
 ggrepel 0.7.3 2018-02-09
 ========================
 
-NEW FEATURES
+# Changes
 
 * Add support for `position` parameter. See [issue 69]. This allows us to
   add text labels to points positioned with `position_jitter()`,
@@ -45,7 +80,7 @@ NEW FEATURES
 ggrepel 0.7.2 2018-01-14
 ========================
 
-FIXES (thanks to @AliciaSchep and @aphalo)
+## Bug fixes and improvements (thanks to @AliciaSchep and @aphalo)
 
 * Fix warning about `hjust`. See [issue 93].
 
@@ -58,7 +93,7 @@ FIXES (thanks to @AliciaSchep and @aphalo)
 ggrepel 0.7.1 2017-11-18
 ========================
 
-CHANGES (thanks to @AliciaSchep)
+# Changes (thanks to @AliciaSchep)
 
 * Add support for `hjust` and `vjust` parameters. See [issue 69].
   Also see new examples in the [vignette].
@@ -71,7 +106,7 @@ CHANGES (thanks to @AliciaSchep)
 ggrepel 0.7.0 2017-09-28
 ========================
 
-FIXES
+# Bug fixes
 
 * Fix intersection between lines and rectangles, to reproduce the same
   aesthetically pleasant behavior as in version 0.6.5. 
@@ -84,9 +119,9 @@ FIXES
 ggrepel 0.6.12 2017-07-16
 ========================
 
-NEW FEATURE
+# Changes
 
-* Reproduce identical plots by usign `seed = 1` to set the seed in
+* Reproduce identical plots by using `seed = 1` to set the seed in
   `geom_text_repel()` or `geom_label_repel()`. By default, no seed will be set.
   
   This is an improvement on the sloppy implementation introduced in 0.6.2. See
@@ -99,7 +134,7 @@ NEW FEATURE
 ggrepel 0.6.11 2017-07-08
 ========================
 
-CHANGES (thanks to @seaaan)
+## Changes (thanks to @seaaan)
 
 * Allow certain parameters to be passed as numbers or `unit()`
   instead of only units. See [issue 79].
@@ -109,7 +144,7 @@ CHANGES (thanks to @seaaan)
 ggrepel 0.6.10 2017-03-07
 ========================
 
-FIXES (thanks to @zkamvar)
+## Bug fixes (thanks to @zkamvar)
 
 * Fix the crash for plots that do not specify `xlim` or `ylim`.
   See [pull 74].
@@ -119,7 +154,7 @@ FIXES (thanks to @zkamvar)
 ggrepel 0.6.9 2017-03-07
 ========================
 
-FIXES (thanks to @pcroteau)
+## Bug fixes (thanks to @pcroteau)
 
 * Fix the crash for plots with `facet_wrap` or `facet_grid` that have no
   labeled points. See [pull 70].
@@ -139,7 +174,7 @@ NEW FEATURE (thanks to @AliciaSchep)
 ggrepel 0.6.7 2017-01-09
 ========================
 
-CHANGES (thanks to @lukauskas)
+## Changes (thanks to @lukauskas)
 
 * Constrain text labels to specific areas of the plot with `xlim` and `ylim` in
   `geom_text_repel()` and `geom_label_repel()`. See [pull 67].
@@ -149,7 +184,7 @@ CHANGES (thanks to @lukauskas)
 ggrepel 0.6.6 2016-11-28
 ========================
 
-FIXES (thanks to @fawda123)
+## Bug fixes (thanks to @fawda123)
 
 * Mathematical expressions as labels with `parse = TRUE` in 
   `geom_text_repel()` and `geom_label_repel()`. See [issue 60].
@@ -159,7 +194,7 @@ FIXES (thanks to @fawda123)
 ggrepel 0.6.5 2016-11-22
 ========================
 
-CHANGES (thanks to @jiho)
+## Changes (thanks to @jiho)
 
 * changed `alpha` in `geom_label_repel()` to control text, label
   background, label border, and segment.
@@ -169,14 +204,14 @@ CHANGES (thanks to @jiho)
 * By default, map text color and text alpha to the segment color unless they
   are overridden.
 
-FIXES (thanks to @jiho)
+## Bug fixes (thanks to @jiho)
 
 * Call `scales::alpha()` instead of `alpha()`.
 
 ggrepel 0.6.4 2016-11-08
 ========================
 
-FIXES
+## Bug fixes
 
 * Fix a bug that caused ggrepel to fail on polar coordinates `coord_polar()`.
   See [issue 56].
@@ -210,7 +245,7 @@ NEW FEATURES
 ggrepel 0.6.1 2016-10-04
 ========================
 
-CHANGES
+## Changes
 
 * Tweak `repel_boxes.cpp`. Dampen forces to tune how the labels move. The
   result looks better, at least for the examples in the [vignette].
@@ -232,7 +267,7 @@ NEW FEATURES
 * Implement `angle` aesthetic for `geom_text_repel()`, the same way as done in
   ggplot2 `geom_text()`.
 
-CHANGES
+## Changes
 
 * Move `nudge_x` and `nudge_y` out of the aesthetics function `aes()`. This
   makes ggrepel consistent with ggplot2 functions `geom_text()` and
@@ -258,7 +293,7 @@ ggrepel 0.5 2016-02-08
 ggrepel 0.4.6 2016-02-07
 ========================
 
-CHANGES
+## Changes
 
 * Tweak `point.padding` so that users can configure how far labels are pushed
   away from data points.
@@ -266,7 +301,7 @@ CHANGES
 ggrepel 0.4.5 2016-02-06
 ========================
 
-CHANGES
+## Changes
 
 * Optimize C++ code for a 2.5X speed improvment.
 
@@ -280,14 +315,14 @@ FIXES
 * Fix the bug when the line segment from the data point points to the origin
   at (0,0) instead of the text label.
 
-CHANGES
+## Changes
 
 * Automatically recompute repulsion between labels after resizing the plot.
 
 ggrepel 0.4.3 2016-01-18
 ========================
 
-CHANGES
+## Changes
 
 * Change distance between segment and label in `geom_label_repel()`. Now there
   is no gap between the end of the segment and the label border.
@@ -299,14 +334,14 @@ FIXES
 
 * Fix `spring_force()` so that it never returns NaN.
 
-CHANGES
+## Changes
 
 * Add `nudge_x` and `nudge_y` to better control positioning of labels.
 
 ggrepel 0.4.1 2016-01-13
 ========================
 
-CHANGES
+## Changes
 
 * Add `arrow` parameter to allow plotting arrows that point to the labeled data
   points rather than plain line segments.
@@ -333,7 +368,7 @@ FIXES
 
 * Fix DESCRIPTION to require ggplot2 >= 2.0.0
 
-CHANGES
+## Changes
 
 * Add new parameter `point.padding` to add padding around the labeled points.
   The line segment will stop before reaching the coordinates of the point. The
@@ -352,7 +387,7 @@ CHANGES
 ggrepel 0.3 2016-01-08
 ========================
 
-CHANGES
+## Changes
 
 * Remove unused imports: `colorspace`.
 
@@ -369,7 +404,7 @@ CHANGES
 ggrepel 0.2.0 2016-01-07
 ========================
 
-CHANGES
+## Changes
 
 * Update `geom_text_repel()` and `geom_label_repel()`.
 
