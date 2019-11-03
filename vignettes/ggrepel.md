@@ -1,7 +1,7 @@
 ---
 title: "ggrepel examples"
 author: "Kamil Slowikowski"
-date: "2019-04-28"
+date: "2019-05-06"
 output:
   prettydoc::html_pretty:
     theme: hpstr
@@ -152,7 +152,7 @@ ggplot(dat3, aes(wt, mpg, label = car)) +
 
 ### Do not repel labels from data points
 
-Set `point.padding = NA` to prevent label repulsion away from data points.
+Set `point.size = NA` to prevent label repulsion away from data points.
 
 Now labels move away from each other and away from the edges of the plot.
 
@@ -161,10 +161,10 @@ Now labels move away from each other and away from the edges of the plot.
 set.seed(42)
 ggplot(dat, aes(wt, mpg, label = car)) +
   geom_point(color = "red") +
-  geom_text_repel(point.padding = NA)
+  geom_text_repel(point.size = NA)
 ```
 
-<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/point_padding_na-1.png" title="plot of chunk point_padding_na" alt="plot of chunk point_padding_na" width="700" />
+<img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/point_size_na-1.png" title="plot of chunk point_size_na" alt="plot of chunk point_size_na" width="700" />
 
 ### Make curved line segments
 
@@ -204,7 +204,7 @@ cars <- c("Volvo 142E", "Merc 230")
 ggplot(dat, aes(wt, mpg, label = ifelse(car %in% cars, car, ""))) +
   geom_point(color = "red") +
   geom_text_repel(
-    point.padding = .6, 
+    point.padding = 0.2, 
     nudge_x = .15,
     nudge_y = .5,
     segment.curvature = -1e-20,
@@ -226,16 +226,27 @@ TODO: This example should be improved:
 library(ggrepel)
 
 d <- data.frame(
-  x = c(1, 2, 2, 3),
-  y = c(1, 2, 3, 1),
-  pointsize = factor(c(0, 1, 1, 0)),
-  label = sprintf("label%s", 1:4)
+  x = c(1, 2, 2, 3, 2.5),
+  y = c(1, 2, 3, 1, 2.0),
+  size = c(5, 2, 4, 1, 2),
+  label = sprintf("label%s", 1:5)
 )
 
+size_range <- c(1, 50)
 ggplot(d, aes(x, y)) +
-  geom_point(aes(size = pointsize)) +
-  scale_size_manual(values = c(1, 15)) +
-  geom_text_repel(aes(label = label), size = 5, point.size = d$pointsize)
+  geom_point(aes(size = size), alpha = 0.6) +
+  continuous_scale(
+    aesthetics = c("size", "point.size"), scale_name = "size",
+    palette = scales::area_pal(size_range), guide = FALSE
+  ) +
+  geom_text_repel(
+    aes(label = label, point.size = size), size = 5,
+    point.padding = 0, min.segment.length = 0,
+    max.time = 1, max.iter = 1e5,
+    box.padding = 2
+  ) +
+  # coord_equal() +
+  scale_y_continuous(limits = c(0.5, 3.5))
 ```
 
 <img src="https://github.com/slowkow/ggrepel/blob/master/vignettes/figures/ggrepel/point_size-1.png" title="plot of chunk point_size" alt="plot of chunk point_size" width="700" />
@@ -260,8 +271,9 @@ ggplot(dat, aes(wt, mpg, label = car, color = factor(cyl))) +
   geom_point() +
   geom_label_repel(
     arrow = arrow(length = unit(0.03, "npc"), type = "closed", ends = "first"),
-    force = 5,
-    xlim  = x_limits
+    xlim  = x_limits,
+    point.padding = NA,
+    box.padding = 0.1
   ) +
   scale_color_discrete(name = "cyl")
 ```
@@ -505,7 +517,8 @@ ggplot(mtcars) +
       y      = 0
     ),
     force_pull    = 0, # do not pull text toward the point at (0,0)
-    max.iter      = 1e4,
+    max.time      = 0.5,
+    max.iter      = 1e5,
     segment.color = NA,
     point.padding = NA
   ) +
@@ -561,7 +574,7 @@ ggplot(d, aes(x, y, label = math)) +
   geom_point() +
   geom_label_repel(
     parse       = TRUE, # Parse mathematical expressions.
-    size        = 8,
+    size        = 6,
     box.padding = 2
   )
 ```

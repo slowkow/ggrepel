@@ -8,24 +8,19 @@
 geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   position = "identity", parse = FALSE, ..., box.padding = 0.25,
   label.padding = 0.25, point.padding = 1e-06, label.r = 0.15,
-  label.size = 0.25, segment.colour = NULL, segment.color = NULL,
-  segment.size = 0.5, segment.alpha = NULL, min.segment.length = 0.5,
-  segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
-  arrow = NULL, force = 1, force_pull = 1, max.iter = 2000,
+  label.size = 0.25, min.segment.length = 0.5, arrow = NULL,
+  force = 1, force_pull = 1, max.time = 0.1, max.iter = 2000,
   nudge_x = 0, nudge_y = 0, xlim = c(NA, NA), ylim = c(NA, NA),
   na.rm = FALSE, show.legend = NA, direction = c("both", "y", "x"),
   seed = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   position = "identity", parse = FALSE, ..., box.padding = 0.25,
-  point.size = 0, point.padding = 1e-06, segment.colour = NULL,
-  segment.color = NULL, segment.size = 0.5, segment.alpha = NULL,
-  min.segment.length = 0.5, segment.curvature = 0,
-  segment.angle = 90, segment.ncp = 1, arrow = NULL, force = 1,
-  force_pull = 1, max.iter = 2000, nudge_x = 0, nudge_y = 0,
-  xlim = c(NA, NA), ylim = c(NA, NA), na.rm = FALSE,
-  show.legend = NA, direction = c("both", "y", "x"), seed = NA,
-  inherit.aes = TRUE)
+  point.padding = 1e-06, min.segment.length = 0.5, arrow = NULL,
+  force = 1, force_pull = 1, max.time = 0.1, max.iter = 2000,
+  nudge_x = 0, nudge_y = 0, xlim = c(NA, NA), ylim = c(NA, NA),
+  na.rm = FALSE, show.legend = NA, direction = c("both", "y", "x"),
+  seed = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -75,31 +70,9 @@ passing \code{unit(x, "units")}).}
 
 \item{label.size}{Size of label border, in mm.}
 
-\item{segment.colour, segment.color}{Colour of the line segment. Defaults to the same colour
-as the text. In the unlikely event you specify both US and UK spellings of colour, the
-US spelling will take precedence.}
-
-\item{segment.size}{Width of line segment connecting the data point to
-the text label, in mm.}
-
-\item{segment.alpha}{Transparency of the line segment. Defaults to the same
-transparency as the text.}
-
 \item{min.segment.length}{Skip drawing segments shorter than this, as unit or
 number. Defaults to 0.5. (Default unit is lines, but other units can be
 specified by passing \code{unit(x, "units")}).}
-
-\item{segment.curvature}{A numeric value giving the amount of curvature.
-Negative values produce left-hand curves, positive values produce
-right-hand curves, and zero produces a straight line.}
-
-\item{segment.angle}{A numeric value between 0 and 180, giving an amount to
-skew the control points of the curve. Values less than 90 skew the curve
-towards the start point and values greater than 90 skew the curve towards
-the end point.}
-
-\item{segment.ncp}{The number of control points used to draw the curve. More
-control points creates a smoother curve.}
 
 \item{arrow}{specification for arrow heads, as created by \code{\link[grid]{arrow}}}
 
@@ -108,6 +81,9 @@ to 1.}
 
 \item{force_pull}{Force of attraction between a text label and its
 corresponding data point. Defaults to 1.}
+
+\item{max.time}{Maximum number of seconds to try to resolve overlaps.
+Defaults to 0.1.}
 
 \item{max.iter}{Maximum number of iterations to try to resolve overlaps.
 Defaults to 2000.}
@@ -135,9 +111,6 @@ a warning.  If \code{TRUE} silently removes missing values.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
-
-\item{point.size}{Size of each data point, so non-uniform points can be
-labeled without overlaps.}
 }
 \description{
 \code{geom_text_repel} adds text directly to the plot.

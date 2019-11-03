@@ -42,6 +42,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// intersect_line_circle
+NumericVector intersect_line_circle(NumericVector p1, NumericVector p2, double r);
+RcppExport SEXP _ggrepel_intersect_line_circle(SEXP p1SEXP, SEXP p2SEXP, SEXP rSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type p1(p1SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type p2(p2SEXP);
+    Rcpp::traits::input_parameter< double >::type r(rSEXP);
+    rcpp_result_gen = Rcpp::wrap(intersect_line_circle(p1, p2, r));
+    return rcpp_result_gen;
+END_RCPP
+}
 // intersect_line_rectangle
 NumericVector intersect_line_rectangle(NumericVector p1, NumericVector p2, NumericVector b);
 RcppExport SEXP _ggrepel_intersect_line_rectangle(SEXP p1SEXP, SEXP p2SEXP, SEXP bSEXP) {
@@ -80,8 +93,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // repel_boxes
-DataFrame repel_boxes(NumericMatrix data_points, double point_padding_x, double point_padding_y, NumericMatrix boxes, NumericVector xlim, NumericVector ylim, NumericVector hjust, NumericVector vjust, double force_push, double force_pull, int maxiter, std::string direction);
-RcppExport SEXP _ggrepel_repel_boxes(SEXP data_pointsSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP hjustSEXP, SEXP vjustSEXP, SEXP force_pushSEXP, SEXP force_pullSEXP, SEXP maxiterSEXP, SEXP directionSEXP) {
+DataFrame repel_boxes(NumericMatrix data_points, double point_padding_x, double point_padding_y, NumericMatrix boxes, NumericVector xlim, NumericVector ylim, NumericVector hjust, NumericVector vjust, double force_push, double force_pull, int max_iter, std::string direction);
+RcppExport SEXP _ggrepel_repel_boxes(SEXP data_pointsSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP hjustSEXP, SEXP vjustSEXP, SEXP force_pushSEXP, SEXP force_pullSEXP, SEXP max_iterSEXP, SEXP directionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -95,15 +108,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type vjust(vjustSEXP);
     Rcpp::traits::input_parameter< double >::type force_push(force_pushSEXP);
     Rcpp::traits::input_parameter< double >::type force_pull(force_pullSEXP);
-    Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
+    Rcpp::traits::input_parameter< int >::type max_iter(max_iterSEXP);
     Rcpp::traits::input_parameter< std::string >::type direction(directionSEXP);
-    rcpp_result_gen = Rcpp::wrap(repel_boxes(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, maxiter, direction));
+    rcpp_result_gen = Rcpp::wrap(repel_boxes(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, max_iter, direction));
     return rcpp_result_gen;
 END_RCPP
 }
 // repel_boxes2
-DataFrame repel_boxes2(NumericMatrix data_points, NumericVector point_size, double point_padding_x, double point_padding_y, NumericMatrix boxes, NumericVector xlim, NumericVector ylim, NumericVector hjust, NumericVector vjust, double force_push, double force_pull, int maxiter, std::string direction);
-RcppExport SEXP _ggrepel_repel_boxes2(SEXP data_pointsSEXP, SEXP point_sizeSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP hjustSEXP, SEXP vjustSEXP, SEXP force_pushSEXP, SEXP force_pullSEXP, SEXP maxiterSEXP, SEXP directionSEXP) {
+DataFrame repel_boxes2(NumericMatrix data_points, NumericVector point_size, double point_padding_x, double point_padding_y, NumericMatrix boxes, NumericVector xlim, NumericVector ylim, NumericVector hjust, NumericVector vjust, double force_push, double force_pull, double max_time, int max_iter, std::string direction);
+RcppExport SEXP _ggrepel_repel_boxes2(SEXP data_pointsSEXP, SEXP point_sizeSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP hjustSEXP, SEXP vjustSEXP, SEXP force_pushSEXP, SEXP force_pullSEXP, SEXP max_timeSEXP, SEXP max_iterSEXP, SEXP directionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -118,9 +131,10 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type vjust(vjustSEXP);
     Rcpp::traits::input_parameter< double >::type force_push(force_pushSEXP);
     Rcpp::traits::input_parameter< double >::type force_pull(force_pullSEXP);
-    Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
+    Rcpp::traits::input_parameter< double >::type max_time(max_timeSEXP);
+    Rcpp::traits::input_parameter< int >::type max_iter(max_iterSEXP);
     Rcpp::traits::input_parameter< std::string >::type direction(directionSEXP);
-    rcpp_result_gen = Rcpp::wrap(repel_boxes2(data_points, point_size, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, maxiter, direction));
+    rcpp_result_gen = Rcpp::wrap(repel_boxes2(data_points, point_size, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, max_time, max_iter, direction));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -129,11 +143,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ggrepel_euclid", (DL_FUNC) &_ggrepel_euclid, 2},
     {"_ggrepel_centroid", (DL_FUNC) &_ggrepel_centroid, 3},
     {"_ggrepel_intersect_circle_rectangle", (DL_FUNC) &_ggrepel_intersect_circle_rectangle, 2},
+    {"_ggrepel_intersect_line_circle", (DL_FUNC) &_ggrepel_intersect_line_circle, 3},
     {"_ggrepel_intersect_line_rectangle", (DL_FUNC) &_ggrepel_intersect_line_rectangle, 3},
     {"_ggrepel_select_line_connection", (DL_FUNC) &_ggrepel_select_line_connection, 2},
     {"_ggrepel_approximately_equal", (DL_FUNC) &_ggrepel_approximately_equal, 2},
     {"_ggrepel_repel_boxes", (DL_FUNC) &_ggrepel_repel_boxes, 12},
-    {"_ggrepel_repel_boxes2", (DL_FUNC) &_ggrepel_repel_boxes2, 13},
+    {"_ggrepel_repel_boxes2", (DL_FUNC) &_ggrepel_repel_boxes2, 14},
     {NULL, NULL, 0}
 };
 

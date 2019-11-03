@@ -69,27 +69,9 @@
 #' @param point.padding Amount of padding around labeled point, as unit or
 #'   number. Defaults to 0. (Default unit is lines, but other units can be
 #'   specified by passing \code{unit(x, "units")}).
-#' @param segment.size Width of line segment connecting the data point to
-#'   the text label, in mm.
-#' @param segment.colour,segment.color Colour of the line segment. Defaults to the same colour
-#'   as the text. In the unlikely event you specify both US and UK spellings of colour, the
-#'   US spelling will take precedence.
-#' @param segment.linetype Type of the line segment (solid, dashed). Defaults to 1, which
-#'   is a solid line.
-#' @param segment.alpha Transparency of the line segment. Defaults to the same
-#'   transparency as the text.
 #' @param min.segment.length Skip drawing segments shorter than this, as unit or
 #'   number. Defaults to 0.5. (Default unit is lines, but other units can be
 #'   specified by passing \code{unit(x, "units")}).
-#' @param segment.curvature A numeric value giving the amount of curvature.
-#'   Negative values produce left-hand curves, positive values produce
-#'   right-hand curves, and zero produces a straight line.
-#' @param segment.angle A numeric value between 0 and 180, giving an amount to
-#'   skew the control points of the curve. Values less than 90 skew the curve
-#'   towards the start point and values greater than 90 skew the curve towards
-#'   the end point.
-#' @param segment.ncp The number of control points used to draw the curve. More
-#'   control points creates a smoother curve.
 #' @param arrow specification for arrow heads, as created by \code{\link[grid]{arrow}}
 #' @param force Force of repulsion between overlapping text labels. Defaults
 #'   to 1.

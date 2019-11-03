@@ -88,6 +88,15 @@ intersect_circle_rectangle <- function(c, r) {
     .Call('_ggrepel_intersect_circle_rectangle', PACKAGE = 'ggrepel', c, r)
 }
 
+#' Find the intersection between a line and a circle.
+#' @param p1 A point on the line like \code{c(x, y)}
+#' @param p2 A point at the circle's center
+#' @param r The circle's radius
+#' @noRd
+intersect_line_circle <- function(p1, p2, r) {
+    .Call('_ggrepel_intersect_line_circle', PACKAGE = 'ggrepel', p1, p2, r)
+}
+
 #' Find the intersections between a line and a rectangle.
 #' @param p1 A point like \code{c(x, y)}
 #' @param p2 A point like \code{c(x, y)}
@@ -117,11 +126,11 @@ approximately_equal <- function(x1, x2) {
 #' @param ylim A numeric vector representing the limits on the y axis like
 #'   \code{c(ymin, ymax)}
 #' @param force Magnitude of the force (defaults to \code{1e-6})
-#' @param maxiter Maximum number of iterations to try to resolve overlaps
+#' @param max_iter Maximum number of iterations to try to resolve overlaps
 #'   (defaults to 2000)
 #' @noRd
-repel_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push = 1e-7, force_pull = 1e-7, maxiter = 2000L, direction = "both") {
-    .Call('_ggrepel_repel_boxes', PACKAGE = 'ggrepel', data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, maxiter, direction)
+repel_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push = 1e-7, force_pull = 1e-7, max_iter = 2000L, direction = "both") {
+    .Call('_ggrepel_repel_boxes', PACKAGE = 'ggrepel', data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, max_iter, direction)
 }
 
 #' Adjust the layout of a list of potentially overlapping boxes.
@@ -137,10 +146,12 @@ repel_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xl
 #' @param ylim A numeric vector representing the limits on the y axis like
 #'   \code{c(ymin, ymax)}
 #' @param force Magnitude of the force (defaults to \code{1e-6})
-#' @param maxiter Maximum number of iterations to try to resolve overlaps
+#' @param max_time Maximum number of seconds to try to resolve overlaps
+#'   (defaults to 0.1)
+#' @param max_iter Maximum number of iterations to try to resolve overlaps
 #'   (defaults to 2000)
 #' @noRd
-repel_boxes2 <- function(data_points, point_size, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push = 1e-7, force_pull = 1e-7, maxiter = 2000L, direction = "both") {
-    .Call('_ggrepel_repel_boxes2', PACKAGE = 'ggrepel', data_points, point_size, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, maxiter, direction)
+repel_boxes2 <- function(data_points, point_size, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push = 1e-7, force_pull = 1e-7, max_time = 0.1, max_iter = 2000L, direction = "both") {
+    .Call('_ggrepel_repel_boxes2', PACKAGE = 'ggrepel', data_points, point_size, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, max_time, max_iter, direction)
 }
 
