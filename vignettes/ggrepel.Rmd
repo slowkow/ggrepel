@@ -386,7 +386,7 @@ upper bound in a particular direction.
 
 Here we also use `grid::arrow()` to render the segments as arrows.
 
-```{r xlim, echo=TRUE, fig.width=5.5, fig.height=4}
+```{r xlim, echo=TRUE, fig.width=6, fig.height=4}
 set.seed(42)
 
 # All labels should be to the right of 3.
