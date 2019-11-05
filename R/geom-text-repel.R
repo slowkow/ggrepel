@@ -619,7 +619,8 @@ shadowtextGrob <- function(
     gp$col <- bg.colour
 
     theta <- seq(pi/8, 2*pi, length.out=16)
-    char <- substring(label[1], 1, 1)
+    char <- "X"
+    # char <- substring(label[1], 1, 1)
     r <- bg.r[1]
 
     bgList <- lapply(theta, function(i) {
@@ -628,7 +629,7 @@ shadowtextGrob <- function(
       if (!is.unit(y))
         y <- unit(y, default.units)
 
-      x <- x + unit(cos(i) * r, "strwidth", data = char)
+      x <- x + unit(cos(i) * r, "strheight", data = char)
       y <- y + unit(sin(i) * r, "strheight", data = char)
       textGrob(
         label = label, x = x, y = y, just = just, hjust = hjust,
