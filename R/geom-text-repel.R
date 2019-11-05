@@ -436,12 +436,12 @@ makeContent.textrepeltree <- function(x) {
     )
   })
 
-  # class(grobs) <- "gList"
   grobs <- unlist(grobs, recursive = FALSE)
   class(grobs) <- "gList"
 
   # Put segment grobs before text grobs.
-  grobs <- grobs[order(!grepl("^segment", names(grobs)), seq_along(grobs))]
+  grob_names <- sapply(grobs, "[[", "name")
+  grobs <- grobs[order(!grepl("^segment", grob_names))]
 
   setChildren(x, grobs)
 }
