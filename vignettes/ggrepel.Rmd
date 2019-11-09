@@ -635,6 +635,23 @@ ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
   labs(title = "position_quasirandom()")
 ```
 
+### Shadows (or glow) under text labels
+
+We can place shadows (or glow) underneath each text label to enhance
+the readability of the text. This might be useful when text labels
+are placed on top of other plot elements. This feature uses the same
+code as the [shadowtext] package by [Guangchuang Yu].
+
+[shadowtext]: https://github.com/GuangchuangYu/shadowtext
+[Guangchuang Yu]: https://github.com/GuangchuangYu
+
+```{r shadowtext, echo=TRUE, fig.width=5, fig.height=4}
+set.seed(42)
+ggplot(dat, aes(wt, mpg, label = car)) +
+  geom_point(color = "red") +
+  geom_text_repel(color = "white", bg.color = "black", bg.r = 0.15)
+```
+
 ### Word cloud
 
 <div class="alert alert-info" role="alert">

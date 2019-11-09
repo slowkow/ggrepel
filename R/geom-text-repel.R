@@ -623,12 +623,14 @@ shadowtextGrob <- function(
     # char <- substring(label[1], 1, 1)
     r <- bg.r[1]
 
-    bgList <- lapply(theta, function(i) {
-      if (!is.unit(x))
-        x <- unit(x, default.units)
-      if (!is.unit(y))
-        y <- unit(y, default.units)
+    if (!is.unit(x)) {
+      x <- unit(x, default.units)
+    }
+    if (!is.unit(y)) {
+      y <- unit(y, default.units)
+    }
 
+    bgList <- lapply(theta, function(i) {
       x <- x + unit(cos(i) * r, "strheight", data = char)
       y <- y + unit(sin(i) * r, "strheight", data = char)
       textGrob(

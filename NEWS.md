@@ -29,6 +29,12 @@ ggrepel 0.9.0 2019-11-03
 
 * Add `max.time` option to limit the number of seconds spent trying to position
   the text labels.
+  
+* Add `bg.color` and `bg.r` aesthetics for `geom_text()` to display shadows
+  behind text labels. Thanks to @rcannood for adding this feature with
+  [pull request 142].
+  
+[pull request 142]: https://github.com/slowkow/ggrepel/pull/142
 
 ## Bug fixes and improvements
 
