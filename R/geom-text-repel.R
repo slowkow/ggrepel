@@ -225,7 +225,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     alpha = NA, family = "", fontface = 1, lineheight = 1.2,
     hjust = 0.5, vjust = 0.5, point.size = 1,
     segment.linetype = 1, segment.colour = "black", segment.size = 0.5, segment.alpha = 1,
-    segment.curvature = 0, segment.angle = 90, segment.ncp = 1
+    segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
+    bg.colour = NA, bg.r = 0.1
   ),
 
   draw_panel = function(
@@ -429,15 +430,18 @@ makeContent.textrepeltree <- function(x) {
       arrow = x$arrow,
       min.segment.length = x$min.segment.length,
       hjust = row$hjust,
-      vjust = row$vjust
+      vjust = row$vjust,
+      bg.colour = alpha(row$bg.colour, row$alpha),
+      bg.r = row$bg.r
     )
   })
-  # Put segment grobs before text grobs.
-  grobs <- c(
-    Filter(Negate(is.null), lapply(grobs, "[[", "segment")),
-    Filter(Negate(is.null), lapply(grobs, "[[", "text"))
-  )
+
+  grobs <- unlist(grobs, recursive = FALSE)
   class(grobs) <- "gList"
+
+  # Put segment grobs before text grobs.
+  grob_names <- sapply(grobs, "[[", "name")
+  grobs <- grobs[order(!grepl("^segment", grob_names))]
 
   setChildren(x, grobs)
 }
@@ -467,7 +471,9 @@ makeTextRepelGrobs <- function(
   arrow = NULL,
   min.segment.length = 0.5,
   hjust = 0.5,
-  vjust = 0.5
+  vjust = 0.5,
+  bg.colour = NA,
+  bg.r = .1
 ) {
   stopifnot(length(label) == 1)
 
@@ -479,15 +485,19 @@ makeTextRepelGrobs <- function(
   hj <- resolveHJust(just, NULL)
   vj <- resolveVJust(just, NULL)
 
-  t <- textGrob(
+  grobs <- shadowtextGrob(
     label,
     x + 2 * (0.5 - hj) * box.padding,
     y + 2 * (0.5 - vj) * box.padding,
     rot = rot,
     just = c(hj, vj),
     gp = text.gp,
-    name = sprintf("textrepelgrob%s", i)
+    name = sprintf("textrepelgrob%s", i),
+    bg.colour = bg.colour,
+    bg.r = bg.r
   )
+  # the regular textgrob will always be the last one
+  t <- grobs[[length(grobs)]]
 
   x1 <- convertWidth(x - 0.5 * grobWidth(t), "native", TRUE)
   x2 <- convertWidth(x + 0.5 * grobWidth(t), "native", TRUE)
@@ -540,8 +550,6 @@ makeTextRepelGrobs <- function(
     min.segment.length <- sqrt((mx * dx / d) ^ 2 + (my * dy / d) ^ 2)
   }
 
-  grobs <- list(text = t)
-
   if (
     !point_inside_text &&
     d > 0 &&
@@ -567,7 +575,7 @@ makeTextRepelGrobs <- function(
       name = sprintf("segmentrepelgrob%s", i),
       arrow = arrow
     )
-    grobs[["segment"]] <- s
+    grobs[[s$name]] <- s
   }
 
   grobs
@@ -590,4 +598,46 @@ just_dir <- function(x, tol = 0.001) {
   out[x < 0.5 - tol] <- 1L
   out[x > 0.5 + tol] <- 3L
   out
+}
+
+# copied and slightly adapted from shadowtext
+shadowtextGrob <- function(
+  label, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
+  just = "centre", hjust = NULL, vjust = NULL, rot = 0, check.overlap = FALSE,
+  default.units = "npc", name = NULL, gp = gpar(col="white"), vp = NULL,
+  bg.colour = "black", bg.r = 0.1
+) {
+  upperGrob <- textGrob(
+    label = label, x = x, y = y, just = just, hjust = hjust,
+    vjust = vjust, rot = rot, default.units = default.units,
+    check.overlap = check.overlap, name = name, gp = gp, vp = vp
+  )
+
+  if (is.na(bg.colour)) {
+    gList(upperGrob)
+  } else {
+    gp$col <- bg.colour
+
+    theta <- seq(pi/8, 2*pi, length.out=16)
+    char <- "X"
+    # char <- substring(label[1], 1, 1)
+    r <- bg.r[1]
+
+    bgList <- lapply(theta, function(i) {
+      if (!is.unit(x))
+        x <- unit(x, default.units)
+      if (!is.unit(y))
+        y <- unit(y, default.units)
+
+      x <- x + unit(cos(i) * r, "strheight", data = char)
+      y <- y + unit(sin(i) * r, "strheight", data = char)
+      textGrob(
+        label = label, x = x, y = y, just = just, hjust = hjust,
+        vjust = vjust, rot = rot, default.units = default.units,
+        check.overlap = check.overlap, name = paste0(name, "-shadowtext", i), gp = gp, vp = vp
+      )
+    })
+
+    do.call(gList, c(bgList, list(upperGrob)))
+  }
 }
