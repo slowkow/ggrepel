@@ -126,13 +126,10 @@ devtools::install_github("slowkow/ggrepel")
 
 ## Options
 
-Options available for [geom_text()][geom_text] and [geom_label()][geom_text]
-are also available for `geom_text_repel()` and `geom_label_repel()`,
-including `size`, `angle`, `family`, `fontface`, etc.
-
-[geom_text]: http://ggplot2.tidyverse.org/reference/geom_text.html
-
-ggrepel provides additional options for `geom_text_repel` and `geom_label_repel`:
+Options allow us to change the behavior of ggrepel to fit the needs
+of our figure. Most of them are global options that affect all of
+the text labels, but some can be vectors of the same length as
+your data, like `nudge_x` or `nudge_y`.
 
 |Option          | Default      | Description
 |--------------- | ------------ | ------------------------------------------------
@@ -144,13 +141,39 @@ ggrepel provides additional options for `geom_text_repel` and `geom_label_repel`
 |`nudge_y`       | `0`          | adjust the starting y position of the text label
 |`box.padding`   | `0.25 lines` | padding around the text label
 |`point.padding` | `0 lines`    | padding around the labeled data point
+|`arrow`         | `NULL`       | render line segment as an arrow with `grid::arrow()`
+
+## Aesthetics
+
+Aesthetics are parameters that can be mapped to your data with `geom_text_repel(mapping = aes(...))`.
+
+ggrepel provides the same aesthetics for `geom_text_repel` and `geom_label_repel` that are available in [geom_text()][geom_text] or [geom_label()][geom_text], but it also provides a few more that are unique to ggrepel.
+
+[geom_text]: http://ggplot2.tidyverse.org/reference/geom_text.html
+
+All of them are listed below. See the [ggplot2 documentation about aesthetic specifications][aes] for more details and examples.
+
+[aes]: https://ggplot2.tidyverse.org/articles/ggplot2-specs.html
+
+|Aesthetic       | Default      | Description
+|--------------- | ------------ | ------------------------------------------------
+|`color` | `"black"`    | text and label border color
+|`size` | `3.88`    | font size
+|`angle` | `0`    | angle of the text label
+|`alpha` | `NA`    | transparency of the text label
+|`family` | `""`    | font name
+|`fontface` | `1`    | "plain", "bold", "italic", "bold.italic"
+|`lineheight` | `1.2`    | line height for text labels
+|`hjust` | `0.5`    | horizontal justification, different from geom_text()
+|`vjust` | `0.5`    | vertical justification, different from geom_text()
+|`point.size` | `1`    | size of each point for each text label
+|`segment.linetype` | `1`    | line segment solid, dashed, etc.
 |`segment.color` | `"black"`    | line segment color
 |`segment.size`  | `0.5 mm`     | line segment thickness
 |`segment.alpha` | `1.0`        | line segment transparency
 |`segment.curvature` | `0`      | numeric, negative for left-hand and positive for right-hand curves, 0 for straight lines
 |`segment.angle` | `90`         | 0-180, less than 90 skews control points toward the start point
 |`segment.ncp`   | `1`          | number of control points to make a smoother curve
-|`arrow`         | `NULL`       | render line segment as an arrow with `grid::arrow()`
 
 ## Examples
 
@@ -360,7 +383,6 @@ my_pal <- function(range = c(1, 6)) {
 }
 
 ggplot(dat, aes(wt, mpg, label = car)) +
-  geom_point(aes(size = cyl), alpha = 0.6) + # data point size
   geom_label_repel(
     aes(point.size = cyl), # data point size
     size = 5, # font size in the text labels
@@ -369,6 +391,9 @@ ggplot(dat, aes(wt, mpg, label = car)) +
     max.time = 1, max.iter = 1e5, # stop after 1 second, or after 100,000 iterations
     box.padding = 0.3 # additional padding around each text label
   ) +
+  # Put geom_point() after geom_label_repel, so the
+  # legend for geom_point() appears on the top layer.
+  geom_point(aes(size = cyl), alpha = 0.6) + # data point size
   continuous_scale(
     aesthetics = c("size", "point.size"),
     scale_name = "size",
@@ -685,6 +710,7 @@ dat <- data.frame(
   )[[1]]
 )
 
+# Make sure to choose a font that is installed on your system.
 my_font <- "HiraKakuProN-W3"
 
 ggplot(dat, aes(x, y, label = label)) +
