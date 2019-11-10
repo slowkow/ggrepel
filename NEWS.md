@@ -49,6 +49,11 @@ ggrepel 0.9.0 2019-11-03
 
 [issue 141]: https://github.com/slowkow/ggrepel/issues/141
 
+* Fix the way `xlim = c(-Inf, Inf)` is treated. Thanks to @thomasp85 for
+  pointing out the bug in [issue 136].
+
+[issue 136]: https://github.com/slowkow/ggrepel/issues/136
+
 ggrepel 0.8.1 2019-05-07
 ========================
 
