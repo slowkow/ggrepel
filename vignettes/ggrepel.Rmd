@@ -213,7 +213,7 @@ dat3 <- rbind(
 
 ggplot(dat3, aes(wt, mpg, label = car)) +
   geom_point(data = dat3[dat3$car == "",], color = "grey50") +
-  geom_text_repel(box.padding = 0.5) +
+  geom_text_repel(box.padding = 0.5, max.overlaps = Inf) +
   geom_point(data = dat3[dat3$car != "",], color = "red")
 ```
 
@@ -720,7 +720,11 @@ code as the [shadowtext] package by [Guangchuang Yu].
 set.seed(42)
 ggplot(dat, aes(wt, mpg, label = car)) +
   geom_point(color = "red") +
-  geom_text_repel(color = "white", bg.color = "black", bg.r = 0.15)
+  geom_text_repel(
+    color = "white",     # text color
+    bg.color = "grey30", # shadow color
+    bg.r = 0.15          # shadow radius
+  )
 ```
 
 ### Word cloud
@@ -753,6 +757,7 @@ ggplot(mtcars) +
     force_pull    = 0, # do not pull text toward the point at (0,0)
     max.time      = 0.5,
     max.iter      = 1e5,
+    max.overlaps  = Inf,
     segment.color = NA,
     point.padding = NA
   ) +

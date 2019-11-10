@@ -10,17 +10,17 @@ geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
   label.padding = 0.25, point.padding = 1e-06, label.r = 0.15,
   label.size = 0.25, min.segment.length = 0.5, arrow = NULL,
   force = 1, force_pull = 1, max.time = 0.1, max.iter = 2000,
-  nudge_x = 0, nudge_y = 0, xlim = c(NA, NA), ylim = c(NA, NA),
-  na.rm = FALSE, show.legend = NA, direction = c("both", "y", "x"),
-  seed = NA, inherit.aes = TRUE)
+  max.overlaps = 10, nudge_x = 0, nudge_y = 0, xlim = c(NA, NA),
+  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
+  direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
 
 geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
   position = "identity", parse = FALSE, ..., box.padding = 0.25,
   point.padding = 1e-06, min.segment.length = 0.5, arrow = NULL,
   force = 1, force_pull = 1, max.time = 0.1, max.iter = 2000,
-  nudge_x = 0, nudge_y = 0, xlim = c(NA, NA), ylim = c(NA, NA),
-  na.rm = FALSE, show.legend = NA, direction = c("both", "y", "x"),
-  seed = NA, inherit.aes = TRUE)
+  max.overlaps = 10, nudge_x = 0, nudge_y = 0, xlim = c(NA, NA),
+  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
+  direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -87,6 +87,9 @@ Defaults to 0.1.}
 
 \item{max.iter}{Maximum number of iterations to try to resolve overlaps.
 Defaults to 2000.}
+
+\item{max.overlaps}{Exclude text labels that overlap too many things.
+Defaults to 10.}
 
 \item{nudge_x, nudge_y}{Horizontal and vertical adjustments to nudge the
 starting position of each text label.}

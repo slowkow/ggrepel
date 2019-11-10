@@ -22,6 +22,7 @@ geom_label_repel <- function(
   force_pull = 1,
   max.time = 0.1,
   max.iter = 2000,
+  max.overlaps = 10,
   nudge_x = 0,
   nudge_y = 0,
   xlim = c(NA, NA),
@@ -60,6 +61,7 @@ geom_label_repel <- function(
       force_pull = force_pull,
       max.time = max.time,
       max.iter = max.iter,
+      max.overlaps = max.overlaps,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
       xlim = xlim,
@@ -107,6 +109,7 @@ GeomLabelRepel <- ggproto(
     ylim = c(NA, NA),
     max.time = 0.1,
     max.iter = 2000,
+    max.overlaps = 10,
     direction = "both",
     seed = NA
   ) {
@@ -175,6 +178,7 @@ GeomLabelRepel <- ggproto(
       force_pull = force_pull,
       max.time = max.time,
       max.iter = max.iter,
+      max.overlaps = max.overlaps,
       direction = direction,
       seed = seed,
       cl = "labelrepeltree"
@@ -276,50 +280,59 @@ makeContent.labelrepeltree <- function(x) {
     force_pull      = x$force_pull * 1e-2,
     max_time        = x$max.time,
     max_iter        = x$max.iter,
+    max_overlaps    = x$max.overlaps,
     direction       = x$direction
   )
 
+  if (all(repel$too_many_overlaps)) {
+    grobs <- list()
+    class(grobs) <- "gList"
+    return(setChildren(x, grobs))
+  }
+
   grobs <- lapply(seq_along(valid_strings), function(i) {
-    row <- x$data[i, , drop = FALSE]
-    makeLabelRepelGrobs(
-      i,
-      x$lab[i],
-      # Position of text bounding boxes.
-      x = unit(repel$x[i], "native"),
-      y = unit(repel$y[i], "native"),
-      # Position of original data points.
-      x.orig = row$x,
-      y.orig = row$y,
-      box.padding = x$box.padding,
-      label.padding = x$label.padding,
-      point.size = point_size[i],
-      point.padding = x$point.padding,
-      segment.curvature = row$segment.curvature,
-      segment.angle     = row$segment.angle,
-      segment.ncp       = row$segment.ncp,
-      r = x$label.r,
-      text.gp = gpar(
-        col = scales::alpha(row$colour, row$alpha),
-        fontsize = row$size * .pt,
-        fontfamily = row$family,
-        fontface = row$fontface,
-        lineheight = row$lineheight
-      ),
-      rect.gp = gpar(
-        col = scales::alpha(row$colour, row$alpha),
-        fill = scales::alpha(row$fill, row$alpha),
-        lwd = x$label.size * .pt
-      ),
-      segment.gp = gpar(
-        col = scales::alpha(row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha),
-        lwd = row$segment.size * .pt,
-        lty = row$segment.linetype %||% 1
-      ),
-      arrow = x$arrow,
-      min.segment.length = x$min.segment.length,
-      hjust = row$hjust,
-      vjust = row$vjust
-    )
+    if (!repel$too_many_overlaps[i]) {
+      row <- x$data[i, , drop = FALSE]
+      makeLabelRepelGrobs(
+        i,
+        x$lab[i],
+        # Position of text bounding boxes.
+        x = unit(repel$x[i], "native"),
+        y = unit(repel$y[i], "native"),
+        # Position of original data points.
+        x.orig = row$x,
+        y.orig = row$y,
+        box.padding = x$box.padding,
+        label.padding = x$label.padding,
+        point.size = point_size[i],
+        point.padding = x$point.padding,
+        segment.curvature = row$segment.curvature,
+        segment.angle     = row$segment.angle,
+        segment.ncp       = row$segment.ncp,
+        r = x$label.r,
+        text.gp = gpar(
+          col = scales::alpha(row$colour, row$alpha),
+          fontsize = row$size * .pt,
+          fontfamily = row$family,
+          fontface = row$fontface,
+          lineheight = row$lineheight
+        ),
+        rect.gp = gpar(
+          col = scales::alpha(row$colour, row$alpha),
+          fill = scales::alpha(row$fill, row$alpha),
+          lwd = x$label.size * .pt
+        ),
+        segment.gp = gpar(
+          col = scales::alpha(row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha),
+          lwd = row$segment.size * .pt,
+          lty = row$segment.linetype %||% 1
+        ),
+        arrow = x$arrow,
+        min.segment.length = x$min.segment.length,
+        hjust = row$hjust,
+        vjust = row$vjust
+      )
+    }
   })
   # Put segment grobs before text grobs, rect grobs before text grobs.
   grobs <- c(

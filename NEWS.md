@@ -13,6 +13,14 @@ ggrepel 0.9.0 2019-11-03
 
 [issue 83]: https://github.com/slowkow/ggrepel/issues/83
 
+* New parameter `max.overlaps` stops ggrepel from trying to label overcrowded
+  data points. The default setting is `max.overlaps = 10`, so text labels that
+  overlap more than 10 things (points or labels) will be excluded from further
+  calculations and rendering. Of course, we can set `max.overlaps = Inf` to
+  restore the behavior in ggrepel 0.8.1. See [issue 48] for more discussion.
+
+[pull request 48]: https://github.com/slowkow/ggrepel/pull/48
+
 * Add examples to the [vignette] for `ggplot2::position_jitter()` and
   `ggbeeswarm::position_quasirandom()`
   

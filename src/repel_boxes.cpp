@@ -865,15 +865,12 @@ DataFrame repel_boxes2(
     double force_push = 1e-7,
     double force_pull = 1e-7,
     double max_time = 0.1,
+    double max_overlaps = 10,
     int max_iter = 2000,
     std::string direction = "both"
 ) {
   int n_points = data_points.nrow();
   int n_texts = boxes.nrow();
-
-  int iter = 0;
-  bool any_overlaps = true;
-  bool i_overlaps = true;
 
   // Larger data points push text away with greater force.
   double force_point_size = 100.0;
@@ -943,7 +940,12 @@ DataFrame repel_boxes2(
   nanotime_t start_time = get_nanotime();
   nanotime_t elapsed_time = 0;
 
-  std::vector<double> total_overlaps(n_texts, 1.0);
+  std::vector<double> total_overlaps(n_texts, 0);
+  std::vector<bool> too_many_overlaps(n_texts, false);
+
+  int iter = 0;
+  bool any_overlaps = true;
+  bool i_overlaps = true;
 
   while (any_overlaps && iter < max_iter) {
     iter += 1;
@@ -965,6 +967,22 @@ DataFrame repel_boxes2(
     // velocity_decay *= 0.999;
 
     for (int i = 0; i < n_texts; i++) {
+      if (iter == 2 && total_overlaps[i] > max_overlaps) {
+        too_many_overlaps[i] = true;
+      }
+      // if (iter == 2) {
+      //   // for (int i = 0; i < n_texts; i++) {
+      //   Rcout << "total_overlaps[" << i << "] = " << total_overlaps[i] << "; ";
+      //   // }
+      //   Rcout << std::endl;
+      // }
+      if (too_many_overlaps[i]) {
+        continue;
+      }
+
+      // Reset overlaps for the next iteration
+      total_overlaps[i] = 0;
+
       i_overlaps = false;
       f.x = 0;
       f.y = 0;
@@ -982,9 +1000,26 @@ DataFrame repel_boxes2(
           if (overlaps(DataCircles[i], TextBoxes[i])) {
             any_overlaps = true;
             i_overlaps = true;
-            total_overlaps[i] += 0.05;
+            total_overlaps[i] += 1;
             f = f + repel_force(
               ci, Points[i],
+              // force_push,
+              point_size[i] * force_point_size * force_push,
+              direction
+            );
+          }
+        } else if (too_many_overlaps[j]) {
+          // Skip the data points if the size and padding is 0.
+          if (point_size[j] == 0 && point_padding_x == 0 && point_padding_y == 0) {
+            continue;
+          }
+          // Repel the box from other data points.
+          if (overlaps(DataCircles[j], TextBoxes[i])) {
+            any_overlaps = true;
+            i_overlaps = true;
+            total_overlaps[i] += 1;
+            f = f + repel_force(
+              ci, Points[j],
               // force_push,
               point_size[i] * force_point_size * force_push,
               direction
@@ -996,7 +1031,7 @@ DataFrame repel_boxes2(
           if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
             any_overlaps = true;
             i_overlaps = true;
-            total_overlaps[i] += 0.05;
+            total_overlaps[i] += 1;
             f = f + repel_force(ci, cj, force_push, direction);
           }
 
@@ -1008,7 +1043,7 @@ DataFrame repel_boxes2(
           if (overlaps(DataCircles[j], TextBoxes[i])) {
             any_overlaps = true;
             i_overlaps = true;
-            total_overlaps[i] += 0.05;
+            total_overlaps[i] += 1;
             f = f + repel_force(
               ci, Points[j],
               // force_push,
@@ -1021,16 +1056,19 @@ DataFrame repel_boxes2(
 
       // Pull the box toward its original position.
       if (!i_overlaps) {
-        total_overlaps[i] = 1.0;
         // force_pull *= 0.999;
         f = f + spring_force(
             original_centroids[i], ci, force_pull, direction);
       }
-      if (total_overlaps[i] > 1.5) {
-        total_overlaps[i] = 1.5;
+
+      double overlap_multiplier = 1.0;
+      if (total_overlaps[i] > 10) {
+        overlap_multiplier += 0.5;
+      } else {
+        overlap_multiplier += 0.05 * total_overlaps[i];
       }
 
-      velocities[i] = total_overlaps[i] * velocities[i] * (TextBoxWidths[i] + 1e-6) * velocity_decay + f;
+      velocities[i] = overlap_multiplier * velocities[i] * (TextBoxWidths[i] + 1e-6) * velocity_decay + f;
       // velocities[i] = velocities[i] * velocity_decay + f;
       TextBoxes[i] = TextBoxes[i] + velocities[i];
       // Put boxes within bounds
@@ -1082,7 +1120,8 @@ DataFrame repel_boxes2(
 
   return Rcpp::DataFrame::create(
     Rcpp::Named("x") = xs,
-    Rcpp::Named("y") = ys
+    Rcpp::Named("y") = ys,
+    Rcpp::Named("too_many_overlaps") = too_many_overlaps
   );
 }
 
