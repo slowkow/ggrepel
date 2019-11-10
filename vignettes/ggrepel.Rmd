@@ -65,7 +65,7 @@ theme_set(theme_classic(base_size = 18) %+replace% theme(
   # axis.line.y = element_line(colour = "black", size = 0.2),
   # axis.line.x = element_line(colour = "black", size = 0.2),
   axis.ticks   = element_line(colour = "black", size = 0.3),
-  panel.border = element_rect(size = 0.3, fill = NA),
+  panel.background = element_rect(size = 0.3, fill = NA),
   axis.line    = element_blank(),
   plot.title   = element_text(size = 18, vjust = 2, hjust = 0.5),
   strip.text   = element_text(size = 18),
@@ -83,7 +83,7 @@ ggrepel provides geoms for [ggplot2] to repel overlapping text labels:
 [ggplot2]: http://ggplot2.tidyverse.org/
 
 Text labels repel away from each other, away from data points, and away
-from edges of the plotting area.
+from edges of the plotting area (panel).
 
 Let's compare `geom_text()` and `geom_text_repel()`:
 
@@ -230,6 +230,58 @@ ggplot(dat, aes(wt, mpg, label = car)) +
   geom_text_repel(point.size = NA)
 ```
 
+### Do not repel labels from plot (panel) edges
+
+Set `xlim` or `ylim` to `Inf` or `-Inf` to disable repulsion away from
+the edges of the panel. Use `NA` to indicate the edge of the panel.
+
+```{r plot_edges, echo=TRUE, fig.width=5, fig.height=4}
+set.seed(42)
+ggplot(dat, aes(wt, mpg, label = car)) +
+  geom_point(color = "red") +
+  geom_text_repel(
+    # Repel away from the left edge, not from the right.
+    xlim = c(NA, Inf),
+    # Do not repel from top or bottom edges.
+    ylim = c(-Inf, Inf)
+  )
+```
+
+We can also disable clipping to allow the labels to go beyond the edges
+of the panel.
+
+```{r clipping, echo=TRUE, fig.width=5, fig.height=4}
+set.seed(42)
+ggplot(dat, aes(wt, mpg, label = car)) +
+  geom_point(color = "red") +
+  coord_cartesian(clip = "off") +
+  geom_label_repel(fill = "white", xlim = c(-Inf, Inf), ylim = c(-Inf, Inf))
+```
+
+### Always (or never) draw line segments
+
+Use `min.segment.length = 0` to draw all line segments,
+no matter how short they are.
+
+Use `min.segment.length = Inf` to never draw any line segments,
+no matter how long they are.
+
+```{r all_segments, echo=TRUE, fig.width=10, fig.height=4}
+set.seed(42)
+p <- ggplot(dat, aes(wt, mpg, label = car)) +
+  geom_point(color = "red")
+
+p1 <- p +
+  geom_text_repel(min.segment.length = 0) +
+  labs(title = "min.segment.length = 0")
+
+p2 <- p +
+  geom_text_repel(box.padding = 0.5, min.segment.length = Inf) +
+  labs(title = "min.segment.length = Inf")
+
+gridExtra::grid.arrange(p1, p2, ncol = 2)
+```
+
 ### Make curved line segments or arrows
 
 The line segments can be curved as in `geom_curve()` from ggplot2.
@@ -242,7 +294,6 @@ The line segments can be curved as in `geom_curve()` from ggplot2.
 
 ```{r line_curve, echo=TRUE, fig.width=5, fig.height=4}
 set.seed(42)
-
 ggplot(dat, aes(wt, mpg, label = car)) +
   geom_point(color = "red") +
   geom_text_repel(
@@ -417,14 +468,15 @@ set.seed(42)
 # All labels should be to the right of 3.
 x_limits <- c(3, NA)
 
-ggplot(dat) +
+p <- ggplot(dat) +
   aes(
     x = wt, y = mpg, label = car,
-    color = factor(cyl), segment.color = factor(cyl)
+    fill = factor(cyl), segment.color = factor(cyl)
   ) +
   geom_vline(xintercept = x_limits, linetype = 3) +
   geom_point() +
   geom_label_repel(
+    color = "white",
     arrow = arrow(
       length = unit(0.03, "npc"), type = "closed", ends = "first"
     ),
@@ -432,10 +484,29 @@ ggplot(dat) +
     point.padding = NA,
     box.padding = 0.1
   ) +
-  scale_color_discrete(
+  scale_fill_discrete(
     name = "cyl",
-    aesthetics = c("color", "segment.color")
+    # The same color scall will apply to both of these aesthetics.
+    aesthetics = c("fill", "segment.color")
   )
+
+p
+```
+
+### Remove "a" from the legend
+
+Sometimes we want to remove the "a" labels in the legend.
+
+We can do that by overriding the legend aesthetics:
+
+```{r remove_a_1, eval=FALSE, echo=TRUE}
+# Don't use "color" in the legend.
+p + guides(fill = guide_legend(override.aes = aes(color = NA)))
+```
+
+```{r remove_a_2, eval=TRUE, echo=TRUE, fig.width=6, fig.height=4}
+# Or set the label to the empty string "" (or any other string).
+p + guides(fill = guide_legend(override.aes = aes(label = "")))
 ```
 
 ### Align labels on the top or bottom edge
