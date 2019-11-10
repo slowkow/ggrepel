@@ -278,6 +278,14 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     limits <- data.frame(x = xlim, y = ylim)
     limits <- coord$transform(limits, panel_scales)
 
+    # Allow Inf.
+    if (length(limits$x) == length(xlim)) {
+      limits$x[is.infinite(xlim)] <- xlim[is.infinite(xlim)]
+    }
+    if (length(limits$y) == length(ylim)) {
+      limits$y[is.infinite(ylim)] <- ylim[is.infinite(ylim)]
+    }
+
     # Fill NAs with defaults.
     limits$x[is.na(limits$x)] <- c(0, 1)[is.na(limits$x)]
     limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
