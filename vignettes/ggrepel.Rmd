@@ -135,8 +135,8 @@ your data, like `nudge_x` or `nudge_y`.
 |--------------- | ------------ | ------------------------------------------------
 |`force`         | `1`          | force of repulsion between overlapping text labels
 |`direction`     | `"both"`     | move text labels "both" (default), "x", or "y" directions
-|`max.time`      | `0.1`        | maximum number of seconds to try to resolve overlaps
-|`max.iter`      | `2000`       | maximum number of iterations to try to resolve overlaps
+|`max.time`      | `0.5`        | maximum number of seconds to try to resolve overlaps
+|`max.iter`      | `10000`      | maximum number of iterations to try to resolve overlaps
 |`nudge_x`       | `0`          | adjust the starting x position of the text label
 |`nudge_y`       | `0`          | adjust the starting y position of the text label
 |`box.padding`   | `0.25 lines` | padding around the text label
