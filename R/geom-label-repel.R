@@ -264,13 +264,16 @@ makeContent.labelrepeltree <- function(x) {
   point_size <- p_ratio * convertWidth(
     to_unit(x$data$point.size), "native", valueOnly = TRUE
   ) / 13
+  point_padding <- p_ratio * convertWidth(
+    to_unit(x$point.padding), "native", valueOnly = TRUE
+  ) / 13
 
   # Repel overlapping bounding boxes away from each other.
   repel <- repel_boxes2(
     data_points     = as.matrix(x$data[,c("x","y")]),
     point_size      = point_size,
-    point_padding_x = p_ratio * convertWidth(x$point.padding, "native", valueOnly = TRUE) / 13,
-    point_padding_y = p_ratio * convertWidth(x$point.padding, "native", valueOnly = TRUE) / 13,
+    point_padding_x = point_padding,
+    point_padding_y = point_padding,
     boxes           = do.call(rbind, boxes),
     xlim            = range(x$limits$x),
     ylim            = range(x$limits$y),
