@@ -356,6 +356,8 @@ makeContent.textrepeltree <- function(x) {
       x$lab[i],
       row$x, row$y, default.units = "native",
       rot = row$angle,
+      hjust = row$hjust,
+      vjust = row$vjust,
       gp = gpar(
         fontsize   = row$size * .pt,
         fontfamily = row$family,
@@ -363,13 +365,23 @@ makeContent.textrepeltree <- function(x) {
         lineheight = row$lineheight
       )
     )
-    gw <- convertWidth(grobWidth(tg), "native", TRUE)
-    gh <- convertHeight(grobHeight(tg), "native", TRUE)
+    # gw <- convertWidth(grobWidth(tg), "native", TRUE)
+    # gh <- convertHeight(grobHeight(tg), "native", TRUE)
+    # c(
+    #   "x1" = row$x - gw *       row$hjust - box_padding_x + row$nudge_x,
+    #   "y1" = row$y - gh *       row$vjust - box_padding_y + row$nudge_y,
+    #   "x2" = row$x + gw * (1 - row$hjust) + box_padding_x + row$nudge_x,
+    #   "y2" = row$y + gh * (1 - row$vjust) + box_padding_y + row$nudge_y
+    # )
+    x1 <- convertWidth(grobX(tg, "west"), "native", TRUE)
+    x2 <- convertWidth(grobX(tg, "east"), "native", TRUE)
+    y1 <- convertHeight(grobY(tg, "south"), "native", TRUE)
+    y2 <- convertHeight(grobY(tg, "north"), "native", TRUE)
     c(
-      "x1" = row$x - gw *       row$hjust - box_padding_x + row$nudge_x,
-      "y1" = row$y - gh *       row$vjust - box_padding_y + row$nudge_y,
-      "x2" = row$x + gw * (1 - row$hjust) + box_padding_x + row$nudge_x,
-      "y2" = row$y + gh * (1 - row$vjust) + box_padding_y + row$nudge_y
+      "x1" = x1 - box_padding_x + row$nudge_x,
+      "y1" = y1 - box_padding_y + row$nudge_y,
+      "x2" = x2 + box_padding_x + row$nudge_x,
+      "y2" = y2 + box_padding_y + row$nudge_y
     )
   })
 
@@ -433,6 +445,9 @@ makeContent.textrepeltree <- function(x) {
         # Position of original data points.
         x.orig = row$x,
         y.orig = row$y,
+        # Width and height of text boxes.
+        box.width = boxes[[i]]["x2"] - boxes[[i]]["x1"],
+        box.height = boxes[[i]]["y2"] - boxes[[i]]["y1"],
         rot = row$angle,
         box.padding = x$box.padding,
         point.size = point_size[i],
@@ -481,9 +496,11 @@ makeTextRepelGrobs <- function(
   # Position of original data points.
   x.orig = 0.5,
   y.orig = 0.5,
+  # Width and height of text boxes.
+  box.width = 0,
+  box.height = 0,
   rot = 0,
   default.units = "npc",
-  just = "center",
   box.padding = 0.25,
   point.size = 1,
   point.padding = 1e-6,
@@ -507,28 +524,52 @@ makeTextRepelGrobs <- function(
     x <- unit(x, default.units)
   if (!is.unit(y))
     y <- unit(y, default.units)
+  if (!is.unit(box.width))
+    box.width <- unit(box.width, default.units)
+  if (!is.unit(box.height))
+    box.height <- unit(box.height, default.units)
 
-  hj <- resolveHJust(just, NULL)
-  vj <- resolveVJust(just, NULL)
-
+  # hj <- resolveHJust(just, NULL)
+  # vj <- resolveVJust(just, NULL)
+  # browser()
+  rot_radians <- rot * pi / 180
   grobs <- shadowtextGrob(
     label,
-    x + 2 * (0.5 - hj) * box.padding,
-    y + 2 * (0.5 - vj) * box.padding,
+    #x + 2 * (0.5 - hj) * box.padding,
+    #y + 2 * (0.5 - vj) * box.padding,
+    # x - box.width * (0.5 - hjust),
+    # y - box.height * (0.5 - vjust),
+    x - cos(rot_radians) * box.width * (0.5 - hjust) -
+        cos(rot_radians) * box.width * (0.5 - vjust),
+    y - sin(rot_radians) * box.height * (0.5 - vjust) -
+        sin(rot_radians) * box.height * (0.5 - hjust),
     rot = rot,
-    just = c(hj, vj),
+    hjust = hjust,
+    vjust = vjust,
     gp = text.gp,
     name = sprintf("textrepelgrob%s", i),
     bg.colour = bg.colour,
     bg.r = bg.r
   )
   # the regular textgrob will always be the last one
-  t <- grobs[[length(grobs)]]
+  tg <- grobs[[length(grobs)]]
 
-  x1 <- convertWidth(x - 0.5 * grobWidth(t), "native", TRUE)
-  x2 <- convertWidth(x + 0.5 * grobWidth(t), "native", TRUE)
-  y1 <- convertHeight(y - 0.5 * grobHeight(t), "native", TRUE)
-  y2 <- convertHeight(y + 0.5 * grobHeight(t), "native", TRUE)
+  # x1 <- convertWidth(x - 0.5 * grobWidth(tg), "native", TRUE)
+  # x2 <- convertWidth(x + 0.5 * grobWidth(tg), "native", TRUE)
+  # y1 <- convertHeight(y - 0.5 * grobHeight(tg), "native", TRUE)
+  # y2 <- convertHeight(y + 0.5 * grobHeight(tg), "native", TRUE)
+
+  x1 <- convertWidth(grobX(tg, "west"), "native", TRUE)
+  x2 <- convertWidth(grobX(tg, "east"), "native", TRUE)
+  y1 <- convertHeight(grobY(tg, "south"), "native", TRUE)
+  y2 <- convertHeight(grobY(tg, "north"), "native", TRUE)
+
+  # gw <- convertWidth(grobWidth(tg), "native", TRUE)
+  # gh <- convertHeight(grobHeight(tg), "native", TRUE)
+  # x1 <- x1 - gw * (0.5 - hjust)
+  # x2 <- x2 + gw * (0.5 - hjust)
+  # y1 <- y1 - gh * (0.5 - vjust)
+  # y2 <- y2 + gh * (0.5 - vjust)
 
   point_pos <- c(x.orig, y.orig)
 
@@ -634,12 +675,12 @@ just_dir <- function(x, tol = 0.001) {
 # it can mess up the plotting order.
 shadowtextGrob <- function(
   label, x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-  just = "centre", hjust = NULL, vjust = NULL, rot = 0, check.overlap = FALSE,
+  hjust = NULL, vjust = NULL, rot = 0, check.overlap = FALSE,
   default.units = "npc", name = NULL, gp = gpar(col="white"), vp = NULL,
   bg.colour = "black", bg.r = 0.1
 ) {
   upperGrob <- textGrob(
-    label = label, x = x, y = y, just = just, hjust = hjust,
+    label = label, x = x, y = y, hjust = hjust,
     vjust = vjust, rot = rot, default.units = default.units,
     check.overlap = check.overlap, name = name, gp = gp, vp = vp
   )
@@ -665,7 +706,7 @@ shadowtextGrob <- function(
       x <- x + unit(cos(i) * r, "strheight", data = char)
       y <- y + unit(sin(i) * r, "strheight", data = char)
       textGrob(
-        label = label, x = x, y = y, just = just, hjust = hjust,
+        label = label, x = x, y = y, hjust = hjust,
         vjust = vjust, rot = rot, default.units = default.units,
         check.overlap = check.overlap, name = paste0(name, "-shadowtext", i), gp = gp, vp = vp
       )
