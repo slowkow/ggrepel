@@ -339,8 +339,6 @@ makeContent.textrepeltree <- function(x) {
   if (is.na(x$point.padding)) {
     x$point.padding = unit(0, "lines")
   }
-  # point_padding_x <- convertWidth(x$point.padding, "native", valueOnly = TRUE)
-  # point_padding_y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
 
   # Do not create text labels for empty strings.
   valid_strings <- which(not_empty(x$lab))
@@ -365,14 +363,6 @@ makeContent.textrepeltree <- function(x) {
         lineheight = row$lineheight
       )
     )
-    # gw <- convertWidth(grobWidth(tg), "native", TRUE)
-    # gh <- convertHeight(grobHeight(tg), "native", TRUE)
-    # c(
-    #   "x1" = row$x - gw *       row$hjust - box_padding_x + row$nudge_x,
-    #   "y1" = row$y - gh *       row$vjust - box_padding_y + row$nudge_y,
-    #   "x2" = row$x + gw * (1 - row$hjust) + box_padding_x + row$nudge_x,
-    #   "y2" = row$y + gh * (1 - row$vjust) + box_padding_y + row$nudge_y
-    # )
     x1 <- convertWidth(grobX(tg, "west"), "native", TRUE)
     x2 <- convertWidth(grobX(tg, "east"), "native", TRUE)
     y1 <- convertHeight(grobY(tg, "south"), "native", TRUE)
@@ -529,16 +519,9 @@ makeTextRepelGrobs <- function(
   if (!is.unit(box.height))
     box.height <- unit(box.height, default.units)
 
-  # hj <- resolveHJust(just, NULL)
-  # vj <- resolveVJust(just, NULL)
-  # browser()
   rot_radians <- rot * pi / 180
   grobs <- shadowtextGrob(
     label,
-    #x + 2 * (0.5 - hj) * box.padding,
-    #y + 2 * (0.5 - vj) * box.padding,
-    # x - box.width * (0.5 - hjust),
-    # y - box.height * (0.5 - vjust),
     x - cos(rot_radians) * box.width * (0.5 - hjust) -
         cos(rot_radians) * box.width * (0.5 - vjust),
     y - sin(rot_radians) * box.height * (0.5 - vjust) -
@@ -554,22 +537,10 @@ makeTextRepelGrobs <- function(
   # the regular textgrob will always be the last one
   tg <- grobs[[length(grobs)]]
 
-  # x1 <- convertWidth(x - 0.5 * grobWidth(tg), "native", TRUE)
-  # x2 <- convertWidth(x + 0.5 * grobWidth(tg), "native", TRUE)
-  # y1 <- convertHeight(y - 0.5 * grobHeight(tg), "native", TRUE)
-  # y2 <- convertHeight(y + 0.5 * grobHeight(tg), "native", TRUE)
-
   x1 <- convertWidth(grobX(tg, "west"), "native", TRUE)
   x2 <- convertWidth(grobX(tg, "east"), "native", TRUE)
   y1 <- convertHeight(grobY(tg, "south"), "native", TRUE)
   y2 <- convertHeight(grobY(tg, "north"), "native", TRUE)
-
-  # gw <- convertWidth(grobWidth(tg), "native", TRUE)
-  # gh <- convertHeight(grobHeight(tg), "native", TRUE)
-  # x1 <- x1 - gw * (0.5 - hjust)
-  # x2 <- x2 + gw * (0.5 - hjust)
-  # y1 <- y1 - gh * (0.5 - vjust)
-  # y2 <- y2 + gh * (0.5 - vjust)
 
   point_pos <- c(x.orig, y.orig)
 
@@ -590,15 +561,6 @@ makeTextRepelGrobs <- function(
       text_box[2] <= point_pos[2] && point_pos[2] <= text_box[4]) {
     point_inside_text <- TRUE
   }
-
-  # This is too short.
-  # ps <- convertWidth(to_unit(point.size * 10), "native", TRUE)
-
-  # This was working well enough.
-  # # pp <- convertWidth(to_unit(point.padding), "native", TRUE) / 2
-  # ppw <- convertWidth(point.padding, "native", TRUE)
-  # pph <- convertHeight(point.padding, "native", TRUE)
-  # pp <- (ppw + pph) / 4
 
   # This seems just fine.
   point.padding <- convertWidth(to_unit(point.padding), "native", TRUE) / 2
