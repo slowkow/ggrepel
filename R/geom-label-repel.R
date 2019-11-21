@@ -77,6 +77,7 @@ geom_label_repel <- function(
 #' @rdname ggplot2-ggproto
 #' @format NULL
 #' @usage NULL
+#' @seealso \link[ggplot2]{GeomLabel} from the ggplot2 package.
 #' @export
 GeomLabelRepel <- ggproto(
   "GeomLabelRepel", Geom,
