@@ -25,3 +25,6 @@ vignettes/figures/ggrepel/make_gallery_html.sh
 inst/
 scripts
 movies
+
+# this should be CRAN only
+docs/articles/ggrepel.html

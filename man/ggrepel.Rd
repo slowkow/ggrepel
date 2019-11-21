@@ -24,3 +24,33 @@ Please report issues and suggest improvements at Github:
 
 \url{https://github.com/slowkow/ggrepel}
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{http://github.com/slowkow/ggrepel}
+  \item Report bugs at \url{http://github.com/slowkow/ggrepel/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Kamil Slowikowski \email{kslowikowski@gmail.com} (\href{https://orcid.org/0000-0002-2843-6370}{ORCID})
+
+Other contributors:
+\itemize{
+  \item Alicia Schep (\href{https://orcid.org/0000-0002-3915-0618}{ORCID}) [contributor]
+  \item Sean Hughes (\href{https://orcid.org/0000-0002-9409-9405}{ORCID}) [contributor]
+  \item Trung Kien Dang (\href{https://orcid.org/0000-0001-7562-6495}{ORCID}) [contributor]
+  \item Saulius Lukauskas [contributor]
+  \item Jean-Olivier Irisson (\href{https://orcid.org/0000-0003-4920-3880}{ORCID}) [contributor]
+  \item Zhian N Kamvar (\href{https://orcid.org/0000-0003-1458-7108}{ORCID}) [contributor]
+  \item Thompson Ryan (\href{https://orcid.org/0000-0002-0450-8181}{ORCID}) [contributor]
+  \item Dervieux Christophe (\href{https://orcid.org/0000-0003-4474-2498}{ORCID}) [contributor]
+  \item Yutani Hiroaki [contributor]
+  \item Pierre Gramme [contributor]
+  \item Amir Masoud Abdol [contributor]
+  \item Malcolm Barrett (\href{https://orcid.org/0000-0003-0299-5825}{ORCID}) [contributor]
+  \item Robrecht Cannoodt (\href{https://orcid.org/0000-0003-3641-729X}{ORCID}) [contributor]
+}
+
+}
+\keyword{internal}

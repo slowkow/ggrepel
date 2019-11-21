@@ -1,0 +1,71 @@
+# devtools::install_github("r-lib/pkgdown@bs4")
+
+url: https://slowkow.com/ggrepel
+
+destination: docs
+
+reference:
+  - title: Reference
+    contents:
+      - geom_text_repel
+      - geom_label_repel
+
+template:
+  params:
+    ganalytics: UA-15531613-2
+
+authors:
+  Kamil Slowikowski:
+    href: https://slowkow.com
+  Alicia Schep:
+    href: https://github.com/AliciaSchep
+  Sean Hughes:
+    href: https://github.com/seaaan
+  Trung Kien Dang:
+    href: https://github.com/kiendang
+  Saulius Lukauskas:
+    href: https://github.com/lukauskas
+  Jean-Olivier Irisson:
+    href: https://github.com/jiho
+  Zhian N Kamvar:
+    href: https://github.com/zkamvar
+  Thompson Ryan:
+    href: https://github.com/DarwinAwardWinner
+  Dervieux Christophe:
+    href: https://github.com/cderv
+  Yutani Hiroaki:
+    href: https://github.com/yutannihilation
+  Pierre Gramme:
+    href: https://github.com/pgramme
+  Amir Masoud Abdol:
+    href: https://github.com/amirmasoudabdol
+  Malcolm Barrett:
+    href: https://github.com/malcolmbarrett
+  Robrecht Cannoodt:
+    href: https://github.com/rcannood
+
+home:
+  strip_header: true
+
+navbar:
+  title: "ggrepel"
+  left:
+    - text: "Examples"
+      href: articles/examples.html
+    - text: "Reference"
+      href: reference/index.html
+    - text: "News"
+      menu:
+      - text: "Release notes"
+      - text: "Version 0.9.0"
+        href: https://slowkow.com/ggrepel-0-9-0/
+      - text: "------------------"
+      - text: "Change log"
+        href: news/index.html
+    - text: "Related work"
+      href: articles/related-work.html
+  right:
+    - icon: fa-github
+      text: GitHub
+      href: https://github.com/slowkow/ggrepel
+

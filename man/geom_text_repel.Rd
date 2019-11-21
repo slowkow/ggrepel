@@ -5,22 +5,62 @@
 \alias{geom_text_repel}
 \title{Repulsive textual annotations.}
 \usage{
-geom_label_repel(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", parse = FALSE, ..., box.padding = 0.25,
-  label.padding = 0.25, point.padding = 1e-06, label.r = 0.15,
-  label.size = 0.25, min.segment.length = 0.5, arrow = NULL,
-  force = 1, force_pull = 1, max.time = 0.1, max.iter = 2000,
-  max.overlaps = 10, nudge_x = 0, nudge_y = 0, xlim = c(NA, NA),
-  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
-  direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
+geom_label_repel(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  parse = FALSE,
+  ...,
+  box.padding = 0.25,
+  label.padding = 0.25,
+  point.padding = 1e-06,
+  label.r = 0.15,
+  label.size = 0.25,
+  min.segment.length = 0.5,
+  arrow = NULL,
+  force = 1,
+  force_pull = 1,
+  max.time = 0.5,
+  max.iter = 10000,
+  max.overlaps = 10,
+  nudge_x = 0,
+  nudge_y = 0,
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  na.rm = FALSE,
+  show.legend = NA,
+  direction = c("both", "y", "x"),
+  seed = NA,
+  inherit.aes = TRUE
+)
 
-geom_text_repel(mapping = NULL, data = NULL, stat = "identity",
-  position = "identity", parse = FALSE, ..., box.padding = 0.25,
-  point.padding = 1e-06, min.segment.length = 0.5, arrow = NULL,
-  force = 1, force_pull = 1, max.time = 0.1, max.iter = 2000,
-  max.overlaps = 10, nudge_x = 0, nudge_y = 0, xlim = c(NA, NA),
-  ylim = c(NA, NA), na.rm = FALSE, show.legend = NA,
-  direction = c("both", "y", "x"), seed = NA, inherit.aes = TRUE)
+geom_text_repel(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  parse = FALSE,
+  ...,
+  box.padding = 0.25,
+  point.padding = 1e-06,
+  min.segment.length = 0.5,
+  arrow = NULL,
+  force = 1,
+  force_pull = 1,
+  max.time = 0.5,
+  max.iter = 10000,
+  max.overlaps = 10,
+  nudge_x = 0,
+  nudge_y = 0,
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  na.rm = FALSE,
+  show.legend = NA,
+  direction = c("both", "y", "x"),
+  seed = NA,
+  inherit.aes = TRUE
+)
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2]{aes}} or
@@ -83,10 +123,10 @@ to 1.}
 corresponding data point. Defaults to 1.}
 
 \item{max.time}{Maximum number of seconds to try to resolve overlaps.
-Defaults to 0.1.}
+Defaults to 0.5.}
 
 \item{max.iter}{Maximum number of iterations to try to resolve overlaps.
-Defaults to 2000.}
+Defaults to 10000.}
 
 \item{max.overlaps}{Exclude text labels that overlap too many things.
 Defaults to 10.}

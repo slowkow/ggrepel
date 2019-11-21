@@ -15,3 +15,8 @@
 ^vignettes/.*\.md$
 ^how_to_build.txt$
 movies/
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^vignettes/examples.Rmd$
+^vignettes/related-work.Rmd$

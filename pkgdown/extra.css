@@ -1,0 +1,14 @@
+blockquote {
+  display: block;
+  padding: 1em 1em 0.01em 1em;
+  background-color: #f0f0f0;
+}
+
+.nav-item {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.navbar-light {
+  background-color: #fefefe !important;
+}
