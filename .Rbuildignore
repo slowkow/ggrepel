@@ -20,3 +20,4 @@ movies/
 ^pkgdown$
 ^vignettes/examples.Rmd$
 ^vignettes/related-work.Rmd$
+^index.md$
