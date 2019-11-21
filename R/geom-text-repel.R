@@ -78,9 +78,9 @@
 #' @param force_pull Force of attraction between a text label and its
 #'   corresponding data point. Defaults to 1.
 #' @param max.time Maximum number of seconds to try to resolve overlaps.
-#'   Defaults to 0.1.
+#'   Defaults to 0.5.
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
-#'   Defaults to 2000.
+#'   Defaults to 10000.
 #' @param max.overlaps Exclude text labels that overlap too many things.
 #'   Defaults to 10.
 #' @param direction "both", "x", or "y" -- direction in which to adjust position of labels
@@ -220,6 +220,7 @@ geom_text_repel <- function(
 #' @rdname ggplot2-ggproto
 #' @format NULL
 #' @usage NULL
+#' @seealso \link[ggplot2]{GeomText} from the ggplot2 package.
 #' @export
 GeomTextRepel <- ggproto("GeomTextRepel", Geom,
   required_aes = c("x", "y", "label"),
