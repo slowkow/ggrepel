@@ -1,7 +1,7 @@
-# Name ggplot grid object
-# Convenience function to name grid objects
-#
-# @keyword internal
+#' Name ggplot grid object
+#' Convenience function to name grid objects
+#'
+#' @noRd
 ggname <- function(prefix, grob) {
   grob$name <- grobName(grob, prefix)
   grob
@@ -49,15 +49,16 @@ to_unit <- function(x) {
   unit(x, "lines")
 }
 
-# Parse takes a vector of n lines and returns m expressions.
-# See https://github.com/tidyverse/ggplot2/issues/2864 for discussion.
-#
-# parse(text = c("alpha", "", "gamma"))
-# #> expression(alpha, gamma)
-#
-# parse_safe(text = c("alpha", "", "gamma"))
-# #> expression(alpha, NA, gamma)
-#
+#' Parse takes a vector of n lines and returns m expressions.
+#' See https://github.com/tidyverse/ggplot2/issues/2864 for discussion.
+#'
+#' parse(text = c("alpha", "", "gamma"))
+#' #> expression(alpha, gamma)
+#'
+#' parse_safe(text = c("alpha", "", "gamma"))
+#' #> expression(alpha, NA, gamma)
+#'
+#' @noRd
 parse_safe <- function(text) {
   stopifnot(is.character(text))
   out <- vector("expression", length(text))
