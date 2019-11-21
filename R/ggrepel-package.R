@@ -44,4 +44,5 @@
 #'   textGrob
 #' @useDynLib ggrepel
 #' @importFrom Rcpp evalCpp
-NULL
+#' @keywords internal
+"_PACKAGE"
