@@ -7,24 +7,7 @@
 #'
 #' @family position adjustments
 #' @param x,y Amount of vertical and horizontal distance to move.
-#' @examples
-#' df <- data.frame(
-#'   x = c(1,3,2,5),
-#'   y = c("a","c","d","c")
-#' )
-#'
-#' ggplot(df, aes(x, y)) +
-#'   geom_point() +
-#'   geom_text(aes(label = y))
-#'
-#' ggplot(df, aes(x, y)) +
-#'   geom_point() +
-#'   geom_text(aes(label = y), position = position_nudge(y = -0.1))
-#'
-#' # Or, in brief
-#' ggplot(df, aes(x, y)) +
-#'   geom_point() +
-#'   geom_text(aes(label = y), nudge_y = -0.1)
+#' @noRd
 position_nudge2 <- function(x = 0, y = 0) {
   ggproto(NULL, PositionNudge2,
     x = x,
@@ -35,6 +18,7 @@ position_nudge2 <- function(x = 0, y = 0) {
 #' @rdname ggplot2-ggproto
 #' @format NULL
 #' @usage NULL
+#' @noRd
 PositionNudge2 <- ggproto("PositionNudge2", Position,
   x = 0,
   y = 0,
