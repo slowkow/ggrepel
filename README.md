@@ -17,6 +17,8 @@ Overview
 
 ggrepel provides geoms for [ggplot2] to repel overlapping text labels:
 
+[ggplot2]: https://ggplot2.tidyverse.org
+
 - `geom_text_repel()`
 - `geom_label_repel()`
 
@@ -51,7 +53,7 @@ Usage
 
 See the [examples] page to learn more about how to use ggrepel in your project.
 
-[examples]: https://slowkow.com/ggrepel/articles/examples.html
+[examples]: https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html
 
 Contributing
 ------------
