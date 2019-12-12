@@ -4,10 +4,10 @@
 [bb]: https://travis-ci.org/slowkow/ggrepel.svg?branch=master
 [travis]: https://travis-ci.org/slowkow/ggrepel
 
-[cb]: http://www.r-pkg.org/badges/version/ggrepel?color=blue
+[cb]: https://www.r-pkg.org/badges/version/ggrepel?color=blue
 [cran]: https://CRAN.R-project.org/package=ggrepel
 
-[db]: http://cranlogs.r-pkg.org/badges/grand-total/ggrepel?color=blue
+[db]: https://cranlogs.r-pkg.org/badges/grand-total/ggrepel?color=blue
 [r-pkg]: https://www.r-pkg.org/pkg/ggrepel
 <!-- badges: end -->
 
