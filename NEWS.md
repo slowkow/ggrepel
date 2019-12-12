@@ -43,6 +43,11 @@ ggrepel 0.8.1.9000 2019-11-03
 
 ## Bug fixes and improvements
 
+* Text justification for multi-line text labels should be working as expected.
+  Thanks to @johnhenrypezzuto and @phalteman for comments in [issue 137].
+
+[issue 137]: https://github.com/slowkow/ggrepel/issues/137
+
 * Put text labels on top of all line segments (@kiendang). This fixes
   [issue 35], where line segments sometimes appear on top of text.
 
