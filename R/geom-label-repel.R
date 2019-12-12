@@ -306,6 +306,9 @@ makeContent.labelrepeltree <- function(x) {
         # Position of original data points.
         x.orig = row$x,
         y.orig = row$y,
+        # Width and height of text boxes.
+        box.width = boxes[[i]]["x2"] - boxes[[i]]["x1"],
+        box.height = boxes[[i]]["y2"] - boxes[[i]]["y1"],
         box.padding = x$box.padding,
         label.padding = x$label.padding,
         point.size = point_size[i],
@@ -358,6 +361,9 @@ makeLabelRepelGrobs <- function(
   y = unit(0.5, "npc"),
   x.orig = unit(0.5, "npc"),
   y.orig = unit(0.5, "npc"),
+  # Width and height of text boxes.
+  box.width = 0,
+  box.height = 0,
   default.units = "npc",
   just = "center",
   box.padding = 0.25,
@@ -384,26 +390,28 @@ makeLabelRepelGrobs <- function(
     x <- unit(x, default.units)
   if (!is.unit(y))
     y <- unit(y, default.units)
-
-  hj <- resolveHJust(just, NULL)
-  vj <- resolveVJust(just, NULL)
+  if (!is.unit(box.width))
+    box.width <- unit(box.width, default.units)
+  if (!is.unit(box.height))
+    box.height <- unit(box.height, default.units)
 
   t <- textGrob(
     label,
-    x + 2 * (0.5 - hj) * box.padding,
-    y + 2 * (0.5 - vj) * box.padding,
-    just = c(hj, vj),
+    x - box.width * (0.5 - hjust),
+    y - box.height * (0.5 - vjust),
+    hjust = hjust,
+    vjust = vjust,
     gp = text.gp,
     name = sprintf("textrepelgrob%s", i)
   )
 
   r <- roundrectGrob(
-    x + 2 * (0.5 - hj) * box.padding,
-    y + 2 * (0.5 - vj) * box.padding,
+    x - box.width * (0.5 - hjust) - label.padding * (0.5 - hjust),
+    y - box.height * (0.5 - vjust) - label.padding * (0.5 - vjust),
     default.units = "native",
     width = grobWidth(t) + 2 * label.padding,
     height = grobHeight(t) + 2 * label.padding,
-    just = c(hj, vj),
+    just = c(hjust, vjust),
     r = r,
     gp = rect.gp,
     name = sprintf("rectrepelgrob%s", i)
