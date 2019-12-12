@@ -1,3 +1,18 @@
+/* Sticky footer */
+
+/**
+ * Basic idea: https://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
+ * Details: https://github.com/philipwalton/solved-by-flexbox/blob/master/assets/css/components/site.css
+ *
+ * .Site -> body > .container
+ * .Site-content -> body > .container .row
+ * .footer -> footer
+ *
+ * Key idea seems to be to ensure that .container and __all its parents__
+ * have height set to 100%
+ *
+ */
+
 html, body {
   height: 100%;
 }
@@ -20,19 +35,15 @@ footer {
   display: flex;
   flex-shrink: 0;
 }
-
 footer p {
   margin-bottom: 0;
 }
-
 footer div {
   flex: 1;
 }
-
 footer .pkgdown {
   text-align: right;
 }
-
 footer p {
   margin-bottom: 0;
 }
@@ -43,6 +54,17 @@ img.icon {
 
 img {
   max-width: 100%;
+}
+
+/* Fix bug in bootstrap (only seen in firefox) */
+summary {
+  display: list-item;
+}
+
+/* Typographic tweaking ---------------------------------*/
+
+.contents .page-header {
+  margin-top: calc(-60px + 1em);
 }
 
 /* Section anchors ---------------------------------*/
@@ -70,14 +92,11 @@ a.anchor {
   }
 }
 
+
 /* Fixes for fixed navbar --------------------------*/
 
-.contents {
-  margin-top: 4em;
-}
-
 .contents h1, .contents h2, .contents h3, .contents h4 {
-  padding-top: 40px;
+  padding-top: 60px;
   margin-top: -40px;
 }
 
@@ -85,13 +104,10 @@ a.anchor {
 
 #sidebar {
   margin-top: 30px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 70px;
 }
-
-/* navbar is 56px + 30px of margin-top */
-.sticky-top {
-  top: 86px;
-}
-
 #sidebar h2 {
   font-size: 1.5em;
   margin-top: 1em;
@@ -115,22 +131,42 @@ a.anchor {
 
 /* Reference index & topics ----------------------------------------------- */
 
-#ref-arguments #name {text-align: right;}
+.ref-index th {font-weight: normal;}
+
+.ref-index td {vertical-align: top;}
+.ref-index .icon {width: 40px;}
+.ref-index .alias {width: 40%;}
+.ref-index-icons .alias {width: calc(40% - 40px);}
+.ref-index .title {width: 60%;}
+
+.ref-arguments th {text-align: right; padding-right: 10px;}
+.ref-arguments th, .ref-arguments td {vertical-align: top;}
+.ref-arguments .name {width: 20%;}
+.ref-arguments .desc {width: 80%;}
+
+/* Nice scrolling for wide elements --------------------------------------- */
+
+table {
+  display: block;
+  overflow: auto;
+}
 
 /* Syntax highlighting ---------------------------------------------------- */
 
 pre {
   word-wrap: normal;
   word-break: normal;
-  background-color: #f8f8f8;
-  color: #333;
-  padding: 9.5px;
-  border-radius: 4px;
   border: 1px solid #eee;
 }
 
-pre.sourceCode {
+pre, code {
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+pre code {
   overflow: auto;
+  word-wrap: normal;
   white-space: pre;
 }
 
@@ -205,25 +241,16 @@ mark {
   margin-bottom: 10px;
 }
 
-/* bootstrap-toc tweaks */
-nav[data-toggle="toc"] .nav > li > a {
-  font-size: 17px;
-  color: inherit;
+/* fontawesome ------------------------ */
+
+.fab {
+    font-family: "Font Awesome 5 Brands" !important;
 }
 
-nav[data-toggle="toc"] .nav > li > a:hover,
-nav[data-toggle="toc"] .nav > li > a:focus {
-  color: inherit;
-  border-left: 1px solid #000000;
-}
-
-nav[data-toggle="toc"] .nav-link.active,
-nav[data-toggle="toc"] .nav-link.active:hover,
-nav[data-toggle="toc"] .nav-link.active:focus {
-  color: inherit;
-  border-left: 2px solid #000000;
-}
-
-nav[data-toggle="toc"] .nav .nav > li > a {
-  font-size: 15px;
+/* don't display links in code chunks when printing */
+/* source: https://stackoverflow.com/a/10781533 */
+@media print {
+  code a:link:after, code a:visited:after {
+    content: "";
+  }
 }

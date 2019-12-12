@@ -1,6 +1,6 @@
 # devtools::install_github("r-lib/pkgdown@bs4")
 
-url: https://slowkow.com/ggrepel
+url: https://ggrepel.slowkow.com
 
 destination: docs
 

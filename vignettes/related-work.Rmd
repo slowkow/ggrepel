@@ -118,5 +118,5 @@ Sebastian Theophil, Arno Schödl
 
 This might be a good start for a revision of ggrepel.
 
-[aaai]: http://www.aaai.org/Papers/AAAI/2006/AAAI06-167.pdf
+[aaai]: https://www.aaai.org/Papers/AAAI/2006/AAAI06-167.pdf
 

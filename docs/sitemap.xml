@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://slowkow.com/ggrepel/index.html</loc>
+    <loc>https://ggrepel.slowkow.com/index.html</loc>
   </url>
   <url>
-    <loc>https://slowkow.com/ggrepel/reference/geom_text_repel.html</loc>
+    <loc>https://ggrepel.slowkow.com/reference/geom_text_repel.html</loc>
   </url>
   <url>
-    <loc>https://slowkow.com/ggrepel/reference/ggplot2-ggproto.html</loc>
+    <loc>https://ggrepel.slowkow.com/reference/ggplot2-ggproto.html</loc>
   </url>
   <url>
-    <loc>https://slowkow.com/ggrepel/reference/ggrepel.html</loc>
+    <loc>https://ggrepel.slowkow.com/reference/ggrepel.html</loc>
   </url>
   <url>
-    <loc>https://slowkow.com/ggrepel/articles/examples.html</loc>
+    <loc>https://ggrepel.slowkow.com/articles/examples.html</loc>
   </url>
   <url>
-    <loc>https://slowkow.com/ggrepel/articles/ggrepel.html</loc>
+    <loc>https://ggrepel.slowkow.com/articles/ggrepel.html</loc>
   </url>
   <url>
-    <loc>https://slowkow.com/ggrepel/articles/related-work.html</loc>
+    <loc>https://ggrepel.slowkow.com/articles/related-work.html</loc>
   </url>
 </urlset>

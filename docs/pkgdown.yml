@@ -1,11 +1,11 @@
-pandoc: 2.7.3
-pkgdown: 1.3.0.9100
-pkgdown_sha: 07a31ea552ae84888c524b9361b1172821a57485
+pandoc: 2.2.3.2
+pkgdown: 1.4.1
+pkgdown_sha: ~
 articles:
   examples: examples.html
   ggrepel: ggrepel.html
   related-work: related-work.html
 urls:
-  reference: https://slowkow.com/ggrepel/reference
-  article: https://slowkow.com/ggrepel/articles
+  reference: https://ggrepel.slowkow.com/reference
+  article: https://ggrepel.slowkow.com/articles
 

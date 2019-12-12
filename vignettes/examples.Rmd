@@ -81,7 +81,7 @@ ggrepel provides geoms for [ggplot2] to repel overlapping text labels:
 - `geom_text_repel()`
 - `geom_label_repel()`
 
-[ggplot2]: http://ggplot2.tidyverse.org/
+[ggplot2]: https://ggplot2.tidyverse.org/
 
 Text labels repel away from each other, away from data points, and away
 from edges of the plotting area (panel).
@@ -152,7 +152,7 @@ Aesthetics are parameters that can be mapped to your data with `geom_text_repel(
 
 ggrepel provides the same aesthetics for `geom_text_repel` and `geom_label_repel` that are available in [geom_text()][geom_text] or [geom_label()][geom_text], but it also provides a few more that are unique to ggrepel.
 
-[geom_text]: http://ggplot2.tidyverse.org/reference/geom_text.html
+[geom_text]: https://ggplot2.tidyverse.org/reference/geom_text.html
 
 All of them are listed below. See the [ggplot2 documentation about aesthetic specifications][aes] for more details and examples.
 
@@ -167,8 +167,8 @@ All of them are listed below. See the [ggplot2 documentation about aesthetic spe
 |`family` | `""`    | font name
 |`fontface` | `1`    | "plain", "bold", "italic", "bold.italic"
 |`lineheight` | `1.2`    | line height for text labels
-|`hjust` | `0.5`    | horizontal justification, different from geom_text()
-|`vjust` | `0.5`    | vertical justification, different from geom_text()
+|`hjust` | `0.5`    | horizontal justification
+|`vjust` | `0.5`    | vertical justification
 |`point.size` | `1`    | size of each point for each text label
 |`segment.linetype` | `1`    | line segment solid, dashed, etc.
 |`segment.color` | `"black"`    | line segment color
@@ -361,8 +361,8 @@ plots <- lapply(1:nrow(dat_arrow), function(i) {
   geom_segment(linetype = dat_arrow$linetype[i],
     arrow = with(dat_arrow[i,], arrow(angle, unit(length, "mm"), ends, type))
   ) +
-  scale_x_continuous(expand = expansion(add = 0.5)) +
-  scale_y_continuous(expand = expansion(add = 0.5)) +
+  scale_x_continuous(expand = expand_scale(add = 0.5)) +
+  scale_y_continuous(expand = expand_scale(add = 0.5)) +
   theme_void() +
   theme(strip.text = element_text(size = 14), plot.title = element_text(size = 14, hjust = 0.5), legend.position = "none")
 })
@@ -513,7 +513,7 @@ p + guides(fill = guide_legend(override.aes = aes(label = "")))
 
 ### Align labels on the top or bottom edge
 
-Use `hjust` or `vjust` to justify the text neatly:
+Use `hjust` to justify the text neatly:
 
 - `hjust = 0` for left-align
 - `hjust = 0.5` for center
@@ -658,6 +658,45 @@ ggplot(dat, aes(wt, mpg, label = car)) +
     limits = c(2.4, 3.8)
   ) +
   geom_point(color = "red")
+```
+
+### Justify multiple lines of text with hjust
+
+The `hjust` option should behave mostly the same way it does with
+`ggplot2::geom_text()`.
+
+```{r geom_text_repel-hjust, echo=TRUE, fig.width=6, fig.height=2}
+p <- ggplot() +
+  coord_cartesian(xlim=c(0,1), ylim=c(0,1)) +
+  theme_void()
+
+labelInfo <- data.frame(
+  x = c(0.45, 0.55),
+  y = c(0.5, 0.5),
+  g = c(
+    "I'd like very much to be\nright justified.",
+    "And I'd like to be\nleft justified."
+  )
+)
+
+p + geom_text_repel(
+  data          = labelInfo,
+  mapping       = aes(x, y, label = g),
+  size          = 5,
+  hjust         = c(1, 0),
+  nudge_x       = c(-0.05, 0.05),
+  arrow         = arrow(length = unit(2, "mm"), ends = "last", type = "closed")
+)
+
+p + geom_label_repel(
+  data          = labelInfo,
+  mapping       = aes(x, y, label = g),
+  size          = 5,
+  hjust         = c(1, 0),
+  nudge_x       = c(-0.05, 0.05),
+  arrow         = arrow(length = unit(2, "mm"), ends = "last", type = "closed")
+)
+
 ```
 
 ### Label jittered points
@@ -889,6 +928,6 @@ View the [source code for this vignette][source] on GitHub.
 sessionInfo()
 ```
 
-[xlim]: http://ggplot2.tidyverse.org/reference/lims.html
-[ylim]: http://ggplot2.tidyverse.org/reference/lims.html
+[xlim]: https://ggplot2.tidyverse.org/reference/lims.html
+[ylim]: https://ggplot2.tidyverse.org/reference/lims.html
 
