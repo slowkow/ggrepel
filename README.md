@@ -9,7 +9,7 @@ ggrepel <img src="man/figures/logo.svg" width="181px" align="right" />
 [cb]: https://www.r-pkg.org/badges/version/ggrepel?color=blue
 [cran]: https://CRAN.R-project.org/package=ggrepel
 
-[db]: https://cranlogs.r-pkg.org/badges/grand-total/ggrepel?color=blue
+[db]: https://cranlogs.r-pkg.org/badges/ggrepel
 [r-pkg]: https://www.r-pkg.org/pkg/ggrepel
 
 Overview
