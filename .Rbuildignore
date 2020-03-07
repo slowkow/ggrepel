@@ -21,3 +21,4 @@ movies/
 ^vignettes/examples.Rmd$
 ^vignettes/related-work.Rmd$
 ^index.md$
+^build_site.R$
