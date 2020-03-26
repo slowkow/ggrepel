@@ -332,9 +332,9 @@ ggplot(dat) +
   theme(legend.position = "none")
 ```
 
-Set `square`to `FALSE` to get oblique curves, and `inflect` to `TRUE` to introduce an inflection point.
+Set `segment.square`to `FALSE` to get oblique curves, and `segment.inflect` to `TRUE` to introduce an inflection point.
 
-```{r inflect_and_square, echo=TRUE, fig.width=6, fig.height=4}
+```{r line_inflect_and_square, echo=TRUE, fig.width=6, fig.height=4}
 set.seed(42)
 
 cars_subset <- head(mtcars, 5)
@@ -345,7 +345,7 @@ cars_subset_curves$square <- rep(c(TRUE, FALSE), each = nrow(cars_subset) * 2)
 cars_subset_curves$inflect <- rep(c(TRUE, FALSE, TRUE, FALSE), each = nrow(cars_subset))
 
 ggplot(cars_subset_curves, aes(y = wt, x = 1, label = car)) +
-  facet_grid(square ~ inflect, labeller=labeller(.default=label_both)) +
+  facet_grid(square ~ inflect, labeller = labeller(.default = label_both)) +
   geom_point(color = "red") +
   ylim(1, 4.5) +
   xlim(1, 1.375) +
