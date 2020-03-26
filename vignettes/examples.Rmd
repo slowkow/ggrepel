@@ -177,6 +177,11 @@ All of them are listed below. See the [ggplot2 documentation about aesthetic spe
 |`segment.curvature` | `0`      | numeric, negative for left-hand and positive for right-hand curves, 0 for straight lines
 |`segment.angle` | `90`         | 0-180, less than 90 skews control points toward the start point
 |`segment.ncp`   | `1`          | number of control points to make a smoother curve
+|`segment.shape` | `0.5`        | curve shape by control points approximation/interpolation (1 for cubic B-spline, -1 for Catmull-Rom spline)
+|`segment.square` | `TRUE`       | `TRUE` to place control points in city-block fashion, `FALSE` for oblique placement
+|`segment.squareShape` | `1`          | shape of the curve relative to additional control points inserted if square is `TRUE`
+|`segment.inflect` | `FALSE`      | curve inflection at the midpoint
+|`segment.debug` | `FALSE`      | display the curve debug information
 
 ## Examples
 
