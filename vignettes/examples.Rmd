@@ -392,10 +392,10 @@ ggplot(cars_subset_curves, aes(y = wt, x = 1, label = car)) +
     hjust             = 0,
     segment.size      = 0.2,
     segment.curvature = -0.6,
-    segment.angle = 45,
-    segment.ncp = 2,
-    segment.square  = FALSE,
-    segment.inflect = TRUE
+    segment.angle     = 45,
+    segment.ncp       = 2,
+    segment.square    = FALSE,
+    segment.inflect   = TRUE
   ) +
   theme(
     axis.line.x  = element_blank(),
