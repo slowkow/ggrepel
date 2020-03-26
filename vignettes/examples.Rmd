@@ -351,14 +351,14 @@ ggplot(cars_subset_curves, aes(y = wt, x = 1, label = car)) +
   xlim(1, 1.375) +
   geom_text_repel(
     aes(
-     segment.square  = square,
-     segment.inflect = inflect,
+      segment.square  = square,
+      segment.inflect = inflect,
     ),
-    force        = 0.5,
-    nudge_x      = 0.15,
-    direction    = "y",
-    hjust        = 0,
-    segment.size = 0.2,
+    force             = 0.5,
+    nudge_x           = 0.15,
+    direction         = "y",
+    hjust             = 0,
+    segment.size      = 0.2,
     segment.curvature = -0.1
   ) +
   theme(
@@ -367,7 +367,6 @@ ggplot(cars_subset_curves, aes(y = wt, x = 1, label = car)) +
     axis.text.x  = element_blank(),
     axis.title.x = element_blank()
   )
-
 ```
 
 We can use different line types (1, 2, 3, 4, 5, or 6).
