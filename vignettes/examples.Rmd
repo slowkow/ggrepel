@@ -369,6 +369,42 @@ ggplot(cars_subset_curves, aes(y = wt, x = 1, label = car)) +
   )
 ```
 
+Use `segment.shape` to adjust the interpolation of the control points:
+
+```{r line_shape, echo=TRUE, fig.width=5, fig.height=10}
+set.seed(42)
+
+cars_subset_shapes <- cars_subset[rep(seq_len(nrow(cars_subset)), times = 5), ]
+cars_subset_shapes$shape <- rep(c(-1, -0.5, 0, 0.5, 1), each = nrow(cars_subset))
+
+ggplot(cars_subset_curves, aes(y = wt, x = 1, label = car)) +
+  facet_wrap('shape', labeller = labeller(.default = label_both), ncol = 1) +
+  geom_point(color = "red") +
+  ylim(1, 4.5) +
+  xlim(1, 1.375) +
+  geom_text_repel(
+    aes(
+      segment.shape   = shape
+    ),
+    force             = 0.5,
+    nudge_x           = 0.25,
+    direction         = "y",
+    hjust             = 0,
+    segment.size      = 0.2,
+    segment.curvature = -0.6,
+    segment.angle = 45,
+    segment.ncp = 2,
+    segment.square  = FALSE,
+    segment.inflect = TRUE
+  ) +
+  theme(
+    axis.line.x  = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.text.x  = element_blank(),
+    axis.title.x = element_blank()
+  )
+```
+
 We can use different line types (1, 2, 3, 4, 5, or 6).
 
 ```{r all_linetypes, echo=FALSE, fig.width=5, fig.height=1}
