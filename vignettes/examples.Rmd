@@ -332,6 +332,44 @@ ggplot(dat) +
   theme(legend.position = "none")
 ```
 
+Set `square`to `FALSE` to get oblique curves, and `inflect` to `TRUE` to introduce an inflection point.
+
+```{r inflect_and_square, echo=TRUE, fig.width=6, fig.height=4}
+set.seed(42)
+
+cars_subset <- head(mtcars, 5)
+cars_subset$car <- rownames(cars_subset)
+
+cars_subset_curves <- cars_subset[rep(seq_len(nrow(cars_subset)), times = 4), ]
+cars_subset_curves$square <- rep(c(TRUE, FALSE), each = nrow(cars_subset) * 2)
+cars_subset_curves$inflect <- rep(c(TRUE, FALSE, TRUE, FALSE), each = nrow(cars_subset))
+
+ggplot(cars_subset_curves, aes(y = wt, x = 1, label = car)) +
+  facet_grid(square ~ inflect, labeller=labeller(.default=label_both)) +
+  geom_point(color = "red") +
+  ylim(1, 4.5) +
+  xlim(1, 1.375) +
+  geom_text_repel(
+    aes(
+     segment.square  = square,
+     segment.inflect = inflect,
+    ),
+    force        = 0.5,
+    nudge_x      = 0.15,
+    direction    = "y",
+    hjust        = 0,
+    segment.size = 0.2,
+    segment.curvature = -0.1
+  ) +
+  theme(
+    axis.line.x  = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.text.x  = element_blank(),
+    axis.title.x = element_blank()
+  )
+
+```
+
 We can use different line types (1, 2, 3, 4, 5, or 6).
 
 ```{r all_linetypes, echo=FALSE, fig.width=5, fig.height=1}
