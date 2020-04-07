@@ -1,5 +1,5 @@
 
-ggrepel 0.8.1.9000 2019-11-03
+ggrepel 0.9.0 2020-04-07
 ========================
 
 ## Changes
@@ -63,6 +63,15 @@ ggrepel 0.8.1.9000 2019-11-03
   pointing out the bug in [issue 136].
 
 [issue 136]: https://github.com/slowkow/ggrepel/issues/136
+
+* Add new segment options. Thanks to @krassowski for adding this feature with
+  [pull request 151].
+  - segment.shape
+  - segment.square
+  - segment.squareShape
+  - segment.inflect
+
+[pull request 151]: https://github.com/slowkow/ggrepel/pull/151
 
 ggrepel 0.8.1 2019-05-07
 ========================
