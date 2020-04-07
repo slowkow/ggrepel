@@ -102,7 +102,7 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)
 
 ## Installation
 
-[ggrepel version `r packageVersion("ggrepel")`][cran] is available on CRAN:
+ggrepel is available on [CRAN]:
 
 ```{r install-cran, echo=TRUE, eval=FALSE}
 install.packages("ggrepel")
@@ -117,7 +117,7 @@ it from GitHub:
 devtools::install_github("slowkow/ggrepel")
 ```
 
-[cran]: https://CRAN.R-project.org/package=ggrepel
+[CRAN]: https://CRAN.R-project.org/package=ggrepel
 [github]: https://github.com/slowkow/ggrepel
 
 ## Usage

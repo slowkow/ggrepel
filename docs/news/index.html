@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -45,8 +49,7 @@
   
 
 <meta property="og:title" content="Changelog" />
-<meta property="og:image" content="https://ggrepel.slowkow.com/logo.png" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:image" content="https://ggrepel.slowkow.com/logo.svg" />
 
 
 
@@ -74,7 +77,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -88,7 +91,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggrepel</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
       </span>
     </div>
 
@@ -142,13 +145,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
+      <h1 data-toc-skip>Changelog <small></small></h1>
       <small>Source: <a href='https://github.com/slowkow/ggrepel/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="ggrepel-0-8-1-9000-2019-11-03" class="section level1">
-<h1 class="page-header">
-<a href="#ggrepel-0-8-1-9000-2019-11-03" class="anchor"></a>ggrepel 0.8.1.9000 2019-11-03<small> Unreleased </small>
+    <div id="ggrepel-0-9-0-2020-04-07" class="section level1">
+<h1 class="page-header" data-toc-text="0.9.0">
+<a href="#ggrepel-0-9-0-2020-04-07" class="anchor"></a>ggrepel 0.9.0 2020-04-07<small> Unreleased </small>
 </h1>
 <div id="changes" class="section level2">
 <h2 class="hasAnchor">
@@ -180,6 +183,9 @@
 <h2 class="hasAnchor">
 <a href="#bug-fixes-and-improvements" class="anchor"></a>Bug fixes and improvements</h2>
 <ul>
+<li>Text justification for multi-line text labels should be working as expected. Thanks to <a href='https://github.com/johnhenrypezzuto'>@johnhenrypezzuto</a> and <a href='https://github.com/phalteman'>@phalteman</a> for comments in <a href="https://github.com/slowkow/ggrepel/issues/137">issue 137</a>.</li>
+</ul>
+<ul>
 <li>Put text labels on top of all line segments (<a href='https://github.com/kiendang'>@kiendang</a>). This fixes <a href="https://github.com/slowkow/ggrepel/issues/35">issue 35</a>, where line segments sometimes appear on top of text.</li>
 </ul>
 <ul>
@@ -188,10 +194,20 @@
 <ul>
 <li>Fix the way <code>xlim = c(-Inf, Inf)</code> is treated. Thanks to <a href='https://github.com/thomasp85'>@thomasp85</a> for pointing out the bug in <a href="https://github.com/slowkow/ggrepel/issues/136">issue 136</a>.</li>
 </ul>
+<ul>
+<li>Add new segment options. Thanks to <a href='https://github.com/krassowski'>@krassowski</a> for adding this feature with <a href="https://github.com/slowkow/ggrepel/pull/151">pull request 151</a>.
+<ul>
+<li>segment.shape</li>
+<li>segment.square</li>
+<li>segment.squareShape</li>
+<li>segment.inflect</li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
     <div id="ggrepel-0-8-1-2019-05-07" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.8.1">
 <a href="#ggrepel-0-8-1-2019-05-07" class="anchor"></a>ggrepel 0.8.1 2019-05-07<small> 2019-05-07 </small>
 </h1>
 <div id="bug-fixes-and-improvements-1" class="section level2">
@@ -203,7 +219,7 @@
 </div>
 </div>
     <div id="ggrepel-0-8-0-2018-05-09" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.8.0">
 <a href="#ggrepel-0-8-0-2018-05-09" class="anchor"></a>ggrepel 0.8.0 2018-05-09<small> 2018-05-09 </small>
 </h1>
 <div id="bug-fixes-and-improvements-2" class="section level2">
@@ -215,7 +231,7 @@
 </div>
 </div>
     <div id="ggrepel-0-7-3-2018-02-09" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.7.3">
 <a href="#ggrepel-0-7-3-2018-02-09" class="anchor"></a>ggrepel 0.7.3 2018-02-09<small> Unreleased </small>
 </h1>
 <div id="changes-1" class="section level2">
@@ -230,7 +246,7 @@
 </div>
 </div>
     <div id="ggrepel-0-7-2-2018-01-14" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.7.2">
 <a href="#ggrepel-0-7-2-2018-01-14" class="anchor"></a>ggrepel 0.7.2 2018-01-14<small> Unreleased </small>
 </h1>
 <div id="bug-fixes-and-improvements-3" class="section level2">
@@ -244,7 +260,7 @@
 </div>
 </div>
     <div id="ggrepel-0-7-1-2017-11-18" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.7.1">
 <a href="#ggrepel-0-7-1-2017-11-18" class="anchor"></a>ggrepel 0.7.1 2017-11-18<small> Unreleased </small>
 </h1>
 <div id="changes-2" class="section level2">
@@ -258,7 +274,7 @@
 </div>
 </div>
     <div id="ggrepel-0-7-0-2017-09-28" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.7.0">
 <a href="#ggrepel-0-7-0-2017-09-28" class="anchor"></a>ggrepel 0.7.0 2017-09-28<small> 2017-09-29 </small>
 </h1>
 <div id="bug-fixes" class="section level2">
@@ -273,7 +289,7 @@
 </div>
 </div>
     <div id="ggrepel-0-6-12-2017-07-16" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.6.12">
 <a href="#ggrepel-0-6-12-2017-07-16" class="anchor"></a>ggrepel 0.6.12 2017-07-16<small> Unreleased </small>
 </h1>
 <div id="changes-3" class="section level2">
@@ -288,7 +304,7 @@
 </div>
 </div>
     <div id="ggrepel-0-6-11-2017-07-08" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.6.11">
 <a href="#ggrepel-0-6-11-2017-07-08" class="anchor"></a>ggrepel 0.6.11 2017-07-08<small> Unreleased </small>
 </h1>
 <div id="changes-4" class="section level2">
@@ -301,7 +317,7 @@
 </div>
 </div>
     <div id="ggrepel-0-6-10-2017-03-07" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.6.10">
 <a href="#ggrepel-0-6-10-2017-03-07" class="anchor"></a>ggrepel 0.6.10 2017-03-07<small> Unreleased </small>
 </h1>
 <div id="bug-fixes-1" class="section level2">
@@ -314,7 +330,7 @@
 </div>
 </div>
     <div id="ggrepel-0-6-9-2017-03-07" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.6.9">
 <a href="#ggrepel-0-6-9-2017-03-07" class="anchor"></a>ggrepel 0.6.9 2017-03-07<small> Unreleased </small>
 </h1>
 <div id="bug-fixes-2" class="section level2">
@@ -326,19 +342,19 @@
 </div>
 </div>
     <div id="ggrepel-0-6-8-2017-02-12" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.6.8">
 <a href="#ggrepel-0-6-8-2017-02-12" class="anchor"></a>ggrepel 0.6.8 2017-02-12<small> Unreleased </small>
 </h1>
 <div id="changes-5" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-5" class="anchor"></a>Changes</h2>
 <ul>
-<li>Constrain repulsion force to x-axis “x” or y-axis “y” with <code>direction</code> in <code><a href="../reference/geom_text_repel.html">geom_text_repel()</a></code> and <code><a href="../reference/geom_text_repel.html">geom_label_repel()</a></code>. Thanks to <a href='https://github.com/AliciaSchep'>@AliciaSchep</a> for <a href="https://github.com/slowkow/ggrepel/pull/68">pull 68</a>.</li>
+<li>Constrain repulsion force to x-axis âxâ or y-axis âyâ with <code>direction</code> in <code><a href="../reference/geom_text_repel.html">geom_text_repel()</a></code> and <code><a href="../reference/geom_text_repel.html">geom_label_repel()</a></code>. Thanks to <a href='https://github.com/AliciaSchep'>@AliciaSchep</a> for <a href="https://github.com/slowkow/ggrepel/pull/68">pull 68</a>.</li>
 </ul>
 </div>
 </div>
     <div id="ggrepel-0-6-7-2017-01-09" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.6.7">
 <a href="#ggrepel-0-6-7-2017-01-09" class="anchor"></a>ggrepel 0.6.7 2017-01-09<small> Unreleased </small>
 </h1>
 <div id="changes-6" class="section level2">
@@ -350,7 +366,7 @@
 </div>
 </div>
     <div id="ggrepel-0-6-6-2016-11-28" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.6.6">
 <a href="#ggrepel-0-6-6-2016-11-28" class="anchor"></a>ggrepel 0.6.6 2016-11-28<small> Unreleased </small>
 </h1>
 <div id="bug-fixes-3" class="section level2">
@@ -362,7 +378,7 @@
 </div>
 </div>
     <div id="ggrepel-0-6-5-2016-11-22" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.6.5">
 <a href="#ggrepel-0-6-5-2016-11-22" class="anchor"></a>ggrepel 0.6.5 2016-11-22<small> 2016-11-24 </small>
 </h1>
 <div id="changes-7" class="section level2">
@@ -378,7 +394,7 @@
 </div>
 </div>
     <div id="ggrepel-0-6-4-2016-11-08" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.6.4">
 <a href="#ggrepel-0-6-4-2016-11-08" class="anchor"></a>ggrepel 0.6.4 2016-11-08<small> Unreleased </small>
 </h1>
 <div id="bug-fixes-4" class="section level2">
@@ -390,7 +406,7 @@
 </div>
 </div>
     <div id="ggrepel-0-6-3-2016-10-14" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.6.3">
 <a href="#ggrepel-0-6-3-2016-10-14" class="anchor"></a>ggrepel 0.6.3 2016-10-14<small> 2016-10-20 </small>
 </h1>
 <div id="changes-8" class="section level2">
@@ -402,7 +418,7 @@
 </div>
 </div>
     <div id="ggrepel-0-6-2-2016-10-06" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.6.2">
 <a href="#ggrepel-0-6-2-2016-10-06" class="anchor"></a>ggrepel 0.6.2 2016-10-06<small> Unreleased </small>
 </h1>
 <div id="bug-fixes-5" class="section level2">
@@ -422,7 +438,7 @@
 </div>
 </div>
     <div id="ggrepel-0-6-1-2016-10-04" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.6.1">
 <a href="#ggrepel-0-6-1-2016-10-04" class="anchor"></a>ggrepel 0.6.1 2016-10-04<small> Unreleased </small>
 </h1>
 <div id="changes-10" class="section level2">
@@ -434,7 +450,7 @@
 </div>
 </div>
     <div id="ggrepel-0-6-0-2016-10-03" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.6.0">
 <a href="#ggrepel-0-6-0-2016-10-03" class="anchor"></a>ggrepel 0.6.0 2016-10-03<small> Unreleased </small>
 </h1>
 <div id="changes-11" class="section level2">
@@ -453,7 +469,7 @@
 </div>
 </div>
     <div id="ggrepel-0-5-1-2016-02-22" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.5.1">
 <a href="#ggrepel-0-5-1-2016-02-22" class="anchor"></a>ggrepel 0.5.1 2016-02-22<small> Unreleased </small>
 </h1>
 <ul>
@@ -461,7 +477,7 @@
 </ul>
 </div>
     <div id="ggrepel-0-5-2016-02-08" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.5">
 <a href="#ggrepel-0-5-2016-02-08" class="anchor"></a>ggrepel 0.5 2016-02-08<small> 2016-02-08 </small>
 </h1>
 <ul>
@@ -469,7 +485,7 @@
 </ul>
 </div>
     <div id="ggrepel-0-4-6-2016-02-07" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.4.6">
 <a href="#ggrepel-0-4-6-2016-02-07" class="anchor"></a>ggrepel 0.4.6 2016-02-07<small> Unreleased </small>
 </h1>
 <div id="changes-12" class="section level2">
@@ -481,7 +497,7 @@
 </div>
 </div>
     <div id="ggrepel-0-4-5-2016-02-06" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.4.5">
 <a href="#ggrepel-0-4-5-2016-02-06" class="anchor"></a>ggrepel 0.4.5 2016-02-06<small> Unreleased </small>
 </h1>
 <div id="changes-13" class="section level2">
@@ -494,7 +510,7 @@
 </div>
 </div>
     <div id="ggrepel-0-4-4-2016-02-05" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.4.4">
 <a href="#ggrepel-0-4-4-2016-02-05" class="anchor"></a>ggrepel 0.4.4 2016-02-05<small> Unreleased </small>
 </h1>
 <p>FIXES</p>
@@ -510,7 +526,7 @@
 </div>
 </div>
     <div id="ggrepel-0-4-3-2016-01-18" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.4.3">
 <a href="#ggrepel-0-4-3-2016-01-18" class="anchor"></a>ggrepel 0.4.3 2016-01-18<small> Unreleased </small>
 </h1>
 <div id="changes-15" class="section level2">
@@ -522,7 +538,7 @@
 </div>
 </div>
     <div id="ggrepel-0-4-2-2016-01-15" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.4.2">
 <a href="#ggrepel-0-4-2-2016-01-15" class="anchor"></a>ggrepel 0.4.2 2016-01-15<small> Unreleased </small>
 </h1>
 <p>FIXES</p>
@@ -538,7 +554,7 @@
 </div>
 </div>
     <div id="ggrepel-0-4-1-2016-01-13" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.4.1">
 <a href="#ggrepel-0-4-1-2016-01-13" class="anchor"></a>ggrepel 0.4.1 2016-01-13<small> Unreleased </small>
 </h1>
 <div id="changes-17" class="section level2">
@@ -556,7 +572,7 @@
 </div>
 </div>
     <div id="ggrepel-0-4-2016-01-12" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.4">
 <a href="#ggrepel-0-4-2016-01-12" class="anchor"></a>ggrepel 0.4 2016-01-12<small> 2016-01-12 </small>
 </h1>
 <div id="bug-fixes-6" class="section level2">
@@ -582,7 +598,7 @@
 </div>
 </div>
     <div id="ggrepel-0-3-2016-01-08" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.3">
 <a href="#ggrepel-0-3-2016-01-08" class="anchor"></a>ggrepel 0.3 2016-01-08<small> 2016-01-09 </small>
 </h1>
 <div id="changes-19" class="section level2">
@@ -599,7 +615,7 @@
 </div>
 </div>
     <div id="ggrepel-0-2-0-2016-01-07" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.2.0">
 <a href="#ggrepel-0-2-0-2016-01-07" class="anchor"></a>ggrepel 0.2.0 2016-01-07<small> Unreleased </small>
 </h1>
 <div id="changes-20" class="section level2">
@@ -633,7 +649,7 @@
 </div>
 </div>
     <div id="ggrepel-0-1-0-2016-01-05" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.1.0">
 <a href="#ggrepel-0-1-0-2016-01-05" class="anchor"></a>ggrepel 0.1.0 2016-01-05<small> Unreleased </small>
 </h1>
 <div id="changes-21" class="section level2">
@@ -650,7 +666,7 @@
 </div>
 </div>
     <div id="ggrepel-0-0-1-2016-01-04" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="0.0.1">
 <a href="#ggrepel-0-0-1-2016-01-04" class="anchor"></a>ggrepel 0.0.1 2016-01-04<small> Unreleased </small>
 </h1>
 <ul>
@@ -659,45 +675,10 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ggrepel-0-8-1-9000-2019-11-03">0.8.1.9000</a></li>
-        <li><a href="#ggrepel-0-8-1-2019-05-07">0.8.1</a></li>
-        <li><a href="#ggrepel-0-8-0-2018-05-09">0.8.0</a></li>
-        <li><a href="#ggrepel-0-7-3-2018-02-09">0.7.3</a></li>
-        <li><a href="#ggrepel-0-7-2-2018-01-14">0.7.2</a></li>
-        <li><a href="#ggrepel-0-7-1-2017-11-18">0.7.1</a></li>
-        <li><a href="#ggrepel-0-7-0-2017-09-28">0.7.0</a></li>
-        <li><a href="#ggrepel-0-6-12-2017-07-16">0.6.12</a></li>
-        <li><a href="#ggrepel-0-6-11-2017-07-08">0.6.11</a></li>
-        <li><a href="#ggrepel-0-6-10-2017-03-07">0.6.10</a></li>
-        <li><a href="#ggrepel-0-6-9-2017-03-07">0.6.9</a></li>
-        <li><a href="#ggrepel-0-6-8-2017-02-12">0.6.8</a></li>
-        <li><a href="#ggrepel-0-6-7-2017-01-09">0.6.7</a></li>
-        <li><a href="#ggrepel-0-6-6-2016-11-28">0.6.6</a></li>
-        <li><a href="#ggrepel-0-6-5-2016-11-22">0.6.5</a></li>
-        <li><a href="#ggrepel-0-6-4-2016-11-08">0.6.4</a></li>
-        <li><a href="#ggrepel-0-6-3-2016-10-14">0.6.3</a></li>
-        <li><a href="#ggrepel-0-6-2-2016-10-06">0.6.2</a></li>
-        <li><a href="#ggrepel-0-6-1-2016-10-04">0.6.1</a></li>
-        <li><a href="#ggrepel-0-6-0-2016-10-03">0.6.0</a></li>
-        <li><a href="#ggrepel-0-5-1-2016-02-22">0.5.1</a></li>
-        <li><a href="#ggrepel-0-5-2016-02-08">0.5</a></li>
-        <li><a href="#ggrepel-0-4-6-2016-02-07">0.4.6</a></li>
-        <li><a href="#ggrepel-0-4-5-2016-02-06">0.4.5</a></li>
-        <li><a href="#ggrepel-0-4-4-2016-02-05">0.4.4</a></li>
-        <li><a href="#ggrepel-0-4-3-2016-01-18">0.4.3</a></li>
-        <li><a href="#ggrepel-0-4-2-2016-01-15">0.4.2</a></li>
-        <li><a href="#ggrepel-0-4-1-2016-01-13">0.4.1</a></li>
-        <li><a href="#ggrepel-0-4-2016-01-12">0.4</a></li>
-        <li><a href="#ggrepel-0-3-2016-01-08">0.3</a></li>
-        <li><a href="#ggrepel-0-2-0-2016-01-07">0.2.0</a></li>
-        <li><a href="#ggrepel-0-1-0-2016-01-05">0.1.0</a></li>
-        <li><a href="#ggrepel-0-0-1-2016-01-04">0.0.1</a></li>
-      </ul>
-    </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
@@ -709,7 +690,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
 </div>
 
       </footer>

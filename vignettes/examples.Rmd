@@ -107,7 +107,7 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)
 
 ## Installation
 
-[ggrepel version `r packageVersion("ggrepel")`][cran] is available on CRAN:
+ggrepel is available on [CRAN]:
 
 ```{r install-cran, echo=TRUE, eval=FALSE}
 install.packages("ggrepel")
@@ -122,7 +122,7 @@ it from GitHub:
 devtools::install_github("slowkow/ggrepel")
 ```
 
-[cran]: https://CRAN.R-project.org/package=ggrepel
+[CRAN]: https://CRAN.R-project.org/package=ggrepel
 [github]: https://github.com/slowkow/ggrepel
 
 ## Options
@@ -377,7 +377,7 @@ set.seed(42)
 cars_subset_shapes <- cars_subset[rep(seq_len(nrow(cars_subset)), times = 5), ]
 cars_subset_shapes$shape <- rep(c(-1, -0.5, 0, 0.5, 1), each = nrow(cars_subset))
 
-ggplot(cars_subset_curves, aes(y = wt, x = 1, label = car)) +
+ggplot(cars_subset_shapes, aes(y = wt, x = 1, label = car)) +
   facet_wrap('shape', labeller = labeller(.default = label_both), ncol = 1) +
   geom_point(color = "red") +
   ylim(1, 4.5) +
