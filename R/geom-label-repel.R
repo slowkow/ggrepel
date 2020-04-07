@@ -88,7 +88,9 @@ GeomLabelRepel <- ggproto(
     alpha = NA, family = "", fontface = 1, lineheight = 1.2,
     hjust = 0.5, vjust = 0.5, point.size = 1,
     segment.linetype = 1, segment.colour = "black", segment.size = 0.5, segment.alpha = 1,
-    segment.curvature = 0, segment.angle = 90, segment.ncp = 1
+    segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
+    segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
+    segment.inflect = FALSE, segment.debug = FALSE,
   ),
 
   draw_panel = function(
@@ -316,6 +318,11 @@ makeContent.labelrepeltree <- function(x) {
         segment.curvature = row$segment.curvature,
         segment.angle     = row$segment.angle,
         segment.ncp       = row$segment.ncp,
+        segment.shape = row$segment.shape,
+        segment.square = row$segment.square,
+        segment.squareShape = row$segment.squareShape,
+        segment.inflect = row$segment.inflect,
+        segment.debug = row$segment.debug,
         r = x$label.r,
         text.gp = gpar(
           col = scales::alpha(row$colour, row$alpha),
@@ -373,6 +380,11 @@ makeLabelRepelGrobs <- function(
   segment.curvature = 0,
   segment.angle = 90,
   segment.ncp = 1,
+  segment.shape = 0.5,
+  segment.square = TRUE,
+  segment.squareShape = 1,
+  segment.inflect = FALSE,
+  segment.debug = FALSE,
   name = NULL,
   text.gp = gpar(),
   rect.gp = gpar(fill = "white"),
@@ -476,7 +488,12 @@ makeLabelRepelGrobs <- function(
       default.units = "native",
       curvature = segment.curvature,
       angle = segment.angle,
-      ncp =  segment.ncp,
+      ncp = segment.ncp,
+      shape = segment.shape,
+      square = segment.square,
+      squareShape = segment.squareShape,
+      inflect = segment.inflect,
+      debug = segment.debug,
       gp = segment.gp,
       name = sprintf("segmentrepelgrob%s", i),
       arrow = arrow
