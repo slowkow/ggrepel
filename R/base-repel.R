@@ -1,32 +1,3 @@
-
-par(mfrow = c(3, 3), mar = c(0, 0, 0, 0))
-for (xadj in c(0, .5, 1)) {
-  for (yadj in c(0, .5, 1)) {
-    with(mtcars, {
-      plot(wt, mpg, main = paste(xadj, yadj))
-      text(wt, mpg, rownames(mtcars), adj = c(xadj, yadj))
-    })
-  }
-}
-
-par(mfrow = c(2, 2))
-for (font in 1:4) {
-  with(mtcars, {
-    plot(wt, mpg, main = font)
-    text(wt, mpg, rownames(mtcars), font = font)
-  })
-}
-
-par(ps = 20)
-par(mfrow = 1:2)
-with(mtcars, {
-  plot(wt, mpg, main = 'text()')
-  text(wt, mpg, rownames(mtcars))
-})
-with(mtcars, {
-  plot(wt, mpg, main = 'repel_text()')
-  repel_text(wt, mpg, rownames(mtcars))
-})
 get_boxes = function(
   x, y, labels, adj, pos, offset, vfont, cex, font
 ) {
