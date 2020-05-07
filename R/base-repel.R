@@ -17,14 +17,14 @@ for (font in 1:4) {
   })
 }
 
-pars(ps = 20)
+par(ps = 20)
 par(mfrow = 1:2)
 with(mtcars, {
-  plot(wt, mpg)
+  plot(wt, mpg, main = 'text()')
   text(wt, mpg, rownames(mtcars))
 })
 with(mtcars, {
-  plot(wt, mpg)
+  plot(wt, mpg, main = 'repel_text()')
   repel_text(wt, mpg, rownames(mtcars))
 })
 get_boxes = function(
@@ -54,10 +54,24 @@ repel_text = function(
 
   direction = match.arg(direction)
 
-  # will grow adj if adj is length-1
-  if (is.null(adj)) adj = c(par('adj'), NA_real_)
-  if (length(adj) == 1L) adj[2L] = .5
-  if (anyNA(adj)) adj[is.na(adj)] = .5
+  # from src/library/graphics/plot.c:C_text, setting pos is a shortcut
+  #   for setting adj: 1->[.5, .5]; 2->[1, 0]; 3->[.5, 0]; 4->[0, 0]
+  #   [I'm ignoring 'dd->dev->yCharOffset' which AFAICT is not exposed to
+  #    R outside C, and which is described as "mysterious" in R-ints manual]
+  if (is.null(pos)) {
+    # will grow adj if adj is length-1
+    if (is.null(adj)) adj = c(par('adj'), NA_real_)
+    if (length(adj) == 1L) adj[2L] = .5
+    if (anyNA(adj)) adj[is.na(adj)] = .5
+  } else {
+    pos = as.intger(pos)
+    if (length(pos) > 1L) stop("'pos' must have length one")
+    if (pos == 1L) adj = c(.5, .5)
+    else if (pos == 2L) adj = c(1, 0)
+    else if (pos == 3L) adj = c(.5, 0)
+    else if (pos == 4L) adj = c(0, 0)
+    else stop("Invalid value for 'pos' [",pos,"]; valid values are 1,2,3,4")
+  }
 
   repel = repel_boxes2(
     data_points     = cbind(x, y),
@@ -79,4 +93,6 @@ repel_text = function(
 
   text(repel$x, repel$y, labels, adj = adj, pos = pos, offset = offset,
        vfont = vfont, cex = cex, col = col, font = font)
+
+  segments(x, y, repel$x, repel$y)
 }
