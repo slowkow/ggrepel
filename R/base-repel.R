@@ -13,7 +13,8 @@ get_boxes = function(
   )
 }
 
-repel_text = function(
+#' @export
+text_repel = function(
   x, y, labels, adj = NULL, pos = NULL, offset = .5,
   vfont = NULL, cex = 1, col = NULL, font = NULL,
   point.padding = 0, force = 1, force_pull = 1,
