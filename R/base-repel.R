@@ -26,7 +26,8 @@ repel_text = function(
   direction = match.arg(direction)
 
   # from src/library/graphics/plot.c:C_text, setting pos is a shortcut
-  #   for setting adj: 1->[.5, .5]; 2->[1, 0]; 3->[.5, 0]; 4->[0, 0]
+  #   for setting adj: 1->[.5, .5]; 2->[1, 0]; 3->[.5, 0]; 4->[0, 0];
+  #   application of offset is also as there
   #   [I'm ignoring 'dd->dev->yCharOffset' which AFAICT is not exposed to
   #    R outside C, and which is described as "mysterious" in R-ints manual]
   if (is.null(pos)) {
@@ -36,12 +37,21 @@ repel_text = function(
     if (anyNA(adj)) adj[is.na(adj)] = .5
   } else {
     pos = as.intger(pos)
+    offset = offset * par('cxy')
     if (length(pos) > 1L) stop("'pos' must have length one")
-    if (pos == 1L) adj = c(.5, .5)
-    else if (pos == 2L) adj = c(1, 0)
-    else if (pos == 3L) adj = c(.5, 0)
-    else if (pos == 4L) adj = c(0, 0)
-    else stop("Invalid value for 'pos' [",pos,"]; valid values are 1,2,3,4")
+    if (pos == 1L) {
+      y = y - offset
+      adj = c(.5, .5)
+    } else if (pos == 2L) {
+      x = x - offset
+      adj = c(1, 0)
+    } else if (pos == 3L) {
+      y = y + offset
+      adj = c(.5, 0)
+    } else if (pos == 4L) {
+      x = x + offset
+      adj = c(0, 0)
+    } else stop("Invalid value for 'pos' [",pos,"]; valid values are 1,2,3,4")
   }
 
   repel = repel_boxes2(
