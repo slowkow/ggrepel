@@ -60,6 +60,57 @@ for (ii in sample(nrow(Hershey$allowed), 9L)) {
     text_repel(x, y, labels, vfont = vfont)
 }
 
+# ---- CEX ----
+par(mfrow = c(3L, 3L), mar = c(0, 0, 0, 0))
+for (cex in c(.5, .6, .8, .9, 1, 1.1, 1.25, 1.33, 2, 5)) {
+    plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
+    box()
+    mtext(side = 3L, line = -1, sprintf('cex=%.2f', cex))
+    text(x, y, labels, cex = cex, col = 'gray')
+    text_repel(x, y, labels, cex = cex)
+}
 
-par(ps = 20)
-par(mfrow = 1:2)
+# ---- CEX AS VECTOR ----
+par(mfrow = c(1L, 1L))
+plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
+box()
+cex = runif(length(x), .5, 1.5)
+text(x, y, labels, cex = cex, col = 'gray')
+text_repel(x, y, labels, cex = cex)
+
+# ---- FONT ----
+## per src/library/graphics/src/plot.c:FixupFont, font
+##   can be 1,2,3,4,5 on Unix, up to 32 on Windows
+par(mfrow = c(2L, 2L), mar = c(0, 0, 0, 0))
+for (font in 1:4) {
+    plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
+    box()
+    text(x, y, labels, font = font, col = 'gray')
+    text_repel(x, y, labels, font = font)
+}
+
+# ---- FONT AS VECTOR ----
+par(mfrow = c(1L, 1L))
+plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
+box()
+font = sample(1:4, length(x), replace = TRUE)
+text(x, y, labels, font = font, col = 'gray')
+text_repel(x, y, labels, font = font)
+
+# ---- PAR(PS) ----
+
+# ---- POINT.PADDING ----
+
+# ---- FORCE ----
+
+# ---- FORCE_PULL ----
+
+# ---- MAX.TIME ----
+
+# ---- MAX.ITER ----
+
+# ---- MAX.OVERLAPS ----
+
+# ---- DIRECTION ----
+
+# ---- ERRORS ----
