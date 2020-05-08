@@ -1106,8 +1106,8 @@ DataFrame repel_boxes2(
   } // while any overlaps exist and we haven't reached max iterations
 
   if (verbose) {
-    if (elapsed_time > max_time)  Rprintf("%.2fs elapsed during %d iterations before completing text repel\n", max_time/1e9, iter);
-    else if (iter >= max_iter) Rprintf("%d iterations finished in %.2fs before completing text repel\n", max_iter, elapsed_time/1e9);
+    if (elapsed_time > max_time)  Rprintf("%.2fs elapsed during %d iterations before completing text repel. Consider increasing 'max.time'.\n", max_time/1e9, iter);
+    else if (iter >= max_iter) Rprintf("%d iterations finished in %.2fs before completing text repel. Consider increasing 'max.iter'.\n", max_iter, elapsed_time/1e9);
     else Rprintf("text repel complete in %d iterations (%.2fs)\n", iter, elapsed_time/1e9);
   }
 
