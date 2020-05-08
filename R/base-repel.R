@@ -57,6 +57,7 @@ text_repel = function(
   max.time = .5, max.iter = 10000L, max.overlaps = 10L,
   direction = c('both', 'y', 'x'), ...
 ) {
+  if ('srt' %in% names(list(...))) stop("'srt' not yet supported")
   # like in text.default
   if (!missing(y) && (is.character(y) || is.expression(y))) {
     labels = y

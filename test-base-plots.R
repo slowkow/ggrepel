@@ -85,6 +85,7 @@ par(mfrow = c(2L, 2L), mar = c(0, 0, 0, 0))
 for (font in 1:4) {
     plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
     box()
+    mtext(side = 3L, line = -1, sprintf('font=%d', font))
     text(x, y, labels, font = font, col = 'gray')
     text_repel(x, y, labels, font = font)
 }
@@ -98,12 +99,39 @@ text(x, y, labels, font = font, col = 'gray')
 text_repel(x, y, labels, font = font)
 
 # ---- PAR(PS) ----
+par(mfrow = c(2L, 2L), mar = c(0, 0, 0, 0))
+old = par('ps')
+for (ps in c(8, 12, 18, 24)) {
+    plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
+    box()
+    mtext(side = 3L, line = -1, sprintf('ps=%d', ps))
+    par(ps = ps)
+    text(x, y, labels, col = 'gray')
+    text_repel(x, y, labels)
+}
+par(ps = old)
 
 # ---- POINT.PADDING ----
+par(mfrow = c(2L, 2L), mar = c(0, 0, 0, 0))
+for (padding in c(0, .5, 1, 2)) {
+    plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
+    box()
+    mtext(side = 3L, line = -1, sprintf('point.padding=%.1f', padding))
+    text(x, y, labels, col = 'gray')
+    text_repel(x, y, labels, point.padding = padding)
+}
 
-# ---- FORCE ----
-
-# ---- FORCE_PULL ----
+# ---- FORCE, FORCE_PULL----
+par(mfrow = c(3L, 3L), mar = c(0, 0, 0, 0))
+for (force in c(.5, 1, 5)) {
+    for (force_pull in c(.5, 1, 5)) {
+        plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
+        box()
+        mtext(side = 3L, line = -1, sprintf('force=%.1f | force_pull=%.1f', force, force_pull))
+        text(x, y, labels, col = 'gray')
+        text_repel(x, y, labels, force = force, force_pull = force_pull)
+    }
+}
 
 # ---- MAX.TIME ----
 
