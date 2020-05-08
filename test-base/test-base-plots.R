@@ -3,8 +3,12 @@ y = mtcars$mpg
 labels = rownames(mtcars)
 
 repel_boxes2 = ggrepel:::repel_boxes2
+open_pdf = function(filename, dim)
+    pdf(filename, width = 7*dim[2L], height = 7*dim[1L])
 
 # ---- DEFAULTS ----
+dim = 1:2
+open_pdf('
 par(mfrow = 1:2)
 plot(x, y, main = 'text()')
 text(x, y, labels)
