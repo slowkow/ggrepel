@@ -18,10 +18,10 @@ labels = rownames(mtcars)
 
 # ---- DEFAULTS ----
 open_pdf('defaults', 1:2)
-plot(x, y, main = 'text()')
+plot(x, y, main = 'text()', axes = FALSE, xlab = '', ylab = '')
 text(x, y, labels)
 
-plot(x, y, main = 'repel_text()')
+plot(x, y, main = 'repel_text()', axes = FALSE, xlab = '', ylab = '')
 text_repel(x, y, labels)
 dev.off()
 
@@ -31,7 +31,7 @@ for (xadj in c(0, .5, 1)) {
     for (yadj in c(0, .5, 1)) {
         plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
         box()
-        mtext(side = 3L, line = -1, sprintf('xadj=%.1f | yadj=%.1f', xadj, yadj))
+        mtext(side = 3L, line = -2, sprintf('xadj=%.1f | yadj=%.1f', xadj, yadj))
         text(x, y, labels, adj = c(xadj, yadj), col = 'gray')
         text_repel(x, y, labels, adj = c(xadj, yadj))
     }
@@ -43,7 +43,7 @@ open_pdf('pos', c(2L, 2L))
 for (pos in 1:4) {
     plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
     box()
-    mtext(side = 3L, line = -1, sprintf('pos=%d', pos))
+    mtext(side = 3L, line = -2, sprintf('pos=%d', pos))
     text(x, y, labels, pos = pos, col = 'gray')
     text_repel(x, y, labels, pos = pos)
 }
@@ -55,7 +55,7 @@ for (offset in c(0, .5, 1)) {
     for (pos in 1:4) {
         plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
         box()
-        mtext(side = 3L, line = -1, sprintf('pos=%d | offset=%.1f', pos, offset))
+        mtext(side = 3L, line = -2, sprintf('pos=%d | offset=%.1f', pos, offset))
         text(x, y, labels, pos = pos, offset = offset, col = 'gray')
         text_repel(x, y, labels, pos = pos, offset = offset)
     }
@@ -71,7 +71,7 @@ for (ii in sample(nrow(Hershey$allowed), 9L)) {
     )
     plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
     box()
-    mtext(side = 3L, line = -1, sprintf('vfont=[%s,%s]', vfont[1L], vfont[2L]))
+    mtext(side = 3L, line = -2, sprintf('vfont=[%s,%s]', vfont[1L], vfont[2L]))
     text(x, y, labels, vfont = vfont, col = 'gray')
     text_repel(x, y, labels, vfont = vfont)
 }
@@ -82,7 +82,7 @@ open_pdf('cex', c(3L, 3L))
 for (cex in c(.5, .6, .8, .9, 1, 1.1, 1.25, 1.33, 2, 5)) {
     plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
     box()
-    mtext(side = 3L, line = -1, sprintf('cex=%.2f', cex))
+    mtext(side = 3L, line = -2, sprintf('cex=%.2f', cex))
     text(x, y, labels, cex = cex, col = 'gray')
     text_repel(x, y, labels, cex = cex)
 }
@@ -104,7 +104,7 @@ open_pdf('font', c(2L, 2L))
 for (font in 1:4) {
     plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
     box()
-    mtext(side = 3L, line = -1, sprintf('font=%d', font))
+    mtext(side = 3L, line = -2, sprintf('font=%d', font))
     text(x, y, labels, font = font, col = 'gray')
     text_repel(x, y, labels, font = font)
 }
@@ -125,7 +125,7 @@ old = par('ps')
 for (ps in c(8, 12, 18, 24)) {
     plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
     box()
-    mtext(side = 3L, line = -1, sprintf('ps=%d', ps))
+    mtext(side = 3L, line = -2, sprintf('ps=%d', ps))
     par(ps = ps)
     text(x, y, labels, col = 'gray')
     text_repel(x, y, labels)
@@ -138,7 +138,7 @@ open_pdf('point_padding', c(2L, 2L))
 for (padding in c(0, .5, 1, 2)) {
     plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
     box()
-    mtext(side = 3L, line = -1, sprintf('point.padding=%.1f', padding))
+    mtext(side = 3L, line = -2, sprintf('point.padding=%.1f', padding))
     text(x, y, labels, col = 'gray')
     text_repel(x, y, labels, point.padding = padding)
 }
@@ -150,7 +150,7 @@ for (force in c(.5, 1, 5)) {
     for (force_pull in c(.5, 1, 5)) {
         plot(x, y, axes = FALSE, main = '', xlab = '', ylab = '')
         box()
-        mtext(side = 3L, line = -1, sprintf('force=%.1f | force_pull=%.1f', force, force_pull))
+        mtext(side = 3L, line = -2, sprintf('force=%.1f | force_pull=%.1f', force, force_pull))
         text(x, y, labels, col = 'gray')
         text_repel(x, y, labels, force = force, force_pull = force_pull)
     }
