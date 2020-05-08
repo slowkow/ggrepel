@@ -63,6 +63,9 @@ text_repel = function(
     y = NULL
   }
   xy = xy.coords(x, y, recycle = TRUE, setLab = FALSE)
+  # duplicate so we can overwrite & still retain info to draw segments()
+  xx = xy$x
+  yy = xy$y
 
   direction = match.arg(direction)
 
@@ -77,30 +80,32 @@ text_repel = function(
     if (length(adj) == 1L) adj[2L] = .5
     if (anyNA(adj)) adj[is.na(adj)] = .5
   } else {
-    pos = as.intger(pos)
+    pos = as.integer(pos)
     offset = offset * par('cxy')
     if (length(pos) > 1L) stop("'pos' must have length one")
     if (pos == 1L) {
-      y = y - offset
+     yy = y - offset
       adj = c(.5, .5)
     } else if (pos == 2L) {
-      x = x - offset
+      xx = x - offset
       adj = c(1, 0)
     } else if (pos == 3L) {
-      y = y + offset
+      yy = y + offset
       adj = c(.5, 0)
     } else if (pos == 4L) {
-      x = x + offset
+      xx = x + offset
       adj = c(0, 0)
     } else stop("Invalid value for 'pos' [",pos,"]; valid values are 1,2,3,4")
   }
 
+  lims = par('usr')
+
   repel = repel_boxes2(
-    data_points     = cbind(xy$x, xy$y),
+    data_points     = cbind(xx, yy),
     point_size      = strheight('m', cex = cex, font = font, vfont = vfont),
     point_padding_x = point.padding,
     point_padding_y = point.padding,
-    boxes           = get_boxes(xy$x, xy$y, labels, adj, pos, offset, vfont, cex, font),
+    boxes           = get_boxes(xx, yy, labels, adj, pos, offset, vfont, cex, font),
     xlim            = lims[1:2],
     ylim            = lims[3:4],
     hjust           = adj[1L],
