@@ -151,7 +151,7 @@ repel_boxes <- function(data_points, point_padding_x, point_padding_y, boxes, xl
 #' @param max_iter Maximum number of iterations to try to resolve overlaps
 #'   (defaults to 2000)
 #' @noRd
-repel_boxes2 <- function(data_points, point_size, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push = 1e-7, force_pull = 1e-7, max_time = 0.1, max_overlaps = 10, max_iter = 2000L, direction = "both") {
-    .Call('_ggrepel_repel_boxes2', PACKAGE = 'ggrepel', data_points, point_size, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, max_time, max_overlaps, max_iter, direction)
+repel_boxes2 <- function(data_points, point_size, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push = 1e-7, force_pull = 1e-7, max_time = 0.1, max_overlaps = 10, max_iter = 2000L, direction = "both", verbose = 0L) {
+    .Call('_ggrepel_repel_boxes2', PACKAGE = 'ggrepel', data_points, point_size, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, max_time, max_overlaps, max_iter, direction, verbose)
 }
 

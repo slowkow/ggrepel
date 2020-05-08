@@ -31,6 +31,7 @@ geom_label_repel <- function(
   show.legend = NA,
   direction = c("both","y","x"),
   seed = NA,
+  verbose = FALSE,
   inherit.aes = TRUE
 ) {
   if (!missing(nudge_x) || !missing(nudge_y)) {
@@ -68,6 +69,7 @@ geom_label_repel <- function(
       ylim = ylim,
       direction = match.arg(direction),
       seed = seed,
+      verbose = verbose,
       ...
     )
   )
@@ -114,7 +116,8 @@ GeomLabelRepel <- ggproto(
     max.iter = 10000,
     max.overlaps = 10,
     direction = "both",
-    seed = NA
+    seed = NA,
+    verbose = verbose
   ) {
     lab <- data$label
     if (parse) {
@@ -184,6 +187,7 @@ GeomLabelRepel <- ggproto(
       max.overlaps = max.overlaps,
       direction = direction,
       seed = seed,
+      verbose = verbose,
       cl = "labelrepeltree"
     ))
   },
@@ -287,7 +291,8 @@ makeContent.labelrepeltree <- function(x) {
     max_time        = x$max.time,
     max_iter        = x$max.iter,
     max_overlaps    = x$max.overlaps,
-    direction       = x$direction
+    direction       = x$direction,
+    verbose         = x$verbose
   )
 
   if (all(repel$too_many_overlaps)) {

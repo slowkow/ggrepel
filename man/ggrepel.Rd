@@ -27,8 +27,8 @@ Please report issues and suggest improvements at Github:
 \seealso{
 Useful links:
 \itemize{
-  \item \url{http://github.com/slowkow/ggrepel}
-  \item Report bugs at \url{http://github.com/slowkow/ggrepel/issues}
+  \item \url{https://github.com/slowkow/ggrepel}
+  \item Report bugs at \url{https://github.com/slowkow/ggrepel/issues}
 }
 
 }
@@ -50,6 +50,7 @@ Other contributors:
   \item Amir Masoud Abdol [contributor]
   \item Malcolm Barrett (\href{https://orcid.org/0000-0003-0299-5825}{ORCID}) [contributor]
   \item Robrecht Cannoodt (\href{https://orcid.org/0000-0003-3641-729X}{ORCID}) [contributor]
+  \item Michał Krassowski (\href{https://orcid.org/0000-0002-9638-7785}{ORCID}) [contributor]
 }
 
 }

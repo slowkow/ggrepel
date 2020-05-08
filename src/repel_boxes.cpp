@@ -867,7 +867,8 @@ DataFrame repel_boxes2(
     double max_time = 0.1,
     double max_overlaps = 10,
     int max_iter = 2000,
-    std::string direction = "both"
+    std::string direction = "both",
+    int verbose = 0
 ) {
   int n_points = data_points.nrow();
   int n_texts = boxes.nrow();
@@ -939,6 +940,8 @@ DataFrame repel_boxes2(
 
   nanotime_t start_time = get_nanotime();
   nanotime_t elapsed_time = 0;
+  // convert to nanoseconds
+  max_time *= 1e9;
 
   std::vector<double> total_overlaps(n_texts, 0);
   std::vector<bool> too_many_overlaps(n_texts, false);
@@ -953,8 +956,7 @@ DataFrame repel_boxes2(
 
     // Maximum time limit.
     if (iter % 10 == 0) {
-      // Convert elapsed time to seconds.
-      elapsed_time = (get_nanotime() - start_time) / 1e9;
+      elapsed_time = get_nanotime() - start_time;
       // Stop trying to layout the text after some time.
       if (elapsed_time > max_time) {
         break;
@@ -1103,6 +1105,12 @@ DataFrame repel_boxes2(
     } // loop through all text labels
   } // while any overlaps exist and we haven't reached max iterations
 
+  if (verbose) {
+    if (elapsed_time > max_time)  Rprintf("%.2fs elapsed during %d iterations before completing text repel\n", max_time/1e9, iter);
+    else if (iter >= max_iter) Rprintf("%d iterations finished in %.2fs before completing text repel\n", max_iter, elapsed_time/1e9);
+    else Rprintf("text repel complete in %d iterations (%.2fs)\n", iter, elapsed_time/1e9);
+  }
+
   //timer.step("end");
   //NumericVector res(timer);
   //for (int i = 0; i < res.size(); i++) {
@@ -1124,4 +1132,3 @@ DataFrame repel_boxes2(
     Rcpp::Named("too_many_overlaps") = too_many_overlaps
   );
 }
-
