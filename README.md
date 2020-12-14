@@ -53,7 +53,7 @@ Usage
 
 See the [examples] page to learn more about how to use ggrepel in your project.
 
-[examples]: https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html
+[examples]: https://CRAN.R-project.org/package=ggrepel/vignettes/ggrepel.html
 
 Contributing
 ------------

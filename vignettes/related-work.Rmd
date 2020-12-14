@@ -62,6 +62,16 @@ packages with `ggplot2`.
 
 ## Javascript
 
+### [vega-label]
+
+**Fast and Flexible Overlap Detection for Chart Labeling with Occupancy Bitmaps**
+
+Chanwut Kittivorawang, Dominik Moritz, Kanit Wongsuphasawat, Jeffrey Heer
+
+http://idl.cs.washington.edu/papers/fast-labels/
+
+[vega-label]: https://github.com/vega/vega/tree/master/packages/vega-label
+
 ### [D3-Labeler]
 
 > A D3 plug-in for automatic label placement using simulated annealing
