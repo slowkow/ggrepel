@@ -168,7 +168,7 @@ geom_text_repel <- function(
   force_pull = 1,
   max.time = 0.5,
   max.iter = 10000,
-  max.overlaps = 10,
+  max.overlaps = getOption("ggrepel.max.overlaps", default = 10),
   nudge_x = 0,
   nudge_y = 0,
   xlim = c(NA, NA),
@@ -419,6 +419,15 @@ makeContent.textrepeltree <- function(x) {
     max_overlaps    = x$max.overlaps,
     direction       = x$direction
   )
+
+  if (any(repel$too_many_overlaps)) {
+    warn(
+      sprintf(
+        "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing max.overlaps",
+        sum(repel$too_many_overlaps)
+      )
+    )
+  }
 
   if (all(repel$too_many_overlaps)) {
     grobs <- list()
