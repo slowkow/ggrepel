@@ -179,7 +179,7 @@ the data points.</p>
   <span class='kw'>force_pull</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>max.time</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>max.iter</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
-  <span class='kw'>max.overlaps</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>max.overlaps</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"ggrepel.max.overlaps"</span>, <span class='kw'>default</span> <span class='kw'>=</span> <span class='fl'>10</span>),
   <span class='kw'>nudge_x</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>nudge_y</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>),
@@ -206,7 +206,7 @@ the data points.</p>
   <span class='kw'>force_pull</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>max.time</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>max.iter</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
-  <span class='kw'>max.overlaps</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>max.overlaps</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"ggrepel.max.overlaps"</span>, <span class='kw'>default</span> <span class='kw'>=</span> <span class='fl'>10</span>),
   <span class='kw'>nudge_x</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>nudge_y</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>),
@@ -398,7 +398,7 @@ by using <code>direction="y"</code>. For <code>vjust</code>, use <code>direction
 
 <span class='co'># Avoid overlaps by repelling text labels</span>
 <span class='no'>p</span> + <span class='fu'>geom_text_repel</span>()</div><div class='img'><img src='geom_text_repel-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># Labels with background</span>
-<span class='no'>p</span> + <span class='fu'>geom_label_repel</span>()</div><div class='img'><img src='geom_text_repel-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>p</span> + <span class='fu'>geom_label_repel</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: ggrepel: 1 unlabeled data points (too many overlaps). Consider increasing max.overlaps</span></div><div class='img'><img src='geom_text_repel-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='no'>p</span> + <span class='fu'>geom_text_repel</span>(<span class='kw'>family</span> <span class='kw'>=</span> <span class='st'>"Times New Roman"</span>,
   <span class='kw'>box.padding</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
@@ -471,7 +471,7 @@ by using <code>direction="y"</code>. For <code>vjust</code>, use <code>direction
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

@@ -15,6 +15,8 @@ ggrepel 0.9.0 2020-04-07
   overlap more than 10 things (points or labels) will be excluded from further
   calculations and rendering. Of course, we can set `max.overlaps = Inf` to
   restore the behavior in ggrepel 0.8.1. See [issue 48] for more discussion.
+  We can also use `option(ggrepel.max.overlaps = Inf)` to disable this new
+  functionality and display all labels, regardless of too many overlaps.
 
 [pull request 48]: https://github.com/slowkow/ggrepel/pull/48
 
@@ -31,6 +33,8 @@ ggrepel 0.9.0 2020-04-07
   - segment.curvature
   - segment.angle
   - segment.ncp
+
+* Line segments are the same color as the text by default (#164, @lishinkou).
 
 * Add `max.time` option to limit the number of seconds spent trying to position
   the text labels.
