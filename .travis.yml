@@ -7,4 +7,5 @@ r:
 addons:
   apt:
     packages:
-      - pngquant, libgit2-dev
+      - pngquant
+      - libgit2-dev
