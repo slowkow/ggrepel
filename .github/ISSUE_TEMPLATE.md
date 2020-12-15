@@ -4,7 +4,7 @@ This sentence briefly summarizes the issue.
 
 ## Minimal code example
 
-Here is the minimum amount of code neeeded to demonstrate the issue:
+Here is the minimum amount of code needed to demonstrate the issue:
 
 ```r
 ggplot(...) + geom_text_repel(...)

@@ -21,15 +21,14 @@ Title: Automatically Position Non-Overlapping Text Labels with 'ggplot2'
 Description: Provides text and label geoms for 'ggplot2' that help to avoid
     overlapping text labels. Labels repel away from each other and away from the
     data points.
-Remotes:
-    github::tidyverse/ggplot2
 Depends:
     R (>= 3.0.0),
     ggplot2 (>= 2.2.0)
 Imports:
     grid,
     Rcpp,
-    scales (>= 0.3.0)
+    rlang (>= 0.3.0),
+    scales (>= 0.5.0)
 Suggests:
     knitr,
     rmarkdown,
@@ -46,6 +45,6 @@ VignetteBuilder: knitr
 License: GPL-3 | file LICENSE
 URL: https://github.com/slowkow/ggrepel
 BugReports: https://github.com/slowkow/ggrepel/issues
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 LinkingTo: Rcpp
 Encoding: UTF-8

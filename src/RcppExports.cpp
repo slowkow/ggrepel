@@ -92,28 +92,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// repel_boxes
-DataFrame repel_boxes(NumericMatrix data_points, double point_padding_x, double point_padding_y, NumericMatrix boxes, NumericVector xlim, NumericVector ylim, NumericVector hjust, NumericVector vjust, double force_push, double force_pull, int max_iter, std::string direction);
-RcppExport SEXP _ggrepel_repel_boxes(SEXP data_pointsSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP hjustSEXP, SEXP vjustSEXP, SEXP force_pushSEXP, SEXP force_pullSEXP, SEXP max_iterSEXP, SEXP directionSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type data_points(data_pointsSEXP);
-    Rcpp::traits::input_parameter< double >::type point_padding_x(point_padding_xSEXP);
-    Rcpp::traits::input_parameter< double >::type point_padding_y(point_padding_ySEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type boxes(boxesSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type xlim(xlimSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type ylim(ylimSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type hjust(hjustSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type vjust(vjustSEXP);
-    Rcpp::traits::input_parameter< double >::type force_push(force_pushSEXP);
-    Rcpp::traits::input_parameter< double >::type force_pull(force_pullSEXP);
-    Rcpp::traits::input_parameter< int >::type max_iter(max_iterSEXP);
-    Rcpp::traits::input_parameter< std::string >::type direction(directionSEXP);
-    rcpp_result_gen = Rcpp::wrap(repel_boxes(data_points, point_padding_x, point_padding_y, boxes, xlim, ylim, hjust, vjust, force_push, force_pull, max_iter, direction));
-    return rcpp_result_gen;
-END_RCPP
-}
 // repel_boxes2
 DataFrame repel_boxes2(NumericMatrix data_points, NumericVector point_size, double point_padding_x, double point_padding_y, NumericMatrix boxes, NumericVector xlim, NumericVector ylim, NumericVector hjust, NumericVector vjust, double force_push, double force_pull, double max_time, double max_overlaps, int max_iter, std::string direction, int verbose);
 RcppExport SEXP _ggrepel_repel_boxes2(SEXP data_pointsSEXP, SEXP point_sizeSEXP, SEXP point_padding_xSEXP, SEXP point_padding_ySEXP, SEXP boxesSEXP, SEXP xlimSEXP, SEXP ylimSEXP, SEXP hjustSEXP, SEXP vjustSEXP, SEXP force_pushSEXP, SEXP force_pullSEXP, SEXP max_timeSEXP, SEXP max_overlapsSEXP, SEXP max_iterSEXP, SEXP directionSEXP, SEXP verboseSEXP) {
@@ -149,8 +127,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ggrepel_intersect_line_rectangle", (DL_FUNC) &_ggrepel_intersect_line_rectangle, 3},
     {"_ggrepel_select_line_connection", (DL_FUNC) &_ggrepel_select_line_connection, 2},
     {"_ggrepel_approximately_equal", (DL_FUNC) &_ggrepel_approximately_equal, 2},
-    {"_ggrepel_repel_boxes", (DL_FUNC) &_ggrepel_repel_boxes, 12},
-    {"_ggrepel_repel_boxes2", (DL_FUNC) &_ggrepel_repel_boxes2, 16},
+    {"_ggrepel_repel_boxes2", (DL_FUNC) &_ggrepel_repel_boxes2, 15},
     {NULL, NULL, 0}
 };
 

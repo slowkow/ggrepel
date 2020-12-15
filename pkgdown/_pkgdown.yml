@@ -10,9 +10,48 @@ reference:
       - geom_text_repel
       - geom_label_repel
 
+
+home:
+  strip_header: true
+  title: "ggrepel: An R package"
+  description: "Automatically position non-overlapping text labels with 'ggplot2'"
+
+
 template:
+  opengraph:
+    image:
+      src: reference/figures/ggrepel-allison_horst.jpg
+      alt: "ggrepel: wonderfully repulsive labels"
+    twitter:
+      creator: "@slowkow"
+      site: "@slowkow"
+      card: summary_large_image
   params:
     ganalytics: UA-15531613-2
+
+
+navbar:
+  title: "ggrepel"
+  left:
+    - text: "Examples"
+      href: articles/examples.html
+    - text: "Reference"
+      href: reference/index.html
+    - text: "News"
+      menu:
+      - text: "Release notes"
+      - text: "Version 0.9.0"
+        href: https://slowkow.com/ggrepel-0-9-0/
+      - text: "------------------"
+      - text: "Change log"
+        href: news/index.html
+    - text: "Related work"
+      href: articles/related-work.html
+  right:
+    - icon: fa-github
+      text: GitHub
+      href: https://github.com/slowkow/ggrepel
+
 
 authors:
   Kamil Slowikowski:
@@ -45,29 +84,4 @@ authors:
     href: https://github.com/rcannood
   Michał Krassowski:
     href: https://github.com/krassowski
-
-home:
-  strip_header: true
-
-navbar:
-  title: "ggrepel"
-  left:
-    - text: "Examples"
-      href: articles/examples.html
-    - text: "Reference"
-      href: reference/index.html
-    - text: "News"
-      menu:
-      - text: "Release notes"
-      - text: "Version 0.9.0"
-        href: https://slowkow.com/ggrepel-0-9-0/
-      - text: "------------------"
-      - text: "Change log"
-        href: news/index.html
-    - text: "Related work"
-      href: articles/related-work.html
-  right:
-    - icon: fa-github
-      text: GitHub
-      href: https://github.com/slowkow/ggrepel
 

@@ -22,7 +22,7 @@ geom_label_repel <- function(
   force_pull = 1,
   max.time = 0.5,
   max.iter = 10000,
-  max.overlaps = 10,
+  max.overlaps = getOption("ggrepel.max.overlaps", default = 10),
   nudge_x = 0,
   nudge_y = 0,
   xlim = c(NA, NA),
@@ -89,7 +89,7 @@ GeomLabelRepel <- ggproto(
     colour = "black", fill = "white", size = 3.88, angle = 0,
     alpha = NA, family = "", fontface = 1, lineheight = 1.2,
     hjust = 0.5, vjust = 0.5, point.size = 1,
-    segment.linetype = 1, segment.colour = "black", segment.size = 0.5, segment.alpha = 1,
+    segment.linetype = 1, segment.colour = NULL, segment.size = 0.5, segment.alpha = NULL,
     segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
     segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
     segment.inflect = FALSE, segment.debug = FALSE,
@@ -294,6 +294,15 @@ makeContent.labelrepeltree <- function(x) {
     direction       = x$direction,
     verbose         = x$verbose
   )
+
+  if (any(repel$too_many_overlaps)) {
+    warn(
+      sprintf(
+        "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing max.overlaps",
+        sum(repel$too_many_overlaps)
+      )
+    )
+  }
 
   if (all(repel$too_many_overlaps)) {
     grobs <- list()

@@ -49,7 +49,11 @@
   
 
 <meta property="og:title" content="Changelog" />
-<meta property="og:image" content="https://ggrepel.slowkow.com/logo.svg" />
+<meta property="og:image" content="https://ggrepel.slowkow.com/reference/figures/ggrepel-allison_horst.jpg" />
+<meta property="og:image:alt" content="ggrepel: wonderfully repulsive labels" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:creator" content="@slowkow" />
+<meta name="twitter:site" content="@slowkow" />
 
 
 
@@ -149,9 +153,9 @@
       <small>Source: <a href='https://github.com/slowkow/ggrepel/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="ggrepel-0-9-0-2020-04-07" class="section level1">
+    <div id="ggrepel-090-2020-12-14" class="section level1">
 <h1 class="page-header" data-toc-text="0.9.0">
-<a href="#ggrepel-0-9-0-2020-04-07" class="anchor"></a>ggrepel 0.9.0 2020-04-07<small> Unreleased </small>
+<a href="#ggrepel-090-2020-12-14" class="anchor"></a>ggrepel 0.9.0 2020-12-14<small> Unreleased </small>
 </h1>
 <div id="changes" class="section level2">
 <h2 class="hasAnchor">
@@ -160,12 +164,13 @@
 <li>Points can be different sizes. Repel text labels from large points and small points. New examples in the vignette show how to do this. See discussion about this feature in <a href="https://github.com/slowkow/ggrepel/issues/83">issue 83</a>.</li>
 </ul>
 <ul>
-<li>New parameter <code>max.overlaps</code> stops ggrepel from trying to label overcrowded data points. The default setting is <code>max.overlaps = 10</code>, so text labels that overlap more than 10 things (points or labels) will be excluded from further calculations and rendering. Of course, we can set <code>max.overlaps = Inf</code> to restore the behavior in ggrepel 0.8.1. See [issue 48] for more discussion.</li>
+<li>New parameter <code>max.overlaps</code> stops ggrepel from trying to label overcrowded data points. The default setting is <code>max.overlaps = 10</code>, so text labels that overlap more than 10 things (points or labels) will be excluded from further calculations and rendering. Of course, we can set <code>max.overlaps = Inf</code> to restore the behavior in ggrepel 0.8.1. See [issue 48] for more discussion. We can also use <code><a href="https://rdrr.io/r/base/options.html">option(ggrepel.max.overlaps = Inf)</a></code> to disable this new functionality and display all labels, regardless of too many overlaps.</li>
 </ul>
 <ul>
 <li><p>Add examples to the <a href="https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.Rmd">vignette</a> for <code><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html">ggplot2::position_jitter()</a></code> and <code><a href="https://rdrr.io/pkg/ggbeeswarm/man/position_quasirandom.html">ggbeeswarm::position_quasirandom()</a></code></p></li>
 <li><p>Line segments can now be curved (<a href='https://github.com/slowkow/ggrepel/issues/131'>#131</a>, <a href='https://github.com/malcolmbarrett'>@malcolmbarrett</a>). Add examples to the <a href="https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.Rmd">vignette</a> showing different options.</p></li>
-<li>Add support for new aesthetics:
+<li>
+<p>Add support for new aesthetics:</p>
 <ul>
 <li>segment.size</li>
 <li>segment.colour</li>
@@ -175,6 +180,7 @@
 <li>segment.ncp</li>
 </ul>
 </li>
+<li><p>Line segments are the same color as the text by default (<a href='https://github.com/slowkow/ggrepel/issues/164'>#164</a>, <a href='https://github.com/lishinkou'>@lishinkou</a>).</p></li>
 <li><p>Add <code>max.time</code> option to limit the number of seconds spent trying to position the text labels.</p></li>
 <li><p>Add <code>bg.color</code> and <code>bg.r</code> aesthetics for <code>geom_text()</code> to display shadows behind text labels. Thanks to <a href='https://github.com/rcannood'>@rcannood</a> for adding this feature with <a href="https://github.com/slowkow/ggrepel/pull/142">pull request 142</a>.</p></li>
 </ul>
@@ -206,9 +212,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-8-1-2019-05-07" class="section level1">
+    <div id="ggrepel-081-2019-05-07" class="section level1">
 <h1 class="page-header" data-toc-text="0.8.1">
-<a href="#ggrepel-0-8-1-2019-05-07" class="anchor"></a>ggrepel 0.8.1 2019-05-07<small> 2019-05-07 </small>
+<a href="#ggrepel-081-2019-05-07" class="anchor"></a>ggrepel 0.8.1 2019-05-07<small> 2019-05-07 </small>
 </h1>
 <div id="bug-fixes-and-improvements-1" class="section level2">
 <h2 class="hasAnchor">
@@ -218,9 +224,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-8-0-2018-05-09" class="section level1">
+    <div id="ggrepel-080-2018-05-09" class="section level1">
 <h1 class="page-header" data-toc-text="0.8.0">
-<a href="#ggrepel-0-8-0-2018-05-09" class="anchor"></a>ggrepel 0.8.0 2018-05-09<small> 2018-05-09 </small>
+<a href="#ggrepel-080-2018-05-09" class="anchor"></a>ggrepel 0.8.0 2018-05-09<small> 2018-05-09 </small>
 </h1>
 <div id="bug-fixes-and-improvements-2" class="section level2">
 <h2 class="hasAnchor">
@@ -230,9 +236,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-7-3-2018-02-09" class="section level1">
+    <div id="ggrepel-073-2018-02-09" class="section level1">
 <h1 class="page-header" data-toc-text="0.7.3">
-<a href="#ggrepel-0-7-3-2018-02-09" class="anchor"></a>ggrepel 0.7.3 2018-02-09<small> Unreleased </small>
+<a href="#ggrepel-073-2018-02-09" class="anchor"></a>ggrepel 0.7.3 2018-02-09<small> Unreleased </small>
 </h1>
 <div id="changes-1" class="section level2">
 <h2 class="hasAnchor">
@@ -245,9 +251,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-7-2-2018-01-14" class="section level1">
+    <div id="ggrepel-072-2018-01-14" class="section level1">
 <h1 class="page-header" data-toc-text="0.7.2">
-<a href="#ggrepel-0-7-2-2018-01-14" class="anchor"></a>ggrepel 0.7.2 2018-01-14<small> Unreleased </small>
+<a href="#ggrepel-072-2018-01-14" class="anchor"></a>ggrepel 0.7.2 2018-01-14<small> Unreleased </small>
 </h1>
 <div id="bug-fixes-and-improvements-3" class="section level2">
 <h2 class="hasAnchor">
@@ -259,9 +265,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-7-1-2017-11-18" class="section level1">
+    <div id="ggrepel-071-2017-11-18" class="section level1">
 <h1 class="page-header" data-toc-text="0.7.1">
-<a href="#ggrepel-0-7-1-2017-11-18" class="anchor"></a>ggrepel 0.7.1 2017-11-18<small> Unreleased </small>
+<a href="#ggrepel-071-2017-11-18" class="anchor"></a>ggrepel 0.7.1 2017-11-18<small> Unreleased </small>
 </h1>
 <div id="changes-2" class="section level2">
 <h2 class="hasAnchor">
@@ -273,9 +279,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-7-0-2017-09-28" class="section level1">
+    <div id="ggrepel-070-2017-09-28" class="section level1">
 <h1 class="page-header" data-toc-text="0.7.0">
-<a href="#ggrepel-0-7-0-2017-09-28" class="anchor"></a>ggrepel 0.7.0 2017-09-28<small> 2017-09-29 </small>
+<a href="#ggrepel-070-2017-09-28" class="anchor"></a>ggrepel 0.7.0 2017-09-28<small> 2017-09-29 </small>
 </h1>
 <div id="bug-fixes" class="section level2">
 <h2 class="hasAnchor">
@@ -288,9 +294,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-6-12-2017-07-16" class="section level1">
+    <div id="ggrepel-0612-2017-07-16" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.12">
-<a href="#ggrepel-0-6-12-2017-07-16" class="anchor"></a>ggrepel 0.6.12 2017-07-16<small> Unreleased </small>
+<a href="#ggrepel-0612-2017-07-16" class="anchor"></a>ggrepel 0.6.12 2017-07-16<small> Unreleased </small>
 </h1>
 <div id="changes-3" class="section level2">
 <h2 class="hasAnchor">
@@ -303,9 +309,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-6-11-2017-07-08" class="section level1">
+    <div id="ggrepel-0611-2017-07-08" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.11">
-<a href="#ggrepel-0-6-11-2017-07-08" class="anchor"></a>ggrepel 0.6.11 2017-07-08<small> Unreleased </small>
+<a href="#ggrepel-0611-2017-07-08" class="anchor"></a>ggrepel 0.6.11 2017-07-08<small> Unreleased </small>
 </h1>
 <div id="changes-4" class="section level2">
 <h2 class="hasAnchor">
@@ -316,9 +322,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-6-10-2017-03-07" class="section level1">
+    <div id="ggrepel-0610-2017-03-07" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.10">
-<a href="#ggrepel-0-6-10-2017-03-07" class="anchor"></a>ggrepel 0.6.10 2017-03-07<small> Unreleased </small>
+<a href="#ggrepel-0610-2017-03-07" class="anchor"></a>ggrepel 0.6.10 2017-03-07<small> Unreleased </small>
 </h1>
 <div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
@@ -329,9 +335,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-6-9-2017-03-07" class="section level1">
+    <div id="ggrepel-069-2017-03-07" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.9">
-<a href="#ggrepel-0-6-9-2017-03-07" class="anchor"></a>ggrepel 0.6.9 2017-03-07<small> Unreleased </small>
+<a href="#ggrepel-069-2017-03-07" class="anchor"></a>ggrepel 0.6.9 2017-03-07<small> Unreleased </small>
 </h1>
 <div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
@@ -341,21 +347,21 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-6-8-2017-02-12" class="section level1">
+    <div id="ggrepel-068-2017-02-12" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.8">
-<a href="#ggrepel-0-6-8-2017-02-12" class="anchor"></a>ggrepel 0.6.8 2017-02-12<small> Unreleased </small>
+<a href="#ggrepel-068-2017-02-12" class="anchor"></a>ggrepel 0.6.8 2017-02-12<small> Unreleased </small>
 </h1>
 <div id="changes-5" class="section level2">
 <h2 class="hasAnchor">
 <a href="#changes-5" class="anchor"></a>Changes</h2>
 <ul>
-<li>Constrain repulsion force to x-axis âxâ or y-axis âyâ with <code>direction</code> in <code><a href="../reference/geom_text_repel.html">geom_text_repel()</a></code> and <code><a href="../reference/geom_text_repel.html">geom_label_repel()</a></code>. Thanks to <a href='https://github.com/AliciaSchep'>@AliciaSchep</a> for <a href="https://github.com/slowkow/ggrepel/pull/68">pull 68</a>.</li>
+<li>Constrain repulsion force to x-axis “x” or y-axis “y” with <code>direction</code> in <code><a href="../reference/geom_text_repel.html">geom_text_repel()</a></code> and <code><a href="../reference/geom_text_repel.html">geom_label_repel()</a></code>. Thanks to <a href='https://github.com/AliciaSchep'>@AliciaSchep</a> for <a href="https://github.com/slowkow/ggrepel/pull/68">pull 68</a>.</li>
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-6-7-2017-01-09" class="section level1">
+    <div id="ggrepel-067-2017-01-09" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.7">
-<a href="#ggrepel-0-6-7-2017-01-09" class="anchor"></a>ggrepel 0.6.7 2017-01-09<small> Unreleased </small>
+<a href="#ggrepel-067-2017-01-09" class="anchor"></a>ggrepel 0.6.7 2017-01-09<small> Unreleased </small>
 </h1>
 <div id="changes-6" class="section level2">
 <h2 class="hasAnchor">
@@ -365,9 +371,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-6-6-2016-11-28" class="section level1">
+    <div id="ggrepel-066-2016-11-28" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.6">
-<a href="#ggrepel-0-6-6-2016-11-28" class="anchor"></a>ggrepel 0.6.6 2016-11-28<small> Unreleased </small>
+<a href="#ggrepel-066-2016-11-28" class="anchor"></a>ggrepel 0.6.6 2016-11-28<small> Unreleased </small>
 </h1>
 <div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
@@ -377,9 +383,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-6-5-2016-11-22" class="section level1">
+    <div id="ggrepel-065-2016-11-22" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.5">
-<a href="#ggrepel-0-6-5-2016-11-22" class="anchor"></a>ggrepel 0.6.5 2016-11-22<small> 2016-11-24 </small>
+<a href="#ggrepel-065-2016-11-22" class="anchor"></a>ggrepel 0.6.5 2016-11-22<small> 2016-11-24 </small>
 </h1>
 <div id="changes-7" class="section level2">
 <h2 class="hasAnchor">
@@ -393,9 +399,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-6-4-2016-11-08" class="section level1">
+    <div id="ggrepel-064-2016-11-08" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.4">
-<a href="#ggrepel-0-6-4-2016-11-08" class="anchor"></a>ggrepel 0.6.4 2016-11-08<small> Unreleased </small>
+<a href="#ggrepel-064-2016-11-08" class="anchor"></a>ggrepel 0.6.4 2016-11-08<small> Unreleased </small>
 </h1>
 <div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
@@ -405,9 +411,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-6-3-2016-10-14" class="section level1">
+    <div id="ggrepel-063-2016-10-14" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.3">
-<a href="#ggrepel-0-6-3-2016-10-14" class="anchor"></a>ggrepel 0.6.3 2016-10-14<small> 2016-10-20 </small>
+<a href="#ggrepel-063-2016-10-14" class="anchor"></a>ggrepel 0.6.3 2016-10-14<small> 2016-10-20 </small>
 </h1>
 <div id="changes-8" class="section level2">
 <h2 class="hasAnchor">
@@ -417,9 +423,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-6-2-2016-10-06" class="section level1">
+    <div id="ggrepel-062-2016-10-06" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.2">
-<a href="#ggrepel-0-6-2-2016-10-06" class="anchor"></a>ggrepel 0.6.2 2016-10-06<small> Unreleased </small>
+<a href="#ggrepel-062-2016-10-06" class="anchor"></a>ggrepel 0.6.2 2016-10-06<small> Unreleased </small>
 </h1>
 <div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
@@ -437,9 +443,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-6-1-2016-10-04" class="section level1">
+    <div id="ggrepel-061-2016-10-04" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.1">
-<a href="#ggrepel-0-6-1-2016-10-04" class="anchor"></a>ggrepel 0.6.1 2016-10-04<small> Unreleased </small>
+<a href="#ggrepel-061-2016-10-04" class="anchor"></a>ggrepel 0.6.1 2016-10-04<small> Unreleased </small>
 </h1>
 <div id="changes-10" class="section level2">
 <h2 class="hasAnchor">
@@ -449,9 +455,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-6-0-2016-10-03" class="section level1">
+    <div id="ggrepel-060-2016-10-03" class="section level1">
 <h1 class="page-header" data-toc-text="0.6.0">
-<a href="#ggrepel-0-6-0-2016-10-03" class="anchor"></a>ggrepel 0.6.0 2016-10-03<small> Unreleased </small>
+<a href="#ggrepel-060-2016-10-03" class="anchor"></a>ggrepel 0.6.0 2016-10-03<small> Unreleased </small>
 </h1>
 <div id="changes-11" class="section level2">
 <h2 class="hasAnchor">
@@ -468,25 +474,25 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-5-1-2016-02-22" class="section level1">
+    <div id="ggrepel-051-2016-02-22" class="section level1">
 <h1 class="page-header" data-toc-text="0.5.1">
-<a href="#ggrepel-0-5-1-2016-02-22" class="anchor"></a>ggrepel 0.5.1 2016-02-22<small> Unreleased </small>
+<a href="#ggrepel-051-2016-02-22" class="anchor"></a>ggrepel 0.5.1 2016-02-22<small> Unreleased </small>
 </h1>
 <ul>
 <li>Optimize C++ code further by reducing number of calls to <code><a href="https://rdrr.io/r/stats/Normal.html">rnorm()</a></code>.</li>
 </ul>
 </div>
-    <div id="ggrepel-0-5-2016-02-08" class="section level1">
+    <div id="ggrepel-05-2016-02-08" class="section level1">
 <h1 class="page-header" data-toc-text="0.5">
-<a href="#ggrepel-0-5-2016-02-08" class="anchor"></a>ggrepel 0.5 2016-02-08<small> 2016-02-08 </small>
+<a href="#ggrepel-05-2016-02-08" class="anchor"></a>ggrepel 0.5 2016-02-08<small> 2016-02-08 </small>
 </h1>
 <ul>
 <li>First push to CRAN.</li>
 </ul>
 </div>
-    <div id="ggrepel-0-4-6-2016-02-07" class="section level1">
+    <div id="ggrepel-046-2016-02-07" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.6">
-<a href="#ggrepel-0-4-6-2016-02-07" class="anchor"></a>ggrepel 0.4.6 2016-02-07<small> Unreleased </small>
+<a href="#ggrepel-046-2016-02-07" class="anchor"></a>ggrepel 0.4.6 2016-02-07<small> Unreleased </small>
 </h1>
 <div id="changes-12" class="section level2">
 <h2 class="hasAnchor">
@@ -496,9 +502,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-4-5-2016-02-06" class="section level1">
+    <div id="ggrepel-045-2016-02-06" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.5">
-<a href="#ggrepel-0-4-5-2016-02-06" class="anchor"></a>ggrepel 0.4.5 2016-02-06<small> Unreleased </small>
+<a href="#ggrepel-045-2016-02-06" class="anchor"></a>ggrepel 0.4.5 2016-02-06<small> Unreleased </small>
 </h1>
 <div id="changes-13" class="section level2">
 <h2 class="hasAnchor">
@@ -509,9 +515,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-4-4-2016-02-05" class="section level1">
+    <div id="ggrepel-044-2016-02-05" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.4">
-<a href="#ggrepel-0-4-4-2016-02-05" class="anchor"></a>ggrepel 0.4.4 2016-02-05<small> Unreleased </small>
+<a href="#ggrepel-044-2016-02-05" class="anchor"></a>ggrepel 0.4.4 2016-02-05<small> Unreleased </small>
 </h1>
 <p>FIXES</p>
 <ul>
@@ -525,9 +531,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-4-3-2016-01-18" class="section level1">
+    <div id="ggrepel-043-2016-01-18" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.3">
-<a href="#ggrepel-0-4-3-2016-01-18" class="anchor"></a>ggrepel 0.4.3 2016-01-18<small> Unreleased </small>
+<a href="#ggrepel-043-2016-01-18" class="anchor"></a>ggrepel 0.4.3 2016-01-18<small> Unreleased </small>
 </h1>
 <div id="changes-15" class="section level2">
 <h2 class="hasAnchor">
@@ -537,9 +543,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-4-2-2016-01-15" class="section level1">
+    <div id="ggrepel-042-2016-01-15" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.2">
-<a href="#ggrepel-0-4-2-2016-01-15" class="anchor"></a>ggrepel 0.4.2 2016-01-15<small> Unreleased </small>
+<a href="#ggrepel-042-2016-01-15" class="anchor"></a>ggrepel 0.4.2 2016-01-15<small> Unreleased </small>
 </h1>
 <p>FIXES</p>
 <ul>
@@ -553,9 +559,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-4-1-2016-01-13" class="section level1">
+    <div id="ggrepel-041-2016-01-13" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.1">
-<a href="#ggrepel-0-4-1-2016-01-13" class="anchor"></a>ggrepel 0.4.1 2016-01-13<small> Unreleased </small>
+<a href="#ggrepel-041-2016-01-13" class="anchor"></a>ggrepel 0.4.1 2016-01-13<small> Unreleased </small>
 </h1>
 <div id="changes-17" class="section level2">
 <h2 class="hasAnchor">
@@ -571,9 +577,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-4-2016-01-12" class="section level1">
+    <div id="ggrepel-04-2016-01-12" class="section level1">
 <h1 class="page-header" data-toc-text="0.4">
-<a href="#ggrepel-0-4-2016-01-12" class="anchor"></a>ggrepel 0.4 2016-01-12<small> 2016-01-12 </small>
+<a href="#ggrepel-04-2016-01-12" class="anchor"></a>ggrepel 0.4 2016-01-12<small> 2016-01-12 </small>
 </h1>
 <div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
@@ -597,9 +603,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-3-2016-01-08" class="section level1">
+    <div id="ggrepel-03-2016-01-08" class="section level1">
 <h1 class="page-header" data-toc-text="0.3">
-<a href="#ggrepel-0-3-2016-01-08" class="anchor"></a>ggrepel 0.3 2016-01-08<small> 2016-01-09 </small>
+<a href="#ggrepel-03-2016-01-08" class="anchor"></a>ggrepel 0.3 2016-01-08<small> 2016-01-09 </small>
 </h1>
 <div id="changes-19" class="section level2">
 <h2 class="hasAnchor">
@@ -614,9 +620,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-2-0-2016-01-07" class="section level1">
+    <div id="ggrepel-020-2016-01-07" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.0">
-<a href="#ggrepel-0-2-0-2016-01-07" class="anchor"></a>ggrepel 0.2.0 2016-01-07<small> Unreleased </small>
+<a href="#ggrepel-020-2016-01-07" class="anchor"></a>ggrepel 0.2.0 2016-01-07<small> Unreleased </small>
 </h1>
 <div id="changes-20" class="section level2">
 <h2 class="hasAnchor">
@@ -626,7 +632,8 @@
 <p>Update <code><a href="../reference/geom_text_repel.html">geom_text_repel()</a></code> and <code><a href="../reference/geom_text_repel.html">geom_label_repel()</a></code>.</p>
 <ul>
 <li><p>Change <code>label.padding</code> to <code>box.padding</code>.</p></li>
-<li>Remove unsupported parameters:
+<li>
+<p>Remove unsupported parameters:</p>
 <ul>
 <li>position</li>
 <li>nudge_x</li>
@@ -648,9 +655,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-1-0-2016-01-05" class="section level1">
+    <div id="ggrepel-010-2016-01-05" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.0">
-<a href="#ggrepel-0-1-0-2016-01-05" class="anchor"></a>ggrepel 0.1.0 2016-01-05<small> Unreleased </small>
+<a href="#ggrepel-010-2016-01-05" class="anchor"></a>ggrepel 0.1.0 2016-01-05<small> Unreleased </small>
 </h1>
 <div id="changes-21" class="section level2">
 <h2 class="hasAnchor">
@@ -665,9 +672,9 @@
 </ul>
 </div>
 </div>
-    <div id="ggrepel-0-0-1-2016-01-04" class="section level1">
+    <div id="ggrepel-001-2016-01-04" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.1">
-<a href="#ggrepel-0-0-1-2016-01-04" class="anchor"></a>ggrepel 0.0.1 2016-01-04<small> Unreleased </small>
+<a href="#ggrepel-001-2016-01-04" class="anchor"></a>ggrepel 0.0.1 2016-01-04<small> Unreleased </small>
 </h1>
 <ul>
 <li>Initial release to github.</li>
@@ -690,7 +697,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

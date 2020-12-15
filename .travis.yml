@@ -8,3 +8,4 @@ addons:
   apt:
     packages:
       - pngquant
+      - libgit2-dev

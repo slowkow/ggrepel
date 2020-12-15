@@ -20,6 +20,7 @@
 #' @name ggrepel
 #' @docType package
 #' @import ggplot2
+#' @import Rcpp
 #' @importFrom grid
 #'   convertHeight
 #'   convertWidth
@@ -42,7 +43,8 @@
 #'   curveGrob
 #'   setChildren
 #'   textGrob
+#' @importFrom rlang
+#'   warn
 #' @useDynLib ggrepel
-#' @importFrom Rcpp evalCpp
 #' @keywords internal
 "_PACKAGE"
