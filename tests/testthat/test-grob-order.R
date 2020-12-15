@@ -32,7 +32,7 @@ test_that("for geom_label_repel, all rect grobs come before text grobs", {
 
   # Make a plot with no seed and get the label positions.
   png("testthat_test-grob-order1.png")
-  p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
+  p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label), max.overlaps = Inf)
   print(p1)
   grid.force()
   grobnames <- names(grid.get(
