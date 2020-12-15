@@ -736,12 +736,12 @@ DataFrame repel_boxes2(
   std::vector<bool> too_many_overlaps(n_texts, false);
 
   int iter = 0;
-  bool any_overlaps = true;
+  int n_overlaps = 1;
   bool i_overlaps = true;
 
-  while (any_overlaps && iter < max_iter) {
+  while (n_overlaps && iter < max_iter) {
     iter += 1;
-    any_overlaps = false;
+    n_overlaps = 0;
 
     // Maximum time limit.
     if (iter % 10 == 0) {
@@ -790,7 +790,7 @@ DataFrame repel_boxes2(
           }
           // Repel the box from its data point.
           if (overlaps(DataCircles[i], TextBoxes[i])) {
-            any_overlaps = true;
+            n_overlaps += 1;
             i_overlaps = true;
             total_overlaps[i] += 1;
             f = f + repel_force(
@@ -807,7 +807,7 @@ DataFrame repel_boxes2(
           }
           // Repel the box from other data points.
           if (overlaps(DataCircles[j], TextBoxes[i])) {
-            any_overlaps = true;
+            n_overlaps += 1;
             i_overlaps = true;
             total_overlaps[i] += 1;
             f = f + repel_force(
@@ -821,7 +821,7 @@ DataFrame repel_boxes2(
           cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
           // Repel the box from overlapping boxes.
           if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
-            any_overlaps = true;
+            n_overlaps += 1;
             i_overlaps = true;
             total_overlaps[i] += 1;
             f = f + repel_force(ci, cj, force_push, direction);
@@ -833,7 +833,7 @@ DataFrame repel_boxes2(
           }
           // Repel the box from other data points.
           if (overlaps(DataCircles[j], TextBoxes[i])) {
-            any_overlaps = true;
+            n_overlaps += 1;
             i_overlaps = true;
             total_overlaps[i] += 1;
             f = f + repel_force(
@@ -867,7 +867,7 @@ DataFrame repel_boxes2(
       TextBoxes[i] = put_within_bounds(TextBoxes[i], xbounds, ybounds);
 
       // look for line clashes
-      if (!any_overlaps || iter % 5 == 0) {
+      if (n_overlaps == 0 || iter % 5 == 0) {
         for (int j = 0; j < n_points; j++) {
           cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
           ci = centroid(TextBoxes[i], hjust[i], vjust[i]);
@@ -876,7 +876,7 @@ DataFrame repel_boxes2(
             i != j && j < n_texts &&
             line_intersect(ci, Points[i], cj, Points[j])
           ) {
-            any_overlaps = true;
+            n_overlaps += 1;
             TextBoxes[i] = TextBoxes[i] + spring_force(cj, ci, 1, direction);
             TextBoxes[j] = TextBoxes[j] + spring_force(ci, cj, 1, direction);
             // Check if resolved
