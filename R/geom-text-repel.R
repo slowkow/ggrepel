@@ -420,7 +420,7 @@ makeContent.textrepeltree <- function(x) {
     force_push      = x$force * 1e-6,
     force_pull      = x$force_pull * 1e-2,
     max_time        = x$max.time,
-    max_iter        = x$max.iter,
+    max_iter        = ifelse(is.infinite(x$max.iter), 1e9, x$max.iter),
     max_overlaps    = x$max.overlaps,
     direction       = x$direction,
     verbose         = x$verbose

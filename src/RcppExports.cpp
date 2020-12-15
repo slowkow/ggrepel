@@ -127,7 +127,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ggrepel_intersect_line_rectangle", (DL_FUNC) &_ggrepel_intersect_line_rectangle, 3},
     {"_ggrepel_select_line_connection", (DL_FUNC) &_ggrepel_select_line_connection, 2},
     {"_ggrepel_approximately_equal", (DL_FUNC) &_ggrepel_approximately_equal, 2},
-    {"_ggrepel_repel_boxes2", (DL_FUNC) &_ggrepel_repel_boxes2, 15},
+    {"_ggrepel_repel_boxes2", (DL_FUNC) &_ggrepel_repel_boxes2, 16},
     {NULL, NULL, 0}
 };
 

@@ -53,7 +53,11 @@
 geom_label_repel draws a rectangle underneath the text, making it
 easier to read. The text labels repel away from each other and away from
 the data points." />
-<meta property="og:image" content="https://ggrepel.slowkow.com/logo.svg" />
+<meta property="og:image" content="https://ggrepel.slowkow.com/reference/figures/ggrepel-allison_horst.jpg" />
+<meta property="og:image:alt" content="ggrepel: wonderfully repulsive labels" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:creator" content="@slowkow" />
+<meta name="twitter:site" content="@slowkow" />
 
 
 
@@ -188,6 +192,7 @@ the data points.</p>
   <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>direction</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"both"</span>, <span class='st'>"y"</span>, <span class='st'>"x"</span>),
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )
 
@@ -215,6 +220,7 @@ the data points.</p>
   <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>direction</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"both"</span>, <span class='st'>"y"</span>, <span class='st'>"x"</span>),
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>inherit.aes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
@@ -354,6 +360,10 @@ a warning.  If <code>TRUE</code> silently removes missing values.</p></td>
       <th>seed</th>
       <td><p>Random seed passed to <code><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></code>. Defaults to
 <code>NA</code>, which means that <code>set.seed</code> will not be called.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>If <code>TRUE</code>, some diagnostics of the repel algorithm are printed</p></td>
     </tr>
     <tr>
       <th>inherit.aes</th>
