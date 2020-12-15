@@ -1,7 +1,5 @@
 blockquote {
-  display: block;
-  padding: 1em 1em 0.01em 1em;
-  background-color: #f0f0f0;
+  font-size: 1em;
 }
 
 .nav-item {

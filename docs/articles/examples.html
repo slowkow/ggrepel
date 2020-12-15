@@ -106,7 +106,7 @@
       <h1 data-toc-skip>Examples</h1>
                         <h4 class="author">Kamil Slowikowski</h4>
             
-            <h4 class="date">2020-12-14</h4>
+            <h4 class="date">2020-12-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/slowkow/ggrepel/blob/master/vignettes/examples.Rmd"><code>vignettes/examples.Rmd</code></a></small>
       <div class="hidden name"><code>examples.Rmd</code></div>
@@ -460,12 +460,44 @@
   <span class="fu"><a href="../reference/geom_text_repel.html">geom_label_repel</a></span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="st">"white"</span>, <span class="kw">xlim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">Inf</span>, <span class="fl">Inf</span>), <span class="kw">ylim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">Inf</span>, <span class="fl">Inf</span>))</pre></body></html></div>
 <p><img src="examples_files/figure-html/clipping-1.png" width="700"></p>
 </div>
+<div id="expand-the-scale-to-make-room-for-labels" class="section level3">
+<h3 class="hasAnchor">
+<a href="#expand-the-scale-to-make-room-for-labels" class="anchor"></a>Expand the scale to make room for labels</h3>
+<p>Since the text labels repel away from the edges of the plot panel, we might want to expand the scale to give them more room to fit.</p>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
+  <span class="kw">x1</span> <span class="kw">=</span> <span class="fl">1</span>,
+  <span class="kw">y1</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">10</span>),
+  <span class="kw">x2</span> <span class="kw">=</span> <span class="fl">2</span>,
+  <span class="kw">y2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fl">10</span>),
+  <span class="kw">lab</span> <span class="kw">=</span> <span class="no">state.name</span>[<span class="fl">1</span>:<span class="fl">10</span>]
+)
+
+<span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>(<span class="no">d</span>, <span class="fu">aes</span>(<span class="no">x1</span>, <span class="no">y1</span>, <span class="kw">xend</span> <span class="kw">=</span> <span class="no">x2</span>, <span class="kw">yend</span> <span class="kw">=</span> <span class="no">y2</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="no">lab</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">lab</span>)) +
+  <span class="fu">geom_segment</span>(<span class="kw">size</span> <span class="kw">=</span> <span class="fl">1</span>) +
+  <span class="fu">guides</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="st">"none"</span>) +
+  <span class="fu">theme</span>(<span class="kw">axis.title.x</span> <span class="kw">=</span> <span class="fu">element_blank</span>()) +
+  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span>(
+    <span class="kw">nudge_x</span> <span class="kw">=</span> -<span class="fl">0.2</span>, <span class="kw">direction</span> <span class="kw">=</span> <span class="st">"y"</span>, <span class="kw">hjust</span> <span class="kw">=</span> <span class="st">"right"</span>
+  ) +
+  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span>(
+    <span class="fu">aes</span>(<span class="no">x2</span>, <span class="no">y2</span>), <span class="kw">nudge_x</span> <span class="kw">=</span> <span class="fl">0.1</span>, <span class="kw">direction</span> <span class="kw">=</span> <span class="st">"y"</span>, <span class="kw">hjust</span> <span class="kw">=</span> <span class="st">"left"</span>
+  )
+
+<span class="no">p</span></pre></body></html></div>
+<p><img src="examples_files/figure-html/expand_scale-1.png" width="700"></p>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">p</span> + <span class="fu">scale_x_continuous</span>(
+  <span class="kw">breaks</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">2</span>, <span class="kw">labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Dimension 1"</span>, <span class="st">"Dimension 2"</span>),
+  <span class="kw">expand</span> <span class="kw">=</span> <span class="fu">expansion</span>(<span class="kw">mult</span> <span class="kw">=</span> <span class="fl">0.5</span>)
+)</pre></body></html></div>
+<p><img src="examples_files/figure-html/expand_scale-2.png" width="700"></p>
+</div>
 <div id="always-or-never-draw-line-segments" class="section level3">
 <h3 class="hasAnchor">
 <a href="#always-or-never-draw-line-segments" class="anchor"></a>Always (or never) draw line segments</h3>
 <p>Use <code>min.segment.length = 0</code> to draw all line segments, no matter how short they are.</p>
 <p>Use <code>min.segment.length = Inf</code> to never draw any line segments, no matter how long they are.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>(<span class="no">dat</span>, <span class="fu">aes</span>(<span class="no">wt</span>, <span class="no">mpg</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="no">car</span>)) +
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>(<span class="no">dat</span>, <span class="fu">aes</span>(<span class="no">wt</span>, <span class="no">mpg</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="no">car</span>)) +
   <span class="fu">geom_point</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="st">"red"</span>)
 
 <span class="no">p1</span> <span class="kw">&lt;-</span> <span class="no">p</span> +
@@ -491,7 +523,7 @@
 <li>
 <code>segment.angle = 20</code> skews the curve towards the start, values greater than 90 would skew toward the end</li>
 </ul>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 <span class="fu">ggplot</span>(<span class="no">dat</span>, <span class="fu">aes</span>(<span class="no">wt</span>, <span class="no">mpg</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="no">car</span>)) +
   <span class="fu">geom_point</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="st">"red"</span>) +
   <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span>(
@@ -504,7 +536,7 @@
   )</pre></body></html></div>
 <p><img src="examples_files/figure-html/line_curve-1.png" width="700"></p>
 <p>Setting the curvature to a value near zero gives a sharp angle:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 <span class="no">cars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Volvo 142E"</span>, <span class="st">"Merc 230"</span>)
 
 <span class="fu">ggplot</span>(<span class="no">dat</span>) +
@@ -520,7 +552,7 @@
   <span class="fu">theme</span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)</pre></body></html></div>
 <p><img src="examples_files/figure-html/line_curve_annotate-1.png" width="700"></p>
 <p>Set <code>segment.square</code>to <code>FALSE</code> to get oblique curves, and <code>segment.inflect</code> to <code>TRUE</code> to introduce an inflection point.</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 
 <span class="no">cars_subset</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">mtcars</span>, <span class="fl">5</span>)
 <span class="no">cars_subset</span>$<span class="no">car</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">cars_subset</span>)
@@ -554,7 +586,7 @@
   )</pre></body></html></div>
 <p><img src="examples_files/figure-html/line_inflect_and_square-1.png" width="700"></p>
 <p>Use <code>segment.shape</code> to adjust the interpolation of the control points:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 
 <span class="no">cars_subset_shapes</span> <span class="kw">&lt;-</span> <span class="no">cars_subset</span>[<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">cars_subset</span>)), <span class="kw">times</span> <span class="kw">=</span> <span class="fl">5</span>), ]
 <span class="no">cars_subset_shapes</span>$<span class="no">shape</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">1</span>, -<span class="fl">0.5</span>, <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fl">1</span>), <span class="kw">each</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">cars_subset</span>))
@@ -590,7 +622,7 @@
 <p><img src="examples_files/figure-html/all_linetypes-1.png" width="700"></p>
 <p>And different types of arrows. See <a href="https://ggplot2.tidyverse.org/reference/geom_segment.html">ggplot2::geom_segment()</a> for more details.</p>
 <p><img src="examples_files/figure-html/all_arrows-1.png" width="700"></p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 <span class="no">cars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Volvo 142E"</span>, <span class="st">"Merc 230"</span>)
 
 <span class="fu">ggplot</span>(<span class="no">dat</span>, <span class="fu">aes</span>(<span class="no">wt</span>, <span class="no">mpg</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="no">car</span> <span class="kw">%in%</span> <span class="no">cars</span>, <span class="no">car</span>, <span class="st">""</span>))) +
@@ -620,7 +652,7 @@
 <div id="geom_text_repel" class="section level4">
 <h4 class="hasAnchor">
 <a href="#geom_text_repel" class="anchor"></a>geom_text_repel()</h4>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">my_pal</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">range</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">6</span>)) {
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">my_pal</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">range</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">6</span>)) {
   <span class="fu"><a href="https://rdrr.io/r/base/force.html">force</a></span>(<span class="no">range</span>)
   <span class="kw">function</span>(<span class="no">x</span>) <span class="kw pkg">scales</span><span class="kw ns">::</span><span class="fu"><a href="https://scales.r-lib.org//reference/rescale.html">rescale</a></span>(<span class="no">x</span>, <span class="kw">to</span> <span class="kw">=</span> <span class="no">range</span>, <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>))
 }
@@ -646,7 +678,7 @@
 <div id="geom_label_repel" class="section level4">
 <h4 class="hasAnchor">
 <a href="#geom_label_repel" class="anchor"></a>geom_label_repel()</h4>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">my_pal</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">range</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">6</span>)) {
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">my_pal</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">range</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">6</span>)) {
   <span class="fu"><a href="https://rdrr.io/r/base/force.html">force</a></span>(<span class="no">range</span>)
   <span class="kw">function</span>(<span class="no">x</span>) <span class="kw pkg">scales</span><span class="kw ns">::</span><span class="fu"><a href="https://scales.r-lib.org//reference/rescale.html">rescale</a></span>(<span class="no">x</span>, <span class="kw">to</span> <span class="kw">=</span> <span class="no">range</span>, <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>))
 }
@@ -678,7 +710,7 @@
 <a href="#limit-labels-to-a-specific-area" class="anchor"></a>Limit labels to a specific area</h3>
 <p>Use options <code>xlim</code> and <code>ylim</code> to constrain the labels to a specific area. Limits are specified in data coordinates. Use <code>NA</code> when there is no lower or upper bound in a particular direction.</p>
 <p>Here we also use <code><a href="https://rdrr.io/r/grid/arrow.html">grid::arrow()</a></code> to render the segments as arrows.</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 
 <span class="co"># All labels should be to the right of 3.</span>
 <span class="no">x_limits</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">3</span>, <span class="fl">NA</span>)
@@ -713,9 +745,9 @@
 <a href="#remove-a-from-the-legend" class="anchor"></a>Remove “a” from the legend</h3>
 <p>Sometimes we want to remove the “a” labels in the legend.</p>
 <p>We can do that by overriding the legend aesthetics:</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="co"># Don't use "color" in the legend.</span>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="co"># Don't use "color" in the legend.</span>
 <span class="no">p</span> + <span class="fu">guides</span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="fu">guide_legend</span>(<span class="kw">override.aes</span> <span class="kw">=</span> <span class="fu">aes</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="fl">NA</span>)))</pre></body></html></div>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="co"># Or set the label to the empty string "" (or any other string).</span>
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="co"># Or set the label to the empty string "" (or any other string).</span>
 <span class="no">p</span> + <span class="fu">guides</span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="fu">guide_legend</span>(<span class="kw">override.aes</span> <span class="kw">=</span> <span class="fu">aes</span>(<span class="kw">label</span> <span class="kw">=</span> <span class="st">""</span>)))</pre></body></html></div>
 <p><img src="examples_files/figure-html/remove_a_2-1.png" width="700"></p>
 </div>
@@ -733,7 +765,7 @@
 </ul>
 <p>Sometimes the labels do not align perfectly. Try using <code>direction = "x"</code> to limit label movement to the x-axis (left and right) or <code>direction = "y"</code> to limit movement to the y-axis (up and down). The default is <code>direction = "both"</code>.</p>
 <p>Also try using <a href="https://ggplot2.tidyverse.org/reference/lims.html">xlim()</a> and <a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim()</a> to increase the size of the plotting area so all of the labels fit comfortably.</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 
 <span class="fu">ggplot</span>(<span class="no">mtcars</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">wt</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>))) +
   <span class="fu">geom_point</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="st">"red"</span>) +
@@ -756,7 +788,7 @@
   )</pre></body></html></div>
 <p><img src="examples_files/figure-html/direction_x-1.png" width="700"></p>
 <p>Align text vertically with <code>nudge_y</code> and allow the labels to move horizontally with <code>direction = "x"</code>:</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 
 <span class="no">dat</span> <span class="kw">&lt;-</span> <span class="no">mtcars</span>
 <span class="no">dat</span>$<span class="no">car</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">dat</span>)
@@ -778,7 +810,7 @@
 <h3 class="hasAnchor">
 <a href="#align-labels-on-the-left-or-right-edge" class="anchor"></a>Align labels on the left or right edge</h3>
 <p>Set <code>direction</code> to “y” and try <code>hjust</code> 0.5, 0, and 1:</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 
 <span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>(<span class="no">mtcars</span>, <span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">wt</span>, <span class="kw">x</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>))) +
   <span class="fu">geom_point</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="st">"red"</span>) +
@@ -827,7 +859,7 @@
 <span class="kw pkg">gridExtra</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span>(<span class="no">p1</span>, <span class="no">p2</span>, <span class="no">p3</span>, <span class="kw">ncol</span> <span class="kw">=</span> <span class="fl">3</span>)</pre></body></html></div>
 <p><img src="examples_files/figure-html/direction_y-1.png" width="700"></p>
 <p>Align text horizontally with <code>nudge_x</code> and <code>hjust</code>, and allow the labels to move vertically with <code>direction = "y"</code>:</p>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 
 <span class="no">dat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">mtcars</span>, <span class="no">wt</span> <span class="kw">&gt;</span> <span class="fl">2.75</span> <span class="kw">&amp;</span> <span class="no">wt</span> <span class="kw">&lt;</span> <span class="fl">3.45</span>)
 <span class="no">dat</span>$<span class="no">car</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">dat</span>)
@@ -860,7 +892,7 @@
 <h3 class="hasAnchor">
 <a href="#justify-multiple-lines-of-text-with-hjust" class="anchor"></a>Justify multiple lines of text with hjust</h3>
 <p>The <code>hjust</code> option should behave mostly the same way it does with <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">ggplot2::geom_text()</a></code>.</p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>() +
+<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>() +
   <span class="fu">coord_cartesian</span>(<span class="kw">xlim</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), <span class="kw">ylim</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>)) +
   <span class="fu">theme_void</span>()
 
@@ -882,7 +914,7 @@
   <span class="kw">arrow</span>         <span class="kw">=</span> <span class="fu">arrow</span>(<span class="kw">length</span> <span class="kw">=</span> <span class="fu">unit</span>(<span class="fl">2</span>, <span class="st">"mm"</span>), <span class="kw">ends</span> <span class="kw">=</span> <span class="st">"last"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"closed"</span>)
 )</pre></body></html></div>
 <p><img src="examples_files/figure-html/geom_text_repel-hjust-1.png" width="700"></p>
-<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">p</span> + <span class="fu"><a href="../reference/geom_text_repel.html">geom_label_repel</a></span>(
+<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="no">p</span> + <span class="fu"><a href="../reference/geom_text_repel.html">geom_label_repel</a></span>(
   <span class="kw">data</span>          <span class="kw">=</span> <span class="no">labelInfo</span>,
   <span class="kw">mapping</span>       <span class="kw">=</span> <span class="fu">aes</span>(<span class="no">x</span>, <span class="no">y</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="no">g</span>),
   <span class="kw">size</span>          <span class="kw">=</span> <span class="fl">5</span>,
@@ -899,10 +931,10 @@
 <p><strong>Warning:</strong> This example will not work with ggplot2 version 2.2.1 or older.</p>
 </div>
 <p>To get the latest development version of ggplot2, try:</p>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="co"># install.packages("devtools")</span>
+<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="co"># install.packages("devtools")</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"tidyverse/ggplot2"</span>)</pre></body></html></div>
 <p>If your ggplot2 is newer than 2.2.1, try this example:</p>
-<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="no">mtcars</span>$<span class="no">label</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>)
+<div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="no">mtcars</span>$<span class="no">label</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>)
 <span class="no">mtcars</span>$<span class="no">label</span>[<span class="no">mtcars</span>$<span class="no">cyl</span> <span class="kw">!=</span> <span class="fl">6</span>] <span class="kw">&lt;-</span> <span class="st">""</span>
 
 <span class="co"># New! (not available in ggplot2 version 2.2.1 or earlier)</span>
@@ -915,7 +947,7 @@
   <span class="fu">labs</span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"position_jitter()"</span>)</pre></body></html></div>
 <p><img src="examples_files/figure-html/jitter-1.png" width="700"></p>
 <p>You can also use other position functions, like <code><a href="https://rdrr.io/pkg/ggbeeswarm/man/position_quasirandom.html">position_quasirandom()</a></code> from the <a href="https://github.com/eclarke/ggbeeswarm">ggbeeswarm</a> package by <a href="https://github.com/eclarke">Erik Clarke</a>:</p>
-<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="no">mtcars</span>$<span class="no">label</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>)
+<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="no">mtcars</span>$<span class="no">label</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>)
 <span class="no">mtcars</span>$<span class="no">label</span>[<span class="no">mtcars</span>$<span class="no">cyl</span> <span class="kw">!=</span> <span class="fl">6</span>] <span class="kw">&lt;-</span> <span class="st">""</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggbeeswarm</span>)
@@ -932,7 +964,7 @@
 <h3 class="hasAnchor">
 <a href="#shadows-or-glow-under-text-labels" class="anchor"></a>Shadows (or glow) under text labels</h3>
 <p>We can place shadows (or glow) underneath each text label to enhance the readability of the text. This might be useful when text labels are placed on top of other plot elements. This feature uses the same code as the <a href="https://github.com/GuangchuangYu/shadowtext">shadowtext</a> package by <a href="https://github.com/GuangchuangYu">Guangchuang Yu</a>.</p>
-<div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 <span class="fu">ggplot</span>(<span class="no">dat</span>, <span class="fu">aes</span>(<span class="no">wt</span>, <span class="no">mpg</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="no">car</span>)) +
   <span class="fu">geom_point</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="st">"red"</span>) +
   <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span>(
@@ -951,7 +983,7 @@
 <li>how much time has elapsed, in seconds</li>
 <li>how many overlaps remain unresolved in the final figure</li>
 </ul>
-<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>(<span class="no">mtcars</span>,
+<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>(<span class="no">mtcars</span>,
   <span class="fu">aes</span>(<span class="no">wt</span>, <span class="no">mpg</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>), <span class="kw">colour</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">cyl</span>))) +
   <span class="fu">geom_point</span>()
 
@@ -963,7 +995,7 @@
   <span class="kw">size</span> <span class="kw">=</span> <span class="fl">3</span>
 )</pre></body></html></div>
 <p><img src="examples_files/figure-html/timing-1.png" width="700"></p>
-<pre><code>## 1.00s elapsed for 103820 iterations, 2 overlaps. Consider increasing 'max.time'.</code></pre>
+<pre><code>## 1.00s elapsed for 104950 iterations, 2 overlaps. Consider increasing 'max.time'.</code></pre>
 </div>
 <div id="word-cloud" class="section level3">
 <h3 class="hasAnchor">
@@ -974,7 +1006,7 @@
 <p>The <code>force</code> option controls the strength of repulsion.</p>
 <p>The <code>force_pull</code> option controls the strength of the spring that pulls the text label toward its data point.</p>
 <p>To make a word cloud, we can assign all of the text labels the same data point at the origin (0, 0) and set <code>force_pull = 0</code> to disable the springs.</p>
-<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 <span class="fu">ggplot</span>(<span class="no">mtcars</span>) +
   <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span>(
     <span class="fu">aes</span>(
@@ -1005,7 +1037,7 @@
 <div id="polar-coordinates" class="section level3">
 <h3 class="hasAnchor">
 <a href="#polar-coordinates" class="anchor"></a>Polar coordinates</h3>
-<div class="sourceCode" id="cb35"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 
 <span class="no">mtcars</span>$<span class="no">label</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>)
 <span class="no">mtcars</span>$<span class="no">label</span>[<span class="no">mtcars</span>$<span class="no">mpg</span> <span class="kw">&lt;</span> <span class="fl">25</span>] <span class="kw">&lt;-</span> <span class="st">""</span>
@@ -1021,7 +1053,7 @@
 <div id="unicode-characters-japanese" class="section level3">
 <h3 class="hasAnchor">
 <a href="#unicode-characters-japanese" class="anchor"></a>Unicode characters (Japanese)</h3>
-<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)
+<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 <span class="no">dat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
@@ -1046,7 +1078,7 @@
 <div id="mathematical-expressions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#mathematical-expressions" class="anchor"></a>Mathematical expressions</h3>
-<div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
+<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
   <span class="kw">x</span>    <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1.75</span>, <span class="fl">1.25</span>),
   <span class="kw">y</span>    <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">2.65</span>, <span class="fl">1.25</span>),
   <span class="kw">math</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
@@ -1070,7 +1102,7 @@
 <div id="animation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#animation" class="anchor"></a>Animation</h3>
-<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="co"># This chunk of code will take a minute or two to run.</span>
+<div class="sourceCode" id="cb40"><html><body><pre class="r"><span class="co"># This chunk of code will take a minute or two to run.</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">animation</span>)
 
@@ -1111,7 +1143,7 @@
 <div id="r-session-info" class="section level2">
 <h2 class="hasAnchor">
 <a href="#r-session-info" class="anchor"></a>R Session Info</h2>
-<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb41"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
 <pre><code>## R version 4.0.3 (2020-10-10)
 ## Platform: x86_64-apple-darwin17.0 (64-bit)
 ## Running under: macOS Catalina 10.15.7
@@ -1128,24 +1160,24 @@
 ## 
 ## other attached packages:
 ## [1] ggbeeswarm_0.6.0   ggrepel_0.9.0      ggplot2_3.3.2.9000 gridExtra_2.3     
-## [5] knitr_1.29        
+## [5] knitr_1.30        
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_1.0.5.4        vipor_0.4.5         compiler_4.0.3     
 ##  [4] pillar_1.4.7        tools_4.0.3         digest_0.6.27      
 ##  [7] evaluate_0.14       memoise_1.1.0.9000  lifecycle_0.2.0    
 ## [10] tibble_3.0.4        gtable_0.3.0        pkgconfig_2.0.3    
-## [13] rlang_0.4.9         rstudioapi_0.13     yaml_2.2.1         
-## [16] beeswarm_0.2.3      pkgdown_1.5.1       xfun_0.15          
-## [19] withr_2.3.0         stringr_1.4.0       dplyr_1.0.2        
-## [22] desc_1.2.0          generics_0.1.0      fs_1.4.2           
-## [25] vctrs_0.3.5         rprojroot_2.0.2     grid_4.0.3         
-## [28] tidyselect_1.1.0    glue_1.4.2          R6_2.5.0           
-## [31] rmarkdown_2.3.2     farver_2.0.3        purrr_0.3.4        
-## [34] magrittr_2.0.1.9000 scales_1.1.1        htmltools_0.5.0    
-## [37] ellipsis_0.3.1      MASS_7.3-53         assertthat_0.2.1   
-## [40] colorspace_2.0-0    labeling_0.4.2      stringi_1.5.3      
-## [43] munsell_0.5.0       crayon_1.3.4</code></pre>
+## [13] rlang_0.4.9         yaml_2.2.1          beeswarm_0.2.3     
+## [16] pkgdown_1.5.1       xfun_0.19           withr_2.3.0        
+## [19] stringr_1.4.0       dplyr_1.0.2         desc_1.2.0         
+## [22] generics_0.1.0      fs_1.5.0            vctrs_0.3.5        
+## [25] rprojroot_2.0.2     grid_4.0.3          tidyselect_1.1.0   
+## [28] glue_1.4.2          R6_2.5.0            rmarkdown_2.3.2    
+## [31] farver_2.0.3        purrr_0.3.4         magrittr_2.0.1.9000
+## [34] scales_1.1.1        htmltools_0.5.0     ellipsis_0.3.1     
+## [37] MASS_7.3-53         assertthat_0.2.1    colorspace_2.0-0   
+## [40] labeling_0.4.2      stringi_1.5.3       munsell_0.5.0      
+## [43] crayon_1.3.4</code></pre>
 </div>
   </div>
 
