@@ -258,7 +258,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     ylim = c(NA, NA),
     direction = "both",
     seed = NA,
-    verbose = verbose
+    verbose = FALSE
   ) {
     lab <- data$label
     if (parse) {

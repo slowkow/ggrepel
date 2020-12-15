@@ -117,7 +117,7 @@ GeomLabelRepel <- ggproto(
     max.overlaps = 10,
     direction = "both",
     seed = NA,
-    verbose = verbose
+    verbose = FALSE
   ) {
     lab <- data$label
     if (parse) {
