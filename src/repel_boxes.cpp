@@ -659,7 +659,8 @@ DataFrame repel_boxes2(
     double max_time = 0.1,
     double max_overlaps = 10,
     int max_iter = 2000,
-    std::string direction = "both"
+    std::string direction = "both",
+    int verbose = 0
 ) {
   int n_points = data_points.nrow();
   int n_texts = boxes.nrow();
@@ -731,22 +732,25 @@ DataFrame repel_boxes2(
 
   nanotime_t start_time = get_nanotime();
   nanotime_t elapsed_time = 0;
+  // convert to nanoseconds
+  max_time *= 1e9;
 
   std::vector<double> total_overlaps(n_texts, 0);
   std::vector<bool> too_many_overlaps(n_texts, false);
 
   int iter = 0;
   int n_overlaps = 1;
+  int p_overlaps = 1;
   bool i_overlaps = true;
 
   while (n_overlaps && iter < max_iter) {
     iter += 1;
+    p_overlaps = n_overlaps;
     n_overlaps = 0;
 
     // Maximum time limit.
     if (iter % 10 == 0) {
-      // Convert elapsed time to seconds.
-      elapsed_time = (get_nanotime() - start_time) / 1e9;
+      elapsed_time = get_nanotime() - start_time;
       // Stop trying to layout the text after some time.
       if (elapsed_time > max_time) {
         break;
@@ -895,6 +899,25 @@ DataFrame repel_boxes2(
     } // loop through all text labels
   } // while any overlaps exist and we haven't reached max iterations
 
+  if (verbose) {
+    if (elapsed_time > max_time) {
+      Rprintf(
+        "%.2fs elapsed for %d iterations, %d overlaps. Consider increasing 'max.time'.\n",
+        max_time / 1e9, iter, p_overlaps
+      );
+    } else if (iter >= max_iter) {
+      Rprintf(
+        "%d iterations in %.2fs, %d overlaps. Consider increasing 'max.iter'.\n",
+        max_iter, elapsed_time / 1e9, p_overlaps
+      );
+    } else {
+      Rprintf(
+        "text repel complete in %d iterations (%.2fs), %d overlaps\n",
+        iter, elapsed_time / 1e9, p_overlaps
+      );
+    }
+  }
+
   //timer.step("end");
   //NumericVector res(timer);
   //for (int i = 0; i < res.size(); i++) {
@@ -916,4 +939,3 @@ DataFrame repel_boxes2(
     Rcpp::Named("too_many_overlaps") = too_many_overlaps
   );
 }
-

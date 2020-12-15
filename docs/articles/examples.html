@@ -20,7 +20,11 @@
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Examples">
 <meta property="og:description" content="ggrepel">
-<meta property="og:image" content="https://ggrepel.slowkow.com/logo.svg">
+<meta property="og:image" content="https://ggrepel.slowkow.com/reference/figures/ggrepel-allison_horst.jpg">
+<meta property="og:image:alt" content="ggrepel: wonderfully repulsive labels">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@slowkow">
+<meta name="twitter:site" content="@slowkow">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -938,6 +942,29 @@
   )</pre></body></html></div>
 <p><img src="examples_files/figure-html/shadowtext-1.png" width="700"></p>
 </div>
+<div id="verbose-timing-information" class="section level3">
+<h3 class="hasAnchor">
+<a href="#verbose-timing-information" class="anchor"></a>Verbose timing information</h3>
+<p>Use <code>verbose = TRUE</code> to see:</p>
+<ul>
+<li>how many iterations of the physical simulation were completed</li>
+<li>how much time has elapsed, in seconds</li>
+<li>how many overlaps remain unresolved in the final figure</li>
+</ul>
+<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>(<span class="no">mtcars</span>,
+  <span class="fu">aes</span>(<span class="no">wt</span>, <span class="no">mpg</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>), <span class="kw">colour</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">cyl</span>))) +
+  <span class="fu">geom_point</span>()
+
+<span class="no">p</span> + <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span>(
+  <span class="kw">verbose</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+  <span class="kw">seed</span> <span class="kw">=</span> <span class="fl">123</span>,
+  <span class="kw">max.time</span> <span class="kw">=</span> <span class="fl">1</span>,
+  <span class="kw">max.iter</span> <span class="kw">=</span> <span class="fl">Inf</span>,
+  <span class="kw">size</span> <span class="kw">=</span> <span class="fl">3</span>
+)</pre></body></html></div>
+<p><img src="examples_files/figure-html/timing-1.png" width="700"></p>
+<pre><code>## 1.00s elapsed for 103820 iterations, 2 overlaps. Consider increasing 'max.time'.</code></pre>
+</div>
 <div id="word-cloud" class="section level3">
 <h3 class="hasAnchor">
 <a href="#word-cloud" class="anchor"></a>Word cloud</h3>
@@ -947,7 +974,7 @@
 <p>The <code>force</code> option controls the strength of repulsion.</p>
 <p>The <code>force_pull</code> option controls the strength of the spring that pulls the text label toward its data point.</p>
 <p>To make a word cloud, we can assign all of the text labels the same data point at the origin (0, 0) and set <code>force_pull = 0</code> to disable the springs.</p>
-<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 <span class="fu">ggplot</span>(<span class="no">mtcars</span>) +
   <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span>(
     <span class="fu">aes</span>(
@@ -978,7 +1005,7 @@
 <div id="polar-coordinates" class="section level3">
 <h3 class="hasAnchor">
 <a href="#polar-coordinates" class="anchor"></a>Polar coordinates</h3>
-<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb35"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 
 <span class="no">mtcars</span>$<span class="no">label</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>)
 <span class="no">mtcars</span>$<span class="no">label</span>[<span class="no">mtcars</span>$<span class="no">mpg</span> <span class="kw">&lt;</span> <span class="fl">25</span>] <span class="kw">&lt;-</span> <span class="st">""</span>
@@ -994,7 +1021,7 @@
 <div id="unicode-characters-japanese" class="section level3">
 <h3 class="hasAnchor">
 <a href="#unicode-characters-japanese" class="anchor"></a>Unicode characters (Japanese)</h3>
-<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)
+<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 <span class="no">dat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
@@ -1019,7 +1046,7 @@
 <div id="mathematical-expressions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#mathematical-expressions" class="anchor"></a>Mathematical expressions</h3>
-<div class="sourceCode" id="cb35"><html><body><pre class="r"><span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
+<div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
   <span class="kw">x</span>    <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1.75</span>, <span class="fl">1.25</span>),
   <span class="kw">y</span>    <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">2.65</span>, <span class="fl">1.25</span>),
   <span class="kw">math</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
@@ -1043,7 +1070,7 @@
 <div id="animation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#animation" class="anchor"></a>Animation</h3>
-<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="co"># This chunk of code will take a minute or two to run.</span>
+<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="co"># This chunk of code will take a minute or two to run.</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">animation</span>)
 
@@ -1084,7 +1111,7 @@
 <div id="r-session-info" class="section level2">
 <h2 class="hasAnchor">
 <a href="#r-session-info" class="anchor"></a>R Session Info</h2>
-<div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
 <pre><code>## R version 4.0.3 (2020-10-10)
 ## Platform: x86_64-apple-darwin17.0 (64-bit)
 ## Running under: macOS Catalina 10.15.7

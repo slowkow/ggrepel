@@ -882,6 +882,29 @@ ggplot(dat, aes(wt, mpg, label = car)) +
   )
 ```
 
+### Verbose timing information
+
+Use `verbose = TRUE` to see:
+
+- how many iterations of the physical simulation
+were completed
+- how much time has elapsed, in seconds
+- how many overlaps remain unresolved in the final figure
+
+```{r timing, echo = TRUE, fig.width=7, fig.height=5}
+p <- ggplot(mtcars,
+  aes(wt, mpg, label = rownames(mtcars), colour = factor(cyl))) +
+  geom_point()
+
+p + geom_text_repel(
+  verbose = TRUE,
+  seed = 123,
+  max.time = 1,
+  max.iter = Inf,
+  size = 3
+)
+```
+
 ### Word cloud
 
 <div class="alert alert-info" role="alert">
