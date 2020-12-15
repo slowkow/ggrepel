@@ -301,6 +301,41 @@ ggplot(dat, aes(wt, mpg, label = car)) +
   geom_label_repel(fill = "white", xlim = c(-Inf, Inf), ylim = c(-Inf, Inf))
 ```
 
+### Expand the scale to make room for labels
+
+Since the text labels repel away from the edges of the plot
+panel, we might want to expand the scale to give them more
+room to fit.
+
+```{r expand_scale, echo=TRUE, fig.width=5, fig.height=4}
+set.seed(42)
+d <- data.frame(
+  x1 = 1,
+  y1 = rnorm(10),
+  x2 = 2,
+  y2 = rnorm(10),
+  lab = state.name[1:10]
+)
+
+p <- ggplot(d, aes(x1, y1, xend = x2, yend = y2, label = lab, col = lab)) +
+  geom_segment(size = 1) +
+  guides(color = "none") +
+  theme(axis.title.x = element_blank()) +
+  geom_text_repel(
+    nudge_x = -0.2, direction = "y", hjust = "right"
+  ) +
+  geom_text_repel(
+    aes(x2, y2), nudge_x = 0.1, direction = "y", hjust = "left"
+  )
+
+p
+
+p + scale_x_continuous(
+  breaks = 1:2, labels = c("Dimension 1", "Dimension 2"),
+  expand = expansion(mult = 0.5)
+)
+```
+
 ### Always (or never) draw line segments
 
 Use `min.segment.length = 0` to draw all line segments,
