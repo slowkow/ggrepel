@@ -86,6 +86,7 @@
 #' @param direction "both", "x", or "y" -- direction in which to adjust position of labels
 #' @param seed Random seed passed to \code{\link[base]{set.seed}}. Defaults to
 #'   \code{NA}, which means that \code{set.seed} will not be called.
+#' @param verbose If \code{TRUE}, some diagnostics of the repel algorithm are printed
 #'
 #' @examples
 #'
@@ -177,6 +178,7 @@ geom_text_repel <- function(
   show.legend = NA,
   direction = c("both","y","x"),
   seed = NA,
+  verbose = FALSE,
   inherit.aes = TRUE
 ) {
   if (!missing(nudge_x) || !missing(nudge_y)) {
@@ -211,6 +213,7 @@ geom_text_repel <- function(
       ylim = ylim,
       direction = match.arg(direction),
       seed = seed,
+      verbose = verbose,
       ...
     )
   )
@@ -254,7 +257,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     xlim = c(NA, NA),
     ylim = c(NA, NA),
     direction = "both",
-    seed = NA
+    seed = NA,
+    verbose = verbose
   ) {
     lab <- data$label
     if (parse) {
@@ -321,6 +325,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       max.overlaps = max.overlaps,
       direction = direction,
       seed = seed,
+      verbose = verbose,
       cl = "textrepeltree"
     ))
   },
@@ -417,7 +422,8 @@ makeContent.textrepeltree <- function(x) {
     max_time        = x$max.time,
     max_iter        = x$max.iter,
     max_overlaps    = x$max.overlaps,
-    direction       = x$direction
+    direction       = x$direction,
+    verbose         = x$verbose
   )
 
   if (any(repel$too_many_overlaps)) {
