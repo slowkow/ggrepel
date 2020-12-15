@@ -7,6 +7,7 @@
 ^.travis\.yml$
 ^tests/benchmark\.R$
 ^\.github
+^revdep
 ^issues
 ^scripts
 ^vignettes/cache

@@ -28,3 +28,4 @@ movies
 
 # this should be CRAN only
 docs/articles/ggrepel.html
+revdep
