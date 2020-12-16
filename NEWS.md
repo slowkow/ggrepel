@@ -34,10 +34,11 @@ ggrepel 0.9.0 2020-12-14
   - segment.angle
   - segment.ncp
 
-* Line segments are the same color as the text by default (#164, @lishinkou).
-
 * Add `max.time` option to limit the number of seconds spent trying to position
   the text labels.
+
+* Add `verbose` option to show timing information: seconds elapse, iteration count,
+  number of remaining overlaps (thanks to @MichaelChirico #159).
   
 * Add `bg.color` and `bg.r` aesthetics for `geom_text()` to display shadows
   behind text labels. Thanks to @rcannood for adding this feature with
@@ -46,6 +47,8 @@ ggrepel 0.9.0 2020-12-14
 [pull request 142]: https://github.com/slowkow/ggrepel/pull/142
 
 ## Bug fixes and improvements
+
+* Line segments are the same color as the text by default (#164, @lishinkou).
 
 * Text justification for multi-line text labels should be working as expected.
   Thanks to @johnhenrypezzuto and @phalteman for comments in [issue 137].
