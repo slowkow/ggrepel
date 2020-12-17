@@ -155,7 +155,7 @@
 
     <div id="ggrepel-090-2020-12-14" class="section level1">
 <h1 class="page-header" data-toc-text="0.9.0">
-<a href="#ggrepel-090-2020-12-14" class="anchor"></a>ggrepel 0.9.0 2020-12-14<small> Unreleased </small>
+<a href="#ggrepel-090-2020-12-14" class="anchor"></a>ggrepel 0.9.0 2020-12-14<small> 2020-12-16 </small>
 </h1>
 <div id="changes" class="section level2">
 <h2 class="hasAnchor">
@@ -180,8 +180,8 @@
 <li>segment.ncp</li>
 </ul>
 </li>
-<li><p>Line segments are the same color as the text by default (<a href='https://github.com/slowkow/ggrepel/issues/164'>#164</a>, <a href='https://github.com/lishinkou'>@lishinkou</a>).</p></li>
 <li><p>Add <code>max.time</code> option to limit the number of seconds spent trying to position the text labels.</p></li>
+<li><p>Add <code>verbose</code> option to show timing information: seconds elapse, iteration count, number of remaining overlaps (thanks to <a href='https://github.com/MichaelChirico'>@MichaelChirico</a> <a href='https://github.com/slowkow/ggrepel/issues/159'>#159</a>).</p></li>
 <li><p>Add <code>bg.color</code> and <code>bg.r</code> aesthetics for <code>geom_text()</code> to display shadows behind text labels. Thanks to <a href='https://github.com/rcannood'>@rcannood</a> for adding this feature with <a href="https://github.com/slowkow/ggrepel/pull/142">pull request 142</a>.</p></li>
 </ul>
 </div>
@@ -189,7 +189,8 @@
 <h2 class="hasAnchor">
 <a href="#bug-fixes-and-improvements" class="anchor"></a>Bug fixes and improvements</h2>
 <ul>
-<li>Text justification for multi-line text labels should be working as expected. Thanks to <a href='https://github.com/johnhenrypezzuto'>@johnhenrypezzuto</a> and <a href='https://github.com/phalteman'>@phalteman</a> for comments in <a href="https://github.com/slowkow/ggrepel/issues/137">issue 137</a>.</li>
+<li><p>Line segments are the same color as the text by default (<a href='https://github.com/slowkow/ggrepel/issues/164'>#164</a>, <a href='https://github.com/lishinkou'>@lishinkou</a>).</p></li>
+<li><p>Text justification for multi-line text labels should be working as expected. Thanks to <a href='https://github.com/johnhenrypezzuto'>@johnhenrypezzuto</a> and <a href='https://github.com/phalteman'>@phalteman</a> for comments in <a href="https://github.com/slowkow/ggrepel/issues/137">issue 137</a>.</p></li>
 </ul>
 <ul>
 <li>Put text labels on top of all line segments (<a href='https://github.com/kiendang'>@kiendang</a>). This fixes <a href="https://github.com/slowkow/ggrepel/issues/35">issue 35</a>, where line segments sometimes appear on top of text.</li>

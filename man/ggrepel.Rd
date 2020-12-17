@@ -51,6 +51,7 @@ Other contributors:
   \item Malcolm Barrett (\href{https://orcid.org/0000-0003-0299-5825}{ORCID}) [contributor]
   \item Robrecht Cannoodt (\href{https://orcid.org/0000-0003-3641-729X}{ORCID}) [contributor]
   \item Michał Krassowski (\href{https://orcid.org/0000-0002-9638-7785}{ORCID}) [contributor]
+  \item Michael Chirico (\href{https://orcid.org/0000-0003-0787-087X}{ORCID}) [contributor]
 }
 
 }
