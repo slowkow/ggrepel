@@ -1,6 +1,3 @@
-# COPIED FROM 'ggrepel' unchanged except for being exported
-# This is only temporary patch until 'ggrepel' is updated
-#
 #' Nudge points a fixed distance
 #'
 #' `position_nudge_repel` is generally useful for adjusting the starting
@@ -12,6 +9,29 @@
 #' @family position adjustments
 #' @param x,y Amount of vertical and horizontal distance to move.
 #' @export
+#' @examples
+#' df <- data.frame(
+#'   x = c(1,3,2,5),
+#'   y = c("a","c","d","c")
+#' )
+#'
+#' ggplot(df, aes(x, y)) +
+#'   geom_point() +
+#'   geom_text_repel(aes(label = y))
+#'
+#' ggplot(df, aes(x, y)) +
+#'   geom_point() +
+#'   geom_text_repel(aes(label = y),
+#'                   min.segment.length = 0,
+#'                   position = position_nudge_repel(x = 0.1, y = 0.15))
+#'
+#' # Or, alternatively
+#' ggplot(df, aes(x, y)) +
+#'   geom_point() +
+#'   geom_text_repel(aes(label = y),
+#'                   min.segment.length = 0,
+#'                   nudge_x = 0.1,
+#'                   nudge_y = 0.15)
 position_nudge_repel <- function(x = 0, y = 0) {
   ggproto(NULL, PositionNudgeRepel,
     x = x,
@@ -31,7 +51,7 @@ PositionNudgeRepel <- ggproto("PositionNudgeRepel", Position,
     list(x = self$x, y = self$y)
   },
 
-  compute_layer = function(data, params, panel) {
+  compute_layer = function(self, data, params, layout) {
     x_orig <- data$x
     y_orig <- data$y
     # transform only the dimensions for which non-zero nudging is requested

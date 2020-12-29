@@ -9,6 +9,8 @@ reference:
     contents:
       - geom_text_repel
       - geom_label_repel
+      - position_nudge_repel
+      - position_nudge_label
 
 
 home:
