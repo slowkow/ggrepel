@@ -1,15 +1,19 @@
+# COPIED FROM 'ggrepel' unchanged except for being exported
+# This is only temporary patch until 'ggrepel' is updated
+#
 #' Nudge points a fixed distance
 #'
-#' `position_nudge` is generally useful for adjusting the position of
-#' items on discrete scales by a small amount. Nudging is built in to
-#' [geom_text()] because it's so useful for moving labels a small
+#' `position_nudge_repel` is generally useful for adjusting the starting
+#' position of labels or text to be repelled while preserving the original
+#' position as the start of the segments. Nudging is built in to
+#' [geom_text_repel()] because it is useful for consistently moving labels some
 #' distance from what they're labelling.
 #'
 #' @family position adjustments
 #' @param x,y Amount of vertical and horizontal distance to move.
-#' @noRd
-position_nudge2 <- function(x = 0, y = 0) {
-  ggproto(NULL, PositionNudge2,
+#' @export
+position_nudge_repel <- function(x = 0, y = 0) {
+  ggproto(NULL, PositionNudgeRepel,
     x = x,
     y = y
   )
@@ -18,8 +22,8 @@ position_nudge2 <- function(x = 0, y = 0) {
 #' @rdname ggplot2-ggproto
 #' @format NULL
 #' @usage NULL
-#' @noRd
-PositionNudge2 <- ggproto("PositionNudge2", Position,
+#' @export
+PositionNudgeRepel <- ggproto("PositionNudgeRepel", Position,
   x = 0,
   y = 0,
 

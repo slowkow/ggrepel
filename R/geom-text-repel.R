@@ -185,7 +185,7 @@ geom_text_repel <- function(
     if (!missing(position)) {
       stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
     }
-    position <- position_nudge2(nudge_x, nudge_y)
+    position <- position_nudge_repel(nudge_x, nudge_y)
   }
   layer(
     data = data,
@@ -268,7 +268,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       return()
     }
 
-    # position_nudge2() should have added these columns.
+    # position_nudge_repel() should have added these columns.
     for (this_dim in c("x", "y")) {
       this_nudge <- sprintf("nudge_%s", this_dim)
       if (!this_nudge %in% colnames(data)) {
