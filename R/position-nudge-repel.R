@@ -39,7 +39,7 @@ position_nudge_repel <- function(x = 0, y = 0) {
   )
 }
 
-#' @rdname ggplot2-ggproto
+#' @rdname ggrepel-ggproto
 #' @format NULL
 #' @usage NULL
 #' @export

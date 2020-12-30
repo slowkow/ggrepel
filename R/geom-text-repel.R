@@ -220,7 +220,7 @@ geom_text_repel <- function(
 }
 
 #' GeomTextRepel
-#' @rdname ggplot2-ggproto
+#' @rdname ggrepel-ggproto
 #' @format NULL
 #' @usage NULL
 #' @seealso \link[ggplot2]{GeomText} from the ggplot2 package.
