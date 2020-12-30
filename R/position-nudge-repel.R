@@ -1,4 +1,4 @@
-#' Nudge points a fixed distance
+#' Nudge labels a fixed distance from points
 #'
 #' `position_nudge_repel` is generally useful for adjusting the starting
 #' position of labels or text to be repelled while preserving the original
