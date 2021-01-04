@@ -2,7 +2,7 @@
 % Please edit documentation in R/position-nudge-repel.R
 \name{position_nudge_repel}
 \alias{position_nudge_repel}
-\title{Nudge points a fixed distance}
+\title{Nudge labels a fixed distance from points}
 \usage{
 position_nudge_repel(x = 0, y = 0)
 }

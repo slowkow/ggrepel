@@ -4,6 +4,11 @@ url: https://ggrepel.slowkow.com
 
 destination: docs
 
+development:
+  mode: auto
+  destination: dev
+
+
 reference:
   - title: Reference
     contents:

@@ -813,6 +813,47 @@ ggplot(dat, aes(wt, mpg, label = car)) +
   geom_point(color = "red")
 ```
 
+### Using ggrepel with stat_summary()
+
+We can use `stat_summary()` with `geom = "text_repel"`.
+
+<div class="alert alert-info" role="alert">
+  **Note:** When we use `ggplot2::stat_summary()` with ggrepel, we should prefer `position_nudge_repel()` instead of `ggplot2::position_nudge()`.
+</div>
+
+The `position_nudge_repel()` function nudges the text label's position, but it
+also remembers the original position of the data point.
+
+```{r stat_summary, echo=TRUE, fig.width=9, fig.height=3}
+p <- ggplot(mtcars, aes(factor(cyl), mpg)) +
+  stat_summary(
+    fill = "gray90",
+    colour = "black", 
+    fun = "mean",
+    geom = "col"
+  )
+
+p1 <- p + stat_summary(
+    aes(label = round(stat(y))), 
+    fun = "mean",
+    geom = "text_repel",
+    min.segment.length = 0, # always draw segments
+    position = position_nudge(y = -2)
+  ) +
+  labs(title = "position_nudge()")
+
+p2 <- p + stat_summary(
+    aes(label = round(stat(y))), 
+    fun = "mean",
+    geom = "text_repel",
+    min.segment.length = 0, # always draw segments
+    position = position_nudge_repel(y = -2)
+  ) +
+  labs(title = "position_nudge_repel()")
+
+gridExtra::grid.arrange(p1, p2, ncol = 2)
+```
+
 ### Justify multiple lines of text with hjust
 
 The `hjust` option should behave mostly the same way it does with
