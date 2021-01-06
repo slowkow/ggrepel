@@ -117,7 +117,7 @@
 #' p + geom_text_repel(segment.colour = NA)
 #'
 #' # Repel just the labels and totally ignore the data points
-#' p + geom_text_repel(point.padding = NA)
+#' p + geom_text_repel(point.size = NA)
 #'
 #' # Hide some of the labels, but repel from all data points
 #' mtcars$label <- rownames(mtcars)
