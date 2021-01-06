@@ -1137,7 +1137,7 @@ saveGIF(
 
 View the [source code for this vignette][source] on GitHub.
 
-[source]: https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.Rmd
+[source]: https://github.com/slowkow/ggrepel/blob/master/vignettes/examples.Rmd
 
 ## R Session Info
 
