@@ -2,7 +2,7 @@
 % Please edit documentation in R/position-nudge-repel.R
 \name{position_nudge_repel}
 \alias{position_nudge_repel}
-\title{Nudge points a fixed distance}
+\title{Nudge labels a fixed distance from points}
 \usage{
 position_nudge_repel(x = 0, y = 0)
 }
@@ -39,5 +39,9 @@ ggplot(df, aes(x, y)) +
                   min.segment.length = 0,
                   nudge_x = 0.1,
                   nudge_y = 0.15)
+}
+\seealso{
+Other position adjustments: 
+\code{\link{position_s_nudge_repel}()}
 }
 \concept{position adjustments}
