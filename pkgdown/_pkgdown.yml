@@ -4,6 +4,11 @@ url: https://ggrepel.slowkow.com
 
 destination: docs
 
+development:
+  mode: auto
+  destination: dev
+
+
 reference:
   - title: Reference
     contents:
@@ -42,7 +47,7 @@ navbar:
       menu:
       - text: "Release notes"
       - text: "Version 0.9.0"
-        href: https://slowkow.com/ggrepel-0-9-0/
+        href: https://twitter.com/slowkow/status/1339364391377092609
       - text: "------------------"
       - text: "Change log"
         href: news/index.html
@@ -85,4 +90,8 @@ authors:
     href: https://github.com/rcannood
   Michał Krassowski:
     href: https://github.com/krassowski
+  Michael Chirico:
+    href: https://github.com/MichaelChirico
+  Pedro Aphalo:
+    href: https://github.com/aphalo
 

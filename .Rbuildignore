@@ -23,3 +23,4 @@ movies/
 ^vignettes/related-work.Rmd$
 ^index.md$
 ^build_site.R$
+^\.github$

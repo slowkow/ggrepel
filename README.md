@@ -1,16 +1,16 @@
 ggrepel <img src="man/figures/logo.svg" width="181px" align="right" />
 ============================================
 
-[![Build Status][bb]][travis] [![CRAN_Status_Badge][cb]][cran] [![CRAN_Downloads_Badge][db]][r-pkg]
+[![Build Status][bb]][githubactions] [![CRAN_Status_Badge][cb]][cran] [![CRAN_Downloads_Badge][db]][r-pkg]
 
-[bb]: https://travis-ci.org/slowkow/ggrepel.svg?branch=master
-[travis]: https://travis-ci.org/slowkow/ggrepel
+[bb]: https://github.com/slowkow/ggrepel/workflows/R-CMD-check/badge.svg
+[githubactions]: https://github.com/slowkow/ggrepel/actions?query=workflow%3AR-CMD-check
 
 [cb]: https://www.r-pkg.org/badges/version/ggrepel?color=blue
 [cran]: https://CRAN.R-project.org/package=ggrepel
 
 [db]: https://cranlogs.r-pkg.org/badges/ggrepel
-[r-pkg]: https://www.r-pkg.org/pkg/ggrepel
+[r-pkg]: https://cranlogs.r-pkg.org
 
 Overview
 --------
