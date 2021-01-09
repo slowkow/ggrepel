@@ -1,4 +1,16 @@
 
+ggrepel 0.9.1 2021-01-09
+========================
+
+## Bug fixes
+
+* Fix label positions (only for `geom_label_repel()`). The same plot would look
+  OK with ggrepel 0.8.2, but incorrect with ggrepel 0.9.0. Thanks to
+  @beanumber for reporting this in [issue 182].
+
+[issue 182]: https://github.com/slowkow/ggrepel/issues/182
+
+
 ggrepel 0.9.0 2020-12-14
 ========================
 
