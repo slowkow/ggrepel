@@ -108,13 +108,13 @@ GeomLabelRepel <- ggproto(
     arrow = NULL,
     force = 1,
     force_pull = 1,
+    max.time = 0.5,
+    max.iter = 10000,
+    max.overlaps = 10,
     nudge_x = 0,
     nudge_y = 0,
     xlim = c(NA, NA),
     ylim = c(NA, NA),
-    max.time = 0.5,
-    max.iter = 10000,
-    max.overlaps = 10,
     direction = "both",
     seed = NA,
     verbose = FALSE
@@ -209,8 +209,6 @@ makeContent.labelrepeltree <- function(x) {
   if (is.na(x$point.padding)) {
     x$point.padding = unit(0, "lines")
   }
-  # point_padding_x <- convertWidth(x$point.padding, "native", valueOnly = TRUE)
-  # point_padding_y <- convertHeight(x$point.padding, "native", valueOnly = TRUE)
 
   # Do not create text labels for empty strings.
   valid_strings <- which(not_empty(x$lab))
@@ -380,13 +378,13 @@ makeLabelRepelGrobs <- function(
   label,
   x = unit(0.5, "npc"),
   y = unit(0.5, "npc"),
-  x.orig = unit(0.5, "npc"),
-  y.orig = unit(0.5, "npc"),
+  # Position of original data points.
+  x.orig = 0.5,
+  y.orig = 0.5,
   # Width and height of text boxes.
   box.width = 0,
   box.height = 0,
   default.units = "npc",
-  just = "center",
   box.padding = 0.25,
   label.padding = 0.25,
   point.size = 1,
