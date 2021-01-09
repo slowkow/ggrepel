@@ -2,7 +2,7 @@
 % Please edit documentation in R/position-s-nudge-repel.R
 \name{position_s_nudge_repel}
 \alias{position_s_nudge_repel}
-\title{Nudge labels a fixed distance from points}
+\title{Symmetrically nudge labels a fixed distance from points}
 \usage{
 position_s_nudge_repel(x = 0, y = 0, x_split = mean, y_split = mean)
 }
@@ -24,10 +24,21 @@ on which side of a divide a given point is. By default the split as at
 the centroid of the data as computed using [base::mean()]. A different
 function or a numeric vector can be used to override this default.
 }
+\note{
+Positive values as arguments to `x` and `y` nudge
+  horizontally and vertically, respectively, outwards from the virtual
+  vertical and horizontal "reference lines", while negative values nudge
+  inwards towards the lines. In the special case of horizontal and vertical
+  segments needed for observations exactly on the reference lines, their
+  length is extended to match the length of the remainder segments. Segments
+  will be drawn at one of eight possible angles. This position is most
+  useful nudging is predominantly vertical or horizontal. Radial nudging
+  is implemented in `position_r_nudge_repel()`.
+}
 \examples{
 df <- data.frame(
-  x = c(1,3,2,5),
-  y = c("a","c","d","c")
+  x = c(1,3,2,5,4,2.5),
+  y = c("a","c","d","c","b","a")
 )
 
 ggplot(df, aes(x, y)) +
@@ -60,6 +71,7 @@ ggplot(df, aes(x, y)) +
 \seealso{
 Other position adjustments: 
 \code{\link{position_nudge_repel}()},
-\code{\link{position_r_nudge_repel}()}
+\code{\link{position_r_nudge_repel}()},
+\code{\link{position_t_nudge_repel}()}
 }
 \concept{position adjustments}

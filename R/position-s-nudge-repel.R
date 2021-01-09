@@ -1,4 +1,4 @@
-#' Nudge labels a fixed distance from points
+#' Symmetrically nudge labels a fixed distance from points
 #'
 #' `position_s_nudge_repel` is generally useful for adjusting the starting
 #' position of labels or text to be repelled while preserving the original
@@ -15,11 +15,20 @@
 #'   numeric vector of length 1 or of the same length as rows there are in
 #'   `data`, or a function returning either of these computed from the variable
 #'   in data.
+#' @note Positive values as arguments to `x` and `y` nudge
+#'   horizontally and vertically, respectively, outwards from the virtual
+#'   vertical and horizontal "reference lines", while negative values nudge
+#'   inwards towards the lines. In the special case of horizontal and vertical
+#'   segments needed for observations exactly on the reference lines, their
+#'   length is extended to match the length of the remainder segments. Segments
+#'   will be drawn at one of eight possible angles. This position is most
+#'   useful nudging is predominantly vertical or horizontal. Radial nudging
+#'   is implemented in `position_r_nudge_repel()`.
 #' @export
 #' @examples
 #' df <- data.frame(
-#'   x = c(1,3,2,5),
-#'   y = c("a","c","d","c")
+#'   x = c(1,3,2,5,4,2.5),
+#'   y = c("a","c","d","c","b","a")
 #' )
 #'
 #' ggplot(df, aes(x, y)) +

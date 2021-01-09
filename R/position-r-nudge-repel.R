@@ -1,4 +1,4 @@
-#' Nudge labels a fixed distance from points
+#' Radially nudge labels a fixed distance from points
 #'
 #' `position_r_nudge_repel` is generally useful for adjusting the starting
 #' position of labels or text to be repelled while preserving the original
@@ -15,63 +15,45 @@
 #'   nudging radiates, a numeric vector of length 1 or of the same length as
 #'   rows there are in `data`, or a function returning either of these computed
 #'   from the variable in data.
-#'
 #' @note Positive values as arguments to `x` and `y` nudge
 #'   radialy outwards from the centre, while negative values nudge inwards
 #'   towards the center. The segment length equal to `y` for vertical
 #'   segments and equal to `x` for horizontal segments. The length of those
 #'   at intermediate angles varies smoothly between these two maximum and
-#'   minimum lengths.
+#'   minimum lengths. Nudging away from a vertical or horizontal line
+#'   is implemented in `position_s_nudge_repel()`.
 #' @export
 #' @examples
 #' df <- data.frame(
-#'   x = c(1,3,2,5),
-#'   z = c(4,8,5,6),
-#'   y = c("a","c","d","c")
+#'   x = -10:10,
+#'   z = (-10:10)^2,
+#'   y = letters[1:21]
 #' )
 #'
-#' ggplot(df, aes(x, y)) +
+#' ggplot(df, aes(x, z)) +
 #'   geom_point() +
 #'   geom_text_repel(aes(label = y))
 #'
-#' ggplot(df, aes(x, y)) +
+#' ggplot(df, aes(x, z)) +
 #'   geom_point() +
+#'   geom_line() +
 #'   geom_text_repel(aes(label = y),
 #'                   min.segment.length = 0,
-#'                   position = position_r_nudge_repel(x = 0.3, y = 0.3)) +
+#'                   position = position_r_nudge_repel(x = -1, y = -6,
+#'                                                     x_center = mean,
+#'                                                     y_center = max)) +
 #'   scale_x_continuous(expand = expansion(mult = 0.15))
 #'
 #' ggplot(df, aes(x, z)) +
 #'   geom_point() +
+#'   geom_line() +
 #'   geom_text_repel(aes(label = y),
 #'                   min.segment.length = 0,
-#'                   position = position_r_nudge_repel(x = 0.3,
-#'                                                     y = 0.6,
-#'                                                     x_center = min,
-#'                                                     y_center = min)) +
-#'   scale_x_continuous(expand = expansion(mult = 0.15)) +
-#'   scale_y_continuous(expand = expansion(mult = 0.15))
-#'
-#' ggplot(df, aes(x, z)) +
-#'   geom_point() +
-#'   geom_text_repel(aes(label = y),
-#'                   min.segment.length = 0,
-#'                   position = position_r_nudge_repel(x = 0.5,
-#'                                                     y = 0.5,
-#'                                                     x_center = 2.5,
-#'                                                     y_center = 6)) +
-#'   scale_x_continuous(expand = expansion(mult = 0.15)) +
-#'   scale_y_continuous(expand = expansion(mult = 0.15))
-#'
-#' ggplot(df, aes(x, z)) +
-#'   geom_point() +
-#'   geom_text_repel(aes(label = y),
-#'                   min.segment.length = 0,
-#'                   position = position_r_nudge_repel(x = 0.3, y = 0.6,
-#'                                                     x_center = 3,
-#'                                                     y_center = 6)) +
-#'   scale_x_continuous(expand = expansion(mult = 0.15)) +
-#'   scale_y_continuous(expand = expansion(mult = 0.15))
+#'                   position = position_r_nudge_repel(x = 1, y = 6,
+#'                                                     x_center = mean,
+#'                                                     y_center = max)) +
+#'   scale_y_continuous(expand = expansion(mult = 0.15)) +
+#'   scale_x_continuous(expand = expansion(mult = 0.15))
 #'
 position_r_nudge_repel <- function(x = 0,
                                    y = 0,
@@ -107,17 +89,10 @@ PositionRNudgeRepel <- ggproto("PositionRNudgeRepel", Position,
       y_ctr <- self$y_center[1]
     }
 
-#    if (length(self$x) == 1L && length(self$y) == 1L) {
-      # Compute tan from x and y
-      segment_length <- sqrt(self$x^2 + self$y^2)
-      print(segment_length)
-#    }
-
     list(x = self$x,
          y = self$y,
          x_ctr = x_ctr,
-         y_ctr = y_ctr,
-         segment_length = segment_length)
+         y_ctr = y_ctr)
   },
 
   compute_layer = function(self, data, params, layout) {
@@ -131,8 +106,6 @@ PositionRNudgeRepel <- ggproto("PositionRNudgeRepel", Position,
                     atan2(y_dist, x_dist))
     x_nudge <- params$x * cos(angle)
     y_nudge <- params$y * sin(angle)
-    print(x_nudge)
-    print(y_nudge)
     # transform both dimensions
     data <- transform_position(data,
                                function(x) x + x_nudge,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/position-r-nudge-repel.R
 \name{position_r_nudge_repel}
 \alias{position_r_nudge_repel}
-\title{Nudge labels a fixed distance from points}
+\title{Radially nudge labels a fixed distance from points}
 \usage{
 position_r_nudge_repel(x = 0, y = 0, x_center = mean, y_center = mean)
 }
@@ -24,60 +24,52 @@ point, which by default is the centroid of the data as computed using
 [base::mean()]. A different function or a numeric vector can be used to
 override this default.
 }
+\note{
+Positive values as arguments to `x` and `y` nudge
+  radialy outwards from the centre, while negative values nudge inwards
+  towards the center. The segment length equal to `y` for vertical
+  segments and equal to `x` for horizontal segments. The length of those
+  at intermediate angles varies smoothly between these two maximum and
+  minimum lengths. Nudging away from a vertical or horizontal line
+  is implemented in `position_s_nudge_repel()`.
+}
 \examples{
 df <- data.frame(
-  x = c(1,3,2,5),
-  z = c(4,8,5,6),
-  y = c("a","c","d","c")
+  x = -10:10,
+  z = (-10:10)^2,
+  y = letters[1:21]
 )
 
-ggplot(df, aes(x, y)) +
+ggplot(df, aes(x, z)) +
   geom_point() +
   geom_text_repel(aes(label = y))
 
-ggplot(df, aes(x, y)) +
+ggplot(df, aes(x, z)) +
   geom_point() +
+  geom_line() +
   geom_text_repel(aes(label = y),
                   min.segment.length = 0,
-                  position = position_r_nudge_repel(x = 0.3, y = 0.3)) +
+                  position = position_r_nudge_repel(x = -1, y = -6,
+                                                    x_center = mean,
+                                                    y_center = max)) +
   scale_x_continuous(expand = expansion(mult = 0.15))
 
 ggplot(df, aes(x, z)) +
   geom_point() +
+  geom_line() +
   geom_text_repel(aes(label = y),
                   min.segment.length = 0,
-                  position = position_r_nudge_repel(x = 0.3,
-                                                    y = 0.6,
-                                                    x_center = min,
-                                                    y_center = min)) +
-  scale_x_continuous(expand = expansion(mult = 0.15)) +
-  scale_y_continuous(expand = expansion(mult = 0.15))
-
-ggplot(df, aes(x, z)) +
-  geom_point() +
-  geom_text_repel(aes(label = y),
-                  min.segment.length = 0,
-                  position = position_r_nudge_repel(x = 0.5,
-                                                    y = 0.5,
-                                                    x_center = 2.5,
-                                                    y_center = 6)) +
-  scale_x_continuous(expand = expansion(mult = 0.15)) +
-  scale_y_continuous(expand = expansion(mult = 0.15))
-
-ggplot(df, aes(x, z)) +
-  geom_point() +
-  geom_text_repel(aes(label = y),
-                  min.segment.length = 0,
-                  position = position_r_nudge_repel(x = 0.3, y = 0.6,
-                                                    x_center = 3,
-                                                    y_center = 6)) +
-  scale_x_continuous(expand = expansion(mult = 0.15)) +
-  scale_y_continuous(expand = expansion(mult = 0.15))
+                  position = position_r_nudge_repel(x = 1, y = 6,
+                                                    x_center = mean,
+                                                    y_center = max)) +
+  scale_y_continuous(expand = expansion(mult = 0.15)) +
+  scale_x_continuous(expand = expansion(mult = 0.15))
 
 }
 \seealso{
 Other position adjustments: 
 \code{\link{position_nudge_repel}()},
-\code{\link{position_s_nudge_repel}()}
+\code{\link{position_s_nudge_repel}()},
+\code{\link{position_t_nudge_repel}()}
 }
 \concept{position adjustments}
