@@ -85,13 +85,10 @@ PositionSNudgeRepel <- ggproto("PositionSNudgeRepel", Position,
     if (length(self$x) == 1L && length(self$y) == 1L) {
       # ensure horizontal and vertical segments have same length as all others
       segment_length <- sqrt(self$x^2 + self$y^2)
-      print(segment_length)
       xx <- rep(self$x, nrow(data))
       xx <- ifelse(data$y == y_splt, segment_length * sign(xx), xx)
-      print(xx)
       yy <- rep(self$y, nrow(data))
       yy <- ifelse(data$x == x_splt, segment_length * sign(yy), yy)
-      print(y_splt)
     }
 
     list(x = xx,
