@@ -219,8 +219,8 @@ makeContent.labelrepeltree <- function(x) {
   x$data <- x$data[ix,]
   x$lab <- x$lab[ix]
 
-  # Create a dataframe with x y width height
-  boxes <- lapply(valid_strings, function(i) {
+  # Create a dataframe with x1 y1 x2 y2
+  boxes <- lapply(seq_along(valid_strings), function(i) {
     row <- x$data[i, , drop = FALSE]
     t <- textGrob(
       x$lab[i],
