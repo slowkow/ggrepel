@@ -92,11 +92,11 @@ GeomLabelRepel <- ggproto(
     segment.linetype = 1, segment.colour = NULL, segment.size = 0.5, segment.alpha = NULL,
     segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
     segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
-    segment.inflect = FALSE, segment.debug = FALSE,
+    segment.inflect = FALSE, segment.debug = FALSE
   ),
 
   draw_panel = function(
-    self, data, panel_scales, coord,
+    data, panel_scales, coord,
     parse = FALSE,
     na.rm = FALSE,
     box.padding = 0.25,
