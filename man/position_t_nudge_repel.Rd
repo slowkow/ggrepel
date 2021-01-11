@@ -111,8 +111,6 @@ ggplot(df, aes(z, sqrt(z))) +
 }
 \seealso{
 Other position adjustments: 
-\code{\link{position_nudge_repel}()},
-\code{\link{position_r_nudge_repel}()},
-\code{\link{position_s_nudge_repel}()}
+\code{\link{position_nudge_repel}()}
 }
 \concept{position adjustments}

@@ -4,19 +4,66 @@
 \alias{position_nudge_repel}
 \title{Nudge labels a fixed distance from points}
 \usage{
-position_nudge_repel(x = 0, y = 0)
+position_nudge_repel(
+  x = 0,
+  y = 0,
+  center_x = NULL,
+  center_y = NULL,
+  direction = NULL
+)
 }
 \arguments{
-\item{x, y}{Amount of vertical and horizontal distance to move.}
+\item{x, y}{Amount of vertical and horizontal distance to move. A numeric
+vector of length 1, or of the same length as rows there are in `data`,}
+
+\item{center_x, center_y}{The coordinates of the virtual origin out from which
+nudging radiates or splits in opposite directions. A numeric vector of
+length 1 or of the same length as rows there are in `data`, or a function
+returning either of these vectors computed from the variable in data
+mapped to `x` or `y`, respectively.}
+
+\item{direction}{One of "none", "radial", or "split". Which of these three
+values is the default depends on the values passed to the other parameters.}
 }
 \description{
 `position_nudge_repel` is generally useful for adjusting the starting
 position of labels or text to be repelled while preserving the original
 position as the start of the segments. Nudging is built in to
 [geom_text_repel()] because it is useful for consistently moving labels some
-distance from what they're labelling.
+distance from what they're labeling.
+}
+\details{
+Positive values as arguments to `x` and `y` are added to the
+  original position along either axis. If no arguments are passed to
+  `center_x`, `center_y` or `direction`, the nudging is applied as is, as is
+  the case if `direction = "none"`. If non-`NULL` arguments are passed to
+  both `center_x` and `center_y`, `direction = "radial"` is assumed. In this
+  case, if `x` and/or `y` positive nudging is applied radially outwards from
+  the center, while if negative, inwards towards the center. When a
+  non-`NULL` argument is passed only to one of `center_x` or `center_y`,
+  `direction = "split"` is assumed. In this case when the initial location of
+  the point is to the left of `center_x`, `-x` is used instead of `x` for
+  nudging, and when the initial location of the point is to the below of
+  `center_y`, `-y` is used instead of `y` for nudging. If non-`NULL` arguments
+  are passed to both `center_x` and `center_y`, and `direction` is passed
+  `"split"` as argument, then the split as described above is applied to
+  both _x_ and _y_ coordinates.
+}
+\note{
+Some situations are handled as special cases. When `direction = "split"`
+  or `direction = "radial"`, observations at exactly the _center_ are nudged
+  using `x` and `y` unchanged. When `direction = "split"`, and both
+  `center_x` and `center_y` have been supplied, segments are drawn at eight
+  different possible angles. When segments are
+  exactly horizontal or vertical they would be shorter than when drawn at
+  the other four angles, in which case `x` or `y` are extended to
+  ensure these segments are of the same lengths as those at other angles.
+
+  This position is most useful when labelling points forming a cloud or
+  along vertical or horizontal lines or "divides".
 }
 \examples{
+# Plain nudging
 df <- data.frame(
   x = c(1,3,2,5),
   y = c("a","c","d","c")
@@ -39,11 +86,78 @@ ggplot(df, aes(x, y)) +
                   min.segment.length = 0,
                   nudge_x = 0.1,
                   nudge_y = 0.15)
+
+# "Orthogonal" or split nudging
+
+df <- data.frame(
+  x = c(1,3,2,5,4,2.5),
+  y = c("a","c","d","c","b","a")
+)
+
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  geom_text_repel(aes(label = y))
+
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  geom_text_repel(aes(label = y),
+                  min.segment.length = 0,
+                  position = position_nudge_repel(x = -0.12,
+                                                  y = 0.12,
+                                                  center_x = 1.5))
+
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  geom_text_repel(aes(label = y),
+                  min.segment.length = 0,
+                  position = position_nudge_repel(x = 0.2,
+                                                  center_x = 2.5)) +
+  scale_x_continuous(expand = expansion(mult = 0.1))
+
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  geom_text_repel(aes(label = y),
+                  min.segment.length = 0,
+                  position = position_nudge_repel(x = 0.12,
+                                                  y = 0.12,
+                                                  center_x = mean,
+                                                  center_y = mean,
+                                                  direction = "split"))
+
+# "Radial" nudging
+
+df <- data.frame(
+  x = -10:10,
+  z = (-10:10)^2,
+  y = letters[1:21]
+)
+
+ggplot(df, aes(x, z)) +
+  geom_point() +
+  geom_line() +
+  geom_text_repel(aes(label = y),
+                  min.segment.length = 0,
+                  position = position_nudge_repel(x = -1,
+                                                    y = -6,
+                                                    center_x = mean,
+                                                    center_y = max)) +
+  scale_x_continuous(expand = expansion(mult = 0.15))
+
+ggplot(df, aes(x, z)) +
+  geom_point() +
+  geom_line() +
+  geom_text_repel(aes(label = y),
+                  min.segment.length = 0,
+                  position = position_nudge_repel(x = 1,
+                                                  y = 6,
+                                                  center_x = mean,
+                                                  center_y = max)) +
+  scale_y_continuous(expand = expansion(mult = 0.15)) +
+  scale_x_continuous(expand = expansion(mult = 0.15))
+
 }
 \seealso{
 Other position adjustments: 
-\code{\link{position_r_nudge_repel}()},
-\code{\link{position_s_nudge_repel}()},
 \code{\link{position_t_nudge_repel}()}
 }
 \concept{position adjustments}
