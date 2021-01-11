@@ -71,7 +71,7 @@
 #'                   nudge_x = 0.1,
 #'                   nudge_y = 0.15)
 #'
-#' # "Orthogonal" or split nudging
+#' # "split" nudging
 #'
 #' df <- data.frame(
 #'   x = c(1,3,2,5,4,2.5),
@@ -86,9 +86,41 @@
 #'   geom_point() +
 #'   geom_text_repel(aes(label = y),
 #'                   min.segment.length = 0,
-#'                   position = position_nudge_repel(x = -0.12,
-#'                                                   y = 0.12,
-#'                                                   center_x = 1.5))
+#'                   position = position_nudge_repel(x = 0.12,
+#'                                                   y = 0.2,
+#'                                                   direction = "split"))
+#'
+#' ggplot(df, aes(x, y)) +
+#'   geom_point() +
+#'   geom_text_repel(aes(label = y),
+#'                   min.segment.length = 0,
+#'                   position = position_nudge_repel(x = 0.12,
+#'                                                   direction = "split"))
+#'
+#' ggplot(df, aes(x, y)) +
+#'   geom_point() +
+#'   geom_text_repel(aes(label = y),
+#'                   min.segment.length = 0,
+#'                   position = position_nudge_repel(y = 0.2,
+#'                                                   direction = "split"))
+#'
+#' ggplot(df, aes(x, y)) +
+#'   geom_point() +
+#'   geom_text_repel(aes(label = y),
+#'                   min.segment.length = 0,
+#'                   position = position_nudge_repel(x = 0.12,
+#'                                                   y = 0.2,
+#'                                                   center_y = 2,
+#'                                                   center_x = 1.5,
+#'                                                   direction = "split"))
+#'
+#' ggplot(df, aes(x, y)) +
+#'   geom_point() +
+#'   geom_text_repel(aes(label = y),
+#'                   min.segment.length = 0,
+#'                   position = position_nudge_repel(x = 0.12,
+#'                                                   y = 0.2,
+#'                                                   center_y = 2))
 #'
 #' ggplot(df, aes(x, y)) +
 #'   geom_point() +
@@ -104,8 +136,8 @@
 #'                   min.segment.length = 0,
 #'                   position = position_nudge_repel(x = 0.12,
 #'                                                   y = 0.12,
-#'                                                   center_x = mean,
-#'                                                   center_y = mean,
+#'                                                   center_x = median,
+#'                                                   center_y = median,
 #'                                                   direction = "split"))
 #'
 #' # "Radial" nudging
@@ -115,9 +147,16 @@
 #'   geom_text_repel(aes(label = y),
 #'                   min.segment.length = 0,
 #'                   position = position_nudge_repel(x = 0.12,
-#'                                                   y = 0.12,
-#'                                                   center_x = mean,
-#'                                                   center_y = mean))
+#'                                                   y = 0.2,
+#'                                                   direction = "radial"))
+#'
+#' ggplot(df, aes(x, y)) +
+#'   geom_point() +
+#'   geom_text_repel(aes(label = y),
+#'                   min.segment.length = 0,
+#'                   position = position_nudge_repel(x = -0.12,
+#'                                                   y = -0.2,
+#'                                                   direction = "radial"))
 #'
 #' df <- data.frame(
 #'   x = -10:10,
@@ -148,21 +187,45 @@
 #'   scale_y_continuous(expand = expansion(mult = 0.15)) +
 #'   scale_x_continuous(expand = expansion(mult = 0.15))
 #'
+#' max_and_tenth <- function(x) {1.1 * max(x)}
+#' ggplot(df, aes(x, z)) +
+#'   geom_point() +
+#'   geom_line() +
+#'   geom_text_repel(aes(label = y),
+#'                   min.segment.length = 0,
+#'                   position = position_nudge_repel(x = 1,
+#'                                                   y = 6,
+#'                                                   center_x = mean,
+#'                                                   center_y = max_and_tenth)) +
+#'   scale_y_continuous(expand = expansion(mult = 0.15)) +
+#'   scale_x_continuous(expand = expansion(mult = 0.15))
+#'
 position_nudge_repel <-
   function(x = 0,
            y = 0,
            center_x = NULL,
            center_y = NULL,
            direction = NULL) {
-    # Set default for 'direction' based on other arguments
     if (is.null(direction)) {
+      # Set default for 'direction' based on other arguments
       if (is.null(center_x) & is.null(center_y)) {
         direction <- "none"
       } else if (xor(is.null(center_x), is.null(center_y))) {
         direction <- "split"
+        if (is.null(center_x)) {
+          center_x <- mean
+        }
+        if (is.null(center_y)) {
+          center_y <- mean
+        }
       } else {
         direction <- "radial"
       }
+    } else if (direction %in% c("radial", "split") &&
+               is.null(center_x) && is.null(center_y)) {
+      # Set center if direction requires it and is missing
+      center_x <- mean
+      center_y <- mean
     }
 
   ggproto(NULL, PositionNudgeRepel,
@@ -170,7 +233,7 @@ position_nudge_repel <-
     y = y,
     center_x = center_x,
     center_y = center_y,
-    direction = tolower(direction)
+    direction = direction
   )
 }
 

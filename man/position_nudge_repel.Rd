@@ -87,7 +87,7 @@ ggplot(df, aes(x, y)) +
                   nudge_x = 0.1,
                   nudge_y = 0.15)
 
-# "Orthogonal" or split nudging
+# "split" nudging
 
 df <- data.frame(
   x = c(1,3,2,5,4,2.5),
@@ -102,9 +102,41 @@ ggplot(df, aes(x, y)) +
   geom_point() +
   geom_text_repel(aes(label = y),
                   min.segment.length = 0,
-                  position = position_nudge_repel(x = -0.12,
-                                                  y = 0.12,
-                                                  center_x = 1.5))
+                  position = position_nudge_repel(x = 0.12,
+                                                  y = 0.2,
+                                                  direction = "split"))
+
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  geom_text_repel(aes(label = y),
+                  min.segment.length = 0,
+                  position = position_nudge_repel(x = 0.12,
+                                                  direction = "split"))
+
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  geom_text_repel(aes(label = y),
+                  min.segment.length = 0,
+                  position = position_nudge_repel(y = 0.2,
+                                                  direction = "split"))
+
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  geom_text_repel(aes(label = y),
+                  min.segment.length = 0,
+                  position = position_nudge_repel(x = 0.12,
+                                                  y = 0.2,
+                                                  center_y = 2,
+                                                  center_x = 1.5,
+                                                  direction = "split"))
+
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  geom_text_repel(aes(label = y),
+                  min.segment.length = 0,
+                  position = position_nudge_repel(x = 0.12,
+                                                  y = 0.2,
+                                                  center_y = 2))
 
 ggplot(df, aes(x, y)) +
   geom_point() +
@@ -120,11 +152,27 @@ ggplot(df, aes(x, y)) +
                   min.segment.length = 0,
                   position = position_nudge_repel(x = 0.12,
                                                   y = 0.12,
-                                                  center_x = mean,
-                                                  center_y = mean,
+                                                  center_x = median,
+                                                  center_y = median,
                                                   direction = "split"))
 
 # "Radial" nudging
+
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  geom_text_repel(aes(label = y),
+                  min.segment.length = 0,
+                  position = position_nudge_repel(x = 0.12,
+                                                  y = 0.2,
+                                                  direction = "radial"))
+
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  geom_text_repel(aes(label = y),
+                  min.segment.length = 0,
+                  position = position_nudge_repel(x = -0.12,
+                                                  y = -0.2,
+                                                  direction = "radial"))
 
 df <- data.frame(
   x = -10:10,
@@ -138,9 +186,9 @@ ggplot(df, aes(x, z)) +
   geom_text_repel(aes(label = y),
                   min.segment.length = 0,
                   position = position_nudge_repel(x = -1,
-                                                    y = -6,
-                                                    center_x = mean,
-                                                    center_y = max)) +
+                                                  y = -6,
+                                                  center_x = mean,
+                                                  center_y = max)) +
   scale_x_continuous(expand = expansion(mult = 0.15))
 
 ggplot(df, aes(x, z)) +
@@ -152,6 +200,19 @@ ggplot(df, aes(x, z)) +
                                                   y = 6,
                                                   center_x = mean,
                                                   center_y = max)) +
+  scale_y_continuous(expand = expansion(mult = 0.15)) +
+  scale_x_continuous(expand = expansion(mult = 0.15))
+
+max_and_tenth <- function(x) {1.1 * max(x)}
+ggplot(df, aes(x, z)) +
+  geom_point() +
+  geom_line() +
+  geom_text_repel(aes(label = y),
+                  min.segment.length = 0,
+                  position = position_nudge_repel(x = 1,
+                                                  y = 6,
+                                                  center_x = mean,
+                                                  center_y = max_and_tenth)) +
   scale_y_continuous(expand = expansion(mult = 0.15)) +
   scale_x_continuous(expand = expansion(mult = 0.15))
 
