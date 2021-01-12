@@ -219,6 +219,6 @@ ggplot(df, aes(x, z)) +
 }
 \seealso{
 Other position adjustments: 
-\code{\link{position_t_nudge_repel}()}
+\code{\link{position_nudge_repel_t}()}
 }
 \concept{position adjustments}
