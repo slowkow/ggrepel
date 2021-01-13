@@ -2,14 +2,15 @@
 % Please edit documentation in R/position-nudge-repel-t.R
 \name{position_nudge_repel_t}
 \alias{position_nudge_repel_t}
-\title{Transverse nudge labels a fixed distance from points}
+\title{Nudge labels a variable distance from points}
 \usage{
 position_nudge_repel_t(
   x = 0,
   y = 0,
   abline = NULL,
-  method = "spline",
-  direction = "none"
+  method = NULL,
+  direction = NULL,
+  line_nudge = 1
 )
 }
 \arguments{
@@ -21,18 +22,31 @@ vector of length 1, or of the same length as rows there are in `data`.}
 \item{method}{One of "spline" or "linear".}
 
 \item{direction}{One of "none", or "split".}
+
+\item{line_nudge}{A positive multiplier >= 1, increasing nudging
+away from the curve or line compared to nudging from points.}
 }
 \description{
 `position_nudge_repel_t` is generally useful for adjusting the starting
 position of labels or text to be repelled while preserving the original
 position as the start of the segments. The difference compared to
-[position_nudge_repel()] is that the nudging is away from from a smooth
-line along the data points.
+[position_nudge_repel()] is that the nudging is away from from a line or
+curve fitted to the data points or supplied as coefficients. While
+[position_nudge_repel()] is most useful for "round-shaped", vertically- or
+horizontally elongated clouds of points, [position_nudge_repel_t()] is most
+suitable when observations have a linear or curvilinear relationship
+between _x_ and _y_ values.
 }
-\note{
-Nudging direction is away from a smooth spline or linear regression
-  fitted to the data points. This works only if the observations fall roughly
-  on a curve or straight line that is montonic in `y`.
+\details{
+When `direction = "split"` nudging is away from an implicit line or
+  curve on either side. The line of curve can be smooth spline or linear
+  regression fitted on-the-fly to the data points, or a straight line defined
+  by its coefficients passed to `abline`. The fitting is well defined only if
+  the observations fall roughly on a curve or straight line that is monotonic
+  in `y`. By means of `line_nudge` one can increment nudging away from the
+  line or curve compared to away from the points, which is useful for example
+  to keep labels outside of a confidence band. Direction defaults to `"split"`
+  when `line_nudge > 1`, and otherwise to `"none"`.
 }
 \examples{
 
@@ -41,6 +55,7 @@ df <- data.frame(
   x = -10:10,
   y = (-10:10)^2,
   yy = (-10:10)^2 + rnorm(21, 0, 4),
+  yyy = (-10:10) + rnorm(21, 0, 4),
   l = letters[1:21]
 )
 
@@ -137,6 +152,18 @@ ggplot(df, aes(y, yy)) +
                   position = position_nudge_repel_t(x = 3, y = 3,
                                                     direction = "split")) +
   scale_y_continuous(expand = expansion(mult = 0.15))
+
+ggplot(df, aes(x, yyy)) +
+  geom_point() +
+  stat_smooth(method = "lm") +
+  geom_text_repel(aes(label = l),
+                  min.segment.length = 0,
+                  xlim = c(-12, 12),
+                  position = position_nudge_repel_t(x = 0.5, y = 0.5,
+                                                    line_nudge = 12,
+                                                    direction = "split")) +
+  scale_y_continuous(expand = expansion(mult = 0.15)) +
+  scale_x_continuous(expand = expansion(mult = 0.15))
 
 ggplot(df, aes(y, yy)) +
   geom_point() +
