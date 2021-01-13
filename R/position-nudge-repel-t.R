@@ -8,7 +8,8 @@
 #'
 #' @family position adjustments
 #' @param x,y Amount of vertical and horizontal distance to move. A numeric
-#'   vector of length 1, or of the same length as rows there are in `data`,
+#'   vector of length 1, or of the same length as rows there are in `data`.
+#' @param abline a vector of length two giving the intercept and slope.
 #' @param method One of "spline" or "linear".
 #' @param direction One of "none", or "split".
 #' @note Nudging direction is away from a smooth spline or linear regression
@@ -91,6 +92,15 @@
 #'                   position = position_nudge_repel_t(x = -5, y = -0.5)) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
+#' ggplot(df, aes(x, x * 2 + 5)) +
+#'   geom_point() +
+#'   geom_line() +
+#'   geom_text_repel(aes(label = l),
+#'                   min.segment.length = 0,
+#'                   position = position_nudge_repel_t(x = 1, y = 2,
+#'                                                     abline = c(5, 2))) +
+#'   scale_y_continuous(expand = expansion(mult = 0.15))
+#'
 #' # Points scattered near a curve or line, we use 'direction = "split"'
 #' ggplot(df, aes(x)) +
 #'   geom_point(aes(y = yy)) +
@@ -120,6 +130,16 @@
 #'                                                     direction = "split")) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
+#' ggplot(df, aes(y, yy)) +
+#'   geom_point() +
+#'   stat_smooth(method = "lm") +
+#'   geom_text_repel(aes(label = l),
+#'                   min.segment.length = 0,
+#'                   position = position_nudge_repel_t(x = 3, y = 3,
+#'                                                     abline = c(0, 1),
+#'                                                     direction = "split")) +
+#'   scale_y_continuous(expand = expansion(mult = 0.15))
+#'
 #' ggplot(df, aes(y, -yy)) +
 #'   geom_point() +
 #'   stat_smooth(method = "lm") +
@@ -132,11 +152,18 @@
 #'
 position_nudge_repel_t <- function(x = 0,
                                    y = 0,
+                                   abline = NULL,
                                    method = "spline",
                                    direction = "none") {
+  if (!is.null(abline)) {
+    method <- "abline"
+  } else {
+    abline <- rep(NA_real_, 2)
+  }
   ggproto(NULL, PositionTNudgeRepel,
     x = x,
     y = y,
+    abline = abline,
     method = method,
     direction = direction
   )
@@ -149,12 +176,14 @@ position_nudge_repel_t <- function(x = 0,
 PositionTNudgeRepel <- ggproto("PositionTNudgeRepel", Position,
   x = 0,
   y = 0,
+  abline = rep(NA_real_, 2),
   method = "spline",
   direction = "none",
 
   setup_params = function(self, data) {
     list(x = self$x,
          y = self$y,
+         abline = self$abline,
          method = self$method,
          direction = self$direction
          )
@@ -163,7 +192,14 @@ PositionTNudgeRepel <- ggproto("PositionTNudgeRepel", Position,
   compute_layer = function(self, data, params, layout) {
     x_orig <- data$x
     y_orig <- data$y
-    if (nrow(data) < 4 || params$method == "linear") {
+    if (params$method == "abline") {
+      if (is.numeric(params$abline) && length(params$abline) == 2) {
+        curve <- params$abline[1] + params$abline[2] * data$x
+        sm.deriv <- params$abline[2]
+      } else {
+        stop("'abline' should be a numeric vector of length 2")
+      }
+    } else if (nrow(data) < 4 || params$method == "linear") {
       mf <- lm(y ~ x, data = data)
       curve <- predict(mf)
       sm.deriv <- coef(mf)[2]
@@ -178,7 +214,7 @@ PositionTNudgeRepel <- ggproto("PositionTNudgeRepel", Position,
       stop("Method \"", params$method, "\"not recognized")
     }
     # compute x and y nudge for each point
-    # this code sort of gets the job sort of done, but looks too complicated!!
+    # this code sort of gets the job sort of done, but feels too complex!!
     angle <- atan2(sm.deriv, 1) + 0.5 * pi * sign(sm.deriv)
     x_nudge <- params$x * cos(angle) * sign(angle)
     y_nudge <- params$y * sin(angle) * sign(angle)
