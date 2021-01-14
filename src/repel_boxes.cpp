@@ -755,7 +755,8 @@ DataFrame repel_boxes2(
   // }
   // Rcout << std::endl;
 
-  std::vector<Point> velocities(n_texts);
+  // Initialize velocities to zero
+  std::vector<Point> velocities(n_texts, {0, 0});
   double velocity_decay = 0.7;
 
   Point f, ci, cj;
