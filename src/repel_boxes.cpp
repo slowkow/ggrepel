@@ -675,6 +675,39 @@ DataFrame repel_boxes2(
     force_pull = 1e-6;
   }
 
+  // Try to catch errors.
+  if (n_texts > n_points) {
+    Rcerr << "n_texts is " << n_texts << std::endl;
+    Rcerr << "n_points is " << n_points << std::endl;
+    stop("n_texts > n_points");
+  }
+
+  if (point_size.length() != n_points) {
+    Rcerr << "point_size.length() is " << point_size.length() << std::endl;
+    Rcerr << "n_points is " << n_points << std::endl;
+    stop("point_size.length() != n_points");
+  }
+
+  if (hjust.length() < n_texts) {
+    Rcerr << "hjust.length() is " << hjust.length() << std::endl;
+    Rcerr << "n_texts is " << n_texts << std::endl;
+    stop("hjust.length() < n_texts");
+  }
+  if (vjust.length() < n_texts) {
+    Rcerr << "vjust.length() is " << vjust.length() << std::endl;
+    Rcerr << "n_texts is " << n_texts << std::endl;
+    stop("vjust.length() < n_texts");
+  }
+
+  if (xlim.length() != 2) {
+    Rcerr << "xlim.length() is " << xlim.length() << std::endl;
+    stop("xlim.length() != 2");
+  }
+  if (ylim.length() != 2) {
+    Rcerr << "ylim.length() is " << ylim.length() << std::endl;
+    stop("ylim.length() != 2");
+  }
+
   Point xbounds, ybounds;
   xbounds.x = xlim[0];
   xbounds.y = xlim[1];
@@ -682,8 +715,8 @@ DataFrame repel_boxes2(
   ybounds.y = ylim[1];
 
   // Each data point gets a bounding circle.
-  std::vector<Point> Points(n_points);
-  std::vector<Circle> DataCircles(n_points);
+  std::vector<Point> Points(n_points, {0, 0});
+  std::vector<Circle> DataCircles(n_points, {0, 0, 0});
   for (int i = 0; i < n_points; i++) {
     DataCircles[i].x = data_points(i, 0);
     DataCircles[i].y = data_points(i, 1);
@@ -694,9 +727,9 @@ DataFrame repel_boxes2(
 
   // Add a tiny bit of jitter to each text box at the start.
   NumericVector r = rnorm(n_texts, 0, force_push);
-  std::vector<Box> TextBoxes(n_texts);
-  std::vector<Point> original_centroids(n_texts);
-  std::vector<double> TextBoxWidths(n_texts);
+  std::vector<Box> TextBoxes(n_texts, {0, 0, 0, 0});
+  std::vector<Point> original_centroids(n_texts, {0, 0});
+  std::vector<double> TextBoxWidths(n_texts, 0);
   for (int i = 0; i < n_texts; i++) {
     TextBoxes[i].x1 = boxes(i, 0);
     TextBoxes[i].x2 = boxes(i, 2);
@@ -722,7 +755,8 @@ DataFrame repel_boxes2(
   // }
   // Rcout << std::endl;
 
-  std::vector<Point> velocities(n_texts);
+  // Initialize velocities to zero
+  std::vector<Point> velocities(n_texts, {0, 0});
   double velocity_decay = 0.7;
 
   Point f, ci, cj;
@@ -804,7 +838,7 @@ DataFrame repel_boxes2(
               direction
             );
           }
-        } else if (too_many_overlaps[j]) {
+        } else if (j < n_texts && too_many_overlaps[j]) {
           // Skip the data points if the size and padding is 0.
           if (point_size[j] == 0 && point_padding_x == 0 && point_padding_y == 0) {
             continue;
@@ -822,13 +856,15 @@ DataFrame repel_boxes2(
             );
           }
         } else {
-          cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
-          // Repel the box from overlapping boxes.
-          if (j < n_texts && overlaps(TextBoxes[i], TextBoxes[j])) {
-            n_overlaps += 1;
-            i_overlaps = true;
-            total_overlaps[i] += 1;
-            f = f + repel_force(ci, cj, force_push, direction);
+          if (j < n_texts) {
+            cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
+            // Repel the box from overlapping boxes.
+            if (overlaps(TextBoxes[i], TextBoxes[j])) {
+              n_overlaps += 1;
+              i_overlaps = true;
+              total_overlaps[i] += 1;
+              f = f + repel_force(ci, cj, force_push, direction);
+            }
           }
 
           // Skip the data points if the size and padding is 0.
@@ -872,13 +908,12 @@ DataFrame repel_boxes2(
 
       // look for line clashes
       if (n_overlaps == 0 || iter % 5 == 0) {
-        for (int j = 0; j < n_points; j++) {
+        for (int j = 0; j < n_texts; j++) {
           cj = centroid(TextBoxes[j], hjust[j], vjust[j]);
           ci = centroid(TextBoxes[i], hjust[i], vjust[i]);
           // Switch label positions if lines overlap
           if (
-            i != j && j < n_texts &&
-            line_intersect(ci, Points[i], cj, Points[j])
+              i != j && line_intersect(ci, Points[i], cj, Points[j])
           ) {
             n_overlaps += 1;
             TextBoxes[i] = TextBoxes[i] + spring_force(cj, ci, 1, direction);
