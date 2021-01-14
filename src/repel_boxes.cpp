@@ -715,8 +715,8 @@ DataFrame repel_boxes2(
   ybounds.y = ylim[1];
 
   // Each data point gets a bounding circle.
-  std::vector<Point> Points(n_points);
-  std::vector<Circle> DataCircles(n_points);
+  std::vector<Point> Points(n_points, {0, 0});
+  std::vector<Circle> DataCircles(n_points, {0, 0, 0});
   for (int i = 0; i < n_points; i++) {
     DataCircles[i].x = data_points(i, 0);
     DataCircles[i].y = data_points(i, 1);
@@ -727,9 +727,9 @@ DataFrame repel_boxes2(
 
   // Add a tiny bit of jitter to each text box at the start.
   NumericVector r = rnorm(n_texts, 0, force_push);
-  std::vector<Box> TextBoxes(n_texts);
-  std::vector<Point> original_centroids(n_texts);
-  std::vector<double> TextBoxWidths(n_texts);
+  std::vector<Box> TextBoxes(n_texts, {0, 0, 0, 0});
+  std::vector<Point> original_centroids(n_texts, {0, 0});
+  std::vector<double> TextBoxWidths(n_texts, 0);
   for (int i = 0; i < n_texts; i++) {
     TextBoxes[i].x1 = boxes(i, 0);
     TextBoxes[i].x2 = boxes(i, 2);
