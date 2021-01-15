@@ -49,7 +49,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggrepel</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
       </span>
     </div>
 
@@ -70,7 +70,7 @@
   <ul class="dropdown-menu" role="menu">
 <li class="dropdown-header">Release notes</li>
     <li>
-      <a href="https://slowkow.com/ggrepel-0-9-0/">Version 0.9.0</a>
+      <a href="https://twitter.com/slowkow/status/1339364391377092609">Version 0.9.0</a>
     </li>
     <li class="divider">
     <li>
@@ -106,7 +106,7 @@
       <h1 data-toc-skip>Examples</h1>
                         <h4 class="author">Kamil Slowikowski</h4>
             
-            <h4 class="date">2020-12-16</h4>
+            <h4 class="date">2021-01-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/slowkow/ggrepel/blob/master/vignettes/examples.Rmd"><code>vignettes/examples.Rmd</code></a></small>
       <div class="hidden name"><code>examples.Rmd</code></div>
@@ -892,11 +892,48 @@
   <span class="fu">geom_point</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="st">"red"</span>)</pre></body></html></div>
 <p><img src="examples_files/figure-html/neat-offset-y-1.png" width="700"></p>
 </div>
+<div id="using-ggrepel-with-stat_summary" class="section level3">
+<h3 class="hasAnchor">
+<a href="#using-ggrepel-with-stat_summary" class="anchor"></a>Using ggrepel with stat_summary()</h3>
+<p>We can use <code>stat_summary()</code> with <code>geom = "text_repel"</code>.</p>
+<div class="alert alert-info" role="alert">
+<p><strong>Note:</strong> When we use <code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">ggplot2::stat_summary()</a></code> with ggrepel, we should prefer <code><a href="../reference/position_nudge_repel.html">position_nudge_repel()</a></code> instead of <code><a href="https://ggplot2.tidyverse.org/reference/position_nudge.html">ggplot2::position_nudge()</a></code>.</p>
+</div>
+<p>The <code><a href="../reference/position_nudge_repel.html">position_nudge_repel()</a></code> function nudges the text label’s position, but it also remembers the original position of the data point.</p>
+<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>(<span class="no">mtcars</span>, <span class="fu">aes</span>(<span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">cyl</span>), <span class="no">mpg</span>)) +
+  <span class="fu">stat_summary</span>(
+    <span class="kw">fill</span> <span class="kw">=</span> <span class="st">"gray90"</span>,
+    <span class="kw">colour</span> <span class="kw">=</span> <span class="st">"black"</span>,
+    <span class="kw">fun</span> <span class="kw">=</span> <span class="st">"mean"</span>,
+    <span class="kw">geom</span> <span class="kw">=</span> <span class="st">"col"</span>
+  )
+
+<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="no">p</span> + <span class="fu">stat_summary</span>(
+    <span class="fu">aes</span>(<span class="kw">label</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="fu">stat</span>(<span class="no">y</span>))),
+    <span class="kw">fun</span> <span class="kw">=</span> <span class="st">"mean"</span>,
+    <span class="kw">geom</span> <span class="kw">=</span> <span class="st">"text_repel"</span>,
+    <span class="kw">min.segment.length</span> <span class="kw">=</span> <span class="fl">0</span>, <span class="co"># always draw segments</span>
+    <span class="kw">position</span> <span class="kw">=</span> <span class="fu">position_nudge</span>(<span class="kw">y</span> <span class="kw">=</span> -<span class="fl">2</span>)
+  ) +
+  <span class="fu">labs</span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"position_nudge()"</span>)
+
+<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="no">p</span> + <span class="fu">stat_summary</span>(
+    <span class="fu">aes</span>(<span class="kw">label</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="fu">stat</span>(<span class="no">y</span>))),
+    <span class="kw">fun</span> <span class="kw">=</span> <span class="st">"mean"</span>,
+    <span class="kw">geom</span> <span class="kw">=</span> <span class="st">"text_repel"</span>,
+    <span class="kw">min.segment.length</span> <span class="kw">=</span> <span class="fl">0</span>, <span class="co"># always draw segments</span>
+    <span class="kw">position</span> <span class="kw">=</span> <span class="fu"><a href="../reference/position_nudge_repel.html">position_nudge_repel</a></span>(<span class="kw">y</span> <span class="kw">=</span> -<span class="fl">2</span>)
+  ) +
+  <span class="fu">labs</span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"position_nudge_repel()"</span>)
+
+<span class="kw pkg">gridExtra</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span>(<span class="no">p1</span>, <span class="no">p2</span>, <span class="kw">ncol</span> <span class="kw">=</span> <span class="fl">2</span>)</pre></body></html></div>
+<p><img src="examples_files/figure-html/stat_summary-1.png" width="700"></p>
+</div>
 <div id="justify-multiple-lines-of-text-with-hjust" class="section level3">
 <h3 class="hasAnchor">
 <a href="#justify-multiple-lines-of-text-with-hjust" class="anchor"></a>Justify multiple lines of text with hjust</h3>
 <p>The <code>hjust</code> option should behave mostly the same way it does with <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">ggplot2::geom_text()</a></code>.</p>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>() +
+<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>() +
   <span class="fu">coord_cartesian</span>(<span class="kw">xlim</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>), <span class="kw">ylim</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>)) +
   <span class="fu">theme_void</span>()
 
@@ -918,7 +955,7 @@
   <span class="kw">arrow</span>         <span class="kw">=</span> <span class="fu">arrow</span>(<span class="kw">length</span> <span class="kw">=</span> <span class="fu">unit</span>(<span class="fl">2</span>, <span class="st">"mm"</span>), <span class="kw">ends</span> <span class="kw">=</span> <span class="st">"last"</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"closed"</span>)
 )</pre></body></html></div>
 <p><img src="examples_files/figure-html/geom_text_repel-hjust-1.png" width="700"></p>
-<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="no">p</span> + <span class="fu"><a href="../reference/geom_text_repel.html">geom_label_repel</a></span>(
+<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="no">p</span> + <span class="fu"><a href="../reference/geom_text_repel.html">geom_label_repel</a></span>(
   <span class="kw">data</span>          <span class="kw">=</span> <span class="no">labelInfo</span>,
   <span class="kw">mapping</span>       <span class="kw">=</span> <span class="fu">aes</span>(<span class="no">x</span>, <span class="no">y</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="no">g</span>),
   <span class="kw">size</span>          <span class="kw">=</span> <span class="fl">5</span>,
@@ -935,10 +972,10 @@
 <p><strong>Warning:</strong> This example will not work with ggplot2 version 2.2.1 or older.</p>
 </div>
 <p>To get the latest development version of ggplot2, try:</p>
-<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="co"># install.packages("devtools")</span>
+<div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="co"># install.packages("devtools")</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"tidyverse/ggplot2"</span>)</pre></body></html></div>
 <p>If your ggplot2 is newer than 2.2.1, try this example:</p>
-<div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="no">mtcars</span>$<span class="no">label</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>)
+<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="no">mtcars</span>$<span class="no">label</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>)
 <span class="no">mtcars</span>$<span class="no">label</span>[<span class="no">mtcars</span>$<span class="no">cyl</span> <span class="kw">!=</span> <span class="fl">6</span>] <span class="kw">&lt;-</span> <span class="st">""</span>
 
 <span class="co"># New! (not available in ggplot2 version 2.2.1 or earlier)</span>
@@ -951,7 +988,7 @@
   <span class="fu">labs</span>(<span class="kw">title</span> <span class="kw">=</span> <span class="st">"position_jitter()"</span>)</pre></body></html></div>
 <p><img src="examples_files/figure-html/jitter-1.png" width="700"></p>
 <p>You can also use other position functions, like <code><a href="https://rdrr.io/pkg/ggbeeswarm/man/position_quasirandom.html">position_quasirandom()</a></code> from the <a href="https://github.com/eclarke/ggbeeswarm">ggbeeswarm</a> package by <a href="https://github.com/eclarke">Erik Clarke</a>:</p>
-<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="no">mtcars</span>$<span class="no">label</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>)
+<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="no">mtcars</span>$<span class="no">label</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>)
 <span class="no">mtcars</span>$<span class="no">label</span>[<span class="no">mtcars</span>$<span class="no">cyl</span> <span class="kw">!=</span> <span class="fl">6</span>] <span class="kw">&lt;-</span> <span class="st">""</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggbeeswarm</span>)
@@ -968,7 +1005,7 @@
 <h3 class="hasAnchor">
 <a href="#shadows-or-glow-under-text-labels" class="anchor"></a>Shadows (or glow) under text labels</h3>
 <p>We can place shadows (or glow) underneath each text label to enhance the readability of the text. This might be useful when text labels are placed on top of other plot elements. This feature uses the same code as the <a href="https://github.com/GuangchuangYu/shadowtext">shadowtext</a> package by <a href="https://github.com/GuangchuangYu">Guangchuang Yu</a>.</p>
-<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 <span class="fu">ggplot</span>(<span class="no">dat</span>, <span class="fu">aes</span>(<span class="no">wt</span>, <span class="no">mpg</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="no">car</span>)) +
   <span class="fu">geom_point</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="st">"red"</span>) +
   <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span>(
@@ -987,7 +1024,7 @@
 <li>how much time has elapsed, in seconds</li>
 <li>how many overlaps remain unresolved in the final figure</li>
 </ul>
-<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>(<span class="no">mtcars</span>,
+<div class="sourceCode" id="cb35"><html><body><pre class="r"><span class="no">p</span> <span class="kw">&lt;-</span> <span class="fu">ggplot</span>(<span class="no">mtcars</span>,
   <span class="fu">aes</span>(<span class="no">wt</span>, <span class="no">mpg</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>), <span class="kw">colour</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(<span class="no">cyl</span>))) +
   <span class="fu">geom_point</span>()
 
@@ -999,7 +1036,7 @@
   <span class="kw">size</span> <span class="kw">=</span> <span class="fl">3</span>
 )</pre></body></html></div>
 <p><img src="examples_files/figure-html/timing-1.png" width="700"></p>
-<pre><code>## 1.00s elapsed for 104710 iterations, 2 overlaps. Consider increasing 'max.time'.</code></pre>
+<pre><code>## 1.00s elapsed for 101010 iterations, 2 overlaps. Consider increasing 'max.time'.</code></pre>
 </div>
 <div id="word-cloud" class="section level3">
 <h3 class="hasAnchor">
@@ -1010,7 +1047,7 @@
 <p>The <code>force</code> option controls the strength of repulsion.</p>
 <p>The <code>force_pull</code> option controls the strength of the spring that pulls the text label toward its data point.</p>
 <p>To make a word cloud, we can assign all of the text labels the same data point at the origin (0, 0) and set <code>force_pull = 0</code> to disable the springs.</p>
-<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 <span class="fu">ggplot</span>(<span class="no">mtcars</span>) +
   <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span>(
     <span class="fu">aes</span>(
@@ -1041,7 +1078,7 @@
 <div id="polar-coordinates" class="section level3">
 <h3 class="hasAnchor">
 <a href="#polar-coordinates" class="anchor"></a>Polar coordinates</h3>
-<div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
+<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 
 <span class="no">mtcars</span>$<span class="no">label</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>)
 <span class="no">mtcars</span>$<span class="no">label</span>[<span class="no">mtcars</span>$<span class="no">mpg</span> <span class="kw">&lt;</span> <span class="fl">25</span>] <span class="kw">&lt;-</span> <span class="st">""</span>
@@ -1057,7 +1094,7 @@
 <div id="unicode-characters-japanese" class="section level3">
 <h3 class="hasAnchor">
 <a href="#unicode-characters-japanese" class="anchor"></a>Unicode characters (Japanese)</h3>
-<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)
+<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 <span class="no">dat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
@@ -1082,7 +1119,7 @@
 <div id="mathematical-expressions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#mathematical-expressions" class="anchor"></a>Mathematical expressions</h3>
-<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
+<div class="sourceCode" id="cb40"><html><body><pre class="r"><span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
   <span class="kw">x</span>    <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1.75</span>, <span class="fl">1.25</span>),
   <span class="kw">y</span>    <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">2.65</span>, <span class="fl">1.25</span>),
   <span class="kw">math</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
@@ -1106,7 +1143,7 @@
 <div id="animation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#animation" class="anchor"></a>Animation</h3>
-<div class="sourceCode" id="cb40"><html><body><pre class="r"><span class="co"># This chunk of code will take a minute or two to run.</span>
+<div class="sourceCode" id="cb41"><html><body><pre class="r"><span class="co"># This chunk of code will take a minute or two to run.</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">animation</span>)
 
@@ -1142,12 +1179,12 @@
 <div id="source-code" class="section level2">
 <h2 class="hasAnchor">
 <a href="#source-code" class="anchor"></a>Source code</h2>
-<p>View the <a href="https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.Rmd">source code for this vignette</a> on GitHub.</p>
+<p>View the <a href="https://github.com/slowkow/ggrepel/blob/master/vignettes/examples.Rmd">source code for this vignette</a> on GitHub.</p>
 </div>
 <div id="r-session-info" class="section level2">
 <h2 class="hasAnchor">
 <a href="#r-session-info" class="anchor"></a>R Session Info</h2>
-<div class="sourceCode" id="cb41"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb42"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()</pre></body></html></div>
 <pre><code>## R version 4.0.3 (2020-10-10)
 ## Platform: x86_64-apple-darwin17.0 (64-bit)
 ## Running under: macOS Catalina 10.15.7
@@ -1163,7 +1200,7 @@
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggbeeswarm_0.6.0   ggrepel_0.9.0      ggplot2_3.3.2.9000 gridExtra_2.3     
+## [1] ggbeeswarm_0.6.0   ggrepel_0.9.1      ggplot2_3.3.2.9000 gridExtra_2.3     
 ## [5] knitr_1.30        
 ## 
 ## loaded via a namespace (and not attached):
@@ -1171,17 +1208,17 @@
 ##  [4] pillar_1.4.7        tools_4.0.3         digest_0.6.27      
 ##  [7] evaluate_0.14       memoise_1.1.0.9000  lifecycle_0.2.0    
 ## [10] tibble_3.0.4        gtable_0.3.0        pkgconfig_2.0.3    
-## [13] rlang_0.4.9         yaml_2.2.1          beeswarm_0.2.3     
-## [16] pkgdown_1.5.1       xfun_0.19           withr_2.3.0        
-## [19] stringr_1.4.0       dplyr_1.0.2         desc_1.2.0         
-## [22] generics_0.1.0      fs_1.5.0            vctrs_0.3.5        
-## [25] rprojroot_2.0.2     grid_4.0.3          tidyselect_1.1.0   
-## [28] glue_1.4.2          R6_2.5.0            rmarkdown_2.3.2    
-## [31] farver_2.0.3        purrr_0.3.4         magrittr_2.0.1.9000
-## [34] scales_1.1.1        htmltools_0.5.0     ellipsis_0.3.1     
-## [37] MASS_7.3-53         assertthat_0.2.1    colorspace_2.0-0   
-## [40] labeling_0.4.2      stringi_1.5.3       munsell_0.5.0      
-## [43] crayon_1.3.4</code></pre>
+## [13] rlang_0.4.9         rstudioapi_0.13     yaml_2.2.1         
+## [16] beeswarm_0.2.3      pkgdown_1.5.1       xfun_0.19          
+## [19] withr_2.3.0         stringr_1.4.0       dplyr_1.0.2        
+## [22] desc_1.2.0          generics_0.1.0      fs_1.5.0           
+## [25] vctrs_0.3.5         rprojroot_2.0.2     grid_4.0.3         
+## [28] tidyselect_1.1.0    glue_1.4.2          R6_2.5.0           
+## [31] rmarkdown_2.3.2     farver_2.0.3        purrr_0.3.4        
+## [34] magrittr_2.0.1.9000 scales_1.1.1        htmltools_0.5.0    
+## [37] ellipsis_0.3.1      MASS_7.3-53         assertthat_0.2.1   
+## [40] colorspace_2.0-0    labeling_0.4.2      stringi_1.5.3      
+## [43] munsell_0.5.0       crayon_1.3.4</code></pre>
 </div>
   </div>
 
