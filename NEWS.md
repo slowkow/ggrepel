@@ -10,6 +10,12 @@ ggrepel 0.9.1 2021-01-09
 
 [issue 182]: https://github.com/slowkow/ggrepel/issues/182
 
+* Fix a bug that caused R to crash (only on Windows, not on Linux or macOS) for
+  some specific code examples. Thanks to Pedro Aphalo (@aphalo) for reporting
+  this in [issue 179] and for testing the patched code.
+
+[issue 179]: https://github.com/slowkow/ggrepel/issues/179
+
 
 ggrepel 0.9.0 2020-12-14
 ========================
