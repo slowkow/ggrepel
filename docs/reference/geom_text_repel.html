@@ -99,7 +99,7 @@ the data points." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggrepel</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
       </span>
     </div>
 
@@ -120,7 +120,7 @@ the data points." />
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Release notes</li>
     <li>
-      <a href="https://slowkow.com/ggrepel-0-9-0/">Version 0.9.0</a>
+      <a href="https://twitter.com/slowkow/status/1339364391377092609">Version 0.9.0</a>
     </li>
     <li class="divider"></li>
     <li>
@@ -333,7 +333,8 @@ Defaults to 10.</p></td>
     <tr>
       <th>nudge_x, nudge_y</th>
       <td><p>Horizontal and vertical adjustments to nudge the
-starting position of each text label.</p></td>
+starting position of each text label. The units for <code>nudge_x</code> and
+<code>nudge_y</code> are the same as for the data units on the x-axis and y-axis.</p></td>
     </tr>
     <tr>
       <th>xlim, ylim</th>
@@ -427,7 +428,7 @@ by using <code>direction="y"</code>. For <code>vjust</code>, use <code>direction
 <span class='no'>p</span> + <span class='fu'>geom_text_repel</span>(<span class='kw'>segment.colour</span> <span class='kw'>=</span> <span class='fl'>NA</span>)
 
 <span class='co'># Repel just the labels and totally ignore the data points</span>
-<span class='no'>p</span> + <span class='fu'>geom_text_repel</span>(<span class='kw'>point.padding</span> <span class='kw'>=</span> <span class='fl'>NA</span>)
+<span class='no'>p</span> + <span class='fu'>geom_text_repel</span>(<span class='kw'>point.size</span> <span class='kw'>=</span> <span class='fl'>NA</span>)
 
 <span class='co'># Hide some of the labels, but repel from all data points</span>
 <span class='no'>mtcars</span>$<span class='no'>label</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>mtcars</span>)

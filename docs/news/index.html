@@ -95,7 +95,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggrepel</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
       </span>
     </div>
 
@@ -116,7 +116,7 @@
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Release notes</li>
     <li>
-      <a href="https://slowkow.com/ggrepel-0-9-0/">Version 0.9.0</a>
+      <a href="https://twitter.com/slowkow/status/1339364391377092609">Version 0.9.0</a>
     </li>
     <li class="divider"></li>
     <li>
@@ -153,6 +153,21 @@
       <small>Source: <a href='https://github.com/slowkow/ggrepel/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="ggrepel-091-2021-01-09" class="section level1">
+<h1 class="page-header" data-toc-text="0.9.1">
+<a href="#ggrepel-091-2021-01-09" class="anchor"></a>ggrepel 0.9.1 2021-01-09<small> Unreleased </small>
+</h1>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li>Fix label positions (only for <code><a href="../reference/geom_text_repel.html">geom_label_repel()</a></code>). The same plot would look OK with ggrepel 0.8.2, but incorrect with ggrepel 0.9.0. Thanks to Ben Baumer (<a href='https://github.com/beanumber'>@beanumber</a>) for reporting this in <a href="https://github.com/slowkow/ggrepel/issues/182">issue 182</a>.</li>
+</ul>
+<ul>
+<li>Fix a bug that caused R to crash (only on Windows, not on Linux or macOS) for some specific code examples. Thanks to Pedro Aphalo (<a href='https://github.com/aphalo'>@aphalo</a>) for reporting this in <a href="https://github.com/slowkow/ggrepel/issues/179">issue 179</a> and for testing the patched code.</li>
+</ul>
+</div>
+</div>
     <div id="ggrepel-090-2020-12-14" class="section level1">
 <h1 class="page-header" data-toc-text="0.9.0">
 <a href="#ggrepel-090-2020-12-14" class="anchor"></a>ggrepel 0.9.0 2020-12-14<small> 2020-12-16 </small>
@@ -284,9 +299,9 @@
 <h1 class="page-header" data-toc-text="0.7.0">
 <a href="#ggrepel-070-2017-09-28" class="anchor"></a>ggrepel 0.7.0 2017-09-28<small> 2017-09-29 </small>
 </h1>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <p>Fix intersection between lines and rectangles, to reproduce the same aesthetically pleasant behavior as in version 0.6.5.</p>
@@ -327,9 +342,9 @@
 <h1 class="page-header" data-toc-text="0.6.10">
 <a href="#ggrepel-0610-2017-03-07" class="anchor"></a>ggrepel 0.6.10 2017-03-07<small> Unreleased </small>
 </h1>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <p>Thanks to <a href='https://github.com/zkamvar'>@zkamvar</a></p>
 <ul>
 <li>Fix the crash for plots that do not specify <code>xlim</code> or <code>ylim</code>. See <a href="https://github.com/slowkow/ggrepel/pull/74">pull 74</a>.</li>
@@ -340,9 +355,9 @@
 <h1 class="page-header" data-toc-text="0.6.9">
 <a href="#ggrepel-069-2017-03-07" class="anchor"></a>ggrepel 0.6.9 2017-03-07<small> Unreleased </small>
 </h1>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fix the crash for plots with <code>facet_wrap</code> or <code>facet_grid</code> that have no labeled points. Thanks to <a href='https://github.com/pcroteau'>@pcroteau</a> for <a href="https://github.com/slowkow/ggrepel/pull/70">pull 70</a>.</li>
 </ul>
@@ -376,9 +391,9 @@
 <h1 class="page-header" data-toc-text="0.6.6">
 <a href="#ggrepel-066-2016-11-28" class="anchor"></a>ggrepel 0.6.6 2016-11-28<small> Unreleased </small>
 </h1>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Mathematical expressions as labels with <code>parse = TRUE</code> in <code><a href="../reference/geom_text_repel.html">geom_text_repel()</a></code> and <code><a href="../reference/geom_text_repel.html">geom_label_repel()</a></code>. Thanks to <a href='https://github.com/fawda123'>@fawda123</a> for <a href="https://github.com/slowkow/ggrepel/issues/60">issue 60</a>.</li>
 </ul>
@@ -404,9 +419,9 @@
 <h1 class="page-header" data-toc-text="0.6.4">
 <a href="#ggrepel-064-2016-11-08" class="anchor"></a>ggrepel 0.6.4 2016-11-08<small> Unreleased </small>
 </h1>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fix a bug that caused ggrepel to fail on polar coordinates <code>coord_polar()</code>. See <a href="https://github.com/slowkow/ggrepel/issues/56">issue 56</a>.</li>
 </ul>
@@ -428,9 +443,9 @@
 <h1 class="page-header" data-toc-text="0.6.2">
 <a href="#ggrepel-062-2016-10-06" class="anchor"></a>ggrepel 0.6.2 2016-10-06<small> Unreleased </small>
 </h1>
-<div id="bug-fixes-5" class="section level2">
+<div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li><p>Stop the labels from escaping the plot boundaries instead of applying a force at the boundary.</p></li>
 <li><p>Call <code>set.seed</code> within <code><a href="../reference/geom_text_repel.html">geom_text_repel()</a></code> and <code><a href="../reference/geom_text_repel.html">geom_label_repel()</a></code> to allow recreating identical plots. Thanks to <a href='https://github.com/erikor'>@erikor</a> for <a href="https://github.com/slowkow/ggrepel/issues/33">issue 33</a>.</p></li>
@@ -582,9 +597,9 @@
 <h1 class="page-header" data-toc-text="0.4">
 <a href="#ggrepel-04-2016-01-12" class="anchor"></a>ggrepel 0.4 2016-01-12<small> 2016-01-12 </small>
 </h1>
-<div id="bug-fixes-6" class="section level2">
+<div id="bug-fixes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-7" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fix <a href="https://github.com/slowkow/ggrepel/issues/7">issue 7</a>. Labels can now be placed anywhere in the plotting area instead of being limited to the x and y ranges of their corresponding data points.</li>
 </ul>

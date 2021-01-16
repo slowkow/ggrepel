@@ -7,10 +7,13 @@
     <loc>https://ggrepel.slowkow.com/reference/geom_text_repel.html</loc>
   </url>
   <url>
-    <loc>https://ggrepel.slowkow.com/reference/ggplot2-ggproto.html</loc>
+    <loc>https://ggrepel.slowkow.com/reference/ggrepel-ggproto.html</loc>
   </url>
   <url>
     <loc>https://ggrepel.slowkow.com/reference/ggrepel.html</loc>
+  </url>
+  <url>
+    <loc>https://ggrepel.slowkow.com/reference/position_nudge_repel.html</loc>
   </url>
   <url>
     <loc>https://ggrepel.slowkow.com/articles/examples.html</loc>

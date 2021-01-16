@@ -75,11 +75,13 @@ ggplot(df, aes(x, y)) +
 
 ggplot(df, aes(x, y)) +
   geom_point() +
-  geom_text_repel(aes(label = y),
-                  min.segment.length = 0,
-                  position = position_nudge_repel(x = 0.1, y = 0.15))
+  geom_text_repel(
+    aes(label = y),
+    min.segment.length = 0,
+    position = position_nudge_repel(x = 0.1, y = 0.15)
+  )
 
-# Or, alternatively
+# The values for x and y can be vectors
 ggplot(df, aes(x, y)) +
   geom_point() +
   geom_text_repel(aes(label = y),
