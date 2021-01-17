@@ -274,7 +274,6 @@ PositionTNudgeRepel <- ggproto("PositionTNudgeRepel", Position,
     }
     if (params$line_nudge > 1) {
       # nudging further away from line or curve than from points
-      print(params$line_nudge)
       adj_y_nudge <- y_nudge * params$line_nudge - (data$y - curve)
       adj_x_nudge <- x_nudge * adj_y_nudge / y_nudge
       y_nudge <- ifelse(sign(y_nudge) == sign(adj_y_nudge) &
