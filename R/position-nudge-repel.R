@@ -209,36 +209,36 @@ position_nudge_repel <-
            center_x = NULL,
            center_y = NULL,
            direction = NULL) {
+
     if (is.null(direction)) {
       # Set default for 'direction' based on other arguments
-      if (is.null(center_x) & is.null(center_y)) {
+      if (is.null(center_x) && is.null(center_y)) {
         direction <- "none"
       } else if (xor(is.null(center_x), is.null(center_y))) {
         direction <- "split"
-        if (is.null(center_x)) {
-          center_x <- mean
-        }
-        if (is.null(center_y)) {
-          center_y <- mean
-        }
       } else {
         direction <- "radial"
       }
-    } else if (direction %in% c("radial", "split") &&
-               is.null(center_x) && is.null(center_y)) {
-      # Set center if direction requires it and is missing
-      center_x <- mean
-      center_y <- mean
     }
 
-  ggproto(NULL, PositionNudgeRepel,
-    x = x,
-    y = y,
-    center_x = center_x,
-    center_y = center_y,
-    direction = direction
-  )
-}
+    if (direction != "none") {
+      # Set center if is missing and direction requires it
+      if (is.null(center_x)) {
+        center_x <- mean
+      }
+      if (is.null(center_y)) {
+        center_y <- mean
+      }
+    }
+
+    ggproto(NULL, PositionNudgeRepel,
+            x = x,
+            y = y,
+            center_x = center_x,
+            center_y = center_y,
+            direction = direction
+    )
+  }
 
 #' @rdname ggrepel-ggproto
 #' @format NULL
