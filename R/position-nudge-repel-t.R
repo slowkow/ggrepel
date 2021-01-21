@@ -68,135 +68,135 @@
 #' # Point on a line or curve
 #'
 #' ggplot(df, aes(x, y)) +
+#'   geom_line(linetype = "dotted") +
 #'   geom_point() +
-#'   geom_line() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
-#'                   position = position_nudge_repel_t(x = 1, y = 12)) +
+#'                   position = position_nudge_repel_t(x = 0.3, y = 4)) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
 #' ggplot(df, aes(x, y)) +
+#'   geom_line(linetype = "dotted") +
 #'   geom_point() +
-#'   geom_line() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
 #'                   position = position_nudge_repel_t(x = -0.5, y = -6)) +
 #'   scale_y_continuous(expand = expansion(mult = 0.35))
 #'
 #' ggplot(df, aes(x, y)) +
+#'   geom_line(linetype = "dotted") +
 #'   geom_point() +
-#'   geom_line() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
-#'                   position = position_nudge_repel_t(x = 0.5, y = 7)) +
+#'                   position = position_nudge_repel_t(x = 0.5, y = 6)) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
 #' ggplot(df, aes(x, -y)) +
+#'   geom_line(linetype = "dotted") +
 #'   geom_point() +
-#'   geom_line() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
 #'                   position = position_nudge_repel_t(x = -0.5, y = -7)) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
 #' ggplot(df, aes(x, -y)) +
+#'   geom_line(linetype = "dotted") +
 #'   geom_point() +
-#'   geom_line() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
 #'                   position = position_nudge_repel_t(x = 0.5, y = 7)) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
 #' ggplot(df, aes(x, y - 40)) +
+#'   geom_line(linetype = "dotted") +
 #'   geom_point() +
-#'   geom_line() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
 #'                   position = position_nudge_repel_t(x = 0.5, y = 7)) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
 #' ggplot(df, aes(y, sqrt(y))) +
+#'   geom_line(linetype = "dotted") +
 #'   geom_point() +
-#'   geom_line() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
 #'                   position = position_nudge_repel_t(x = 7, y = 1)) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
 #' ggplot(df, aes(y, sqrt(y))) +
+#'   geom_line(linetype = "dotted") +
 #'   geom_point() +
-#'   geom_line() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
 #'                   position = position_nudge_repel_t(x = -5, y = -0.5)) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
 #' ggplot(df, aes(x, x * 2 + 5)) +
+#'   geom_line(linetype = "dotted") +
 #'   geom_point() +
-#'   geom_line() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
-#'                   position = position_nudge_repel_t(x = 1, y = 2,
+#'                   position = position_nudge_repel_t(x = 0.3, y = 3,
 #'                                                     abline = c(5, 2))) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
 #' # Points scattered near a curve or line, we use 'direction = "split"'
 #' ggplot(df, aes(x)) +
+#'   geom_line(aes(y = y), linetype = "dotted") +
 #'   geom_point(aes(y = yy)) +
-#'   geom_line(aes(y = y)) +
 #'   geom_text_repel(aes(y = yy, label = l),
 #'                   min.segment.length = 0,
-#'                   position = position_nudge_repel_t(x = 1, y = 12,
+#'                   position = position_nudge_repel_t(x = 0.5, y = 6,
 #'                                                     direction = "split")) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
 #' ggplot(df, aes(y, yy)) +
-#'   geom_point() +
 #'   stat_smooth(method = "lm") +
+#'   geom_point() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
-#'                   position = position_nudge_repel_t(x = 3, y = 3,
+#'                   position = position_nudge_repel_t(x = 2, y = 8,
 #'                                                     direction = "split")) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
 #' ggplot(df, aes(x, yyy)) +
-#'   geom_point() +
 #'   stat_smooth(method = "lm") +
+#'   geom_point() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
 #'                   xlim = c(-12, 12),
 #'                   position = position_nudge_repel_t(x = 0.5, y = 0.5,
-#'                                                     line_nudge = 12,
+#'                                                     line_nudge = 10,
 #'                                                     direction = "split")) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15)) +
 #'   scale_x_continuous(expand = expansion(mult = 0.15))
 #'
 #' ggplot(df, aes(y, yy)) +
-#'   geom_point() +
 #'   stat_smooth(method = "lm") +
+#'   geom_point() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
-#'                   position = position_nudge_repel_t(x = 3, y = 3,
+#'                   position = position_nudge_repel_t(x = 1, y = 4,
 #'                                                     method = "linear",
 #'                                                     direction = "split")) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
 #' ggplot(df, aes(y, yy)) +
-#'   geom_point() +
 #'   stat_smooth(method = "lm") +
+#'   geom_point() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
-#'                   position = position_nudge_repel_t(x = 3, y = 3,
+#'                   position = position_nudge_repel_t(x = 1, y = 4,
 #'                                                     abline = c(0, 1),
 #'                                                     direction = "split")) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
 #' ggplot(df, aes(y, -yy)) +
-#'   geom_point() +
 #'   stat_smooth(method = "lm") +
+#'   geom_point() +
 #'   geom_text_repel(aes(label = l),
 #'                   min.segment.length = 0,
-#'                   position = position_nudge_repel_t(x = 3, y = 3,
+#'                   position = position_nudge_repel_t(x = 1, y = 4,
 #'                                                     method = "linear",
 #'                                                     direction = "split")) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
