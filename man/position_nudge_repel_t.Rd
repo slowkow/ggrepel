@@ -7,8 +7,10 @@
 position_nudge_repel_t(
   x = 0,
   y = 0,
+  xy_relative = c(0.03, 0.03),
   abline = NULL,
   method = NULL,
+  formula = y ~ x,
   direction = NULL,
   line_nudge = 1
 )
@@ -17,9 +19,15 @@ position_nudge_repel_t(
 \item{x, y}{Amount of vertical and horizontal distance to move. A numeric
 vector of length 1, or of the same length as rows there are in `data`.}
 
+\item{xy_relative}{Nudge relative to _x_ and _y_ data expanse, ignored
+unless `x` and `y` are both `NA`s.}
+
 \item{abline}{a vector of length two giving the intercept and slope.}
 
-\item{method}{One of "spline" or "linear".}
+\item{method}{One of `"spline"`, `"lm"` or `"auto"`.}
+
+\item{formula}{A model formula for [lm()] when `method = "lm"`. Ignored
+otherwise.}
 
 \item{direction}{One of "none", or "split".}
 
@@ -38,15 +46,35 @@ suitable when observations have a linear or curvilinear relationship
 between _x_ and _y_ values.
 }
 \details{
-When `direction = "split"` nudging is away from an implicit line or
-  curve on either side. The line of curve can be smooth spline or linear
-  regression fitted on-the-fly to the data points, or a straight line defined
-  by its coefficients passed to `abline`. The fitting is well defined only if
-  the observations fall roughly on a curve or straight line that is monotonic
-  in `y`. By means of `line_nudge` one can increment nudging away from the
-  line or curve compared to away from the points, which is useful for example
-  to keep labels outside of a confidence band. Direction defaults to `"split"`
-  when `line_nudge > 1`, and otherwise to `"none"`.
+The default ammount of nudging is 3% of the spread of the data along
+  _x_ and _y_ axes, which in most cases is good. In most cases it is best to
+  apply nudging along a direction perpendicular to the line or curve, if this
+  is the aim, passing an argument to only one of `x`, `y` or `xy_relative`
+  will be enough. When `direction = "split"` nudging is away from an implicit
+  line or curve on either side with positive nudging. The line of curve can
+  be smooth spline or linear regression fitted on-the-fly to the data points,
+  or a straight line defined by its coefficients passed to `abline`. The
+  fitting is well defined only if the observations fall roughly on a curve or
+  straight line that is monotonic in `y`. By means of `line_nudge` one can
+  increment nudging away from the line or curve compared to away from the
+  points, which is useful for example to keep labels outside of a confidence
+  band. Direction defaults to `"split"` when `line_nudge > 1`, and otherwise
+  to `"none"`.
+
+  This position function is implemented as a panel function and supports
+  grouping: the spline or linear model are fitted per group wihin each
+  plot panel.
+}
+\note{
+For `method = "lm"` only model formulas corresponding to polynomials
+  with no missing terms are supported. If using [poly()], `raw = TRUE` is
+  required.
+
+  In practice, `x` and `y` should have the same sign for nudging to work
+  correctly.
+
+  This position is most useful when labeling points conforming a cloud along
+  an arbitrary curve or line.
 }
 \examples{
 
@@ -197,6 +225,8 @@ ggplot(df, aes(y, -yy)) +
 
 }
 \seealso{
+[ggplot::position_nudge()], [ggrepel::position_nudge_repel()].
+
 Other position adjustments: 
 \code{\link{position_nudge_repel}()}
 }

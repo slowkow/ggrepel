@@ -9,7 +9,8 @@ position_nudge_repel(
   y = 0,
   center_x = NULL,
   center_y = NULL,
-  direction = NULL
+  direction = NULL,
+  obey_grouping = NULL
 )
 }
 \arguments{
@@ -22,8 +23,14 @@ length 1 or of the same length as rows there are in `data`, or a function
 returning either of these vectors computed from the variable in data
 mapped to `x` or `y`, respectively.}
 
-\item{direction}{One of "none", "radial", or "split". Which of these three
+\item{direction}{One of "none", "radial", or "split". A value of "none"
+replicates the behavior of [ggplot2::position_nudge]. Which of these three
 values is the default depends on the values passed to the other parameters.}
+
+\item{obey_grouping}{A logical flag indicating whether to obey or not groupings
+of the observations. By default, grouping is obeyed when both of the
+variables mapped to _x_ and _y_ are continuous numeric and ignored
+otherwise.}
 }
 \description{
 `position_nudge_repel` is generally useful for adjusting the starting
@@ -48,6 +55,11 @@ Positive values as arguments to `x` and `y` are added to the
   are passed to both `center_x` and `center_y`, and `direction` is passed
   `"split"` as argument, then the split as described above is applied to
   both _x_ and _y_ coordinates.
+
+  This position function is implemented as a panel function and supports
+  grouping: by default and when `center_x` or `center_y` are passed a
+  function, the functions are applied by default per group wihin each
+  plot panel.
 }
 \note{
 Some situations are handled as special cases. When `direction = "split"`
@@ -220,6 +232,8 @@ ggplot(df, aes(x, z)) +
 
 }
 \seealso{
+[ggplot::position_nudge()], [ggrepel::position_nudge_repel()].
+
 Other position adjustments: 
 \code{\link{position_nudge_repel_t}()}
 }

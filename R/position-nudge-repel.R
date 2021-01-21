@@ -14,8 +14,13 @@
 #'   length 1 or of the same length as rows there are in `data`, or a function
 #'   returning either of these vectors computed from the variable in data
 #'   mapped to `x` or `y`, respectively.
-#' @param direction One of "none", "radial", or "split". Which of these three
+#' @param direction One of "none", "radial", or "split". A value of "none"
+#'   replicates the behavior of [ggplot2::position_nudge]. Which of these three
 #'   values is the default depends on the values passed to the other parameters.
+#' @param obey_grouping A logical flag indicating whether to obey or not groupings
+#'   of the observations. By default, grouping is obeyed when both of the
+#'   variables mapped to _x_ and _y_ are continuous numeric and ignored
+#'   otherwise.
 #'
 #' @details Positive values as arguments to `x` and `y` are added to the
 #'   original position along either axis. If no arguments are passed to
@@ -33,6 +38,11 @@
 #'   `"split"` as argument, then the split as described above is applied to
 #'   both _x_ and _y_ coordinates.
 #'
+#'   This position function is implemented as a panel function and supports
+#'   grouping: by default and when `center_x` or `center_y` are passed a
+#'   function, the functions are applied by default per group wihin each
+#'   plot panel.
+#'
 #' @note Some situations are handled as special cases. When `direction = "split"`
 #'   or `direction = "radial"`, observations at exactly the _center_ are nudged
 #'   using `x` and `y` unchanged. When `direction = "split"`, and both
@@ -44,6 +54,8 @@
 #'
 #'   This position is most useful when labelling points forming a cloud or
 #'   along vertical or horizontal lines or "divides".
+#'
+#' @seealso [ggplot::position_nudge()], [ggrepel::position_nudge_repel()].
 #'
 #' @export
 #'
@@ -208,7 +220,8 @@ position_nudge_repel <-
            y = 0,
            center_x = NULL,
            center_y = NULL,
-           direction = NULL) {
+           direction = NULL,
+           obey_grouping = NULL) {
 
     if (is.null(direction)) {
       # Set default for 'direction' based on other arguments
@@ -231,12 +244,18 @@ position_nudge_repel <-
       }
     }
 
+    if (is.null(obey_grouping)) {
+      # default needs to be set in panel_fucntion when we have access to data
+      obey_grouping <- NA
+    }
+
     ggproto(NULL, PositionNudgeRepel,
             x = x,
             y = y,
             center_x = center_x,
             center_y = center_y,
-            direction = direction
+            direction = direction,
+            obey_grouping = obey_grouping
     )
   }
 
@@ -250,60 +269,99 @@ PositionNudgeRepel <- ggproto("PositionNudgeRepel", Position,
   center_x = mean,
   center_y = mean,
   direction = "none",
+  obey_grouping = NA,
 
   setup_params = function(self, data) {
-    if (is.function(self$center_x)) {
-      x_ctr <- self$center_x(data$x)
-    } else if(is.numeric(self$center_x)) {
-      x_ctr <- self$center_x[1]
-    } else {
-      x_ctr <- -Inf # ensure all observations are to the right
-    }
-    if (is.function(self$center_y)) {
-      y_ctr <- self$center_y(data$y)
-    } else if(is.numeric(self$center_y)) {
-      y_ctr <- self$center_y[1]
-    } else {
-      y_ctr <- -Inf # ensure all observations are above
-    }
 
     list(x = self$x,
          y = self$y,
-         x_ctr = x_ctr,
-         y_ctr = y_ctr,
-         direction = self$direction)
+         center_x = self$center_x,
+         center_y = self$center_y,
+         direction = self$direction,
+         obey_grouping = self$obey_grouping)
   },
 
-  compute_layer = function(self, data, params, layout) {
+  compute_panel = function(data, params, scales) {
+
     x_orig <- data$x
     y_orig <- data$y
-    # Based on the value of 'direction' we adjust the nudge for each point
-    if (params$direction == "radial") {
-      # compute x and y nudge for each point
-      x_dist <- as.numeric(data$x - params$x_ctr)
-      y_dist <- as.numeric(data$y - params$y_ctr)
-      angle <- ifelse(y_dist == 0 & x_dist == 0,
-                      atan2(params$y, params$x),
-                      atan2(y_dist, x_dist))
-      x_nudge <- params$x * cos(angle)
-      y_nudge <- params$y * sin(angle)
-    } else if (params$direction == "split") {
-      if (length(self$x) == 1L && length(self$y) == 1L) {
-        # ensure horizontal and vertical segments have same length as all others
-        segment_length <- sqrt(self$x^2 + self$y^2)
-        xx <- rep(self$x, nrow(data))
-        xx <- ifelse(data$y == params$y_ctr, segment_length * sign(xx), xx)
-        yy <- rep(self$y, nrow(data))
-        yy <- ifelse(data$x == params$x_ctr, segment_length * sign(yy), yy)
+    # we handle grouping by ourselves
+    if (is.na(params$obey_grouping)) {
+      if (inherits(data$x, "mapped_discrete") ||
+          inherits(data$y, "mapped_discrete") ||
+          params$direction == "none") {
+        # we ignore grouping as position_nudge() does
+        params$obey_grouping <- FALSE
+      } else {
+        # we respect groups
+        params$obey_grouping <- TRUE
       }
-      x_nudge <- xx * sign(data$x - params$x_ctr)
-      y_nudge <- yy * sign(data$y - params$y_ctr)
+    }
+
+    if (params$obey_grouping) {
+      # one group at a time
+      groups <- unique(data$group)
     } else {
-      if (params$direction != "none") {
-        warning("Ignoring unrecognized direction \"", direction, "\".")
+      # all at once
+      groups <- 1
+    }
+    # Based on the value of 'direction' we adjust the nudge for each point
+    x_nudge <- y_nudge <- numeric(nrow(data))
+    for (group in groups) {
+      if (params$obey_grouping) {
+        # selector for rows in current group
+        in.grp <- data$group == group
+      } else {
+        # selector for all rows
+        in.grp <- TRUE
       }
-      x_nudge <- params$x
-      y_nudge <- params$y
+      # compute focal center by group
+      if (is.function(params$center_x)) {
+        x_ctr <- params$center_x(as.numeric(data[in.grp, "x"]))
+      } else if(is.numeric(params$center_x)) {
+        x_ctr <- params$center_x[1]
+      } else {
+        x_ctr <- -Inf # ensure all observations are to the right
+      }
+      if (is.function(params$center_y)) {
+        y_ctr <- params$center_y(as.numeric(data[in.grp, "y"]))
+      } else if(is.numeric(params$center_y)) {
+        y_ctr <- params$center_y[1]
+      } else {
+        y_ctr <- -Inf # ensure all observations are above
+      }
+
+      if (params$direction == "radial") {
+        # compute x and y nudge for each point
+        x_dist <- as.numeric(data[in.grp, "x"]) - x_ctr
+        y_dist <- as.numeric(data[in.grp, "y"]) - y_ctr
+        angle <- atan2(y_dist, x_dist) + pi / 2
+        if (params$x == 0) {
+          angle <- ifelse(cos(angle) == 0, 0, angle)
+        }
+        if (params$y == 0) {
+          angle <- ifelse(sin(angle) == 0, pi / 2, angle)
+        }
+        x_nudge[in.grp] <- params$x * sin(angle)
+        y_nudge[in.grp] <- -params$y * cos(angle)
+      } else if (params$direction == "split") {
+        if (length(params$x) == 1L && length(params$y) == 1L) {
+          # ensure horizontal and vertical segments have same length as others
+          segment_length <- sqrt(params$x^2 + params$y^2)
+          xx <- rep(params$x, nrow(data[in.grp, ]))
+          xx <- ifelse(data[in.grp, "y"] == y_ctr, segment_length * sign(xx), xx)
+          yy <- rep(params$y, nrow(data[in.grp, ]))
+          yy <- ifelse(data[in.grp, "x"] == x_ctr, segment_length * sign(yy), yy)
+        }
+        x_nudge[in.grp] <- xx * sign(as.numeric(data[in.grp, "x"]) - x_ctr)
+        y_nudge[in.grp] <- yy * sign(as.numeric(data[in.grp, "y"]) - y_ctr)
+      } else {
+        if (params$direction != "none") {
+          warning("Ignoring unrecognized direction \"", direction, "\".")
+        }
+        x_nudge[in.grp] <- params$x
+        y_nudge[in.grp] <- params$y
+      }
     }
     # transform only the dimensions for which non-zero nudging is requested
     ## Does this speed up execution enough to be worthwhile avoiding + 0 operations??
