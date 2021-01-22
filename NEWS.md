@@ -1,4 +1,16 @@
 
+ggrepel 0.9.1.9999
+========================
+
+## Bug fixes
+
+* Fix compiler errors for C++ expressions like `v[i] = {0,0}` that arise
+  for some versions of the clang compiler. Thanks to @Krascal and @vrognas
+  for reporting this in [issue 184].
+
+[issue 184]: https://github.com/slowkow/ggrepel/issues/184
+
+
 ggrepel 0.9.1 2021-01-09
 ========================
 
