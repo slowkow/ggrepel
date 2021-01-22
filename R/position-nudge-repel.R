@@ -379,10 +379,8 @@ PositionNudgeRepel <- ggproto("PositionNudgeRepel", Position,
                                  trans_x = NULL,
                                  trans_y = function(y) y + y_nudge)
     }
-    data$nudge_x <- data$x
-    data$nudge_y <- data$y
-    data$x <- x_orig
-    data$y <- y_orig
+    data$x_orig <- x_orig
+    data$y_orig <- y_orig
     data
   }
 )
