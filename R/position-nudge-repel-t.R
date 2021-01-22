@@ -201,6 +201,14 @@
 #'                                                     direction = "split")) +
 #'   scale_y_continuous(expand = expansion(mult = 0.15))
 #'
+#' # can also be used with "normal" geoms
+#' ggplot(df, aes(x, y)) +
+#'   geom_line(linetype = "dotted") +
+#'   geom_point() +
+#'   geom_text(aes(label = l),
+#'             position = position_nudge_repel_t(x = 0.3, y = 4)) +
+#'   scale_y_continuous(expand = expansion(mult = 0.15))
+#'
 position_nudge_repel_t <- function(x = 0,
                                    y = 0,
                                    xy_relative = c(0.03, 0.03),
@@ -371,10 +379,8 @@ PositionTNudgeRepel <- ggproto("PositionTNudgeRepel", Position,
     data <- transform_position(data,
                                function(x) x + x_nudge,
                                function(y) y + y_nudge)
-    data$nudge_x <- data$x
-    data$nudge_y <- data$y
-    data$x <- x_orig
-    data$y <- y_orig
+    data$x_orig <- x_orig
+    data$y_orig <- y_orig
     data
   }
 )
