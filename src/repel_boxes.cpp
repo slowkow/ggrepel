@@ -622,7 +622,7 @@ Point spring_force(
 std::vector<double> rescale(std::vector<double> v) {
   double min_value = *std::min_element(v.begin(), v.end());
   double max_value = *std::max_element(v.begin(), v.end());
-  for (int i = 0; i < v.size(); i++) {
+  for (long unsigned int i = 0; i < v.size(); i++) {
     v[i] = (v[i] - min_value) / max_value;
   }
   return v;
@@ -758,7 +758,8 @@ DataFrame repel_boxes2(
   // Initialize velocities to zero
   std::vector<Point> velocities(n_texts);
   for (int i = 0; i < n_texts; i++) {
-    velocities[i] = {0, 0};
+    Point v = {0,0};
+    velocities[i] = v;
   }
   double velocity_decay = 0.7;
 
