@@ -187,6 +187,17 @@ ggplot(df, aes(x, y)) +
                                                   y = -0.12,
                                                   direction = "radial"))
 
+# this position function is compatible with "normal" ggplot2 geoms
+
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  geom_text(aes(label = y),
+            position = position_nudge_repel(x = 0.07,
+                                            y = 0.12,
+                                            direction = "radial"))
+
+# other use cases for "radial" nudging
+
 df <- data.frame(
   x = -10:10,
   z = (-10:10)^2,
@@ -226,6 +237,20 @@ ggplot(df, aes(x, z)) +
                                                   y = 5,
                                                   center_x = mean,
                                                   center_y = max_and_tenth)) +
+  scale_y_continuous(expand = expansion(mult = 0.15)) +
+  scale_x_continuous(expand = expansion(mult = 0.15))
+
+# this position function is compatible with "normal" ggplot2 geoms
+
+max_and_tenth <- function(x) {1.1 * max(x)}
+ggplot(df, aes(x, z)) +
+  geom_line(linetype = "dotted") +
+  geom_point() +
+  geom_text(aes(label = y),
+            position = position_nudge_repel(x = 0.8,
+                                            y = 4,
+                                            center_x = mean,
+                                            center_y = max_and_tenth)) +
   scale_y_continuous(expand = expansion(mult = 0.15)) +
   scale_x_continuous(expand = expansion(mult = 0.15))
 

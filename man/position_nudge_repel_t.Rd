@@ -223,6 +223,14 @@ ggplot(df, aes(y, -yy)) +
                                                     direction = "split")) +
   scale_y_continuous(expand = expansion(mult = 0.15))
 
+# can also be used with "normal" geoms
+ggplot(df, aes(x, y)) +
+  geom_line(linetype = "dotted") +
+  geom_point() +
+  geom_text(aes(label = l),
+            position = position_nudge_repel_t(x = 0.3, y = 4)) +
+  scale_y_continuous(expand = expansion(mult = 0.15))
+
 }
 \seealso{
 [ggplot::position_nudge()], [ggrepel::position_nudge_repel()].
