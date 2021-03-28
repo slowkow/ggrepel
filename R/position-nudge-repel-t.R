@@ -246,7 +246,7 @@ position_nudge_repel_t <- function(x = 0,
 
   stopifnot(length(xy_relative) == 2)
 
-  ggproto(NULL, PositionTNudgeRepel,
+  ggplot2::ggproto(NULL, PositionTNudgeRepel,
           x = x,
           y = y,
           xy_relative = xy_relative,
@@ -262,7 +262,7 @@ position_nudge_repel_t <- function(x = 0,
 #' @format NULL
 #' @usage NULL
 #' @export
-PositionTNudgeRepel <- ggproto("PositionTNudgeRepel", Position,
+PositionTNudgeRepel <- ggplot2::ggproto("PositionTNudgeRepel", Position,
   x = 0,
   y = 0,
   xy_relative = c(0.03, 0.03),
@@ -376,9 +376,10 @@ PositionTNudgeRepel <- ggproto("PositionTNudgeRepel", Position,
                         x_nudge)
     }
     # transform both dimensions
-    data <- transform_position(data,
-                               function(x) x + x_nudge,
-                               function(y) y + y_nudge)
+    data <-
+      ggplot2::transform_position(data,
+                                  function(x) x + x_nudge,
+                                  function(y) y + y_nudge)
     data$x_orig <- x_orig
     data$y_orig <- y_orig
     data
