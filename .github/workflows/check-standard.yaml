@@ -77,7 +77,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Upload check results
-        if: failure()
+        #if: failure()
         uses: actions/upload-artifact@main
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
