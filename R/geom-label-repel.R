@@ -127,6 +127,17 @@ GeomLabelRepel <- ggproto(
       return()
     }
 
+    # as a test without disrupting anything, rename columns to names previously used
+    for (this_dim in c("x", "y")) {
+      this_orig <- sprintf("%s_orig", this_dim)
+      this_nudge <- sprintf("nudge_%s", this_dim)
+      if (this_orig %in% colnames(data)) {
+        data[[this_nudge]] <- data[[this_dim]]
+        data[[this_dim]] <- data[[this_orig]]
+        data[[this_orig]] <- NULL
+      }
+    }
+
     # position_nudge_repel() should have added these columns.
     for (this_dim in c("x", "y")) {
       this_nudge <- sprintf("nudge_%s", this_dim)
