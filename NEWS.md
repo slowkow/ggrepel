@@ -10,6 +10,15 @@ ggrepel 0.9.1.9999
 
 [issue 184]: https://github.com/slowkow/ggrepel/issues/184
 
+## Changes
+
+* Change internal column names, so `ggrepel::position_nudge_repel()` can now be used
+  with `ggplot2::geom_text()`. This should also allow us to use new nudge functions
+  from the [ggpmisc] package by @aphalo. Thanks to @aphalo for [pull request 193].
+  
+[ggpmisc]: https://github.com/aphalo/ggpmisc
+[pull request 193]: https://github.com/slowkow/ggrepel/pull/193
+
 
 ggrepel 0.9.1 2021-01-09
 ========================
