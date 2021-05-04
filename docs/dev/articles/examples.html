@@ -50,7 +50,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggrepel</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.0.9999</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.9.1.9999</span>
       </span>
     </div>
 
@@ -86,7 +86,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/slowkow/ggrepel">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
     GitHub
   </a>
@@ -101,13 +101,13 @@
 
       
 
-      </header><script src="examples_files/header-attrs-2.3.2/header-attrs.js"></script><div class="row">
+      </header><script src="examples_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Examples</h1>
                         <h4 class="author">Kamil Slowikowski</h4>
             
-            <h4 class="date">2021-01-04</h4>
+            <h4 class="date">2021-05-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/slowkow/ggrepel/blob/master/vignettes/examples.Rmd"><code>vignettes/examples.Rmd</code></a></small>
       <div class="hidden name"><code>examples.Rmd</code></div>
@@ -659,7 +659,7 @@
 <a href="#geom_text_repel" class="anchor"></a>geom_text_repel()</h4>
 <div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">my_pal</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">range</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">6</span>)) {
   <span class="fu"><a href="https://rdrr.io/r/base/force.html">force</a></span>(<span class="no">range</span>)
-  <span class="kw">function</span>(<span class="no">x</span>) <span class="kw pkg">scales</span><span class="kw ns">::</span><span class="fu"><a href="https://scales.r-lib.org//reference/rescale.html">rescale</a></span>(<span class="no">x</span>, <span class="kw">to</span> <span class="kw">=</span> <span class="no">range</span>, <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>))
+  <span class="kw">function</span>(<span class="no">x</span>) <span class="kw pkg">scales</span><span class="kw ns">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/rescale.html">rescale</a></span>(<span class="no">x</span>, <span class="kw">to</span> <span class="kw">=</span> <span class="no">range</span>, <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>))
 }
 
 <span class="fu">ggplot</span>(<span class="no">dat</span>, <span class="fu">aes</span>(<span class="no">wt</span>, <span class="no">mpg</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="no">car</span>)) +
@@ -685,7 +685,7 @@
 <a href="#geom_label_repel" class="anchor"></a>geom_label_repel()</h4>
 <div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">my_pal</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">range</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">6</span>)) {
   <span class="fu"><a href="https://rdrr.io/r/base/force.html">force</a></span>(<span class="no">range</span>)
-  <span class="kw">function</span>(<span class="no">x</span>) <span class="kw pkg">scales</span><span class="kw ns">::</span><span class="fu"><a href="https://scales.r-lib.org//reference/rescale.html">rescale</a></span>(<span class="no">x</span>, <span class="kw">to</span> <span class="kw">=</span> <span class="no">range</span>, <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>))
+  <span class="kw">function</span>(<span class="no">x</span>) <span class="kw pkg">scales</span><span class="kw ns">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/rescale.html">rescale</a></span>(<span class="no">x</span>, <span class="kw">to</span> <span class="kw">=</span> <span class="no">range</span>, <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">1</span>))
 }
 
 <span class="fu">ggplot</span>(<span class="no">dat</span>, <span class="fu">aes</span>(<span class="no">wt</span>, <span class="no">mpg</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="no">car</span>)) +
@@ -1037,7 +1037,7 @@
   <span class="kw">size</span> <span class="kw">=</span> <span class="fl">3</span>
 )</pre></body></html></div>
 <p><img src="examples_files/figure-html/timing-1.png" width="700"></p>
-<pre><code>## 1.00s elapsed for 107250 iterations, 2 overlaps. Consider increasing 'max.time'.</code></pre>
+<pre><code>## 1.00s elapsed for 95670 iterations, 2 overlaps. Consider increasing 'max.time'.</code></pre>
 </div>
 <div id="word-cloud" class="section level3">
 <h3 class="hasAnchor">
@@ -1180,7 +1180,7 @@
 <div id="source-code" class="section level2">
 <h2 class="hasAnchor">
 <a href="#source-code" class="anchor"></a>Source code</h2>
-<p>View the <a href="https://github.com/slowkow/ggrepel/blob/master/vignettes/ggrepel.Rmd">source code for this vignette</a> on GitHub.</p>
+<p>View the <a href="https://github.com/slowkow/ggrepel/blob/master/vignettes/examples.Rmd">source code for this vignette</a> on GitHub.</p>
 </div>
 <div id="r-session-info" class="section level2">
 <h2 class="hasAnchor">
@@ -1201,25 +1201,27 @@
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggbeeswarm_0.6.0   ggrepel_0.9.0.9999 ggplot2_3.3.2.9000 gridExtra_2.3     
-## [5] knitr_1.30        
+## [1] ggbeeswarm_0.6.0   ggrepel_0.9.1.9999 ggplot2_3.3.2.9000 gridExtra_2.3     
+## [5] knitr_1.31        
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.5.4        vipor_0.4.5         compiler_4.0.3     
-##  [4] pillar_1.4.7        tools_4.0.3         digest_0.6.27      
-##  [7] evaluate_0.14       memoise_1.1.0.9000  lifecycle_0.2.0    
-## [10] tibble_3.0.4        gtable_0.3.0        pkgconfig_2.0.3    
-## [13] rlang_0.4.9         rstudioapi_0.13     yaml_2.2.1         
-## [16] beeswarm_0.2.3      pkgdown_1.5.1       xfun_0.19          
-## [19] withr_2.3.0         stringr_1.4.0       dplyr_1.0.2        
-## [22] desc_1.2.0          generics_0.1.0      fs_1.5.0           
-## [25] vctrs_0.3.5         rprojroot_2.0.2     grid_4.0.3         
-## [28] tidyselect_1.1.0    glue_1.4.2          R6_2.5.0           
-## [31] rmarkdown_2.3.2     farver_2.0.3        purrr_0.3.4        
-## [34] magrittr_2.0.1.9000 scales_1.1.1        htmltools_0.5.0    
-## [37] ellipsis_0.3.1      MASS_7.3-53         assertthat_0.2.1   
-## [40] colorspace_2.0-0    labeling_0.4.2      stringi_1.5.3      
-## [43] munsell_0.5.0       crayon_1.3.4</code></pre>
+##  [1] Rcpp_1.0.6          vipor_0.4.5         highr_0.8          
+##  [4] compiler_4.0.3      pillar_1.5.0        tools_4.0.3        
+##  [7] digest_0.6.27       evaluate_0.14       memoise_1.1.0.9000 
+## [10] lifecycle_1.0.0     tibble_3.0.6        gtable_0.3.0       
+## [13] debugme_1.1.0       pkgconfig_2.0.3     rlang_0.4.10       
+## [16] DBI_1.1.0           yaml_2.2.1          beeswarm_0.2.3     
+## [19] pkgdown_1.5.1       xfun_0.21           withr_2.4.1        
+## [22] stringr_1.4.0       dplyr_1.0.4         desc_1.2.0         
+## [25] generics_0.1.0      fs_1.5.0            vctrs_0.3.6        
+## [28] rprojroot_2.0.2     grid_4.0.3          tidyselect_1.1.0   
+## [31] glue_1.4.2          R6_2.5.0            fansi_0.4.2        
+## [34] rmarkdown_2.6       farver_2.0.3        blob_1.2.1         
+## [37] purrr_0.3.4         magrittr_2.0.1.9000 scales_1.1.1       
+## [40] htmltools_0.5.1.1   ellipsis_0.3.1      MASS_7.3-53        
+## [43] assertthat_0.2.1    colorspace_2.0-0    labeling_0.4.2     
+## [46] utf8_1.1.4          stringi_1.5.3       munsell_0.5.0      
+## [49] crayon_1.4.1</code></pre>
 </div>
   </div>
 
