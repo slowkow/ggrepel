@@ -269,26 +269,18 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       return()
     }
 
-    # As a test without disrupting anything, rename columns to match old names
+    # if needed rename columns using our convention
     for (this_dim in c("x", "y")) {
       this_orig <- sprintf("%s_orig", this_dim)
       this_nudge <- sprintf("nudge_%s", this_dim)
-      data[[this_nudge]] <- data[[this_dim]]
-      if (this_orig %in% colnames(data)) {
-        data[[this_dim]] <- data[[this_orig]]
-        data[[this_orig]] <- NULL
+      if (!this_nudge %in% colnames(data)) {
+        data[[this_nudge]] <- data[[this_dim]]
+        if (this_orig %in% colnames(data)) {
+          data[[this_dim]] <- data[[this_orig]]
+          data[[this_orig]] <- NULL
+        }
       }
     }
-
-    ## Now redundant
-    #
-    # # position_nudge_repel() should have added these columns.
-    # for (this_dim in c("x", "y")) {
-    #   this_nudge <- sprintf("nudge_%s", this_dim)
-    #   if (!this_nudge %in% colnames(data)) {
-    #     data[[this_nudge]] <- data[[this_dim]]
-    #   }
-    # }
 
     # Transform the nudges to the panel scales.
     nudges <- data.frame(x = data$nudge_x, y = data$nudge_y)
