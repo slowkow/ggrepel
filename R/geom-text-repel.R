@@ -269,26 +269,18 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       return()
     }
 
-    # As a test without disrupting anything, rename columns to match old names
+    # if needed rename columns using our convention
     for (this_dim in c("x", "y")) {
       this_orig <- sprintf("%s_orig", this_dim)
       this_nudge <- sprintf("nudge_%s", this_dim)
-      data[[this_nudge]] <- data[[this_dim]]
-      if (this_orig %in% colnames(data)) {
-        data[[this_dim]] <- data[[this_orig]]
-        data[[this_orig]] <- NULL
+      if (!this_nudge %in% colnames(data)) {
+        data[[this_nudge]] <- data[[this_dim]]
+        if (this_orig %in% colnames(data)) {
+          data[[this_dim]] <- data[[this_orig]]
+          data[[this_orig]] <- NULL
+        }
       }
     }
-
-    ## Now redundant
-    #
-    # # position_nudge_repel() should have added these columns.
-    # for (this_dim in c("x", "y")) {
-    #   this_nudge <- sprintf("nudge_%s", this_dim)
-    #   if (!this_nudge %in% colnames(data)) {
-    #     data[[this_nudge]] <- data[[this_dim]]
-    #   }
-    # }
 
     # Transform the nudges to the panel scales.
     nudges <- data.frame(x = data$nudge_x, y = data$nudge_y)
@@ -319,10 +311,10 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
 
     # Convert hjust and vjust to numeric if character
     if (is.character(data$vjust)) {
-      data$vjust <- compute_just(data$vjust, data$y)
+      data$vjust <- compute_just(data$vjust, data$y, data$x, data$angle)
     }
     if (is.character(data$hjust)) {
-      data$hjust <- compute_just(data$hjust, data$x)
+      data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
     }
 
     ggname("geom_text_repel", gTree(
@@ -659,11 +651,31 @@ makeTextRepelGrobs <- function(
 }
 
 # copied from ggplot2
-compute_just <- function(just, x) {
-  inward <- just == "inward"
-  just[inward] <- c("left", "middle", "right")[just_dir(x[inward])]
-  outward <- just == "outward"
-  just[outward] <- c("right", "middle", "left")[just_dir(x[outward])]
+compute_just <- function(just, a, b = a, angle = 0) {
+  #  As justification direction is relative to the text, not the plotting area
+  #  we need to swap x and y if text direction is rotated so that hjust is
+  #  applied along y and vjust along x.
+  if (any(grepl("outward|inward", just))) {
+    # ensure all angles are in -360...+360
+    angle <- angle %% 360
+    # ensure correct behaviour for angles in -360...+360
+    angle <- ifelse(angle > 180, angle - 360, angle)
+    angle <- ifelse(angle < -180, angle + 360, angle)
+    rotated_forward <-
+      grepl("outward|inward", just) & (angle > 45 & angle < 135)
+    rotated_backwards <-
+      grepl("outward|inward", just) & (angle < -45 & angle > -135)
+
+    ab <- ifelse(rotated_forward | rotated_backwards, b, a)
+    just_swap <- rotated_backwards | abs(angle) > 135
+    inward <-
+      (just == "inward" & !just_swap | just == "outward" & just_swap)
+    just[inward] <- c("left", "middle", "right")[just_dir(ab[inward])]
+    outward <-
+      (just == "outward" & !just_swap) | (just == "inward" & just_swap)
+    just[outward] <- c("right", "middle", "left")[just_dir(ab[outward])]
+
+  }
 
   unname(c(left = 0, center = 0.5, right = 1,
            bottom = 0, middle = 0.5, top = 1)[just])
