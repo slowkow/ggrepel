@@ -563,12 +563,26 @@ makeTextRepelGrobs <- function(
     box.height <- unit(box.height, default.units)
 
   rot_radians <- rot * pi / 180
+  if (hjust != 0.5) {
+    x_adj <- x - cos(rot_radians) * box.width * (0.5 - hjust) -
+      cos(rot_radians) * box.width * (0.5 - vjust)
+  } else {
+    x_adj <- x
+  }
+  if (vjust != 0.5) {
+    y_adj <- y - sin(rot_radians) * box.height * (0.5 - vjust) -
+      sin(rot_radians) * box.height * (0.5 - hjust)
+  } else {
+    y_adj <- y
+  }
   grobs <- shadowtextGrob(
     label,
-    x - cos(rot_radians) * box.width * (0.5 - hjust) -
-        cos(rot_radians) * box.width * (0.5 - vjust),
-    y - sin(rot_radians) * box.height * (0.5 - vjust) -
-        sin(rot_radians) * box.height * (0.5 - hjust),
+    x_adj,
+    y_adj,
+    # x - cos(rot_radians) * box.width * (0.5 - hjust) -
+    #     cos(rot_radians) * box.width * (0.5 - vjust),
+    # y - sin(rot_radians) * box.height * (0.5 - vjust) -
+    #     sin(rot_radians) * box.height * (0.5 - hjust),
     rot = rot,
     hjust = hjust,
     vjust = vjust,
