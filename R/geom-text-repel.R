@@ -554,27 +554,43 @@ makeTextRepelGrobs <- function(
   if (!is.unit(box.height))
     box.height <- unit(box.height, default.units)
 
+  rot <- rot %% 360 # support any angle
   rot_radians <- rot * pi / 180
-  if (hjust != 0.5) {
-    x_adj <- x - cos(rot_radians) * box.width * (0.5 - hjust) -
-      cos(rot_radians) * box.width * (0.5 - vjust)
-  } else {
-    x_adj <- x
+
+  # if (hjust != 0.5) {
+  #   x_adj <- x - cos(rot_radians) * box.width * (0.5 - hjust) -
+  #     cos(rot_radians) * box.width * (0.5 - vjust)
+  # } else {
+  #   x_adj <- x
+  # }
+  # if (vjust != 0.5) {
+  #   y_adj <- y - sin(rot_radians) * box.height * (0.5 - vjust) -
+  #     sin(rot_radians) * box.height * (0.5 - hjust)
+  # } else {
+  #   y_adj <- y
+  # }
+
+  # print(box.width)
+  # print(box.height)
+
+  # x and y seem to be in different scales even if expressed in npc
+  # the adjustment is still failing with angles different to 0 degrees
+
+  if (rot_radians < 1e-10) {
+    # avoid trigonometric functions for performance
+    x_adj <- x - box.width * (0.5 - hjust)
+    y_adj <- y + (box.height * (0.5 - vjust)) / 500
+  } else{
+    x_adj <- x - cos(rot_radians) * box.width * (0.5 - hjust) +
+      sin(rot_radians) * box.width * (0.5 - vjust)
+    y_adj <- y + (cos(rot_radians) * box.height * (0.5 - vjust) -
+      sin(rot_radians) * box.height * (0.5 - hjust)) / 500
   }
-  if (vjust != 0.5) {
-    y_adj <- y - sin(rot_radians) * box.height * (0.5 - vjust) -
-      sin(rot_radians) * box.height * (0.5 - hjust)
-  } else {
-    y_adj <- y
-  }
+
   grobs <- shadowtextGrob(
-    label,
-    x_adj,
-    y_adj,
-    # x - cos(rot_radians) * box.width * (0.5 - hjust) -
-    #     cos(rot_radians) * box.width * (0.5 - vjust),
-    # y - sin(rot_radians) * box.height * (0.5 - vjust) -
-    #     sin(rot_radians) * box.height * (0.5 - hjust),
+    label = label,
+    x = x_adj,
+    y = y_adj,
     rot = rot,
     hjust = hjust,
     vjust = vjust,
