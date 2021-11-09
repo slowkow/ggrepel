@@ -514,8 +514,8 @@ makeTextRepelGrobs <- function(
   x = unit(0.5, "npc"),
   y = unit(0.5, "npc"),
   # Position of original data points.
-  x.orig = 0.5,
-  y.orig = 0.5,
+  x.orig = NULL,
+  y.orig = NULL,
   # Width and height of text boxes.
   box.width = 0,
   box.height = 0,
@@ -554,38 +554,35 @@ makeTextRepelGrobs <- function(
   if (!is.unit(box.height))
     box.height <- unit(box.height, default.units)
 
-  rot <- rot %% 360 # support any angle
+  # support any angle by converting to -360..360
+  rot <- rot %% 360
+  # To support rotation height and width need to be expressed in units that
+  # are consistent on x and y axes
+  # This code is a rough approximation as we use the height and width of the
+  # possibly rotated text grob instead of those for the text box
+  if ((rot > 45 && rot < 135) || (rot > 225 && rot < 315) ||
+      (rot < -45 && rot > -135) || (rot < -225 && rot > -315)) {
+    # swap and express in absolute unit
+    box.height.char <- grid::convertX(box.width, "points")
+    box.width.char <- grid::convertY(box.height, "points")
+  } else {
+    # reexpress in absolute unit
+    box.width.char <- grid::convertX(box.width, "points")
+    box.height.char <- grid::convertY(box.height, "points")
+  }
+
   rot_radians <- rot * pi / 180
 
-  # if (hjust != 0.5) {
-  #   x_adj <- x - cos(rot_radians) * box.width * (0.5 - hjust) -
-  #     cos(rot_radians) * box.width * (0.5 - vjust)
-  # } else {
-  #   x_adj <- x
-  # }
-  # if (vjust != 0.5) {
-  #   y_adj <- y - sin(rot_radians) * box.height * (0.5 - vjust) -
-  #     sin(rot_radians) * box.height * (0.5 - hjust)
-  # } else {
-  #   y_adj <- y
-  # }
+  x_adj <- x - cos(rot_radians) * box.width.char * (0.5 - hjust) -
+    sin(rot_radians) * box.height.char * (0.5 - vjust)
+  y_adj <- y - cos(rot_radians) * box.height.char * (0.5 - vjust) -
+    sin(rot_radians) * box.width.char * (0.5 - hjust)
 
-  # print(box.width)
-  # print(box.height)
-
-  # x and y seem to be in different scales even if expressed in npc
-  # the adjustment is still failing with angles different to 0 degrees
-
-  if (rot_radians < 1e-10) {
-    # avoid trigonometric functions for performance
-    x_adj <- x - box.width * (0.5 - hjust)
-    y_adj <- y + (box.height * (0.5 - vjust)) / 500
-  } else{
-    x_adj <- x - cos(rot_radians) * box.width * (0.5 - hjust) +
-      sin(rot_radians) * box.width * (0.5 - vjust)
-    y_adj <- y + (cos(rot_radians) * box.height * (0.5 - vjust) -
-      sin(rot_radians) * box.height * (0.5 - hjust)) / 500
-  }
+  # see what we get
+  # cat(box.width * (0.5 - hjust), "\n")
+  # cat(class(x), " ", class(x_adj), " ",  class(box.width * (0.5 - hjust)), "\n")
+  # cat(sprintf("x = %.3g x.orig = %.3g x_adj = %s bw = %s\ny = %.3g y.orig = %.3g y_adj = %s bh = %s\nlabel = %s\n\n",
+  #             x, x.orig, format(x_adj), format(box.width.char), y, y.orig, format(y_adj), format(box.height.char), label))
 
   grobs <- shadowtextGrob(
     label = label,
