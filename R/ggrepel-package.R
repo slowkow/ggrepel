@@ -33,6 +33,8 @@
 #'   grobWidth
 #'   grobX
 #'   grobY
+#'   stringHeight
+#'   stringWidth
 #'   is.grob
 #'   is.unit
 #'   makeContent

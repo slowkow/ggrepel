@@ -556,27 +556,21 @@ makeTextRepelGrobs <- function(
 
   # support any angle by converting to -360..360
   rot <- rot %% 360
+  # box.width and box.height give the size of the bounding box of a possibly
+  # rotated textGrob. We use instead the dimensions of the character string
+  # instead.
   # To support rotation height and width need to be expressed in units that
-  # are consistent on x and y axes
-  # This code is a rough approximation as we use the height and width of the
-  # possibly rotated text grob instead of those for the text box
-  if ((rot > 45 && rot < 135) || (rot > 225 && rot < 315) ||
-      (rot < -45 && rot > -135) || (rot < -225 && rot > -315)) {
-    # swap and express in absolute unit
-    box.height.char <- grid::convertX(box.width, "points")
-    box.width.char <- grid::convertY(box.height, "points")
-  } else {
-    # reexpress in absolute unit
-    box.width.char <- grid::convertX(box.width, "points")
-    box.height.char <- grid::convertY(box.height, "points")
-  }
+  # are consistent on x and y axes, such as "char" or "points".
+
+  string.height <- convertHeight(stringHeight(label), "points")
+  string.width <- convertWidth(stringWidth(label), "points")
 
   rot_radians <- rot * pi / 180
 
-  x_adj <- x - cos(rot_radians) * box.width.char * (0.5 - hjust) -
-    sin(rot_radians) * box.height.char * (0.5 - vjust)
-  y_adj <- y - cos(rot_radians) * box.height.char * (0.5 - vjust) -
-    sin(rot_radians) * box.width.char * (0.5 - hjust)
+  x_adj <- x - cos(rot_radians) * string.width * (0.5 - hjust) -
+    sin(rot_radians) * string.height * (0.5 - vjust)
+  y_adj <- y - cos(rot_radians) * string.height * (0.5 - vjust) -
+    sin(rot_radians) * string.width * (0.5 - hjust)
 
   # see what we get
   # cat(box.width * (0.5 - hjust), "\n")
