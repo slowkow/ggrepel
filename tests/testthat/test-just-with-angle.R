@@ -1,8 +1,5 @@
 context("geom_text_repel_just")
 
-library(ggplot2)
-library(ggrepel)
-
 my.cars <- mtcars[c(TRUE, FALSE, FALSE, FALSE), ]
 my.cars$car.names <- rownames(my.cars)
 
@@ -19,7 +16,6 @@ test_that("center with rotation", {
                                                 max.iter = 0,
                                                 seed = 1234)
   )
-
 
   vdiffr::expect_doppelganger("geom_text_repel_center_45",
                               p +
@@ -58,7 +54,6 @@ test_that("inward with rotation", {
                                                 max.iter = 0,
                                                 seed = 1234)
   )
-
 
   # currently not the expected plot
   # vdiffr::expect_doppelganger("geom_text_repel_inward_45",
@@ -99,7 +94,6 @@ test_that("outward with rotation", {
                                                 seed = 1234)
   )
 
-
   # currently not the expected plot
   # vdiffr::expect_doppelganger("geom_text_repel_outward_45",
   #                             p +
@@ -138,7 +132,6 @@ test_that("zero one with rotation", {
                                                 max.iter = 0,
                                                 seed = 1234)
   )
-
 
   # currently not the expected plot
   # vdiffr::expect_doppelganger("geom_text_repel_zero_one_45",
@@ -184,7 +177,6 @@ test_that("other just with rotation", {
                                                 size = 2.5,
                                                 seed = 1234)
   )
-
 
   # currently not the expected plot
   # vdiffr::expect_doppelganger("geom_text_repel_multiline_45",
