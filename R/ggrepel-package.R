@@ -37,6 +37,7 @@
 #'   stringWidth
 #'   is.grob
 #'   is.unit
+#'   unit
 #'   makeContent
 #'   resolveHJust
 #'   resolveVJust

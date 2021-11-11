@@ -460,9 +460,6 @@ makeContent.textrepeltree <- function(x) {
         # Position of original data points.
         x.orig = row$x,
         y.orig = row$y,
-        # Width and height of padded text bounding boxes.
-        box.width = unit(boxes[[i]]["x2"] - boxes[[i]]["x1"], "native"),
-        box.height = unit(boxes[[i]]["y2"] - boxes[[i]]["y1"],"native"),
         rot = row$angle,
         box.padding = x$box.padding,
         point.size = point_size[i],
@@ -516,9 +513,6 @@ makeTextRepelGrobs <- function(
   # Position of original data points.
   x.orig = NULL,
   y.orig = NULL,
-  # Width and height of text boxes.
-  box.width = 0,
-  box.height = 0,
   rot = 0,
   default.units = "npc",
   box.padding = 0.25,
@@ -549,15 +543,11 @@ makeTextRepelGrobs <- function(
     x <- unit(x, default.units)
   if (!is.unit(y))
     y <- unit(y, default.units)
-  if (!is.unit(box.width))
-    box.width <- unit(box.width, grid::unitType(x))
-  if (!is.unit(box.height))
-    box.height <- unit(box.height, grid::unitType(y))
 
   # support any angle by converting to -360..360
   rot <- rot %% 360
-  # box.width and box.height give the horizontal and vertical sizes of the
-  # the possibly rotated textGrob. We use instead the dimensions of the
+
+  # Instead of the width and height of the Grob we use the dimensions of the
   # character string which are independent of rotation, matching those of
   # a textGrob built with rot = 0.
   # To support rotation height and width need to be expressed in units that
@@ -571,12 +561,6 @@ makeTextRepelGrobs <- function(
     sin(rot_radians) * string.height * (0.5 - vjust)
   y_adj <- y - cos(rot_radians) * string.height * (0.5 - vjust) -
     sin(rot_radians) * string.width * (0.5 - hjust)
-
-  # see what we get
-  # cat(box.width * (0.5 - hjust), "\n")
-  # cat(class(x), " ", class(x_adj), " ",  class(box.width * (0.5 - hjust)), "\n")
-  # cat(sprintf("x = %.3g x.orig = %.3g x_adj = %s bw = %s\ny = %.3g y.orig = %.3g y_adj = %s bh = %s\nlabel = %s\n\n",
-  #             x, x.orig, format(x_adj), format(box.width.char), y, y.orig, format(y_adj), format(box.height.char), label))
 
   grobs <- shadowtextGrob(
     label = label,

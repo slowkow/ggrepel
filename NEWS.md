@@ -17,11 +17,11 @@ ggrepel 0.9.1.9999
   from the [ggpp] package by @aphalo. Thanks to @aphalo for [pull request 193].
   
 * Improve handling of justification for `angle` different from zero in
-  `ggrepel::geom_text_repel()` [pull request 193].
+  `ggrepel::geom_text_repel()` [pull request 196].
   
 [ggpp]: https://github.com/aphalo/ggpp
 [pull request 193]: https://github.com/slowkow/ggrepel/pull/193
-
+[pull request 196]: https://github.com/slowkow/ggrepel/pull/196
 
 ggrepel 0.9.1 2021-01-09
 ========================
