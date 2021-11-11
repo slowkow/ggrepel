@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' data-engine-version='2.0' width='720.00pt' height='576.00pt' viewBox='0 0 720.00 576.00'>
+<defs>
+  <style type='text/css'><![CDATA[
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  ]]></style>
+</defs>
+<rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
+<defs>
+  <clipPath id='cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA='>
+    <rect x='0.00' y='0.00' width='720.00' height='576.00' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<rect x='0.00' y='0.00' width='720.00' height='576.00' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
+</g>
+<defs>
+  <clipPath id='cpMzIuNzl8NzE0LjUyfDIyLjc4fDU0NS4xMQ=='>
+    <rect x='32.79' y='22.78' width='681.73' height='522.33' />
+  </clipPath>
+</defs>
+<g clip-path='url(#cpMzIuNzl8NzE0LjUyfDIyLjc4fDU0NS4xMQ==)'>
+<rect x='32.79' y='22.78' width='681.73' height='522.33' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<circle cx='231.11' cy='165.24' r='1.95' style='stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;' />
+<circle cx='315.81' cy='256.25' r='1.95' style='stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;' />
+<circle cx='285.86' cy='94.01' r='1.95' style='stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;' />
+<circle cx='345.77' cy='311.65' r='1.95' style='stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;' />
+<circle cx='512.58' cy='414.53' r='1.95' style='stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;' />
+<circle cx='215.10' cy='145.45' r='1.95' style='stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;' />
+<circle cx='357.65' cy='236.46' r='1.95' style='stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;' />
+<circle cx='287.92' cy='371.00' r='1.95' style='stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;' />
+<text transform='translate(231.11,165.24) rotate(-90)' text-anchor='end' style='font-size: 11.04px; font-family: sans;' textLength='57.69px' lengthAdjust='spacingAndGlyphs'>Mazda RX4</text>
+<text transform='translate(315.81,256.25) rotate(-90)' text-anchor='end' style='font-size: 11.04px; font-family: sans;' textLength='90.22px' lengthAdjust='spacingAndGlyphs'>Hornet Sportabout</text>
+<text transform='translate(285.86,94.01) rotate(-90)' text-anchor='end' style='font-size: 11.04px; font-family: sans;' textLength='46.03px' lengthAdjust='spacingAndGlyphs'>Merc 230</text>
+<text transform='translate(345.77,311.65) rotate(-90)' style='font-size: 11.04px; font-family: sans;' textLength='59.53px' lengthAdjust='spacingAndGlyphs'>Merc 450SL</text>
+<text transform='translate(520.18,414.53) rotate(-90)' style='font-size: 11.04px; font-family: sans;' textLength='83.44px' lengthAdjust='spacingAndGlyphs'>Chrysler Imperial</text>
+<text transform='translate(215.10,145.45) rotate(-90)' text-anchor='end' style='font-size: 11.04px; font-family: sans;' textLength='73.03px' lengthAdjust='spacingAndGlyphs'>Toyota Corona</text>
+<text transform='translate(357.65,236.46) rotate(-90)' text-anchor='end' style='font-size: 11.04px; font-family: sans;' textLength='77.31px' lengthAdjust='spacingAndGlyphs'>Pontiac Firebird</text>
+<text transform='translate(287.92,371.00) rotate(-90)' style='font-size: 11.04px; font-family: sans;' textLength='73.64px' lengthAdjust='spacingAndGlyphs'>Ford Pantera L</text>
+<rect x='32.79' y='22.78' width='681.73' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
+</g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
+<text x='27.86' y='405.69' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>15</text>
+<text x='27.86' y='207.84' text-anchor='end' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>20</text>
+<polyline points='30.05,402.66 32.79,402.66 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='30.05,204.81 32.79,204.81 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='167.07,547.85 167.07,545.11 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='373.66,547.85 373.66,545.11 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<polyline points='580.24,547.85 580.24,545.11 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
+<text x='167.07' y='556.10' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>2</text>
+<text x='373.66' y='556.10' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>4</text>
+<text x='580.24' y='556.10' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>6</text>
+<text x='373.66' y='568.24' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='11.00px' lengthAdjust='spacingAndGlyphs'>wt</text>
+<text transform='translate(13.05,283.95) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='21.40px' lengthAdjust='spacingAndGlyphs'>mpg</text>
+<text x='32.79' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='166.60px' lengthAdjust='spacingAndGlyphs'>geom_text_repel_inward_90</text>
+</g>
+</svg>
