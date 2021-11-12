@@ -35,6 +35,8 @@ Suggests:
     knitr,
     rmarkdown,
     testthat,
+    svglite,
+    vdiffr,
     gridExtra,
     devtools,
     prettydoc,
