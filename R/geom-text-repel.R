@@ -269,26 +269,18 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       return()
     }
 
-    # As a test without disrupting anything, rename columns to match old names
+    # if needed rename columns using our convention
     for (this_dim in c("x", "y")) {
       this_orig <- sprintf("%s_orig", this_dim)
       this_nudge <- sprintf("nudge_%s", this_dim)
-      data[[this_nudge]] <- data[[this_dim]]
-      if (this_orig %in% colnames(data)) {
-        data[[this_dim]] <- data[[this_orig]]
-        data[[this_orig]] <- NULL
+      if (!this_nudge %in% colnames(data)) {
+        data[[this_nudge]] <- data[[this_dim]]
+        if (this_orig %in% colnames(data)) {
+          data[[this_dim]] <- data[[this_orig]]
+          data[[this_orig]] <- NULL
+        }
       }
     }
-
-    ## Now redundant
-    #
-    # # position_nudge_repel() should have added these columns.
-    # for (this_dim in c("x", "y")) {
-    #   this_nudge <- sprintf("nudge_%s", this_dim)
-    #   if (!this_nudge %in% colnames(data)) {
-    #     data[[this_nudge]] <- data[[this_dim]]
-    #   }
-    # }
 
     # Transform the nudges to the panel scales.
     nudges <- data.frame(x = data$nudge_x, y = data$nudge_y)
@@ -317,12 +309,17 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     limits$x[is.na(limits$x)] <- c(0, 1)[is.na(limits$x)]
     limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
 
+    # Warn about limitations of the algorithm
+    if (any(abs(data$angle) %% 90 > 5)) {
+      warn("ggrepel: Repulsion works correctly only for rotation angles multiple of 90 degrees")
+    }
+
     # Convert hjust and vjust to numeric if character
     if (is.character(data$vjust)) {
-      data$vjust <- compute_just(data$vjust, data$y)
+      data$vjust <- compute_just(data$vjust, data$y, data$x, data$angle)
     }
     if (is.character(data$hjust)) {
-      data$hjust <- compute_just(data$hjust, data$x)
+      data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
     }
 
     ggname("geom_text_repel", gTree(
@@ -468,9 +465,6 @@ makeContent.textrepeltree <- function(x) {
         # Position of original data points.
         x.orig = row$x,
         y.orig = row$y,
-        # Width and height of text boxes.
-        box.width = boxes[[i]]["x2"] - boxes[[i]]["x1"],
-        box.height = boxes[[i]]["y2"] - boxes[[i]]["y1"],
         rot = row$angle,
         box.padding = x$box.padding,
         point.size = point_size[i],
@@ -522,11 +516,8 @@ makeTextRepelGrobs <- function(
   x = unit(0.5, "npc"),
   y = unit(0.5, "npc"),
   # Position of original data points.
-  x.orig = 0.5,
-  y.orig = 0.5,
-  # Width and height of text boxes.
-  box.width = 0,
-  box.height = 0,
+  x.orig = NULL,
+  y.orig = NULL,
   rot = 0,
   default.units = "npc",
   box.padding = 0.25,
@@ -557,19 +548,31 @@ makeTextRepelGrobs <- function(
     x <- unit(x, default.units)
   if (!is.unit(y))
     y <- unit(y, default.units)
-  if (!is.unit(box.width))
-    box.width <- unit(box.width, default.units)
-  if (!is.unit(box.height))
-    box.height <- unit(box.height, default.units)
+
+  # support any angle by converting to -360..360
+  rot <- rot %% 360
+
+  # Instead of the width and height of the Grob we use the dimensions of the
+  # character string which are independent of rotation, matching those of
+  # a textGrob built with rot = 0.
+  # To support rotation height and width need to be expressed in units that
+  # are consistent on x and y axes, such as "char".
+  string.height <- convertHeight(stringHeight(label), "char")
+  string.width <- convertWidth(stringWidth(label), "char")
 
   rot_radians <- rot * pi / 180
+
+  x_adj <- x - cos(rot_radians) * string.width * (0.5 - hjust) +
+    sin(rot_radians) * string.height * (0.5 - vjust)
+  y_adj <- y - cos(rot_radians) * string.height * (0.5 - vjust) -
+    sin(rot_radians) * string.width * (0.5 - hjust)
+
   grobs <- shadowtextGrob(
-    label,
-    x - cos(rot_radians) * box.width * (0.5 - hjust) -
-        cos(rot_radians) * box.width * (0.5 - vjust),
-    y - sin(rot_radians) * box.height * (0.5 - vjust) -
-        sin(rot_radians) * box.height * (0.5 - hjust),
+    label = label,
+    x = x_adj,
+    y = y_adj,
     rot = rot,
+    default.units = "native",
     hjust = hjust,
     vjust = vjust,
     gp = text.gp,
@@ -659,11 +662,31 @@ makeTextRepelGrobs <- function(
 }
 
 # copied from ggplot2
-compute_just <- function(just, x) {
-  inward <- just == "inward"
-  just[inward] <- c("left", "middle", "right")[just_dir(x[inward])]
-  outward <- just == "outward"
-  just[outward] <- c("right", "middle", "left")[just_dir(x[outward])]
+compute_just <- function(just, a, b = a, angle = 0) {
+  #  As justification direction is relative to the text, not the plotting area
+  #  we need to swap x and y if text direction is rotated so that hjust is
+  #  applied along y and vjust along x.
+  if (any(grepl("outward|inward", just))) {
+    # ensure all angles are in -360...+360
+    angle <- angle %% 360
+    # ensure correct behaviour for angles in -360...+360
+    angle <- ifelse(angle > 180, angle - 360, angle)
+    angle <- ifelse(angle < -180, angle + 360, angle)
+    rotated_forward <-
+      grepl("outward|inward", just) & (angle > 45 & angle < 135)
+    rotated_backwards <-
+      grepl("outward|inward", just) & (angle < -45 & angle > -135)
+
+    ab <- ifelse(rotated_forward | rotated_backwards, b, a)
+    just_swap <- rotated_backwards | abs(angle) > 135
+    inward <-
+      (just == "inward" & !just_swap | just == "outward" & just_swap)
+    just[inward] <- c("left", "middle", "right")[just_dir(ab[inward])]
+    outward <-
+      (just == "outward" & !just_swap) | (just == "inward" & just_swap)
+    just[outward] <- c("right", "middle", "left")[just_dir(ab[outward])]
+
+  }
 
   unname(c(left = 0, center = 0.5, right = 1,
            bottom = 0, middle = 0.5, top = 1)[just])

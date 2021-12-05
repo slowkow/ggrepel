@@ -12,13 +12,16 @@ ggrepel 0.9.1.9999
 
 ## Changes
 
-* Change internal column names, so `ggrepel::position_nudge_repel()` can now be used
+* Change internal column names, so that `ggrepel::position_nudge_repel()` can now be used
   with `ggplot2::geom_text()`. This should also allow us to use new nudge functions
-  from the [ggpmisc] package by @aphalo. Thanks to @aphalo for [pull request 193].
+  from the [ggpp] package by @aphalo. Thanks to @aphalo for [pull request 193].
   
-[ggpmisc]: https://github.com/aphalo/ggpmisc
+* Improve handling of justification for `angle` different from zero in
+  `ggrepel::geom_text_repel()` [pull request 196].
+  
+[ggpp]: https://github.com/aphalo/ggpp
 [pull request 193]: https://github.com/slowkow/ggrepel/pull/193
-
+[pull request 196]: https://github.com/slowkow/ggrepel/pull/196
 
 ggrepel 0.9.1 2021-01-09
 ========================

@@ -33,8 +33,11 @@
 #'   grobWidth
 #'   grobX
 #'   grobY
+#'   stringHeight
+#'   stringWidth
 #'   is.grob
 #'   is.unit
+#'   unit
 #'   makeContent
 #'   resolveHJust
 #'   resolveVJust
