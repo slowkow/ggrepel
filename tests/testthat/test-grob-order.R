@@ -9,7 +9,7 @@ test_that("for geom_text_repel, all segment grobs come before text grobs", {
   dat1$label <- rownames(mtcars)
 
   # Make a plot with no seed and get the label positions.
-  png_file <- withr::local_tempfile("testthat_test-grob-order1")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-grob-order1")
   png(png_file)
   p1 <- ggplot(dat1) + geom_text_repel(aes(wt, mpg, label = label))
   print(p1)
@@ -31,7 +31,7 @@ test_that("for geom_label_repel, all rect grobs come before text grobs", {
   dat1$label <- rownames(mtcars)
 
   # Make a plot with no seed and get the label positions.
-  png_file <- withr::local_tempfile("testthat_test-grob-order1")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-grob-order1")
   png(png_file)
   p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label), max.overlaps = Inf)
   print(p1)

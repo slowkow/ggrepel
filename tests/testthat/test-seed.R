@@ -23,7 +23,7 @@ test_that("calling geom_text_repel without seed creates different plots", {
   dat1$label <- rownames(mtcars)[ix]
 
   # Make a plot with no seed and get the label positions.
-  png_file <- withr::local_tempfile("testthat_test-seed1")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed1")
   png(png_file)
   p1 <- ggplot(dat1) + geom_text_repel(aes(wt, mpg, label = label))
   print(p1)
@@ -33,7 +33,7 @@ test_that("calling geom_text_repel without seed creates different plots", {
   unlink("testthat_test-seed1.png")
 
   # Make a second plot with no seed and get the label positions.
-  png_file <- withr::local_tempfile("testthat_test-seed2")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed2")
   png(png_file)
   p2 <- ggplot(dat1) + geom_text_repel(aes(wt, mpg, label = label))
   print(p2)
@@ -53,7 +53,7 @@ test_that("calling geom_text_repel with seed creates identical plots", {
   dat1$label <- rownames(mtcars)[ix]
 
   # Make a plot with no seed and get the label positions.
-  png_file <- withr::local_tempfile("testthat_test-seed1")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed1")
   png(png_file)
   p1 <- ggplot(dat1) + geom_text_repel(aes(wt, mpg, label = label), seed = 10)
   print(p1)
@@ -62,7 +62,7 @@ test_that("calling geom_text_repel with seed creates identical plots", {
   dev.off()
 
   # Make a second plot with no seed and get the label positions.
-  png_file <- withr::local_tempfile("testthat_test-seed2")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed2")
   png(png_file)
   p2 <- ggplot(dat1) + geom_text_repel(aes(wt, mpg, label = label), seed = 10)
   print(p2)
@@ -85,7 +85,7 @@ test_that("calling geom_text_repel without seed does not remove entropy", {
   random_seq = c()
   for(s in 1:2) {
     set.seed(s)
-    png_file <- withr::local_tempfile("testthat_test-seed1")
+    png_file <- withr::local_tempfile(pattern = "testthat_test-seed1")
     png(png_file)
     p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
     print(p1)
@@ -104,7 +104,7 @@ test_that("calling geom_label_repel without seed creates different plots", {
   dat1$label <- rownames(mtcars)[ix]
 
   # Make a plot with no seed and get the label positions.
-  png_file <- withr::local_tempfile("testthat_test-seed1")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed1")
   png(png_file)
   p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
   print(p1)
@@ -113,7 +113,7 @@ test_that("calling geom_label_repel without seed creates different plots", {
   dev.off()
 
   # Make a second plot with no seed and get the label positions.
-  png_file <- withr::local_tempfile("testthat_test-seed2")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed2")
   png(png_file)
   p2 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
   print(p2)
@@ -133,7 +133,7 @@ test_that("calling geom_label_repel with seed creates identical plots", {
   dat1$label <- rownames(mtcars)[ix]
 
   # Make a plot with no seed and get the label positions.
-  png_file <- withr::local_tempfile("testthat_test-seed1")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed1")
   png(png_file)
   p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label), seed = 10)
   print(p1)
@@ -142,7 +142,7 @@ test_that("calling geom_label_repel with seed creates identical plots", {
   dev.off()
 
   # Make a second plot with no seed and get the label positions.
-  png_file <- withr::local_tempfile("testthat_test-seed2")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed2")
   png(png_file)
   p2 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label), seed = 10)
   print(p2)
@@ -165,7 +165,7 @@ test_that("calling geom_label_repel without seed does not remove entropy", {
   random_seq = c()
   for(s in 1:2) {
     set.seed(s)
-    png_file <- withr::local_tempfile("testthat_test-seed1")
+    png_file <- withr::local_tempfile(pattern = "testthat_test-seed1")
     png(png_file)
     p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
     print(p1)
