@@ -44,7 +44,8 @@ Suggests:
     dplyr,
     magrittr,
     readr,
-    stringr
+    stringr,
+    withr
 VignetteBuilder: knitr
 License: GPL-3 | file LICENSE
 URL: https://github.com/slowkow/ggrepel
