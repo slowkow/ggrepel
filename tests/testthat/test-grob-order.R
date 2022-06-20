@@ -9,7 +9,8 @@ test_that("for geom_text_repel, all segment grobs come before text grobs", {
   dat1$label <- rownames(mtcars)
 
   # Make a plot with no seed and get the label positions.
-  png("testthat_test-grob-order1.png")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-grob-order1")
+  png(png_file)
   p1 <- ggplot(dat1) + geom_text_repel(aes(wt, mpg, label = label))
   print(p1)
   grid.force()
@@ -17,7 +18,6 @@ test_that("for geom_text_repel, all segment grobs come before text grobs", {
     gPath = "textrepeltree", grep = TRUE, global = TRUE
   )$children)
   dev.off()
-  unlink("testthat_test-grob-order1.png")
 
   ix_segment <- max(which(startsWith(grobnames, "segmentrepelgrob")))
   ix_text    <- min(which(startsWith(grobnames, "textrepelgrob")))
@@ -31,7 +31,8 @@ test_that("for geom_label_repel, all rect grobs come before text grobs", {
   dat1$label <- rownames(mtcars)
 
   # Make a plot with no seed and get the label positions.
-  png("testthat_test-grob-order1.png")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-grob-order1")
+  png(png_file)
   p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label), max.overlaps = Inf)
   print(p1)
   grid.force()
@@ -39,7 +40,6 @@ test_that("for geom_label_repel, all rect grobs come before text grobs", {
     gPath = "labelrepeltree", grep = TRUE, global = TRUE
   )$children)
   dev.off()
-  unlink("testthat_test-grob-order1.png")
 
   isrect <- startsWith(grobnames, "rectrepelgrob")
   istext <- startsWith(grobnames, "textrepelgrob")

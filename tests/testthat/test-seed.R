@@ -23,7 +23,8 @@ test_that("calling geom_text_repel without seed creates different plots", {
   dat1$label <- rownames(mtcars)[ix]
 
   # Make a plot with no seed and get the label positions.
-  png("testthat_test-seed1.png")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed1")
+  png(png_file)
   p1 <- ggplot(dat1) + geom_text_repel(aes(wt, mpg, label = label))
   print(p1)
   grid.force()
@@ -32,13 +33,13 @@ test_that("calling geom_text_repel without seed creates different plots", {
   unlink("testthat_test-seed1.png")
 
   # Make a second plot with no seed and get the label positions.
-  png("testthat_test-seed2.png")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed2")
+  png(png_file)
   p2 <- ggplot(dat1) + geom_text_repel(aes(wt, mpg, label = label))
   print(p2)
   grid.force()
   pos2 <- pos_df(grid.get("textrepelgrob", grep = TRUE, global = TRUE))
   dev.off()
-  unlink("testthat_test-seed2.png")
 
   # Confirm that the label positions are identical.
   expect_true(nrow(pos1) == nrow(dat1))
@@ -52,22 +53,22 @@ test_that("calling geom_text_repel with seed creates identical plots", {
   dat1$label <- rownames(mtcars)[ix]
 
   # Make a plot with no seed and get the label positions.
-  png("testthat_test-seed1.png")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed1")
+  png(png_file)
   p1 <- ggplot(dat1) + geom_text_repel(aes(wt, mpg, label = label), seed = 10)
   print(p1)
   grid.force()
   pos1 <- pos_df(grid.get("textrepelgrob", grep = TRUE, global = TRUE))
   dev.off()
-  unlink("testthat_test-seed1.png")
 
   # Make a second plot with no seed and get the label positions.
-  png("testthat_test-seed2.png")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed2")
+  png(png_file)
   p2 <- ggplot(dat1) + geom_text_repel(aes(wt, mpg, label = label), seed = 10)
   print(p2)
   grid.force()
   pos2 <- pos_df(grid.get("textrepelgrob", grep = TRUE, global = TRUE))
   dev.off()
-  unlink("testthat_test-seed2.png")
 
   # Confirm that the label positions are identical.
   expect_true(nrow(pos1) == nrow(dat1))
@@ -84,11 +85,11 @@ test_that("calling geom_text_repel without seed does not remove entropy", {
   random_seq = c()
   for(s in 1:2) {
     set.seed(s)
-    png("testthat_test-seed1.png")
+    png_file <- withr::local_tempfile(pattern = "testthat_test-seed1")
+    png(png_file)
     p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
     print(p1)
     dev.off()
-    unlink("testthat_test-seed1.png")
 
     random_seq = c(random_seq, rnorm(1))
   }
@@ -103,22 +104,22 @@ test_that("calling geom_label_repel without seed creates different plots", {
   dat1$label <- rownames(mtcars)[ix]
 
   # Make a plot with no seed and get the label positions.
-  png("testthat_test-seed1.png")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed1")
+  png(png_file)
   p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
   print(p1)
   grid.force()
   pos1 <- pos_df(grid.get("textrepelgrob", grep = TRUE, global = TRUE))
   dev.off()
-  unlink("testthat_test-seed1.png")
 
   # Make a second plot with no seed and get the label positions.
-  png("testthat_test-seed2.png")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed2")
+  png(png_file)
   p2 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
   print(p2)
   grid.force()
   pos2 <- pos_df(grid.get("textrepelgrob", grep = TRUE, global = TRUE))
   dev.off()
-  unlink("testthat_test-seed2.png")
 
   # Confirm that the label positions are identical.
   expect_true(nrow(pos1) == nrow(dat1))
@@ -132,22 +133,22 @@ test_that("calling geom_label_repel with seed creates identical plots", {
   dat1$label <- rownames(mtcars)[ix]
 
   # Make a plot with no seed and get the label positions.
-  png("testthat_test-seed1.png")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed1")
+  png(png_file)
   p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label), seed = 10)
   print(p1)
   grid.force()
   pos1 <- pos_df(grid.get("textrepelgrob", grep = TRUE, global = TRUE))
   dev.off()
-  unlink("testthat_test-seed1.png")
 
   # Make a second plot with no seed and get the label positions.
-  png("testthat_test-seed2.png")
+  png_file <- withr::local_tempfile(pattern = "testthat_test-seed2")
+  png(png_file)
   p2 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label), seed = 10)
   print(p2)
   grid.force()
   pos2 <- pos_df(grid.get("textrepelgrob", grep = TRUE, global = TRUE))
   dev.off()
-  unlink("testthat_test-seed2.png")
 
   # Confirm that the label positions are identical.
   expect_true(nrow(pos1) == nrow(dat1))
@@ -164,11 +165,11 @@ test_that("calling geom_label_repel without seed does not remove entropy", {
   random_seq = c()
   for(s in 1:2) {
     set.seed(s)
-    png("testthat_test-seed1.png")
+    png_file <- withr::local_tempfile(pattern = "testthat_test-seed1")
+    png(png_file)
     p1 <- ggplot(dat1) + geom_label_repel(aes(wt, mpg, label = label))
     print(p1)
     dev.off()
-    unlink("testthat_test-seed1.png")
 
     random_seq = c(random_seq, rnorm(1))
   }
