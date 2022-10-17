@@ -180,7 +180,7 @@ NumericVector select_line_connection(
   bool right = false;
   bool bottom = false;
 
-  if ((p1[0] >= b[0]) & (p1[0] <= b[2])) {
+  if ((p1[0] >= b[0]) && (p1[0] <= b[2])) {
     out[0] = p1[0];
   } else if (p1[0] > b[2]) {
     out[0] = b[2];
@@ -190,7 +190,7 @@ NumericVector select_line_connection(
     left = true;
   }
 
-  if ((p1[1] >= b[1]) & (p1[1] <= b[3])) {
+  if ((p1[1] >= b[1]) && (p1[1] <= b[3])) {
     out[1] = p1[1];
   } else if (p1[1] > b[3]) {
     out[1] = b[3];
