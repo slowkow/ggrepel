@@ -130,3 +130,24 @@ This might be a good start for a revision of ggrepel.
 
 [aaai]: https://www.aaai.org/Papers/AAAI/2006/AAAI06-167.pdf
 
+### [Chapter 15. Labeling Algorithms][brown]
+
+Konstantinos G. Kakoulis, Ioannis G. Tollis
+
+> An important aspect of information visualization is the automatic placement
+> of text or symbol labels corresponding to graphical features of drawings and
+> maps. Labels are textual descriptions that convey information or clarify the
+> meaning of complex structures presented in a graphical form. The automatic
+> label placement problem is identified as an important research area by the
+> ACM Computational Geometry Task Force [C +99]. It has applications in many
+> areas including cartography [RMM+95], geographic information systems [Fre91],
+> and graph drawing [DETT99].
+
+[Handbook of Graph Drawing and Visualization][handbook], Roberto Tamassia (Editor),
+CRC Press, June 24, 2013.
+
+[brown]: https://cs.brown.edu/people/rtamassi/gdhandbook/chapters/labeling.pdf
+[handbook]: https://cs.brown.edu/people/rtamassi/gdhandbook/
+
+
+
