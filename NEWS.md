@@ -10,6 +10,8 @@ ggrepel 0.9.1.9999
 
 [issue 184]: https://github.com/slowkow/ggrepel/issues/184
 
+* Fix warning from CRAN `warning: use of bitwise '&' with boolean operands`
+
 ## Changes
 
 * Change internal column names, so that `ggrepel::position_nudge_repel()` can now be used
@@ -22,6 +24,7 @@ ggrepel 0.9.1.9999
 [ggpp]: https://github.com/aphalo/ggpp
 [pull request 193]: https://github.com/slowkow/ggrepel/pull/193
 [pull request 196]: https://github.com/slowkow/ggrepel/pull/196
+
 
 ggrepel 0.9.1 2021-01-09
 ========================
