@@ -12,7 +12,7 @@
 <!-- badges: end -->
 
 <div class="text-center">
-<img style="max-width:80%" src="man/figures/ggrepel-allison_horst.jpg"></img>
+<img style="max-width:80%" src="https://user-images.githubusercontent.com/209714/200123867-db9bd406-54d7-4ce0-aa09-1ec30740a87a.jpg"></img>
 </div>
 
 Overview
