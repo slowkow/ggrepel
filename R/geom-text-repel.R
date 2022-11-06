@@ -225,6 +225,8 @@ geom_text_repel <- function(
 #' @format NULL
 #' @usage NULL
 #' @seealso \link[ggplot2]{GeomText} from the ggplot2 package.
+#' @keywords internal
+#' @noRd
 #' @export
 GeomTextRepel <- ggproto("GeomTextRepel", Geom,
   required_aes = c("x", "y", "label"),

@@ -80,6 +80,8 @@ geom_label_repel <- function(
 #' @format NULL
 #' @usage NULL
 #' @seealso \link[ggplot2]{GeomLabel} from the ggplot2 package.
+#' @keywords internal
+#' @noRd
 #' @export
 GeomLabelRepel <- ggproto(
   "GeomLabelRepel", Geom,
