@@ -82,5 +82,4 @@ And thanks to [Allison Horst] for the beautiful artwork!
 
 [Allison Horst]: https://github.com/allisonhorst
 
-<blockquote class="twitter-tweet" data-dnt="true"><p lang="en" dir="ltr">ggrepel: simply repulsive text labels for garrulous ggplot graphs 😍. 🙌 Thank you to <a href="https://twitter.com/slowkow?ref_src=twsrc%5Etfw">@slowkow</a> &amp; all other contributors! 📉👾🧶 <a href="https://t.co/6d2P0c8iwU">pic.twitter.com/6d2P0c8iwU</a></p>&mdash; Allison Horst (@allison_horst) <a href="https://twitter.com/allison_horst/status/1114960656661266432?ref_src=twsrc%5Etfw">April 7, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
