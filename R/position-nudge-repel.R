@@ -67,9 +67,10 @@ position_nudge_repel <- function(x = 0, y = 0) {
   )
 }
 
-#' @rdname ggrepel-ggproto
+#' @rdname ggrepel
 #' @format NULL
 #' @usage NULL
+#' @keywords internal
 #' @export
 PositionNudgeRepel <- ggproto("PositionNudgeRepel", Position,
   x = 0,

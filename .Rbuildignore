@@ -16,6 +16,7 @@
 ^vignettes/.*\.md$
 ^how_to_build.txt$
 movies/
+_snaps/
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
