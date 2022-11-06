@@ -4,7 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Automatically position non-overlapping text labels with 'ggplot2'">
 <title>ggrepel: An R package • ggrepel</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -12,12 +13,11 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="ggrepel: An R package">
 <meta property="og:description" content="Automatically position non-overlapping text labels with 'ggplot2'">
 <meta property="og:image" content="https://ggrepel.slowkow.com/reference/figures/ggrepel-allison_horst.jpg">
@@ -36,55 +36,49 @@
   gtag('config', 'UA-15531613-2');
 </script>
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">ggrepel</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="articles/examples.html">Examples</a>
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="index.html">ggrepel</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.2</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="articles/examples.html">Examples</a>
 </li>
-<li>
-  <a href="reference/index.html">Reference</a>
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    News
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li class="dropdown-header">Release notes</li>
-    <li>
-      <a href="https://twitter.com/slowkow/status/1339364391377092609">Version 0.9.0</a>
-    </li>
-    <li class="divider">
-    <li>
-      <a href="news/index.html">Change log</a>
-    </li>
-  </ul>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-news">
+    <h6 class="dropdown-header" data-toc-skip>Release notes</h6>
+    <a class="external-link dropdown-item" href="https://twitter.com/slowkow/status/1339364391377092609">Version 0.9.0</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="news/index.html">Change log</a>
+  </div>
 </li>
-<li>
-  <a href="articles/related-work.html">Related work</a>
+<li class="nav-item">
+  <a class="nav-link" href="articles/related-work.html">Related work</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/slowkow/ggrepel">
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/slowkow/ggrepel">
     <span class="fa fa-github"></span>
      
     GitHub
@@ -92,130 +86,120 @@
 </li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+    
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
-
-      
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-
-
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9">
 <!-- badges: end -->
 <div class="text-center">
-<p><img style="max-width:80%" src="reference/figures/ggrepel-allison_horst.jpg"></p>
+<p><img style="max-width:80%" src="https://user-images.githubusercontent.com/209714/200123867-db9bd406-54d7-4ce0-aa09-1ec30740a87a.jpg"></p>
 </div>
-<div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
-<p>ggrepel provides geoms for <a href="https://ggplot2.tidyverse.org/">ggplot2</a> to repel overlapping text labels:</p>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>ggrepel provides geoms for <a href="https://ggplot2.tidyverse.org/" class="external-link">ggplot2</a> to repel overlapping text labels:</p>
 <ul>
 <li><code><a href="reference/geom_text_repel.html">geom_text_repel()</a></code></li>
 <li><code><a href="reference/geom_text_repel.html">geom_label_repel()</a></code></li>
 </ul>
 <p>Text labels repel away from each other, away from data points, and away from edges of the plotting area.</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggrepel</span>)
-<span class="fu">ggplot</span>(<span class="no">mtcars</span>, <span class="fu">aes</span>(<span class="no">wt</span>, <span class="no">mpg</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">mtcars</span>))) +
-  <span class="fu"><a href="reference/geom_text_repel.html">geom_text_repel</a></span>() +
-  <span class="fu">geom_point</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="st">'red'</span>) +
-  <span class="fu">theme_classic</span>(<span class="kw">base_size</span> <span class="kw">=</span> <span class="fl">16</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel" class="external-link">ggrepel</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span></code></pre></div>
 <p align="center">
 <img src="https://imgur.com/ii9ova8.gif"></p>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="co"># The easiest way to get ggrepel is to install it from CRAN:</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"ggrepel"</span>)
-
-<span class="co"># Or get the latest development version from GitHub:</span>
-<span class="co"># install.packages("devtools")</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"slowkow/ggrepel"</span>)</pre></div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># The easiest way to get ggrepel is to install it from CRAN:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"ggrepel"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or get the latest development version from GitHub:</span></span>
+<span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"slowkow/ggrepel"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="getting-help" class="section level2">
-<h2 class="hasAnchor">
-<a href="#getting-help" class="anchor"></a>Getting help</h2>
+<div class="section level2">
+<h2 id="getting-help">Getting help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
+</h2>
 <p>Check out the <a href="articles/examples.html">examples</a> to learn how to use ggrepel in your project.</p>
 <p>See our collection of <a href="articles/related-work.html">related work</a> for similar R packages, Python packages, and more.</p>
 <p>If you have an issue with ggrepel or ggplot2, someone might already have experienced it. Try searching the web, or create a new post:</p>
-<ol>
-<li><p>The <a href="https://community.rstudio.com/">RStudio community</a> is an active forum with RStudio and R users.</p></li>
-<li><p><a href="https://stackoverflow.com/questions/tagged/ggrepel?sort=frequent&amp;pageSize=50">Stack Overflow</a> has lots of questions and answers about ggplot2 and ggrepel.</p></li>
+<ol style="list-style-type: decimal">
+<li><p>The <a href="https://community.rstudio.com/" class="external-link">RStudio community</a> is an active forum with RStudio and R users.</p></li>
+<li><p><a href="https://stackoverflow.com/questions/tagged/ggrepel?sort=frequent&amp;pageSize=50" class="external-link">Stack Overflow</a> has lots of questions and answers about ggplot2 and ggrepel.</p></li>
 </ol>
 </div>
-<div id="thanks" class="section level2">
-<h2 class="hasAnchor">
-<a href="#thanks" class="anchor"></a>Thanks</h2>
+<div class="section level2">
+<h2 id="thanks">Thanks<a class="anchor" aria-label="anchor" href="#thanks"></a>
+</h2>
 <p>Thanks to everyone who has contributed pull requests, opened issues, asked questions, and shared examples!</p>
-<p>And thanks to <a href="https://github.com/allisonhorst">Allison Horst</a> for the beautiful artwork!</p>
-<blockquote class="twitter-tweet" data-dnt="true">
-<p lang="en" dir="ltr">
-ggrepel: simply repulsive text labels for garrulous ggplot graphs 😍. 🙌 Thank you to <a href="https://twitter.com/slowkow?ref_src=twsrc%5Etfw">@slowkow</a> &amp; all other contributors! 📉👾🧶 <a href="https://t.co/6d2P0c8iwU">pic.twitter.com/6d2P0c8iwU</a>
-</p>
-— Allison Horst (@allison_horst) <a href="https://twitter.com/allison_horst/status/1114960656661266432?ref_src=twsrc%5Etfw">April 7, 2019</a>
-</blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>And thanks to <a href="https://github.com/allisonhorst" class="external-link">Allison Horst</a> for the beautiful artwork!</p>
 </div>
 
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="links">
-<h2>Links</h2>
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=ggrepel">https://​cloud.r-project.org/​package=ggrepel</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/slowkow/ggrepel/">https://​github.com/​slowkow/​ggrepel/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/slowkow/ggrepel/issues">https://​github.com/​slowkow/​ggrepel/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=ggrepel" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/slowkow/ggrepel/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/slowkow/ggrepel/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a> | file <a href="LICENSE-text.html">LICENSE</a>
+<a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a> | file <a href="LICENSE-text.html">LICENSE</a>
 </li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing ggrepel</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://slowkow.com">Kamil Slowikowski</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-2843-6370" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li><a href="authors.html">All authors...</a></li>
+<a href="https://slowkow.com" class="external-link">Kamil Slowikowski</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-2843-6370" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://travis-ci.org/slowkow/ggrepel"><img src="https://travis-ci.org/slowkow/ggrepel.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://CRAN.R-project.org/package=ggrepel"><img src="https://www.r-pkg.org/badges/version/ggrepel?color=blue" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://www.r-pkg.org/pkg/ggrepel"><img src="https://cranlogs.r-pkg.org/badges/grand-total/ggrepel?color=blue" alt="CRAN_Downloads_Badge"></a></li>
-</ul>
-</div>
-</div>
+
+
+  </aside>
 </div>
 
 
-      <footer><div class="copyright">
-  <p>Developed by <a href="https://slowkow.com">Kamil Slowikowski</a>.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by <a href="https://slowkow.com" class="external-link">Kamil Slowikowski</a>.</p>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>

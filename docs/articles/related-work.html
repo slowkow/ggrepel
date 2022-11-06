@@ -4,7 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="ggrepel">
 <title>Related work • ggrepel</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -12,12 +13,11 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Related work">
 <meta property="og:description" content="ggrepel">
 <meta property="og:image" content="https://ggrepel.slowkow.com/reference/figures/ggrepel-allison_horst.jpg">
@@ -36,55 +36,49 @@
   gtag('config', 'UA-15531613-2');
 </script>
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">ggrepel</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.1</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../articles/examples.html">Examples</a>
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="../index.html">ggrepel</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.2</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="../articles/examples.html">Examples</a>
 </li>
-<li>
-  <a href="../reference/index.html">Reference</a>
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    News
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li class="dropdown-header">Release notes</li>
-    <li>
-      <a href="https://twitter.com/slowkow/status/1339364391377092609">Version 0.9.0</a>
-    </li>
-    <li class="divider">
-    <li>
-      <a href="../news/index.html">Change log</a>
-    </li>
-  </ul>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-news">
+    <h6 class="dropdown-header" data-toc-skip>Release notes</h6>
+    <a class="external-link dropdown-item" href="https://twitter.com/slowkow/status/1339364391377092609">Version 0.9.0</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../news/index.html">Change log</a>
+  </div>
 </li>
-<li>
-  <a href="../articles/related-work.html">Related work</a>
+<li class="active nav-item">
+  <a class="nav-link" href="../articles/related-work.html">Related work</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/slowkow/ggrepel">
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/slowkow/ggrepel">
     <span class="fa fa-github"></span>
      
     GitHub
@@ -92,167 +86,226 @@
 </li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+    
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-article">
 
-      
 
-      </header><script src="related-work_files/header-attrs-2.3.2/header-attrs.js"></script><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Related work</h1>
-                        <h4 class="author">Kamil Slowikowski</h4>
+
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+      <img src="../logo.svg" class="logo" alt=""><h1>Related work</h1>
+                        <h4 data-toc-skip class="author">Kamil
+Slowikowski</h4>
             
-            <h4 class="date">2021-01-15</h4>
+            <h4 data-toc-skip class="date">2022-11-05</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/slowkow/ggrepel/blob/master/vignettes/related-work.Rmd"><code>vignettes/related-work.Rmd</code></a></small>
-      <div class="hidden name"><code>related-work.Rmd</code></div>
-
+      <small class="dont-index">Source: <a href="https://github.com/slowkow/ggrepel/blob/HEAD/vignettes/related-work.Rmd" class="external-link"><code>vignettes/related-work.Rmd</code></a></small>
+      <div class="d-none name"><code>related-work.Rmd</code></div>
     </div>
 
     
     
-<div id="r" class="section level2">
-<h2 class="hasAnchor">
-<a href="#r" class="anchor"></a>R</h2>
-<div id="ggforce" class="section level3">
-<h3 class="hasAnchor">
-<a href="#ggforce" class="anchor"></a><a href="https://cran.r-project.org/package=ggforce">ggforce</a>
+<div class="section level2">
+<h2 id="r">R<a class="anchor" aria-label="anchor" href="#r"></a>
+</h2>
+<div class="section level3">
+<h3 id="ggforce">
+<a href="https://cran.r-project.org/package=ggforce" class="external-link">ggforce</a><a class="anchor" aria-label="anchor" href="#ggforce"></a>
 </h3>
 <blockquote>
-<p>Annotation is important for storytelling, and ggforce provides a family of geoms that makes it easy to draw attention to, and describe, features of the plot. They all work in the same way, but differ in the way they enclose the area you want to draw attention to.</p>
+<p>Annotation is important for storytelling, and ggforce provides a
+family of geoms that makes it easy to draw attention to, and describe,
+features of the plot. They all work in the same way, but differ in the
+way they enclose the area you want to draw attention to.</p>
 </blockquote>
 </div>
-<div id="directlabels" class="section level3">
-<h3 class="hasAnchor">
-<a href="#directlabels" class="anchor"></a><a href="https://cran.r-project.org/package=directlabels">directlabels</a>
+<div class="section level3">
+<h3 id="directlabels">
+<a href="https://cran.r-project.org/package=directlabels" class="external-link">directlabels</a><a class="anchor" aria-label="anchor" href="#directlabels"></a>
 </h3>
 <blockquote>
-<p>An extensible framework for automatically placing direct labels onto multicolor ‘lattice’ or ‘ggplot2’ plots. Label positions are described using Positioning Methods which can be re-used across several different plots. There are heuristics for examining “trellis” and “ggplot” objects and inferring an appropriate Positioning Method.</p>
+<p>An extensible framework for automatically placing direct labels onto
+multicolor ‘lattice’ or ‘ggplot2’ plots. Label positions are described
+using Positioning Methods which can be re-used across several different
+plots. There are heuristics for examining “trellis” and “ggplot” objects
+and inferring an appropriate Positioning Method.</p>
 </blockquote>
 </div>
-<div id="ggwordcloud" class="section level3">
-<h3 class="hasAnchor">
-<a href="#ggwordcloud" class="anchor"></a><a href="https://cran.r-project.org/package=ggwordcloud">ggwordcloud</a>
+<div class="section level3">
+<h3 id="ggwordcloud">
+<a href="https://cran.r-project.org/package=ggwordcloud" class="external-link">ggwordcloud</a><a class="anchor" aria-label="anchor" href="#ggwordcloud"></a>
 </h3>
 <blockquote>
-<p>ggwordcloud provides a word cloud text geom for ggplot2. The placement algorithm implemented in C++ is an hybrid between the one of wordcloud and the one of wordcloud2.js. The cloud can grow according to a shape and stay within a mask. The size aesthetic is used either to control the font size or the printed area of the words. ggwordcloud also supports arbitrary text rotation. The faceting scheme of ggplot2 can also be used.</p>
+<p>ggwordcloud provides a word cloud text geom for ggplot2. The
+placement algorithm implemented in C++ is an hybrid between the one of
+wordcloud and the one of wordcloud2.js. The cloud can grow according to
+a shape and stay within a mask. The size aesthetic is used either to
+control the font size or the printed area of the words. ggwordcloud also
+supports arbitrary text rotation. The faceting scheme of ggplot2 can
+also be used.</p>
 </blockquote>
-<p>The <code>ggwordcloud</code> package implements a spiraling algorithm to prevent text labels from overlapping each other.</p>
+<p>The <code>ggwordcloud</code> package implements a spiraling algorithm
+to prevent text labels from overlapping each other.</p>
 </div>
-<div id="wordcloud" class="section level3">
-<h3 class="hasAnchor">
-<a href="#wordcloud" class="anchor"></a><a href="https://cran.r-project.org/package=wordcloud">wordcloud</a>
+<div class="section level3">
+<h3 id="wordcloud">
+<a href="https://cran.r-project.org/package=wordcloud" class="external-link">wordcloud</a><a class="anchor" aria-label="anchor" href="#wordcloud"></a>
 </h3>
 <blockquote>
 <p>Pretty word clouds.</p>
 </blockquote>
-<p>The <code>wordcloud</code> package implements a spiraling algorithm to prevent text labels from overlapping each other.</p>
+<p>The <code>wordcloud</code> package implements a spiraling algorithm
+to prevent text labels from overlapping each other.</p>
 </div>
-<div id="ffield" class="section level3">
-<h3 class="hasAnchor">
-<a href="#ffield" class="anchor"></a><a href="https://cran.r-project.org/package=FField">FField</a>
+<div class="section level3">
+<h3 id="ffield">
+<a href="https://cran.r-project.org/package=FField" class="external-link">FField</a><a class="anchor" aria-label="anchor" href="#ffield"></a>
 </h3>
 <blockquote>
-<p>Force field simulation of interaction of set of points. Very useful for placing text labels on graphs, such as scatterplots.</p>
+<p>Force field simulation of interaction of set of points. Very useful
+for placing text labels on graphs, such as scatterplots.</p>
 </blockquote>
-<p>I found that functions in the <code>FField</code> package were not ideal for repelling overlapping rectangles, so I wrote my own.</p>
-<p>See <a href="https://gist.github.com/slowkow/003b4d9f3f59cee8551c">this gist</a> for examples of how to use the <code>wordcloud</code> and <code>FField</code> packages with <code>ggplot2</code>.</p>
+<p>I found that functions in the <code>FField</code> package were not
+ideal for repelling overlapping rectangles, so I wrote my own.</p>
+<p>See <a href="https://gist.github.com/slowkow/003b4d9f3f59cee8551c" class="external-link">this
+gist</a> for examples of how to use the <code>wordcloud</code> and
+<code>FField</code> packages with <code>ggplot2</code>.</p>
 </div>
 </div>
-<div id="javascript" class="section level2">
-<h2 class="hasAnchor">
-<a href="#javascript" class="anchor"></a>Javascript</h2>
-<div id="vega-label" class="section level3">
-<h3 class="hasAnchor">
-<a href="#vega-label" class="anchor"></a><a href="https://github.com/vega/vega/tree/master/packages/vega-label">vega-label</a>
+<div class="section level2">
+<h2 id="javascript">Javascript<a class="anchor" aria-label="anchor" href="#javascript"></a>
+</h2>
+<div class="section level3">
+<h3 id="vega-label">
+<a href="https://github.com/vega/vega/tree/master/packages/vega-label" class="external-link">vega-label</a><a class="anchor" aria-label="anchor" href="#vega-label"></a>
 </h3>
-<p><strong>Fast and Flexible Overlap Detection for Chart Labeling with Occupancy Bitmaps</strong></p>
-<p>Chanwut Kittivorawang, Dominik Moritz, Kanit Wongsuphasawat, Jeffrey Heer</p>
-<p><a href="http://idl.cs.washington.edu/papers/fast-labels/" class="uri">http://idl.cs.washington.edu/papers/fast-labels/</a></p>
+<p><strong>Fast and Flexible Overlap Detection for Chart Labeling with
+Occupancy Bitmaps</strong></p>
+<p>Chanwut Kittivorawang, Dominik Moritz, Kanit Wongsuphasawat, Jeffrey
+Heer</p>
+<p><a href="http://idl.cs.washington.edu/papers/fast-labels/" class="external-link uri">http://idl.cs.washington.edu/papers/fast-labels/</a></p>
 </div>
-<div id="d3-labeler" class="section level3">
-<h3 class="hasAnchor">
-<a href="#d3-labeler" class="anchor"></a><a href="https://github.com/tinker10/D3-Labeler">D3-Labeler</a>
-</h3>
-<blockquote>
-<p>A D3 plug-in for automatic label placement using simulated annealing</p>
-</blockquote>
-<p><a href="https://github.com/tinker10">Evan Wang</a>’s plugin that extends <a href="https://github.com/d3/d3">D3</a> v3. He also described the approach in his <a href="http://vis.berkeley.edu/courses/cs294-10-fa13/wiki/images/5/55/FP_EvanWang_paper.pdf">paper</a>.</p>
-</div>
-<div id="d3fc-label-layout" class="section level3">
-<h3 class="hasAnchor">
-<a href="#d3fc-label-layout" class="anchor"></a><a href="https://github.com/d3fc/d3fc-label-layout">d3fc-label-layout</a>
+<div class="section level3">
+<h3 id="d3-labeler">
+<a href="https://github.com/tinker10/D3-Labeler" class="external-link">D3-Labeler</a><a class="anchor" aria-label="anchor" href="#d3-labeler"></a>
 </h3>
 <blockquote>
-<p>A D3 layout that places labels avoiding overlaps, with strategies including simulated annealing, greedy and a strategy that removes overlapping labels.</p>
+<p>A D3 plug-in for automatic label placement using simulated
+annealing</p>
 </blockquote>
-<p><a href="https://github.com/ColinEberhardt">Colin Eberhardt</a>’s implementation for <a href="https://github.com/d3/d3">D3</a> v4.</p>
+<p><a href="https://github.com/tinker10" class="external-link">Evan Wang</a>’s plugin that
+extends <a href="https://github.com/d3/d3" class="external-link">D3</a> v3. He also described
+the approach in his <a href="http://vis.berkeley.edu/courses/cs294-10-fa13/wiki/images/5/55/FP_EvanWang_paper.pdf" class="external-link">paper</a>.</p>
 </div>
-<div id="d3-voronoi-labels" class="section level3">
-<h3 class="hasAnchor">
-<a href="#d3-voronoi-labels" class="anchor"></a><a href="https://beta.observablehq.com/@mbostock/d3-voronoi-labels">d3-voronoi-labels</a>
+<div class="section level3">
+<h3 id="d3fc-label-layout">
+<a href="https://github.com/d3fc/d3fc-label-layout" class="external-link">d3fc-label-layout</a><a class="anchor" aria-label="anchor" href="#d3fc-label-layout"></a>
 </h3>
 <blockquote>
-<p>A Voronoi tessellation can assist in labeling scatterplots. The area of the Voronoi cell associated with each point determines whether the point is labeled: points with larger cells tend to have room to accommodate labels.</p>
+<p>A D3 layout that places labels avoiding overlaps, with strategies
+including simulated annealing, greedy and a strategy that removes
+overlapping labels.</p>
 </blockquote>
+<p><a href="https://github.com/ColinEberhardt" class="external-link">Colin Eberhardt</a>’s
+implementation for <a href="https://github.com/d3/d3" class="external-link">D3</a> v4.</p>
 </div>
-</div>
-<div id="python" class="section level2">
-<h2 class="hasAnchor">
-<a href="#python" class="anchor"></a>Python</h2>
-<div id="adjusttext" class="section level3">
-<h3 class="hasAnchor">
-<a href="#adjusttext" class="anchor"></a><a href="https://github.com/Phlya/adjustText">adjustText</a>
+<div class="section level3">
+<h3 id="d3-voronoi-labels">
+<a href="https://beta.observablehq.com/@mbostock/d3-voronoi-labels" class="external-link">d3-voronoi-labels</a><a class="anchor" aria-label="anchor" href="#d3-voronoi-labels"></a>
 </h3>
 <blockquote>
-<p>A small library for automatically adjusting text position in matplotlib plots to minimize overlaps.</p>
+<p>A Voronoi tessellation can assist in labeling scatterplots. The area
+of the Voronoi cell associated with each point determines whether the
+point is labeled: points with larger cells tend to have room to
+accommodate labels.</p>
 </blockquote>
-<p><a href="https://github.com/Phlya">Ilya Flyamer</a>’s Python library that extends <a href="https://matplotlib.org/">matplotlib</a>.</p>
 </div>
 </div>
-<div id="academic-papers" class="section level2">
-<h2 class="hasAnchor">
-<a href="#academic-papers" class="anchor"></a>Academic Papers</h2>
-<div id="an-efficient-algorithm-for-scatter-chart-labelingaaai" class="section level3">
-<h3 class="hasAnchor">
-<a href="#an-efficient-algorithm-for-scatter-chart-labelingaaai" class="anchor"></a><a href="https://www.aaai.org/Papers/AAAI/2006/AAAI06-167.pdf">An Efficient Algorithm for Scatter Chart Labeling</a>
+<div class="section level2">
+<h2 id="python">Python<a class="anchor" aria-label="anchor" href="#python"></a>
+</h2>
+<div class="section level3">
+<h3 id="adjusttext">
+<a href="https://github.com/Phlya/adjustText" class="external-link">adjustText</a><a class="anchor" aria-label="anchor" href="#adjusttext"></a>
+</h3>
+<blockquote>
+<p>A small library for automatically adjusting text position in
+matplotlib plots to minimize overlaps.</p>
+</blockquote>
+<p><a href="https://github.com/Phlya" class="external-link">Ilya Flyamer</a>’s Python library
+that extends <a href="https://matplotlib.org/" class="external-link">matplotlib</a>.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="academic-papers">Academic Papers<a class="anchor" aria-label="anchor" href="#academic-papers"></a>
+</h2>
+<div class="section level3">
+<h3 id="an-efficient-algorithm-for-scatter-chart-labelingaaai">
+<a href="https://www.aaai.org/Papers/AAAI/2006/AAAI06-167.pdf" class="external-link">An
+Efficient Algorithm for Scatter Chart Labeling</a><a class="anchor" aria-label="anchor" href="#an-efficient-algorithm-for-scatter-chart-labelingaaai"></a>
 </h3>
 <p>Sebastian Theophil, Arno Schödl</p>
 <blockquote>
-<p>This paper presents an efficient algorithm for a new variation of the point feature labeling problem. The goal is to position the largest number of point labels such that they do not intersect each other or their points. First we present an algorithm using a greedy algorithm with limited lookahead. We then present an algorithm that iteratively regroups labels, calling the first algorithm on each group, thereby identifying a close to optimal labeling order. The presented algorithm is being used in a commercial product to label charts, and our evaluation shows that it produces results far superior to those of other labeling algorithms.</p>
+<p>This paper presents an efficient algorithm for a new variation of the
+point feature labeling problem. The goal is to position the largest
+number of point labels such that they do not intersect each other or
+their points. First we present an algorithm using a greedy algorithm
+with limited lookahead. We then present an algorithm that iteratively
+regroups labels, calling the first algorithm on each group, thereby
+identifying a close to optimal labeling order. The presented algorithm
+is being used in a commercial product to label charts, and our
+evaluation shows that it produces results far superior to those of other
+labeling algorithms.</p>
 </blockquote>
 <p>This might be a good start for a revision of ggrepel.</p>
 </div>
+<div class="section level3">
+<h3 id="chapter-15--labeling-algorithmsbrown">
+<a href="https://cs.brown.edu/people/rtamassi/gdhandbook/chapters/labeling.pdf" class="external-link">Chapter
+15. Labeling Algorithms</a><a class="anchor" aria-label="anchor" href="#chapter-15--labeling-algorithmsbrown"></a>
+</h3>
+<p>Konstantinos G. Kakoulis, Ioannis G. Tollis</p>
+<blockquote>
+<p>An important aspect of information visualization is the automatic
+placement of text or symbol labels corresponding to graphical features
+of drawings and maps. Labels are textual descriptions that convey
+information or clarify the meaning of complex structures presented in a
+graphical form. The automatic label placement problem is identified as
+an important research area by the ACM Computational Geometry Task Force
+[C +99]. It has applications in many areas including cartography
+[RMM+95], geographic information systems [Fre91], and graph drawing
+[DETT99].</p>
+</blockquote>
+<p><a href="https://cs.brown.edu/people/rtamassi/gdhandbook/" class="external-link">Handbook
+of Graph Drawing and Visualization</a>, Roberto Tamassia (Editor), CRC
+Press, June 24, 2013.</p>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
 </div>
-
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
-  <p>Developed by <a href="https://slowkow.com">Kamil Slowikowski</a>.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by <a href="https://slowkow.com" class="external-link">Kamil Slowikowski</a>.</p>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>

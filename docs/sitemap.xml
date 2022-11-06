@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ggrepel.slowkow.com/index.html</loc>
+    <loc>https://ggrepel.slowkow.com/404.html</loc>
   </url>
   <url>
-    <loc>https://ggrepel.slowkow.com/reference/geom_text_repel.html</loc>
+    <loc>https://ggrepel.slowkow.com/ISSUE_TEMPLATE.html</loc>
   </url>
   <url>
-    <loc>https://ggrepel.slowkow.com/reference/ggrepel-ggproto.html</loc>
-  </url>
-  <url>
-    <loc>https://ggrepel.slowkow.com/reference/ggrepel.html</loc>
-  </url>
-  <url>
-    <loc>https://ggrepel.slowkow.com/reference/position_nudge_repel.html</loc>
+    <loc>https://ggrepel.slowkow.com/LICENSE-text.html</loc>
   </url>
   <url>
     <loc>https://ggrepel.slowkow.com/articles/examples.html</loc>
@@ -22,6 +16,30 @@
     <loc>https://ggrepel.slowkow.com/articles/ggrepel.html</loc>
   </url>
   <url>
+    <loc>https://ggrepel.slowkow.com/articles/index.html</loc>
+  </url>
+  <url>
     <loc>https://ggrepel.slowkow.com/articles/related-work.html</loc>
+  </url>
+  <url>
+    <loc>https://ggrepel.slowkow.com/authors.html</loc>
+  </url>
+  <url>
+    <loc>https://ggrepel.slowkow.com/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ggrepel.slowkow.com/news/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ggrepel.slowkow.com/reference/geom_text_repel.html</loc>
+  </url>
+  <url>
+    <loc>https://ggrepel.slowkow.com/reference/ggrepel.html</loc>
+  </url>
+  <url>
+    <loc>https://ggrepel.slowkow.com/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ggrepel.slowkow.com/reference/position_nudge_repel.html</loc>
   </url>
 </urlset>
