@@ -24,6 +24,7 @@ home:
 
 
 template:
+  bootstrap: 5
   opengraph:
     image:
       src: reference/figures/ggrepel-allison_horst.jpg
