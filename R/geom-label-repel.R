@@ -258,8 +258,8 @@ makeContent.labelrepeltree <- function(x) {
   })
 
   # Make the repulsion reproducible if desired.
-  if (is.null(x$seed) || !is.na(x$seed)) {
-      set.seed(x$seed)
+  if (!is.null(x$seed) && is.na(x$seed)) {
+    x$seed <- sample.int(.Machine$integer.max, 1L)
   }
 
   # The points are represented by circles.
@@ -281,7 +281,7 @@ makeContent.labelrepeltree <- function(x) {
   ) / 13
 
   # Repel overlapping bounding boxes away from each other.
-  repel <- repel_boxes2(
+  repel <- with_seed_null(x$seed, repel_boxes2(
     data_points     = as.matrix(x$data[,c("x","y")]),
     point_size      = point_size,
     point_padding_x = point_padding,
@@ -298,7 +298,7 @@ makeContent.labelrepeltree <- function(x) {
     max_overlaps    = x$max.overlaps,
     direction       = x$direction,
     verbose         = x$verbose
-  )
+  ))
 
   if (any(repel$too_many_overlaps)) {
     warn(

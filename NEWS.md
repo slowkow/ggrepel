@@ -1,4 +1,16 @@
 
+ggrepel 0.9.2.9999
+========================
+
+## Bug fixes
+
+* When we set the seed in `ggrepel::geom_text_repel(seed = 1)`, this will
+  no longer override the seed for other unrelated code. Thanks to
+  @kassambara for reporting this in [issue 228].
+
+[issue 228]: https://github.com/slowkow/ggrepel/issues/228
+
+
 ggrepel 0.9.2
 ========================
 
