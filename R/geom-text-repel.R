@@ -311,7 +311,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
 
     # Warn about limitations of the algorithm
-    if (any(abs(data$angle) %% 90 > 5)) {
+    if (any(abs(data$angle %% 90) > 5)) {
       warn("ggrepel: Repulsion works correctly only for rotation angles multiple of 90 degrees")
     }
 
