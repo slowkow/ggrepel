@@ -81,6 +81,7 @@ jobs:
         if: runner.os == 'Windows'
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
+          _R_CHECK_FORCE_SUGGESTS_: false
         run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran", "--no-tests"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
