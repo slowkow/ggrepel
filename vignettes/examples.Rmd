@@ -942,6 +942,44 @@ ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
   labs(title = "position_quasirandom()")
 ```
 
+### Label `sf` objects
+
+Currently if you use `geom_text_repel()` or `geom_label_repel()` with a
+`ggplot2::geom_sf` plot, you will probably get an error like
+
+`Error: geom_label_repel requires the following missing aesthetics: x and y`
+
+There's a workaround to this which will enable the `ggrepel` functions to work
+with spatial `sf` plots like this - you just need to include:
+
+`stat = "sf_coordinates"`
+
+in the `geom_text|label_repel()` call.
+
+
+```{r label-sf-objects, echo=TRUE, fig.width=7, fig.height=4}
+# thanks to Hiroaki Yutani 
+# https://github.com/slowkow/ggrepel/issues/111#issuecomment-416853013
+
+library(ggplot2)
+library(sf)
+
+nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
+
+ggplot(nc) +
+  geom_sf() +
+  ggrepel::geom_label_repel(
+    data = head(nc),
+    aes(label = NAME, geometry = geometry),
+    stat = "sf_coordinates",
+    min.segment.length = 0
+  )
+```
+
+Thanks to [Hiroaki Yutani][hy-gh] for the solution.
+
+[hy-gh]: https://github.com/slowkow/ggrepel/issues/111#issuecomment-416853013
+
 ### Shadows (or glow) under text labels
 
 We can place shadows (or glow) underneath each text label to enhance
