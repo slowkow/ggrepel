@@ -2,6 +2,9 @@
 title: "Examples"
 author: "Kamil Slowikowski"
 date: "`r Sys.Date()`"
+output:
+  html_document:
+    self_contained: false
 ---
 
 ```{r setup, echo=FALSE, results='hide', warning=FALSE, error=FALSE, message=FALSE, cache=FALSE}
@@ -42,7 +45,7 @@ date: "`r Sys.Date()`"
 #       smooth_scroll: false
 library(knitr)
 opts_chunk$set(
-  cache       = FALSE,
+  cache       = TRUE,
   autodep     = TRUE,
   echo        = FALSE,
   warning     = FALSE,
@@ -145,6 +148,7 @@ your data, like `nudge_x` or `nudge_y`.
 |`box.padding`   | `0.25 lines` | padding around the text label
 |`point.padding` | `0 lines`    | padding around the labeled data point
 |`arrow`         | `NULL`       | render line segment as an arrow with `grid::arrow()`
+|`min.segment.length` | `0.5` | only draw line segments that are longer than 0.5 (default)
 
 ## Aesthetics
 

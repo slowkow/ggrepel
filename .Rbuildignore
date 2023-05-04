@@ -11,7 +11,10 @@
 ^issues
 ^scripts
 ^vignettes/cache
+^vignettes/examples_cache
 ^vignettes/figures
+^vignettes/examples_files
+^vignettes/gallery.html
 ^vignettes/Makefile$
 ^vignettes/.*\.md$
 ^how_to_build.txt$
