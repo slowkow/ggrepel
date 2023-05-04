@@ -1,4 +1,19 @@
 
+ggrepel 0.9.3.9999
+========================
+
+## Changes
+
+* Add `min.segment.length` to the options table in the examples page, thanks to
+  @jwhendy for [mentioning this][issue 213].
+
+* Add example for how to use ggrepel with sf objects, i.e.
+  `geom_text_repel(..., stat = "sf_coordinates")`, thanks to @francisbarton for [pull request 236].
+
+[issue 213]: https://github.com/slowkow/ggrepel/issues/213
+[pull request 193]: https://github.com/slowkow/ggrepel/pull/236
+
+
 ggrepel 0.9.3
 ========================
 

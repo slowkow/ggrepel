@@ -29,3 +29,10 @@ movies
 # this should be CRAN only
 docs/articles/ggrepel.html
 revdep
+
+docs/deps/
+vignettes/examples_cache/
+vignettes/examples_files/
+vignettes/gallery.html
+vignettes/examples.html
+
