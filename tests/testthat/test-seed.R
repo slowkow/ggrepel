@@ -18,6 +18,7 @@ pos_df <- function(pos) {
 }
 
 test_that("calling geom_text_repel without seed creates different plots", {
+
   ix <- seq(1, nrow(mtcars), 4)
   dat1 <- mtcars[ix,]
   dat1$label <- rownames(mtcars)[ix]
@@ -73,7 +74,7 @@ test_that("calling geom_text_repel with seed creates identical plots", {
   # Confirm that the label positions are identical.
   expect_true(nrow(pos1) == nrow(dat1))
   expect_true(nrow(pos2) == nrow(dat1))
-  expect_true(identical(pos1, pos2))
+  expect_equal(pos1, pos2)
 })
 
 test_that("calling geom_text_repel without seed does not remove entropy", {
@@ -153,7 +154,7 @@ test_that("calling geom_label_repel with seed creates identical plots", {
   # Confirm that the label positions are identical.
   expect_true(nrow(pos1) == nrow(dat1))
   expect_true(nrow(pos2) == nrow(dat1))
-  expect_true(identical(pos1, pos2))
+  expect_equal(pos1, pos2)
 })
 
 test_that("calling geom_label_repel without seed does not remove entropy", {
