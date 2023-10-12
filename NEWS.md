@@ -1,5 +1,5 @@
 
-ggrepel 0.9.3.9999
+ggrepel 0.9.4
 ========================
 
 ## Changes
@@ -10,8 +10,11 @@ ggrepel 0.9.3.9999
 * Add example for how to use ggrepel with sf objects, i.e.
   `geom_text_repel(..., stat = "sf_coordinates")`, thanks to @francisbarton for [pull request 236].
 
+* Use `expect_equal(x, y)` instead of `expect_true(identical(x, y))`, see [issue 242] for details.
+
 [issue 213]: https://github.com/slowkow/ggrepel/issues/213
 [pull request 193]: https://github.com/slowkow/ggrepel/pull/236
+[issue 242]: https://github.com/slowkow/ggrepel/issues/242
 
 
 ggrepel 0.9.3

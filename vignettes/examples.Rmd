@@ -1173,7 +1173,7 @@ saveGIF(
 )
 ```
 
-<a href="https://i.imgur.com/vv7uTwI.gifv">Click here</a> to see the animation.
+<img src="https://imgur.com/ii9ova8.gif" />
 
 ## Source code
 
