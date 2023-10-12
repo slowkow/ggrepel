@@ -15,7 +15,7 @@ on:
       config:
         description: 'A comma separated list of R-hub platforms to use.'
         type: string
-        default: 'linux'
+        default: 'valgrind'
       name:
         description: 'Run name. You can leave this empty now.'
         type: string
