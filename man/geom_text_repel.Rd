@@ -52,6 +52,7 @@ geom_text_repel(
   max.time = 0.5,
   max.iter = 10000,
   max.overlaps = getOption("ggrepel.max.overlaps", default = 10),
+  max.distance = 1,
   nudge_x = 0,
   nudge_y = 0,
   xlim = c(NA, NA),

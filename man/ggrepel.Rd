@@ -61,6 +61,7 @@ Other contributors:
   \item Michał Krassowski (\href{https://orcid.org/0000-0002-9638-7785}{ORCID}) [contributor]
   \item Michael Chirico (\href{https://orcid.org/0000-0003-0787-087X}{ORCID}) [contributor]
   \item Pedro Aphalo (\href{https://orcid.org/0000-0003-3385-972X}{ORCID}) [contributor]
+  \item Francis Barton [contributor]
 }
 
 }

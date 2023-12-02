@@ -658,6 +658,7 @@ DataFrame repel_boxes2(
     double force_pull = 1e-7,
     double max_time = 0.1,
     double max_overlaps = 10,
+    double max_distance = 1,
     int max_iter = 2000,
     std::string direction = "both",
     int verbose = 0
@@ -775,6 +776,7 @@ DataFrame repel_boxes2(
 
   std::vector<double> total_overlaps(n_texts, 0);
   std::vector<bool> too_many_overlaps(n_texts, false);
+  std::vector<bool> too_far_away(n_texts, false);
 
   int iter = 0;
   int n_overlaps = 1;
@@ -810,6 +812,7 @@ DataFrame repel_boxes2(
       //   // }
       //   Rcout << std::endl;
       // }
+
       if (too_many_overlaps[i]) {
         continue;
       }
@@ -822,7 +825,7 @@ DataFrame repel_boxes2(
       f.y = 0;
 
       ci = centroid(TextBoxes[i], hjust[i], vjust[i]);
-
+      
       for (int j = 0; j < n_points; j++) {
 
         if (i == j) {
@@ -970,11 +973,16 @@ DataFrame repel_boxes2(
   for (int i = 0; i < n_texts; i++) {
     xs[i] = (TextBoxes[i].x1 + TextBoxes[i].x2) / 2;
     ys[i] = (TextBoxes[i].y1 + TextBoxes[i].y2) / 2;
+    ci = centroid(TextBoxes[i], hjust[i], vjust[i]);
+    if (euclid(ci, Points[i]) > max_distance) {
+      too_far_away[i] = true;
+    }
   }
 
   return Rcpp::DataFrame::create(
     Rcpp::Named("x") = xs,
     Rcpp::Named("y") = ys,
-    Rcpp::Named("too_many_overlaps") = too_many_overlaps
+    Rcpp::Named("too_many_overlaps") = too_many_overlaps,
+    Rcpp::Named("too_far_away") = too_far_away
   );
 }

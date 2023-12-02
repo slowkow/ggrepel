@@ -171,6 +171,7 @@ geom_text_repel <- function(
   max.time = 0.5,
   max.iter = 10000,
   max.overlaps = getOption("ggrepel.max.overlaps", default = 10),
+  max.distance = 1,
   nudge_x = 0,
   nudge_y = 0,
   xlim = c(NA, NA),
@@ -208,6 +209,7 @@ geom_text_repel <- function(
       max.time = max.time,
       max.iter = max.iter,
       max.overlaps = max.overlaps,
+      max.distance = max.distance,
       nudge_x = nudge_x,
       nudge_y = nudge_y,
       xlim = xlim,
@@ -254,6 +256,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     max.time = 0.5,
     max.iter = 10000,
     max.overlaps = 10,
+    max.distance = 1,
     nudge_x = 0,
     nudge_y = 0,
     xlim = c(NA, NA),
@@ -336,6 +339,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       max.time = max.time,
       max.iter = max.iter,
       max.overlaps = max.overlaps,
+      max.distance = max.distance,
       direction = direction,
       seed = seed,
       verbose = verbose,
@@ -435,6 +439,7 @@ makeContent.textrepeltree <- function(x) {
     max_time        = x$max.time,
     max_iter        = ifelse(is.infinite(x$max.iter), 1e9, x$max.iter),
     max_overlaps    = x$max.overlaps,
+    max_distance    = x$max.distance,
     direction       = x$direction,
     verbose         = x$verbose
   ))
@@ -442,20 +447,29 @@ makeContent.textrepeltree <- function(x) {
   if (any(repel$too_many_overlaps)) {
     warn(
       sprintf(
-        "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing max.overlaps",
+        "ggrepel: %s data labels have too many overlaps. Consider increasing max.overlaps",
         sum(repel$too_many_overlaps)
       )
     )
   }
 
-  if (all(repel$too_many_overlaps)) {
+  if (any(repel$too_far_away)) {
+    warn(
+      sprintf(
+        "ggrepel: %s data labels are too far from their points. Consider increasing max.distance",
+        sum(repel$too_far_away)
+      )
+    )
+  }
+
+  if (all(repel$too_many_overlaps) || all(repel$too_far_away) || all(repel$too_many_overlaps | repel$too_far_away)) {
     grobs <- list()
     class(grobs) <- "gList"
     return(setChildren(x, grobs))
   }
 
   grobs <- lapply(seq_along(valid_strings), function(i) {
-    if (!repel$too_many_overlaps[i]) {
+    if (!repel$too_many_overlaps[i] && !repel$too_far_away[i]) {
       row <- x$data[i, , drop = FALSE]
       makeTextRepelGrobs(
         i,
