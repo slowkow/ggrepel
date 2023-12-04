@@ -262,11 +262,21 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     seed = NA,
     verbose = FALSE
   ) {
-    lab <- data$label
-    if (parse) {
-      lab <- parse_safe(as.character(lab))
+
+    # Do not draw labels for data points outside the panel
+    ix <- data$x >= panel_scales$x.range[1] &
+      data$x <= panel_scales$x.range[2] &
+      data$y >= panel_scales$y.range[1] &
+      data$y <= panel_scales$y.range[2]
+    if (sum(ix) == 0) {
+      return()
     }
-    if (!length(which(not_empty(lab)))) {
+    data <- data[ix,,drop=FALSE]
+
+    if (parse) {
+      data$label <- parse_safe(as.character(data$label))
+    }
+    if (!length(which(not_empty(data$label)))) {
       return()
     }
 
@@ -326,7 +336,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     ggname("geom_text_repel", gTree(
       limits = limits,
       data = data,
-      lab = lab,
+      lab = data$label,
       box.padding = to_unit(box.padding),
       point.padding = to_unit(point.padding),
       min.segment.length = to_unit(min.segment.length),
