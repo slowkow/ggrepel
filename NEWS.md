@@ -13,7 +13,7 @@ ggrepel 0.9.4
 * Use `expect_equal(x, y)` instead of `expect_true(identical(x, y))`, see [issue 242] for details.
 
 [issue 213]: https://github.com/slowkow/ggrepel/issues/213
-[pull request 193]: https://github.com/slowkow/ggrepel/pull/236
+[pull request 236]: https://github.com/slowkow/ggrepel/pull/236
 [issue 242]: https://github.com/slowkow/ggrepel/issues/242
 
 
