@@ -75,7 +75,7 @@ experienced it. Try searching the web, or create a new post:
 Examples
 --------
 
-Click one of the 22 images below to go to see the code example:
+Click one of the 22 images below to view the source code for that figure:
 
 <a href="https://ggrepel.slowkow.com/articles/examples.html#hide-some-of-the-labels"><img width="200" src="https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/empty_string-1.png" alt="Hide some of the labels"></img></a>
 <a href="https://ggrepel.slowkow.com/articles/examples.html#always-show-all-labels-even-when-they-have-too-many-overlaps"><img width="200" src="https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/show_all_labels-1.png" alt="Always show all labels, even when they have too many overlaps"></img></a>
