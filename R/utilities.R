@@ -76,3 +76,22 @@ parse_safe <- function(text) {
   }
   out
 }
+
+#' Exclude data points outside the panel ranges
+#' @noRd
+exclude_outside <- function(data, panel_scales) {
+  if ("x.range" %in% names(panel_scales)) {
+    ix <- data$x >= panel_scales$x.range[1] &
+      data$x <= panel_scales$x.range[2] &
+      data$y >= panel_scales$y.range[1] &
+      data$y <= panel_scales$y.range[2]
+    data <- data[ix,,drop=FALSE]
+  } else if ("x_range" %in% names(panel_scales)) {
+    ix <- data$x >= panel_scales$x_range[1] &
+      data$x <= panel_scales$x_range[2] &
+      data$y >= panel_scales$y_range[1] &
+      data$y <= panel_scales$y_range[2]
+    data <- data[ix,,drop=FALSE]
+  }
+  data
+}

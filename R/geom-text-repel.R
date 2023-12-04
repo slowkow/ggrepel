@@ -264,14 +264,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
   ) {
 
     # Do not draw labels for data points outside the panel
-    ix <- data$x >= panel_scales$x.range[1] &
-      data$x <= panel_scales$x.range[2] &
-      data$y >= panel_scales$y.range[1] &
-      data$y <= panel_scales$y.range[2]
-    if (sum(ix) == 0) {
-      return()
-    }
-    data <- data[ix,,drop=FALSE]
+    data <- exclude_outside(data, panel_scales)
 
     if (parse) {
       data$label <- parse_safe(as.character(data$label))
