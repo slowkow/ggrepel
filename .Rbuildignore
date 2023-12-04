@@ -28,3 +28,4 @@ _snaps/
 ^index.md$
 ^build_site.R$
 ^\.github$
+^justfile$
