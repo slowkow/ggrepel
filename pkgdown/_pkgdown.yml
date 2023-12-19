@@ -40,6 +40,8 @@ template:
 navbar:
   title: "ggrepel"
   left:
+    - text: "Get started"
+      href: articles/ggrepel.html
     - text: "Examples"
       href: articles/examples.html
     - text: "Reference"
