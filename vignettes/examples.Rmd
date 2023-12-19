@@ -899,24 +899,11 @@ p + geom_label_repel(
 
 ### Label jittered points
 
-<div class="alert alert-warning" role="alert">
-  **Warning:** This example will not work with ggplot2 version 2.2.1 or older.
-</div>
-
-To get the latest development version of ggplot2, try:
-
-```{r ggplot2, echo=TRUE, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("tidyverse/ggplot2")
-```
-
-If your ggplot2 is newer than 2.2.1, try this example:
-
 ```{r jitter, echo=TRUE, fig.width=6, fig.height=5}
 mtcars$label <- rownames(mtcars)
 mtcars$label[mtcars$cyl != 6] <- ""
 
-# New! (not available in ggplot2 version 2.2.1 or earlier)
+# Available since ggplot2 2.2.1
 pos <- position_jitter(width = 0.3, seed = 2)
 
 ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
