@@ -177,6 +177,7 @@ All of them are listed below. See the [ggplot2 documentation about aesthetic spe
 |`segment.linetype` | `1`    | line segment solid, dashed, etc.
 |`segment.color` | `"black"`    | line segment color
 |`segment.size`  | `0.5 mm`     | line segment thickness
+|`segment.linewidth`  | `1`     | another way to specify line segment thickness
 |`segment.alpha` | `1.0`        | line segment transparency
 |`segment.curvature` | `0`      | numeric, negative for left-hand and positive for right-hand curves, 0 for straight lines
 |`segment.angle` | `90`         | 0-180, less than 90 skews control points toward the start point
@@ -186,6 +187,8 @@ All of them are listed below. See the [ggplot2 documentation about aesthetic spe
 |`segment.squareShape` | `1`          | shape of the curve relative to additional control points inserted if square is `TRUE`
 |`segment.inflect` | `FALSE`      | curve inflection at the midpoint
 |`segment.debug` | `FALSE`      | display the curve debug information
+|`label.color.alpha` | `1`      | alpha value of the label border color, [0, 1]
+|`label.fill.alpha` | `1`      | alpha value of the label fill color, [0, 1]
 
 ## Examples
 
@@ -990,6 +993,23 @@ ggplot(dat, aes(wt, mpg, label = car)) +
     bg.color = "grey30", # shadow color
     bg.r = 0.15          # shadow radius
   )
+```
+
+### Label border alpha and label fill alpha
+
+We can change the alpha value of the label border and label fill separately,
+for finer control of the visual style of text labels.
+
+```{r label-alpha, echo=TRUE, fig.width=5, fig.height=4}
+set.seed(42)
+p <- ggplot(dat, aes(wt, mpg, label = car)) +
+  geom_point(color = "red")
+
+# transparent label border
+p + geom_label_repel(label.color.alpha = 0)
+
+# transparent label fill
+p + geom_label_repel(label.fill.alpha = 0)
 ```
 
 ### Verbose timing information
