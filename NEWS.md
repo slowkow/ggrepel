@@ -1,3 +1,17 @@
+ggrepel 0.9.4.9999
+========================
+
+## Changes
+
+- Change `expect_equal()` to include a tolerance, to satisfy CRAN testing.
+
+- Delete note about old (before 2.2.1) versions of ggplot2, thanks to @olivroy for [pull request 246].
+
+- Add website link to `DESCRIPTION`, thanks to @olivroy for [pull request 241].
+
+[pull request 241]: https://github.com/slowkow/ggrepel/pull/241
+[pull request 246]: https://github.com/slowkow/ggrepel/pull/246
+
 
 ggrepel 0.9.4
 ========================
