@@ -49,7 +49,7 @@ Suggests:
     stringr
 VignetteBuilder: knitr
 License: GPL-3 | file LICENSE
-URL: https://github.com/slowkow/ggrepel
+URL: https://ggrepel.slowkow.com/, https://github.com/slowkow/ggrepel
 BugReports: https://github.com/slowkow/ggrepel/issues
 RoxygenNote: 7.2.3
 LinkingTo: Rcpp
