@@ -90,7 +90,7 @@ GeomLabelRepel <- ggproto(
     colour = "black", fill = "white", size = 3.88, angle = 0,
     alpha = NA, family = "", fontface = 1, lineheight = 1.2,
     hjust = 0.5, vjust = 0.5, point.size = 1,
-    label.color.alpha = NULL, label.fill.alpha = NULL,
+    label.colour.alpha = NULL, label.fill.alpha = NULL,
     segment.linetype = 1,
     segment.colour = NULL, segment.size = 0.5, segment.alpha = NULL,
     segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
@@ -356,7 +356,7 @@ makeContent.labelrepeltree <- function(x) {
           lineheight = row$lineheight
         ),
         rect.gp = gpar(
-          col = scales::alpha(row$colour, row$label.color.alpha %||% row$alpha),
+          col = scales::alpha(row$colour, row$label.colour.alpha %||% row$alpha),
           fill = scales::alpha(row$fill, row$label.fill.alpha %||% row$alpha),
           lwd = x$label.size * .pt
         ),
