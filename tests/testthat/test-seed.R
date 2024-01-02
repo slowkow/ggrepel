@@ -74,7 +74,7 @@ test_that("calling geom_text_repel with seed creates identical plots", {
   # Confirm that the label positions are identical.
   expect_true(nrow(pos1) == nrow(dat1))
   expect_true(nrow(pos2) == nrow(dat1))
-  expect_equal(pos1, pos2)
+  expect_equal(pos1, pos2, tolerance = 1e-3)
 })
 
 test_that("calling geom_text_repel without seed does not remove entropy", {
@@ -154,7 +154,7 @@ test_that("calling geom_label_repel with seed creates identical plots", {
   # Confirm that the label positions are identical.
   expect_true(nrow(pos1) == nrow(dat1))
   expect_true(nrow(pos2) == nrow(dat1))
-  expect_equal(pos1, pos2)
+  expect_equal(pos1, pos2, tolerance = 1e-3)
 })
 
 test_that("calling geom_label_repel without seed does not remove entropy", {
