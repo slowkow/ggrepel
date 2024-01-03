@@ -44,7 +44,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggrepel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,7 +100,7 @@
                         <h4 data-toc-skip class="author">Kamil
 Slowikowski</h4>
             
-            <h4 data-toc-skip class="date">2023-12-04</h4>
+            <h4 data-toc-skip class="date">2024-01-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/slowkow/ggrepel/blob/HEAD/vignettes/examples.Rmd" class="external-link"><code>vignettes/examples.Rmd</code></a></small>
       <div class="d-none name"><code>examples.Rmd</code></div>
@@ -122,7 +122,7 @@ away from edges of the plotting area (panel).</p>
 <p>Let’s compare <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text()</a></code> and
 <code><a href="../reference/geom_text_repel.html">geom_text_repel()</a></code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel" class="external-link">ggrepel</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggrepel.slowkow.com/">ggrepel</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">wt</span> <span class="op">&gt;</span> <span class="fl">2.75</span> <span class="op">&amp;</span> <span class="va">wt</span> <span class="op">&lt;</span> <span class="fl">3.45</span><span class="op">)</span></span>
@@ -1072,20 +1072,11 @@ does with <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html"
 <div class="section level3">
 <h3 id="label-jittered-points">Label jittered points<a class="anchor" aria-label="anchor" href="#label-jittered-points"></a>
 </h3>
-<div class="alert alert-warning" role="alert">
-<p><strong>Warning:</strong> This example will not work with ggplot2
-version 2.2.1 or older.</p>
-</div>
-<p>To get the latest development version of ggplot2, try:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"tidyverse/ggplot2"</span><span class="op">)</span></span></code></pre></div>
-<p>If your ggplot2 is newer than 2.2.1, try this example:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span><span class="op">$</span><span class="va">label</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="va">mtcars</span><span class="op">$</span><span class="va">label</span><span class="op">[</span><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span> <span class="op">!=</span> <span class="fl">6</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">""</span></span>
 <span></span>
-<span><span class="co"># New! (not available in ggplot2 version 2.2.1 or earlier)</span></span>
+<span><span class="co"># Available since ggplot2 2.2.1</span></span>
 <span><span class="va">pos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_jitter.html" class="external-link">position_jitter</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.3</span>, seed <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span>, <span class="va">mpg</span>, color <span class="op">=</span> <span class="va">label</span> <span class="op">!=</span> <span class="st">""</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -1097,7 +1088,7 @@ version 2.2.1 or older.</p>
 <p>You can also use other position functions, like
 <code><a href="https://rdrr.io/pkg/ggbeeswarm/man/position_quasirandom.html" class="external-link">position_quasirandom()</a></code> from the <a href="https://github.com/eclarke/ggbeeswarm" class="external-link">ggbeeswarm</a> package by
 <a href="https://github.com/eclarke" class="external-link">Erik Clarke</a>:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span><span class="op">$</span><span class="va">label</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="va">mtcars</span><span class="op">$</span><span class="va">label</span><span class="op">[</span><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span> <span class="op">!=</span> <span class="fl">6</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">""</span></span>
 <span></span>
@@ -1123,7 +1114,7 @@ plot, you will probably get an error like</p>
 plots like this - you just need to include:</p>
 <p><code>stat = "sf_coordinates"</code></p>
 <p>in the <code>geom_text|label_repel()</code> call.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># thanks to Hiroaki Yutani </span></span>
 <span><span class="co"># https://github.com/slowkow/ggrepel/issues/111#issuecomment-416853013</span></span>
 <span></span>
@@ -1153,7 +1144,7 @@ placed on top of other plot elements. This feature uses the same code as
 the <a href="https://github.com/GuangchuangYu/shadowtext" class="external-link">shadowtext</a>
 package by <a href="https://github.com/GuangchuangYu" class="external-link">Guangchuang
 Yu</a>.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -1173,7 +1164,7 @@ Yu</a>.</p>
 <li>how much time has elapsed, in seconds</li>
 <li>how many overlaps remain unresolved in the final figure</li>
 </ul>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>,</span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -1186,7 +1177,7 @@ Yu</a>.</p>
 <span>  size <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples_files/figure-html/timing-1.png" width="700"></p>
-<pre><code><span><span class="co">## 1.00s elapsed for 153290 iterations, 2 overlaps. Consider increasing 'max.time'.</span></span></code></pre>
+<pre><code><span><span class="co">## 1.00s elapsed for 147760 iterations, 2 overlaps. Consider increasing 'max.time'.</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="word-cloud">Word cloud<a class="anchor" aria-label="anchor" href="#word-cloud"></a>
@@ -1202,7 +1193,7 @@ spring that pulls the text label toward its data point.</p>
 <p>To make a word cloud, we can assign all of the text labels the same
 data point at the origin (0, 0) and set <code>force_pull = 0</code> to
 disable the springs.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span></span>
@@ -1234,7 +1225,7 @@ disable the springs.</p>
 <div class="section level3">
 <h3 id="polar-coordinates">Polar coordinates<a class="anchor" aria-label="anchor" href="#polar-coordinates"></a>
 </h3>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mtcars</span><span class="op">$</span><span class="va">label</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
@@ -1251,8 +1242,8 @@ disable the springs.</p>
 <div class="section level3">
 <h3 id="unicode-characters-japanese">Unicode characters (Japanese)<a class="anchor" aria-label="anchor" href="#unicode-characters-japanese"></a>
 </h3>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel" class="external-link">ggrepel</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggrepel.slowkow.com/">ggrepel</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -1277,7 +1268,7 @@ disable the springs.</p>
 <div class="section level3">
 <h3 id="mathematical-expressions">Mathematical expressions<a class="anchor" aria-label="anchor" href="#mathematical-expressions"></a>
 </h3>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  x    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1.75</span>, <span class="fl">1.25</span><span class="op">)</span>,</span>
 <span>  y    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">2.65</span>, <span class="fl">1.25</span><span class="op">)</span>,</span>
@@ -1302,9 +1293,9 @@ disable the springs.</p>
 <div class="section level3">
 <h3 id="animation">Animation<a class="anchor" aria-label="anchor" href="#animation"></a>
 </h3>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># This chunk of code will take a minute or two to run.</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/slowkow/ggrepel" class="external-link">ggrepel</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggrepel.slowkow.com/">ggrepel</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/animation/" class="external-link">animation</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">plot_frame</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="op">{</span></span>
@@ -1345,7 +1336,7 @@ code for this vignette</a> on GitHub.</p>
 <div class="section level2">
 <h2 id="r-session-info">R Session Info<a class="anchor" aria-label="anchor" href="#r-session-info"></a>
 </h2>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## R version 4.2.3 (2023-03-15)</span></span>
 <span><span class="co">## Platform: aarch64-apple-darwin20 (64-bit)</span></span>
@@ -1363,7 +1354,7 @@ code for this vignette</a> on GitHub.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
 <span><span class="co">## [1] pkgdown_2.0.7    glue_1.6.2       rvest_1.0.3      sf_1.0-12       </span></span>
-<span><span class="co">## [5] ggbeeswarm_0.7.2 ggrepel_0.9.4    ggplot2_3.4.4    gridExtra_2.3   </span></span>
+<span><span class="co">## [5] ggbeeswarm_0.7.2 ggrepel_0.9.5    ggplot2_3.4.4    gridExtra_2.3   </span></span>
 <span><span class="co">## [9] knitr_1.43      </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
