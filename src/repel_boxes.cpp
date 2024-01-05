@@ -675,6 +675,10 @@ DataFrame repel_boxes2(
     force_pull = 1e-6;
   }
 
+  if (force_push == 0) {
+    max_iter = 0;
+  }
+
   // Try to catch errors.
   if (n_texts > n_points) {
     Rcerr << "n_texts is " << n_texts << std::endl;

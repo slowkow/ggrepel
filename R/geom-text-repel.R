@@ -635,7 +635,7 @@ makeTextRepelGrobs <- function(
     !point_inside_text &&
     d > 0 &&
     # Distance from label to point edge is greater than minimum.
-    euclid(int, point_int) > min.segment.length &&
+    (!is.na(min.segment.length) && euclid(int, point_int) > min.segment.length) &&
     # Distance from label to point edge is less than from label to point center.
     euclid(int, point_int) < euclid(int, point_pos) &&
     # Distance from label to point center is greater than point size.
