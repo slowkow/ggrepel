@@ -143,6 +143,7 @@ your data, like `nudge_x` or `nudge_y`.
 |`direction`     | `"both"`     | move text labels "both" (default), "x", or "y" directions
 |`max.time`      | `0.5`        | maximum number of seconds to try to resolve overlaps
 |`max.iter`      | `10000`      | maximum number of iterations to try to resolve overlaps
+|`max.overlaps`  | `10`      | discard text labels that overlap too many other text labels or data points
 |`nudge_x`       | `0`          | adjust the starting x position of the text label
 |`nudge_y`       | `0`          | adjust the starting y position of the text label
 |`box.padding`   | `0.25 lines` | padding around the text label
@@ -209,7 +210,11 @@ ggplot(dat2, aes(wt, mpg, label = car)) +
   geom_point(color = ifelse(dat2$car == "", "grey50", "red"))
 ```
 
-We can quickly repel a few text labels from 10,000 data points:
+We can quickly repel a few text labels from 10,000 data points in the example below.
+
+We use `max.overlaps = Inf` to ensure that no text labels are discarded, even
+if a text label overlaps lots of other things (e.g. other text labels or other
+data points).
 
 ```{r empty_string_big, echo=TRUE, fig.width=6, fig.height=3}
 set.seed(42)
@@ -231,13 +236,15 @@ ggplot(dat3, aes(wt, mpg, label = car)) +
 
 ### Always show all labels, even when they have too many overlaps
 
-Some text labels will be discarded if they have too many overlaps.
+Some text labels will be discarded if they overlap too many other things
+(default limit is 10). So, if a text label overlaps 10 other text labels or
+data points, then it will be discarded.
 
 We can expect to see a warning if some data points could not be labeled
 due to too many overlaps.
 
-Set `max.overlaps = Inf` to override this behavior and always show all 
-labels, regardless of too many overlaps.
+Set `max.overlaps = Inf` to override this behavior and always show all labels,
+regardless of whether or not a text label overlaps too many other things.
 
 Use `options(ggrepel.max.overlaps = Inf)` to set this globally for your
 entire session. The global option can be overridden by providing the 
