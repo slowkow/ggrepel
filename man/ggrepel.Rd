@@ -35,6 +35,7 @@ Please report issues and suggest improvements at Github:
 
 Useful links:
 \itemize{
+  \item \url{https://ggrepel.slowkow.com/}
   \item \url{https://github.com/slowkow/ggrepel}
   \item Report bugs at \url{https://github.com/slowkow/ggrepel/issues}
 }
@@ -61,6 +62,7 @@ Other contributors:
   \item Michał Krassowski (\href{https://orcid.org/0000-0002-9638-7785}{ORCID}) [contributor]
   \item Michael Chirico (\href{https://orcid.org/0000-0003-0787-087X}{ORCID}) [contributor]
   \item Pedro Aphalo (\href{https://orcid.org/0000-0003-3385-972X}{ORCID}) [contributor]
+  \item Francis Barton [contributor]
 }
 
 }
