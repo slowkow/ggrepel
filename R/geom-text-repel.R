@@ -83,7 +83,8 @@
 #' @param max.iter Maximum number of iterations to try to resolve overlaps.
 #'   Defaults to 10000.
 #' @param max.overlaps Exclude text labels when they overlap too many other
-#'   things (other text labels or other data points).
+#'   things. For each text label, we count how many other text labels or other
+#'   data points it overlaps, and exclude the text label if it has too many overlaps.
 #'   Defaults to 10.
 #' @param direction "both", "x", or "y" -- direction in which to adjust position of labels
 #' @param seed Random seed passed to \code{\link[base]{set.seed}}. Defaults to
