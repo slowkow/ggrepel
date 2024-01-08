@@ -940,6 +940,39 @@ ggplot(mtcars, aes(factor(cyl), mpg, color = label != "", label = label)) +
   labs(title = "position_quasirandom()")
 ```
 
+### Nudge labels in different directions with ggpp
+
+[Pedro Aphalo] created a great extension package for ggplot2 called [ggpp] that
+provides useful functions such as `position_nudge_center()`, which we
+demonstrate below:
+
+[Pedro Aphalo]: https://github.com/aphalo
+[ggpp]: https://docs.r4photobiology.info/ggpp/
+
+```{r position_nudge_center, echo=TRUE, fig.width=10, fig.height=5}
+library(ggpp)
+library(patchwork)
+
+## Example data frame where each species' principal components have been computed.
+df <- data.frame(
+  Species = paste("Species", 1:5),
+  PC1     = c(-4, -3.5, 1, 2, 3),
+  PC2     = c(-1, -1, 0, -0.5, 0.7)
+) 
+
+p <- ggplot(df, aes(x = PC1, y = PC2, label = Species)) +
+  geom_segment(aes(x = 0, y = 0, xend = PC1, yend = PC2), 
+  arrow = arrow(length = unit(0.1, "inches"))) +
+  xlim(-5, 5) +
+  ylim(-2, 2) +
+  geom_hline(aes(yintercept = 0), size = 0.2) +
+  geom_vline(aes(xintercept = 0), size = 0.2)
+
+p1 <- p + geom_text_repel()
+p2 <- p + geom_text_repel(position = position_nudge_center(0.2, 0.1, 0, 0))
+p1 + p2
+```
+
 ### Label `sf` objects
 
 Currently if you use `geom_text_repel()` or `geom_label_repel()` with a

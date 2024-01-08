@@ -40,6 +40,8 @@ Suggests:
     svglite,
     vdiffr,
     gridExtra,
+    ggpp,
+    patchwork,
     devtools,
     prettydoc,
     ggbeeswarm,
