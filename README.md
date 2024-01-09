@@ -58,7 +58,7 @@ See the [examples] page to learn more about how to use ggrepel in your project.
 Examples
 --------
 
-Click one of the 22 images below to go to see the code example:
+Click one of the images below to go to see the code example:
 
 <a href="https://ggrepel.slowkow.com/articles/examples.html#hide-some-of-the-labels"><img width="200" src="https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/empty_string-1.png" alt="Hide some of the labels"></img></a>
 <a href="https://ggrepel.slowkow.com/articles/examples.html#always-show-all-labels-even-when-they-have-too-many-overlaps"><img width="200" src="https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/show_all_labels-1.png" alt="Always show all labels, even when they have too many overlaps"></img></a>
@@ -76,6 +76,7 @@ sizes"></img></a>
 <a href="https://ggrepel.slowkow.com/articles/examples.html#using-ggrepel-with-stat_summary"><img width="200" src="https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/stat_summary-1.png" alt="Using ggrepel with stat_summary()"></img></a>
 <a href="https://ggrepel.slowkow.com/articles/examples.html#justify-multiple-lines-of-text-with-hjust"><img width="200" src="https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/geom_text_repel-hjust-1.png" alt="Justify multiple lines of text with hjust"></img></a>
 <a href="https://ggrepel.slowkow.com/articles/examples.html#label-jittered-points"><img width="200" src="https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/jitter-1.png" alt="Label jittered points"></img></a>
+<a href="https://ggrepel.slowkow.com/articles/examples.html#nudge-labels-in-different-directions-with-ggpp"><img width="200" src="https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/position_nudge_center-1.png" alt="Nudge labels in different directions with ggpp"></img></a>
 <a href="https://ggrepel.slowkow.com/articles/examples.html#label-sf-objects"><img width="200" src="https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/label-sf-objects-1.png" alt="Label sf objects"></img></a>
 <a href="https://ggrepel.slowkow.com/articles/examples.html#shadows-or-glow-under-text-labels"><img width="200" src="https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/shadowtext-1.png" alt="Shadows (or glow) under text labels"></img></a>
 <a href="https://ggrepel.slowkow.com/articles/examples.html#verbose-timing-information"><img width="200" src="https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/timing-1.png" alt="Verbose timing information"></img></a>

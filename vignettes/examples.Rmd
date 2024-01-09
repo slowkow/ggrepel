@@ -965,12 +965,12 @@ p <- ggplot(df, aes(x = PC1, y = PC2, label = Species)) +
   arrow = arrow(length = unit(0.1, "inches"))) +
   xlim(-5, 5) +
   ylim(-2, 2) +
-  geom_hline(aes(yintercept = 0), size = 0.2) +
-  geom_vline(aes(xintercept = 0), size = 0.2)
+  geom_hline(aes(yintercept = 0), linewidth = 0.2) +
+  geom_vline(aes(xintercept = 0), linewidth = 0.2)
 
 p1 <- p + geom_text_repel()
 p2 <- p + geom_text_repel(position = position_nudge_center(0.2, 0.1, 0, 0))
-p1 + p2
+p1 + (p2 + labs(title = "position_nudge_center()"))
 ```
 
 ### Label `sf` objects
