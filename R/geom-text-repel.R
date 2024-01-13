@@ -90,6 +90,10 @@
 #' @param seed Random seed passed to \code{\link[base]{set.seed}}. Defaults to
 #'   \code{NA}, which means that \code{set.seed} will not be called.
 #' @param verbose If \code{TRUE}, some diagnostics of the repel algorithm are printed
+#' @param grob A grid grob generating function for displaying different types
+#'   of labels, for example \code{gridtext::richtext_grob()}.
+#' @param grob_args A list containing additional arguments to be passed to the
+#'   \code{grob} function that generates labels.
 #'
 #' @examples
 #'
