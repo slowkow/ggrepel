@@ -616,7 +616,7 @@ makeTextRepelGrobs <- function(
   if (!"..." %in% grob_arg_names) {
     args <- args[intersect(names(args), grob_arg_names)]
     grob_args <- grob_args[intersect(names(grob_args), grob_arg_names)]
-    grob_args <- grob_args[intersect(names(grob_args), names(args))]
+    grob_args <- grob_args[setdiff(names(grob_args), names(args))]
   }
   grobs <- rlang::inject(grob(!!!args, !!!grob_args))
 
