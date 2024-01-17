@@ -211,14 +211,30 @@ GeomLabelRepel <- ggproto(
 #' @noRd
 makeContent.labelrepeltree <- function(x) {
 
+  # Absolute panel size
+  width  <- width_cm( unit(1, "npc"))
+  height <- height_cm(unit(1, "npc"))
+
+  # Translate points to cm (assumed to be 0-1 range native at first)
+  x$data$x <- x$data$x * width
+  x$data$y <- x$data$y * height
+
   # The padding around each bounding box.
-  box_padding_x <- convertWidth(x$box.padding, "npc", valueOnly = TRUE)
-  box_padding_y <- convertHeight(x$box.padding, "npc", valueOnly = TRUE)
+  box.padding   <- length_cm(x$box.padding)
+  label.padding <- length_cm(x$label.padding)
+
+  # Input point diameter is assumed to be in mm
+  # We convert to radius in centimetres, by dividing by 20
+  # `.pt / .stroke` ~= 0.75 accounts for a historical error in ggplot2
+  point.size <- x$data$point.size
+  point.size[is.na(point.size)] <- 0
+  point.size <- point.size * .pt / .stroke / 20
 
   # The padding around each point.
-  if (is.na(x$point.padding)) {
-    x$point.padding = unit(0, "lines")
-  }
+  point.padding <- length_cm(x$point.padding)
+  point.padding[is.na(point.padding)] <- 0
+
+  min.segment.length <- length_cm(x$min.segment.length)
 
   # Do not create text labels for empty strings.
   valid_strings <- which(not_empty(x$lab))
