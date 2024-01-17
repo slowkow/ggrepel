@@ -248,8 +248,8 @@ makeContent.labelrepeltree <- function(x) {
     row <- x$data[i, , drop = FALSE]
     t <- textGrob(
       x$lab[i],
-      unit(row$x, "native") + x$label.padding,
-      unit(row$y, "native") + x$label.padding,
+      unit(row$x + label.padding, "cm"),
+      unit(row$y + label.padding, "cm"),
       gp = gpar(
         fontsize   = row$size * .pt,
         fontfamily = row$family,
@@ -259,20 +259,20 @@ makeContent.labelrepeltree <- function(x) {
       name = "text"
     )
     r <- roundrectGrob(
-      row$x, row$y, default.units = "native",
-      width = grobWidth(t) + 2 * x$label.padding,
-      height = grobHeight(t) + 2 * x$label.padding,
+      unit(row$x, "cm"), unit(row$y, "cm"),
+      width  = grobWidth(t)  + unit(2 * label.padding, "cm"),
+      height = grobHeight(t) + unit(2 * label.padding, "cm"),
       r = x$label.r,
       gp = gpar(lwd = x$label.size * .pt),
       name = "box"
     )
-    gw <- convertWidth(grobWidth(r), "native", TRUE)
-    gh <- convertHeight(grobHeight(r), "native", TRUE)
+    gw <- width_cm(grobWidth(r))
+    gh <- height_cm(grobHeight(r))
     c(
-      "x1" = row$x - gw *       row$hjust - box_padding_x + row$nudge_x,
-      "y1" = row$y - gh *       row$vjust - box_padding_y + row$nudge_y,
-      "x2" = row$x + gw * (1 - row$hjust) + box_padding_x + row$nudge_x,
-      "y2" = row$y + gh * (1 - row$vjust) + box_padding_y + row$nudge_y
+      "x1" = row$x - gw *      row$hjust  - box.padding + row$nudge_x * width,
+      "y1" = row$y - gh *      row$vjust  - box.padding + row$nudge_y * height,
+      "x2" = row$x + gw * (1 - row$hjust) + box.padding + row$nudge_x * width,
+      "y2" = row$y + gh * (1 - row$vjust) + box.padding + row$nudge_y * height
     )
   })
 
@@ -281,33 +281,15 @@ makeContent.labelrepeltree <- function(x) {
     x$seed <- sample.int(.Machine$integer.max, 1L)
   }
 
-  # The points are represented by circles.
-  x$data$point.size[is.na(x$data$point.size)] <- 0
-
-  # Beware the magic numbers. I do not understand them.
-  # I just accept them as necessary to get the code to work.
-  p_width <- convertWidth(unit(1, "npc"), "inch", TRUE)
-  p_height <- convertHeight(unit(1, "npc"), "inch", TRUE)
-  p_ratio <- (p_width / p_height)
-  if (p_ratio > 1) {
-    p_ratio <- p_ratio ^ (1 / (1.15 * p_ratio))
-  }
-  point_size <- p_ratio * convertWidth(
-    to_unit(x$data$point.size), "native", valueOnly = TRUE
-  ) / 13
-  point_padding <- p_ratio * convertWidth(
-    to_unit(x$point.padding), "native", valueOnly = TRUE
-  ) / 13
-
   # Repel overlapping bounding boxes away from each other.
   repel <- with_seed_null(x$seed, repel_boxes2(
     data_points     = as.matrix(x$data[,c("x","y")]),
-    point_size      = point_size,
-    point_padding_x = point_padding,
-    point_padding_y = point_padding,
+    point_size      = point.size,
+    point_padding_x = point.padding,
+    point_padding_y = point.padding,
     boxes           = do.call(rbind, boxes),
-    xlim            = range(x$limits$x),
-    ylim            = range(x$limits$y),
+    xlim            = c(0, width),
+    ylim            = c(0, height),
     hjust           = x$data$hjust %||% 0.5,
     vjust           = x$data$vjust %||% 0.5,
     force_push      = x$force * 1e-6,
@@ -341,18 +323,18 @@ makeContent.labelrepeltree <- function(x) {
         i,
         x$lab[i],
         # Position of text bounding boxes.
-        x = unit(repel$x[i], "native"),
-        y = unit(repel$y[i], "native"),
+        x = repel$x[i],
+        y = repel$y[i],
         # Position of original data points.
         x.orig = row$x,
         y.orig = row$y,
         # Width and height of text boxes.
-        box.width = boxes[[i]]["x2"] - boxes[[i]]["x1"],
+        box.width  = boxes[[i]]["x2"] - boxes[[i]]["x1"],
         box.height = boxes[[i]]["y2"] - boxes[[i]]["y1"],
-        box.padding = x$box.padding,
-        label.padding = x$label.padding,
-        point.size = point_size[i],
-        point.padding = x$point.padding,
+        box.padding = box.padding,
+        label.padding = label.padding,
+        point.size = point.size[i],
+        point.padding = point.padding,
         segment.curvature = row$segment.curvature,
         segment.angle     = row$segment.angle,
         segment.ncp       = row$segment.ncp,
@@ -380,7 +362,7 @@ makeContent.labelrepeltree <- function(x) {
           lty = row$segment.linetype %||% 1
         ),
         arrow = x$arrow,
-        min.segment.length = x$min.segment.length,
+        min.segment.length = min.segment.length,
         hjust = row$hjust,
         vjust = row$vjust
       )
@@ -402,15 +384,14 @@ makeContent.labelrepeltree <- function(x) {
 makeLabelRepelGrobs <- function(
   i,
   label,
-  x = unit(0.5, "npc"),
-  y = unit(0.5, "npc"),
+  x = 0.5,
+  y = 0.5,
   # Position of original data points.
   x.orig = 0.5,
   y.orig = 0.5,
   # Width and height of text boxes.
   box.width = 0,
   box.height = 0,
-  default.units = "npc",
   box.padding = 0.25,
   label.padding = 0.25,
   point.size = 1,
@@ -436,41 +417,36 @@ makeLabelRepelGrobs <- function(
 ) {
   stopifnot(length(label) == 1)
 
-  if (!is.unit(x))
-    x <- unit(x, default.units)
-  if (!is.unit(y))
-    y <- unit(y, default.units)
-  if (!is.unit(box.width))
-    box.width <- unit(box.width, default.units)
-  if (!is.unit(box.height))
-    box.height <- unit(box.height, default.units)
-
   t <- textGrob(
     label,
-    x - box.width * (0.5 - hjust),
+    x - box.width  * (0.5 - hjust),
     y - box.height * (0.5 - vjust),
     hjust = hjust,
     vjust = vjust,
     gp = text.gp,
+    default.units = "cm",
     name = sprintf("textrepelgrob%s", i)
   )
 
   r <- roundrectGrob(
-    x - box.width * (0.5 - hjust) - label.padding * (0.5 - hjust),
+    x - box.width  * (0.5 - hjust) - label.padding * (0.5 - hjust),
     y - box.height * (0.5 - vjust) - label.padding * (0.5 - vjust),
-    default.units = "native",
-    width = grobWidth(t) + 2 * label.padding,
-    height = grobHeight(t) + 2 * label.padding,
+    default.units = "cm",
+    width  = grobWidth(t)  + unit(2 * label.padding, "cm"),
+    height = grobHeight(t) + unit(2 * label.padding, "cm"),
     just = c(hjust, vjust),
     r = r,
     gp = rect.gp,
     name = sprintf("rectrepelgrob%s", i)
   )
 
-  x1 <- convertWidth(x - 0.5 * grobWidth(r), "native", TRUE)
-  x2 <- convertWidth(x + 0.5 * grobWidth(r), "native", TRUE)
-  y1 <- convertHeight(y - 0.5 * grobHeight(r), "native", TRUE)
-  y2 <- convertHeight(y + 0.5 * grobHeight(r), "native", TRUE)
+  gw <- width_cm(grobWidth(r))
+  gh <- height_cm(grobHeight(r))
+
+  x1 <- x - 0.5 * gw
+  x2 <- x + 0.5 * gw
+  y1 <- y - 0.5 * gh
+  y2 <- y + 0.5 * gh
 
   point_pos <- c(x.orig, y.orig)
 
@@ -488,8 +464,6 @@ makeLabelRepelGrobs <- function(
   }
 
   # This seems just fine.
-  point.padding <- convertWidth(to_unit(point.padding), "native", TRUE) / 2
-
   point_int <- intersect_line_circle(int, point_pos, (point.size + point.padding))
 
   # Compute the distance between the data point and the edge of the text box.
@@ -499,9 +473,8 @@ makeLabelRepelGrobs <- function(
 
   # Scale the unit vector by the minimum segment length.
   if (d > 0) {
-    mx <- convertWidth(min.segment.length, "native", TRUE)
-    my <- convertHeight(min.segment.length, "native", TRUE)
-    min.segment.length <- sqrt((mx * dx / d) ^ 2 + (my * dy / d) ^ 2)
+    m <- min.segment.length * c(dx, dy) / d
+    min.segment.length <- sqrt(m[1]^2 + m[2]^2)
   }
 
   grobs <- list(textbox = list(rect = r, text = t))
@@ -523,7 +496,7 @@ makeLabelRepelGrobs <- function(
       y1 = int[2],
       x2 = point_int[1],
       y2 = point_int[2],
-      default.units = "native",
+      default.units = "cm",
       curvature = segment.curvature,
       angle = segment.angle,
       ncp = segment.ncp,
