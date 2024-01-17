@@ -22,6 +22,9 @@
 #' @import ggplot2
 #' @import Rcpp
 #' @importFrom grid
+#'   convertUnit
+#'   convertX
+#'   convertY
 #'   convertHeight
 #'   convertWidth
 #'   gList
@@ -46,6 +49,9 @@
 #'   curveGrob
 #'   setChildren
 #'   textGrob
+#'   viewport
+#'   pushViewport
+#'   popViewport
 #' @importFrom rlang
 #'   warn
 #' @useDynLib ggrepel
