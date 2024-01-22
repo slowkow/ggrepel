@@ -81,17 +81,21 @@ parse_safe <- function(text) {
 #' @noRd
 exclude_outside <- function(data, panel_scales) {
   if ("x.range" %in% names(panel_scales)) {
-    ix <- data$x >= panel_scales$x.range[1] &
-      data$x <= panel_scales$x.range[2] &
-      data$y >= panel_scales$y.range[1] &
-      data$y <= panel_scales$y.range[2]
+    xr <- panel_scales$x.range
+    yr <- panel_scales$y.range
+    ix <- inside(data$x, xr) & inside(data$y, yr)
     data <- data[ix,,drop=FALSE]
   } else if ("x_range" %in% names(panel_scales)) {
-    ix <- data$x >= panel_scales$x_range[1] &
-      data$x <= panel_scales$x_range[2] &
-      data$y >= panel_scales$y_range[1] &
-      data$y <= panel_scales$y_range[2]
+    xr <- panel_scales$x_range
+    yr <- panel_scales$y_range
+    ix <- inside(data$x, xr) & inside(data$y, yr)
     data <- data[ix,,drop=FALSE]
   }
   data
+}
+
+#' Exclude data points outside the panel ranges
+#' @noRd
+inside <- function(x, bounds) {
+  is.infinite(x) | (x <= bounds[2] & x >= bounds[1])
 }
