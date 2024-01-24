@@ -409,10 +409,10 @@ makeContent.textrepeltree <- function(x) {
     y1 <- y_cm(grobY(tg, "south"))
     y2 <- y_cm(grobY(tg, "north"))
     c(
-      "x1" = (x1 - box.padding) / width  + row$nudge_x,
-      "y1" = (y1 - box.padding) / height + row$nudge_y,
-      "x2" = (x2 + box.padding) / width  + row$nudge_x,
-      "y2" = (y2 + box.padding) / height + row$nudge_y
+      "x1" = x1 - box.padding + row$nudge_x * width,
+      "y1" = y1 - box.padding + row$nudge_y * height,
+      "x2" = x2 + box.padding + row$nudge_x * width,
+      "y2" = y2 + box.padding + row$nudge_y * height
     )
   })
 
@@ -423,14 +423,13 @@ makeContent.textrepeltree <- function(x) {
 
   # Repel overlapping bounding boxes away from each other.
   repel <- with_seed_null(x$seed, repel_boxes2(
-    data_points     = cbind(x$data$x / width, x$data$y / height),
-    # data_points     = as.matrix(x$data[,c("x","y")]),
-    point_size      = point.size / width,
-    point_padding_x = point.padding / width,
-    point_padding_y = point.padding / width,
+    data_points     = as.matrix(x$data[,c("x","y")]),
+    point_size      = point.size,
+    point_padding_x = point.padding,
+    point_padding_y = point.padding,
     boxes           = do.call(rbind, boxes),
-    xlim            = range(x$limits$x),
-    ylim            = range(x$limits$y),
+    xlim            = c(0, width),
+    ylim            = c(0, height),
     hjust           = x$data$hjust %||% 0.5,
     vjust           = x$data$vjust %||% 0.5,
     force_push      = x$force * 1e-6,
@@ -441,8 +440,6 @@ makeContent.textrepeltree <- function(x) {
     direction       = x$direction,
     verbose         = x$verbose
   ))
-  repel$x <- repel$x * width
-  repel$y <- repel$y * height
 
   if (any(repel$too_many_overlaps)) {
     warn(
