@@ -231,9 +231,8 @@ makeContent.labelrepeltree <- function(x) {
   point.size <- point.size * .pt / .stroke / 20
 
   # The padding around each point.
-  point.padding <- x$point.padding
-  if (is.na(point.padding)) point.padding <- to_unit(0)
-  point.padding <- length_cm(point.padding)
+  point.padding <- length_cm(x$point.padding)
+  point.padding[is.na(point.padding)] <- 0
 
   min.segment.length <- length_cm(x$min.segment.length)
 
