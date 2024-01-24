@@ -270,10 +270,10 @@ makeContent.labelrepeltree <- function(x) {
     gw <- width_cm(grobWidth(r))
     gh <- height_cm(grobHeight(r))
     c(
-      "x1" = row$x - gw *      row$hjust  - box.padding + row$nudge_x * width,
-      "y1" = row$y - gh *      row$vjust  - box.padding + row$nudge_y * height,
-      "x2" = row$x + gw * (1 - row$hjust) + box.padding + row$nudge_x * width,
-      "y2" = row$y + gh * (1 - row$vjust) + box.padding + row$nudge_y * height
+      "x1" = (row$x - gw *      row$hjust  - box.padding) / width + row$nudge_x,
+      "y1" = (row$y - gh *      row$vjust  - box.padding) / height + row$nudge_y,
+      "x2" = (row$x + gw * (1 - row$hjust) + box.padding) / width + row$nudge_x,
+      "y2" = (row$y + gh * (1 - row$vjust) + box.padding) / height + row$nudge_y
     )
   })
 
@@ -284,13 +284,14 @@ makeContent.labelrepeltree <- function(x) {
 
   # Repel overlapping bounding boxes away from each other.
   repel <- with_seed_null(x$seed, repel_boxes2(
-    data_points     = as.matrix(x$data[,c("x","y")]),
-    point_size      = point.size,
-    point_padding_x = point.padding,
-    point_padding_y = point.padding,
+    data_points     = cbind(x$data$x / width, x$data$y / height),
+    # data_points     = as.matrix(x$data[,c("x","y")]),
+    point_size      = point.size / width,
+    point_padding_x = point.padding / width,
+    point_padding_y = point.padding / width,
     boxes           = do.call(rbind, boxes),
-    xlim            = c(0, width),
-    ylim            = c(0, height),
+    xlim            = range(x$limits$x),
+    ylim            = range(x$limits$y),
     hjust           = x$data$hjust %||% 0.5,
     vjust           = x$data$vjust %||% 0.5,
     force_push      = x$force * 1e-6,
@@ -301,6 +302,8 @@ makeContent.labelrepeltree <- function(x) {
     direction       = x$direction,
     verbose         = x$verbose
   ))
+  repel$x <- repel$x * width
+  repel$y <- repel$y * height
 
   if (any(repel$too_many_overlaps)) {
     warn(
