@@ -1,5 +1,11 @@
 #include <Rcpp.h>
+#ifdef __EMSCRIPTEN__
+#define __linux
 #include <Rcpp/Benchmark/Timer.h>
+#undef __linux
+#else
+#include <Rcpp/Benchmark/Timer.h>
+#endif
 #include <deque>
 using namespace Rcpp;
 
