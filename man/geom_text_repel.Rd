@@ -56,6 +56,8 @@ geom_text_repel(
   nudge_y = 0,
   xlim = c(NA, NA),
   ylim = c(NA, NA),
+  grob = textGrob,
+  grob_args = list(),
   na.rm = FALSE,
   show.legend = NA,
   direction = c("both", "y", "x"),
@@ -161,6 +163,12 @@ a warning.  If \code{TRUE} silently removes missing values.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2]{borders}}.}
+
+\item{grob}{A grid grob generating function for displaying different types
+of labels, for example \code{gridtext::richtext_grob()}.}
+
+\item{grob_args}{A list containing additional arguments to be passed to the
+\code{grob} function that generates labels.}
 }
 \description{
 \code{geom_text_repel} adds text directly to the plot.
