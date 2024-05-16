@@ -5,7 +5,9 @@ ggrepel 0.9.5.9999
 
 - Remove `exclude_outside()` from `geom_text_repel()` and `geom_label_repel()` because this change introduced too many breaking changes for other users. See issues:
   - https://github.com/slowkow/ggrepel/issues/253
+  - https://github.com/slowkow/ggrepel/issues/255
   - https://github.com/slowkow/ggrepel/issues/257
+  - https://github.com/slowkow/ggrepel/issues/260
   - https://github.com/slowkow/ggrepel/issues/261
 
 
