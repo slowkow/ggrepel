@@ -1,13 +1,28 @@
+ggrepel 0.9.5.9999
+========================
+
+## Changes
+
+- Remove `exclude_outside()` from `geom_text_repel()` and `geom_label_repel()` because this change introduced too many breaking changes for other users. See issues:
+  - https://github.com/slowkow/ggrepel/issues/253
+  - https://github.com/slowkow/ggrepel/issues/257
+  - https://github.com/slowkow/ggrepel/issues/261
+
+
 ggrepel 0.9.5
 ========================
 
 ## Changes
+
+- Introduce a new function `exclude_outside()` into `geom_text_repel()` and `geom_label_repel()` to discard labels outside the panel range, in order to support the [ggbreaks] package. See [issue 244] for details.
 
 - Change `expect_equal()` to include a tolerance, to satisfy CRAN testing.
 
 - Delete note about old (before 2.2.1) versions of ggplot2, thanks to @olivroy for [pull request 246].
 
 - Add website link to `DESCRIPTION`, thanks to @olivroy for [pull request 241].
+
+[issue 244]: https://github.com/slowkow/ggrepel/issues/244
 
 [pull request 241]: https://github.com/slowkow/ggrepel/pull/241
 [pull request 246]: https://github.com/slowkow/ggrepel/pull/246
