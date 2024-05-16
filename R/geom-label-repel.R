@@ -121,9 +121,6 @@ GeomLabelRepel <- ggproto(
     verbose = FALSE
   ) {
 
-    # Do not draw labels for data points outside the panel
-    data <- exclude_outside(data, panel_scales)
-
     if (parse) {
       data$label <- parse_safe(as.character(data$label))
     }
