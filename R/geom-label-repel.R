@@ -90,7 +90,9 @@ GeomLabelRepel <- ggproto(
     colour = "black", fill = "white", size = 3.88, angle = 0,
     alpha = NA, family = "", fontface = 1, lineheight = 1.2,
     hjust = 0.5, vjust = 0.5, point.size = 1,
-    segment.linetype = 1, segment.colour = NULL, segment.size = 0.5, segment.alpha = NULL,
+    label.col.alpha = NULL, label.fill.alpha = NULL,
+    segment.linetype = 1, segment.linewidth = 1,
+    segment.colour = NULL, segment.size = 0.5, segment.alpha = NULL,
     segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
     segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
     segment.inflect = FALSE, segment.debug = FALSE
@@ -351,13 +353,13 @@ makeContent.labelrepeltree <- function(x) {
           lineheight = row$lineheight
         ),
         rect.gp = gpar(
-          col = scales::alpha(row$colour, row$alpha),
-          fill = scales::alpha(row$fill, row$alpha),
+          col = scales::alpha(row$colour, row$label.col.alpha %||% row$alpha),
+          fill = scales::alpha(row$fill, row$label.fill.alpha %||% row$alpha),
           lwd = x$label.size * .pt
         ),
         segment.gp = gpar(
           col = scales::alpha(row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha),
-          lwd = row$segment.size * .pt,
+          lwd = (row$segment.size * .pt) %||% row$segment.linewidth,
           lty = row$segment.linetype %||% 1
         ),
         arrow = x$arrow,
