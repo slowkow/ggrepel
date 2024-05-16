@@ -90,6 +90,10 @@
 #' @param seed Random seed passed to \code{\link[base]{set.seed}}. Defaults to
 #'   \code{NA}, which means that \code{set.seed} will not be called.
 #' @param verbose If \code{TRUE}, some diagnostics of the repel algorithm are printed
+#' @param grob A grid grob generating function for displaying different types
+#'   of labels, for example \code{gridtext::richtext_grob()}.
+#' @param grob_args A list containing additional arguments to be passed to the
+#'   \code{grob} function that generates labels.
 #'
 #' @examples
 #'
@@ -177,6 +181,8 @@ geom_text_repel <- function(
   nudge_y = 0,
   xlim = c(NA, NA),
   ylim = c(NA, NA),
+  grob = textGrob,
+  grob_args = list(),
   na.rm = FALSE,
   show.legend = NA,
   direction = c("both","y","x"),
@@ -214,6 +220,8 @@ geom_text_repel <- function(
       nudge_y = nudge_y,
       xlim = xlim,
       ylim = ylim,
+      grob = grob,
+      grob_args = grob_args,
       direction = match.arg(direction),
       seed = seed,
       verbose = verbose,
@@ -260,6 +268,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     nudge_y = 0,
     xlim = c(NA, NA),
     ylim = c(NA, NA),
+    grob = textGrob,
+    grob_args = list(),
     direction = "both",
     seed = NA,
     verbose = FALSE
@@ -338,6 +348,8 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       max.time = max.time,
       max.iter = max.iter,
       max.overlaps = max.overlaps,
+      grob = grob,
+      grob_args = grob_args,
       direction = direction,
       seed = seed,
       verbose = verbose,
@@ -373,9 +385,9 @@ makeContent.textrepeltree <- function(x) {
   # Create a dataframe with x1 y1 x2 y2
   boxes <- lapply(seq_along(valid_strings), function(i) {
     row <- x$data[i, , drop = FALSE]
-    tg <- textGrob(
+    tg <- rlang::inject(x$grob(
       x$lab[i],
-      row$x, row$y, default.units = "native",
+      x = row$x, y = row$y, default.units = "native",
       rot = row$angle,
       hjust = row$hjust,
       vjust = row$vjust,
@@ -384,17 +396,25 @@ makeContent.textrepeltree <- function(x) {
         fontfamily = row$family,
         fontface   = row$fontface,
         lineheight = row$lineheight
-      )
-    )
+      ),
+      !!!x$grob_args
+    ))
     x1 <- convertWidth(grobX(tg, "west"), "native", TRUE)
     x2 <- convertWidth(grobX(tg, "east"), "native", TRUE)
     y1 <- convertHeight(grobY(tg, "south"), "native", TRUE)
     y2 <- convertHeight(grobY(tg, "north"), "native", TRUE)
+
+    # Rather measuring stringWidth and stringHeight of the label, we use
+    # coordinates on a bounding box along with rotation of the grob
+    ry <- convertHeight(grobY(tg, c(0, 90, 180, 270) + row$angle), "cm", TRUE)
+    rx <- convertWidth(grobX(tg,  c(0, 90, 180, 270) + row$angle), "cm", TRUE)
     c(
       "x1" = x1 - box_padding_x + row$nudge_x,
       "y1" = y1 - box_padding_y + row$nudge_y,
       "x2" = x2 + box_padding_x + row$nudge_x,
-      "y2" = y2 + box_padding_y + row$nudge_y
+      "y2" = y2 + box_padding_y + row$nudge_y,
+      "w"  = sqrt((ry[1] - ry[3])^2 + (rx[1] - rx[3])^2),
+      "h"  = sqrt((ry[2] - ry[4])^2 + (rx[2] - rx[4])^2)
     )
   })
 
@@ -427,7 +447,7 @@ makeContent.textrepeltree <- function(x) {
     point_size      = point_size,
     point_padding_x = point_padding,
     point_padding_y = point_padding,
-    boxes           = do.call(rbind, boxes),
+    boxes           = do.call(rbind, boxes)[, 1:4, drop = FALSE],
     xlim            = range(x$limits$x),
     ylim            = range(x$limits$y),
     hjust           = x$data$hjust %||% 0.5,
@@ -496,6 +516,9 @@ makeContent.textrepeltree <- function(x) {
         min.segment.length = x$min.segment.length,
         hjust = row$hjust,
         vjust = row$vjust,
+        string.size = boxes[[i]][5:6],
+        grob  = x$grob,
+        grob_args = x$grob_args,
         bg.colour = alpha(row$bg.colour, row$alpha),
         bg.r = row$bg.r
       )
@@ -542,6 +565,9 @@ makeTextRepelGrobs <- function(
   min.segment.length = 0.5,
   hjust = 0.5,
   vjust = 0.5,
+  string.size = c(w = 0, h = 0),
+  grob = textGrob,
+  grob_args = list(),
   bg.colour = NA,
   bg.r = .1
 ) {
@@ -555,23 +581,23 @@ makeTextRepelGrobs <- function(
   # support any angle by converting to -360..360
   rot <- rot %% 360
 
-  # Instead of the width and height of the Grob we use the dimensions of the
-  # character string which are independent of rotation, matching those of
-  # a textGrob built with rot = 0.
   # To support rotation height and width need to be expressed in units that
   # are consistent on x and y axes, such as "char".
-  string.height <- convertHeight(stringHeight(label), "char")
-  string.width <- convertWidth(stringWidth(label), "char")
+  string.height <- unname(string.size["h"])
+  string.width  <- unname(string.size["w"])
 
   rot_radians <- rot * pi / 180
 
-  x_adj <- x - cos(rot_radians) * string.width * (0.5 - hjust) +
-    sin(rot_radians) * string.height * (0.5 - vjust)
-  y_adj <- y - cos(rot_radians) * string.height * (0.5 - vjust) -
-    sin(rot_radians) * string.width * (0.5 - hjust)
+  x_adj <- x + unit(-cos(rot_radians) * string.width * (0.5 - hjust) +
+    sin(rot_radians) * string.height * (0.5 - vjust), "cm")
+  y_adj <- y + unit(-cos(rot_radians) * string.height * (0.5 - vjust) -
+    sin(rot_radians) * string.width * (0.5 - hjust), "cm")
 
-  grobs <- shadowtextGrob(
-    label = label,
+  grob_arg_names <- rlang::fn_fmls_names(grob)
+  label_arg <- if ("label" %in% grob_arg_names) "label" else grob_arg_names[1]
+
+  args <- rlang::list2(
+    !!label_arg := label,
     x = x_adj,
     y = y_adj,
     rot = rot,
@@ -583,8 +609,21 @@ makeTextRepelGrobs <- function(
     bg.colour = bg.colour,
     bg.r = bg.r
   )
+
+  if (!"..." %in% grob_arg_names) {
+    args <- args[intersect(names(args), grob_arg_names)]
+    grob_args <- grob_args[intersect(names(grob_args), grob_arg_names)]
+    grob_args <- grob_args[setdiff(names(grob_args), names(args))]
+  }
+  grobs <- rlang::inject(grob(!!!args, !!!grob_args))
+
   # the regular textgrob will always be the last one
-  tg <- grobs[[length(grobs)]]
+  if (inherits(grobs, "gList")) {
+    tg <- grobs[[length(grobs)]]
+  } else {
+    tg <- grobs
+    grobs <- gList(grobs)
+  }
 
   x1 <- convertWidth(grobX(tg, "west"), "native", TRUE)
   x2 <- convertWidth(grobX(tg, "east"), "native", TRUE)
