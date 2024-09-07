@@ -6,7 +6,6 @@
 \alias{GeomLabelRepel}
 \alias{GeomTextRepel}
 \alias{ggrepel}
-\alias{ggrepel-package}
 \alias{PositionNudgeRepel}
 \title{GeomLabelRepel}
 \description{
