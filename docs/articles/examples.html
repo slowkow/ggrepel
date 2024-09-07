@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Examples">
@@ -44,7 +44,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggrepel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,7 +100,7 @@
                         <h4 data-toc-skip class="author">Kamil
 Slowikowski</h4>
             
-            <h4 data-toc-skip class="date">2024-01-10</h4>
+            <h4 data-toc-skip class="date">2024-09-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/slowkow/ggrepel/blob/HEAD/vignettes/examples.Rmd" class="external-link"><code>vignettes/examples.Rmd</code></a></small>
       <div class="d-none name"><code>examples.Rmd</code></div>
@@ -1220,7 +1220,7 @@ Yu</a>.</p>
 <span>  size <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="examples_files/figure-html/timing-1.png" width="700"></p>
-<pre><code><span><span class="co">## 1.00s elapsed for 153860 iterations, 4 overlaps. Consider increasing 'max.time'.</span></span></code></pre>
+<pre><code><span><span class="co">## 1.00s elapsed for 154910 iterations, 2 overlaps. Consider increasing 'max.time'.</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="word-cloud">Word cloud<a class="anchor" aria-label="anchor" href="#word-cloud"></a>
@@ -1283,9 +1283,30 @@ disable the springs.</p>
 <p><img src="examples_files/figure-html/polar-1.png" width="700"></p>
 </div>
 <div class="section level3">
+<h3 id="modified-coordinates">Modified coordinates<a class="anchor" aria-label="anchor" href="#modified-coordinates"></a>
+</h3>
+<p>ggrepel works with modified x and y coordinates:</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Swap the x and y coordinates</span></span>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/coord_flip-1.png" width="700"></p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Limit the x-axis to values &lt;= 3</span></span>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/x_limits_na-1.png" width="700"></p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Transform the y-axis with a pseudo log transformation</span></span>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_trans.html" class="external-link">coord_trans</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/transform_log.html" class="external-link">pseudo_log_trans</a></span><span class="op">(</span>base <span class="op">=</span> <span class="fl">2</span>, sigma <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/pseudo_log_trans-1.png" width="700"></p>
+</div>
+<div class="section level3">
 <h3 id="unicode-characters-japanese">Unicode characters (Japanese)<a class="anchor" aria-label="anchor" href="#unicode-characters-japanese"></a>
 </h3>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggrepel.slowkow.com/">ggrepel</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
@@ -1311,7 +1332,7 @@ disable the springs.</p>
 <div class="section level3">
 <h3 id="mathematical-expressions">Mathematical expressions<a class="anchor" aria-label="anchor" href="#mathematical-expressions"></a>
 </h3>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  x    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1.75</span>, <span class="fl">1.25</span><span class="op">)</span>,</span>
 <span>  y    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">2.65</span>, <span class="fl">1.25</span><span class="op">)</span>,</span>
@@ -1336,7 +1357,7 @@ disable the springs.</p>
 <div class="section level3">
 <h3 id="animation">Animation<a class="anchor" aria-label="anchor" href="#animation"></a>
 </h3>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># This chunk of code will take a minute or two to run.</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggrepel.slowkow.com/">ggrepel</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/animation/" class="external-link">animation</a></span><span class="op">)</span></span>
@@ -1379,7 +1400,7 @@ code for this vignette</a> on GitHub.</p>
 <div class="section level2">
 <h2 id="r-session-info">R Session Info<a class="anchor" aria-label="anchor" href="#r-session-info"></a>
 </h2>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## R version 4.2.3 (2023-03-15)</span></span>
 <span><span class="co">## Platform: aarch64-apple-darwin20 (64-bit)</span></span>
@@ -1396,26 +1417,26 @@ code for this vignette</a> on GitHub.</p>
 <span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] patchwork_1.1.2  ggpp_0.5.5       sf_1.0-12        ggbeeswarm_0.7.2</span></span>
-<span><span class="co">## [5] ggrepel_0.9.5    ggplot2_3.4.4    gridExtra_2.3    knitr_1.43      </span></span>
+<span><span class="co">## [1] sf_1.0-12        patchwork_1.2.0  ggpp_0.5.5       ggbeeswarm_0.7.2</span></span>
+<span><span class="co">## [5] ggrepel_0.9.6    ggplot2_3.5.1    gridExtra_2.3    knitr_1.47      </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] Rcpp_1.0.11        lubridate_1.9.2    class_7.3-21       rprojroot_2.0.3   </span></span>
-<span><span class="co">##  [5] digest_0.6.31      utf8_1.2.4         R6_2.5.1           evaluate_0.21     </span></span>
-<span><span class="co">##  [9] e1071_1.7-13       highr_0.10         pillar_1.9.0       rlang_1.1.2       </span></span>
-<span><span class="co">## [13] jquerylib_0.1.4    rmarkdown_2.23     pkgdown_2.0.7      textshaping_0.3.6 </span></span>
-<span><span class="co">## [17] desc_1.4.2         labeling_0.4.3     polynom_1.4-1      stringr_1.5.0     </span></span>
-<span><span class="co">## [21] munsell_0.5.0      proxy_0.4-27       compiler_4.2.3     vipor_0.4.5       </span></span>
-<span><span class="co">## [25] xfun_0.39          pkgconfig_2.0.3    systemfonts_1.0.4  htmltools_0.5.5   </span></span>
-<span><span class="co">## [29] tidyselect_1.2.0   tibble_3.2.1       codetools_0.2-19   fansi_1.0.5       </span></span>
-<span><span class="co">## [33] dplyr_1.1.2        withr_2.5.2        MASS_7.3-58.2      grid_4.2.3        </span></span>
-<span><span class="co">## [37] jsonlite_1.8.7     gtable_0.3.4       lifecycle_1.0.4    DBI_1.1.3         </span></span>
-<span><span class="co">## [41] magrittr_2.0.3     units_0.8-2        scales_1.3.0       KernSmooth_2.23-20</span></span>
-<span><span class="co">## [45] cli_3.6.1          stringi_1.7.12     cachem_1.0.8       farver_2.1.1      </span></span>
-<span><span class="co">## [49] fs_1.6.2           bslib_0.5.0        ragg_1.2.5         generics_0.1.3    </span></span>
-<span><span class="co">## [53] vctrs_0.6.5        tools_4.2.3        glue_1.6.2         beeswarm_0.4.0    </span></span>
-<span><span class="co">## [57] purrr_1.0.1        fastmap_1.1.1      yaml_2.3.7         timechange_0.2.0  </span></span>
-<span><span class="co">## [61] colorspace_2.1-0   classInt_0.4-9     memoise_2.0.1      sass_0.4.6</span></span></code></pre>
+<span><span class="co">##  [1] beeswarm_0.4.0     tidyselect_1.2.1   xfun_0.44          bslib_0.7.0       </span></span>
+<span><span class="co">##  [5] purrr_1.0.2        colorspace_2.1-0   vctrs_0.6.5        generics_0.1.3    </span></span>
+<span><span class="co">##  [9] htmltools_0.5.8.1  yaml_2.3.8         utf8_1.2.4         rlang_1.1.3       </span></span>
+<span><span class="co">## [13] e1071_1.7-13       pkgdown_2.0.7      jquerylib_0.1.4    pillar_1.9.0      </span></span>
+<span><span class="co">## [17] glue_1.7.0         withr_3.0.0        DBI_1.2.3          lifecycle_1.0.4   </span></span>
+<span><span class="co">## [21] munsell_0.5.0      gtable_0.3.4       ragg_1.2.5         codetools_0.2-19  </span></span>
+<span><span class="co">## [25] memoise_2.0.1      evaluate_0.23      labeling_0.4.3     fastmap_1.2.0     </span></span>
+<span><span class="co">## [29] vipor_0.4.5        class_7.3-21       fansi_1.0.6        highr_0.11        </span></span>
+<span><span class="co">## [33] Rcpp_1.0.11        KernSmooth_2.23-20 polynom_1.4-1      scales_1.3.0.9000 </span></span>
+<span><span class="co">## [37] classInt_0.4-9     cachem_1.1.0       desc_1.4.3         jsonlite_1.8.8    </span></span>
+<span><span class="co">## [41] farver_2.1.1       systemfonts_1.0.4  fs_1.6.4           textshaping_0.3.6 </span></span>
+<span><span class="co">## [45] digest_0.6.35      dplyr_1.1.4        grid_4.2.3         cli_3.6.2         </span></span>
+<span><span class="co">## [49] tools_4.2.3        magrittr_2.0.3     sass_0.4.9         proxy_0.4-27      </span></span>
+<span><span class="co">## [53] tibble_3.2.1       pkgconfig_2.0.3    MASS_7.3-58.2      timechange_0.2.0  </span></span>
+<span><span class="co">## [57] lubridate_1.9.3    rmarkdown_2.27     R6_2.5.1           units_0.8-2       </span></span>
+<span><span class="co">## [61] compiler_4.2.3</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

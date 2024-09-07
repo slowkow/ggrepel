@@ -1116,6 +1116,31 @@ ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl), label = label)) +
   theme_bw(base_size = 18)
 ```
 
+### Modified coordinates
+
+ggrepel works with modified x and y coordinates:
+
+```{r modified-coordinates, echo=TRUE}
+p <- ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars))) +
+  geom_text_repel() +
+  geom_point(color = 'red')
+```
+
+```{r coord_flip, echo=TRUE, fig.width=7, fig.height=5}
+# Swap the x and y coordinates
+p + coord_flip()
+```
+
+```{r x_limits_na, echo=TRUE, fig.width=7, fig.height=5}
+# Limit the x-axis to values <= 3
+p + scale_x_continuous(limits = c(NA, 3))
+```
+
+```{r pseudo_log_trans, echo=TRUE, fig.width=7, fig.height=5}
+# Transform the y-axis with a pseudo log transformation
+p + coord_trans(y = scales::pseudo_log_trans(base = 2, sigma = 0.1))
+```
+
 ### Unicode characters (Japanese)
 
 ```{r japanese, echo=TRUE, fig.width=6, fig.height=5}
