@@ -99,3 +99,20 @@ exclude_outside <- function(data, panel_scales) {
 inside <- function(x, bounds) {
   is.infinite(x) | (x <= bounds[2] & x >= bounds[1])
 }
+
+# Utilities for converting units to centimetres
+x_cm      <- function(x) convertX(x, "cm", valueOnly = TRUE)
+y_cm      <- function(x) convertY(x, "cm", valueOnly = TRUE)
+width_cm  <- function(x) convertWidth(x, "cm", valueOnly = TRUE)
+height_cm <- function(x) convertHeight(x, "cm", valueOnly = TRUE)
+length_cm <- function(x) {
+  convertUnit(x, "cm", typeFrom = "dimension", valueOnly = TRUE)
+}
+
+# Need to set a viewport with the correct graphical parameters to correctly
+# convert the size to centimetres
+string_cm <- function(x, gp) {
+  pushViewport(viewport(gp = gp))
+  on.exit(popViewport())
+  cbind(width = width_cm(stringWidth(x)), height = height_cm(stringHeight(x)))
+}
