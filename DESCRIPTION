@@ -53,6 +53,6 @@ VignetteBuilder: knitr
 License: GPL-3 | file LICENSE
 URL: https://ggrepel.slowkow.com/, https://github.com/slowkow/ggrepel
 BugReports: https://github.com/slowkow/ggrepel/issues
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 LinkingTo: Rcpp
 Encoding: UTF-8
