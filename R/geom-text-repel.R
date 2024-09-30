@@ -90,6 +90,7 @@
 #' @param seed Random seed passed to \code{\link[base]{set.seed}}. Defaults to
 #'   \code{NA}, which means that \code{set.seed} will not be called.
 #' @param verbose If \code{TRUE}, some diagnostics of the repel algorithm are printed
+#' @param show_warning If \code{TRUE} (default), warnings are shown.
 #'
 #' @examples
 #'
@@ -182,6 +183,7 @@ geom_text_repel <- function(
   direction = c("both","y","x"),
   seed = NA,
   verbose = FALSE,
+  show_warning = TRUE,
   inherit.aes = TRUE
 ) {
   if (!missing(nudge_x) || !missing(nudge_y)) {
@@ -313,7 +315,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
 
     # Warn about limitations of the algorithm
-    if (any(abs(data$angle %% 90) > 5)) {
+    if (any(abs(data$angle %% 90) > 5) & show_warning) {
       warn("ggrepel: Repulsion works correctly only for rotation angles multiple of 90 degrees")
     }
 
@@ -441,7 +443,7 @@ makeContent.textrepeltree <- function(x) {
     verbose         = x$verbose
   ))
 
-  if (any(repel$too_many_overlaps)) {
+  if (any(repel$too_many_overlaps) & show_warning) {
     warn(
       sprintf(
         "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing max.overlaps",

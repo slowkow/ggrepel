@@ -32,6 +32,7 @@ geom_label_repel <- function(
   direction = c("both","y","x"),
   seed = NA,
   verbose = FALSE,
+  show_warning = TRUE,
   inherit.aes = TRUE
 ) {
   if (!missing(nudge_x) || !missing(nudge_y)) {
@@ -300,7 +301,7 @@ makeContent.labelrepeltree <- function(x) {
     verbose         = x$verbose
   ))
 
-  if (any(repel$too_many_overlaps)) {
+  if (any(repel$too_many_overlaps) & show_warning) {
     warn(
       sprintf(
         "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing max.overlaps",

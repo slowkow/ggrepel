@@ -33,6 +33,7 @@ geom_label_repel(
   direction = c("both", "y", "x"),
   seed = NA,
   verbose = FALSE,
+  show_warning = TRUE,
   inherit.aes = TRUE
 )
 
@@ -61,6 +62,7 @@ geom_text_repel(
   direction = c("both", "y", "x"),
   seed = NA,
   verbose = FALSE,
+  show_warning = TRUE,
   inherit.aes = TRUE
 )
 }
@@ -156,6 +158,8 @@ a warning.  If \code{TRUE} silently removes missing values.}
 \code{NA}, which means that \code{set.seed} will not be called.}
 
 \item{verbose}{If \code{TRUE}, some diagnostics of the repel algorithm are printed}
+
+\item{show_warning}{If \code{TRUE} (default), warnings are shown.}
 
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
