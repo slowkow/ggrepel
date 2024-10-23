@@ -181,7 +181,7 @@ geom_text_repel <- function(
   show.legend = NA,
   direction = c("both","y","x"),
   seed = NA,
-  verbose = FALSE,
+  verbose = getOption("verbose", default = FALSE),
   inherit.aes = TRUE
 ) {
   if (!missing(nudge_x) || !missing(nudge_y)) {
@@ -189,6 +189,12 @@ geom_text_repel <- function(
       stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
     }
     position <- position_nudge_repel(nudge_x, nudge_y)
+  }
+  # Warn about limitations of the algorithm
+  if (verbose && any(abs(data$angle %% 90) > 5)) {
+    message(
+      "ggrepel: Repulsion works correctly only for rotation angles multiple of 90 degrees"
+    )
   }
   layer(
     data = data,
@@ -262,7 +268,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     ylim = c(NA, NA),
     direction = "both",
     seed = NA,
-    verbose = FALSE
+    verbose = getOption("verbose", default = FALSE)
   ) {
 
     if (parse) {
@@ -311,11 +317,6 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     # Fill NAs with defaults.
     limits$x[is.na(limits$x)] <- c(0, 1)[is.na(limits$x)]
     limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
-
-    # Warn about limitations of the algorithm
-    if (any(abs(data$angle %% 90) > 5)) {
-      warn("ggrepel: Repulsion works correctly only for rotation angles multiple of 90 degrees")
-    }
 
     # Convert hjust and vjust to numeric if character
     if (is.character(data$vjust)) {
@@ -441,10 +442,10 @@ makeContent.textrepeltree <- function(x) {
     verbose         = x$verbose
   ))
 
-  if (any(repel$too_many_overlaps)) {
-    warn(
+  if (x$verbose && any(repel$too_many_overlaps)) {
+    message(
       sprintf(
-        "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing max.overlaps",
+        "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing 'max.overlaps'",
         sum(repel$too_many_overlaps)
       )
     )

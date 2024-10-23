@@ -32,7 +32,7 @@ geom_label_repel(
   show.legend = NA,
   direction = c("both", "y", "x"),
   seed = NA,
-  verbose = FALSE,
+  verbose = getOption("verbose", default = FALSE),
   inherit.aes = TRUE
 )
 
@@ -60,7 +60,7 @@ geom_text_repel(
   show.legend = NA,
   direction = c("both", "y", "x"),
   seed = NA,
-  verbose = FALSE,
+  verbose = getOption("verbose", default = FALSE),
   inherit.aes = TRUE
 )
 }

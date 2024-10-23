@@ -31,7 +31,7 @@ geom_label_repel <- function(
   show.legend = NA,
   direction = c("both","y","x"),
   seed = NA,
-  verbose = FALSE,
+  verbose = getOption("verbose", default = FALSE),
   inherit.aes = TRUE
 ) {
   if (!missing(nudge_x) || !missing(nudge_y)) {
@@ -39,6 +39,12 @@ geom_label_repel <- function(
       stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
     }
     position <- position_nudge_repel(nudge_x, nudge_y)
+  }
+  # Warn about limitations of the algorithm
+  if (verbose && any(abs(data$angle %% 90) > 5)) {
+    message(
+      "ggrepel: Repulsion works correctly only for rotation angles multiple of 90 degrees"
+    )
   }
   layer(
     data = data,
@@ -118,7 +124,7 @@ GeomLabelRepel <- ggproto(
     ylim = c(NA, NA),
     direction = "both",
     seed = NA,
-    verbose = FALSE
+    verbose = getOption("verbose", default = FALSE)
   ) {
 
     if (parse) {
@@ -300,10 +306,10 @@ makeContent.labelrepeltree <- function(x) {
     verbose         = x$verbose
   ))
 
-  if (any(repel$too_many_overlaps)) {
-    warn(
+  if (x$verbose && any(repel$too_many_overlaps)) {
+    message(
       sprintf(
-        "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing max.overlaps",
+        "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing 'max.overlaps'",
         sum(repel$too_many_overlaps)
       )
     )

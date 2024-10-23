@@ -950,20 +950,20 @@ DataFrame repel_boxes2(
 
   if (verbose) {
     if (elapsed_time > max_time) {
-      Rprintf(
-        "%.2fs elapsed for %d iterations, %d overlaps. Consider increasing 'max.time'.\n",
-        max_time / 1e9, iter, p_overlaps
-      );
+      std::string msg = "ggrepel: " + std::to_string(max_time / 1e9) +
+        "s elapsed for " + std::to_string(iter) + " iterations, " +
+        std::to_string(p_overlaps) + " overlaps. Consider increasing 'max.time'.";
+      Rcpp::message(Rcpp::wrap(msg));
     } else if (iter >= max_iter) {
-      Rprintf(
-        "%d iterations in %.2fs, %d overlaps. Consider increasing 'max.iter'.\n",
-        max_iter, elapsed_time / 1e9, p_overlaps
-      );
+      std::string msg = "ggrepel: " + std::to_string(max_iter) + " iterations in " +
+        std::to_string(elapsed_time / 1e9) + "s, " + std::to_string(p_overlaps) +
+        " overlaps. Consider increasing 'max.iter'.";
+      Rcpp::message(Rcpp::wrap(msg));
     } else {
-      Rprintf(
-        "text repel complete in %d iterations (%.2fs), %d overlaps\n",
-        iter, elapsed_time / 1e9, p_overlaps
-      );
+      std::string msg = "ggrepel: text repel complete in " + std::to_string(iter) +
+        " iterations (" + std::to_string(elapsed_time / 1e9) + "s), " +
+        std::to_string(p_overlaps) + " overlaps";
+      Rcpp::message(Rcpp::wrap(msg));
     }
   }
 
