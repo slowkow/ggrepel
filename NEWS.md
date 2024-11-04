@@ -1,3 +1,11 @@
+ggrepel 0.9.6.9999
+========================
+
+- Set `verbose = getOption("verbose", default = FALSE)` by default, and use messages instead of warnings. Thanks to @jpquast for suggesting this change in [pull request 263]. This should prevent unexpected warning messages in packages that depend on ggrepel.
+
+[pull request 263]: https://github.com/slowkow/ggrepel/pull/263
+
+
 ggrepel 0.9.6
 ========================
 

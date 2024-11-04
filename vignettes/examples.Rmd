@@ -108,6 +108,14 @@ p2 <- p + geom_text_repel() + labs(title = "geom_text_repel()")
 gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
 
+## Advanced examples
+
+For more advanced ggrepel examples, check out [this article][ggpp-examples] by
+Pedro Aphalo. In that article, Pedro shows how to use nudging functions from
+the [ggpp] package to achieve greater control over label positions.
+
+[ggpp-examples]: https://docs.r4photobiology.info/ggpp/articles/nudge-examples.html
+
 ## Installation
 
 ggrepel is available on [CRAN]:
@@ -1034,6 +1042,11 @@ ggplot(dat, aes(wt, mpg, label = car)) +
 
 ### Verbose timing information
 
+By default, ggrepel will respect the global `verbose` option, so please check `getOption("verbose")` to see if this is set to TRUE or FALSE in your environment.
+We can set the global option with `options(verbose = TRUE)` or `options(verbose = FALSE)`.
+
+We can override the global value by using `geom_text_repel(verbose = TRUE)` or `geom_text_repel(verbose = FALSE)`.
+
 Use `verbose = TRUE` to see:
 
 - how many iterations of the physical simulation
@@ -1054,6 +1067,7 @@ p + geom_text_repel(
   size = 3
 )
 ```
+
 
 ### Word cloud
 
