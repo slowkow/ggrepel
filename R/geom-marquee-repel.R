@@ -183,7 +183,7 @@ GeomMarqueeRepel <- ggproto(
       grobs[[i]] <- marquee::marquee_grob(
         text = data$label[i], style = styles[i], force_body_margin = TRUE,
         x = 0.5, y = 0.5, width = data$width[i],
-        hjust = data$hjust[i], vjust = data$vjust[i],
+        hjust = 0.5, vjust = 0.5,
         angle = data$angle[i]
       )
     }
@@ -222,16 +222,20 @@ makeContent.marqueerepeltree <- function(x) {
   x$data  <- x$data[ord, , drop = FALSE]
   x$grobs <- x$grobs[ord]
 
+  justification <- rotate_just(x$data$angle, x$data$hjust, x$data$vjust)
+  hjust <- justification$hjust
+  vjust <- justification$vjust
+
   boxes <- lapply(seq_along(valid_strings), function(i) {
     row <- x$data[i, , drop = FALSE]
     grob <- x$grobs[[i]]
     gw <- convertWidth( grobWidth(grob),  "native", TRUE)
     gh <- convertHeight(grobHeight(grob), "native", TRUE)
     c(
-      "x1" = row$x - gw *       row$hjust - box_padding_x + row$nudge_x,
-      "y1" = row$y - gh *       row$vjust - box_padding_y + row$nudge_y,
-      "x2" = row$x + gw * (1 - row$hjust) + box_padding_x + row$nudge_x,
-      "y2" = row$y + gh * (1 - row$vjust) + box_padding_y + row$nudge_y
+      "x1" = row$x - gw *       hjust[i] - box_padding_x + row$nudge_x,
+      "y1" = row$y - gh *       vjust[i] - box_padding_y + row$nudge_y,
+      "x2" = row$x + gw * (1 - hjust[i]) + box_padding_x + row$nudge_x,
+      "y2" = row$y + gh * (1 - vjust[i]) + box_padding_y + row$nudge_y
     )
   })
 
@@ -463,4 +467,42 @@ makeMarqueeRepelGrobs <- function(
   }
 
   grobs
+}
+
+# similar to ggplot2:::rotate_just
+rotate_just <- function(angle = NULL, hjust = NULL, vjust = NULL) {
+  angle <- (angle %||% 0) %% 360
+
+  if (is.character(hjust)) {
+    hjust <- match(hjust, c("left", "right")) - 1
+    hjust[is.na(hjust)] <- 0.5
+  }
+  if (is.character(vjust)) {
+    vjust <- match(vjust, c("bottom", "top")) - 1
+    vjust[is.na(vjust)] <- 0.5
+  }
+
+  size <- max(length(angle), length(hjust), length(vjust))
+  angle <- rep(angle, length.out = size)
+  hjust <- rep(hjust, length.out = size)
+  vjust <- rep(vjust, length.out = size)
+
+  case <- findInterval(angle, c(0, 90, 180, 270, 360))
+
+  hnew <- hjust
+  vnew <- vjust
+
+  is_case <- which(case == 2) # 90 <= x < 180
+  hnew[is_case] <- 1 - vjust[is_case]
+  vnew[is_case] <- hjust[is_case]
+
+  is_case <- which(case == 3) # 180 <= x < 270
+  hnew[is_case] <- 1 - hjust[is_case]
+  vnew[is_case] <- 1 - vjust[is_case]
+
+  is_case <- which(case == 4) # 270 <= x < 360
+  hnew[is_case] <- vjust[is_case]
+  vnew[is_case] <- 1 - hjust[is_case]
+
+  list(hjust = hnew, vjust = vnew)
 }
