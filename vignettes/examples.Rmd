@@ -1056,6 +1056,57 @@ ggplot(df, aes(x, y, label = labels, width = widths)) +
 To learn more, see the [ragg] documentation and read about the `device`
 argument for the `ggplot2::ggsave()` function.
 
+### Repel axis labels with element_text_repel()
+
+Use `element_text_repel()` as a theme element to repel crowded axis labels.
+This is especially useful when you have many categories on a categorical axis.
+
+```{r element_text_repel_basic, echo=TRUE, fig.width=6, fig.height=8}
+# A plot with many overlapping y-axis labels
+p <- ggplot(mtcars, aes(mpg, rownames(mtcars))) +
+  geom_col(fill = "steelblue")
+
+# Expand the y-axis limits to make room for repelled labels
+p + coord_cartesian(ylim = c(-32, 64)) +
+  theme(axis.text.y.left = element_text_repel(margin = margin(r = 20)))
+```
+
+You can customize the connecting segments with curvature and color options:
+
+```{r element_text_repel_curved, echo=TRUE, fig.width=6, fig.height=8}
+p + coord_cartesian(ylim = c(-32, 64)) +
+  theme(
+    axis.text.y.left = element_text_repel(
+      margin = margin(r = 20),
+      segment.curvature = -0.1,
+      segment.inflect = TRUE,
+      segment.colour = "red"
+    ),
+    axis.ticks.y.left = element_line(colour = "red")
+  )
+```
+
+For secondary axes (top and right), use the `position` argument:
+
+```{r element_text_repel_secondary, echo=TRUE, fig.width=7, fig.height=7}
+x <- c(0, 4.9, 5, 5.1, 10)
+labels <- c("Lorem ipsum", "dolor amet", "consectetur", "adipiscing", "elit")
+
+ggplot(mapping = aes(x, x, colour = x)) +
+  geom_point(size = 3) +
+  scale_x_continuous(breaks = x, labels = labels) +
+  scale_y_continuous(breaks = x, labels = labels) +
+  scale_colour_viridis_c(breaks = x, labels = labels) +
+  guides(x.sec = "axis", y.sec = "axis") +
+  theme(
+    axis.text.x.bottom = element_text_repel(angle = 90, margin = margin(t = 70)),
+    axis.text.y.left   = element_text_repel(margin = margin(r = 10)),
+    axis.text.x.top    = element_text_repel(angle = 90,margin = margin(b = 70), position = "top"),
+    axis.text.y.right  = element_text_repel(margin = margin(l = 10), position = "right"),
+    legend.text        = element_text_repel(margin = margin(l = 10), position = "right")
+  )
+```
+
 ### Label jittered points
 
 ```{r jitter, echo=TRUE, fig.width=6, fig.height=5}

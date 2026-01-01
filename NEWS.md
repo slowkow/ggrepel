@@ -3,6 +3,8 @@ ggrepel 0.9.6.9999
 
 ## Changes
 
+- Add `element_text_repel()`, a theme element that brings text repelling to non-geom text such as axis labels and legend text. This is useful when axis labels are crowded and overlap. Thanks to @teunbrand for this amazing contribution in [pull request 266].
+
 - Add `arrow.fill` aesthetic to customize the fill color of closed arrow heads. By default, `arrow.fill` matches the segment color. Thanks to @hertg for requesting this in [issue 273].
 
 - Document `linewidth` and `linetype` aesthetics for `geom_label_repel()` to customize the label border. Set `linewidth = 0` to hide the border entirely.
@@ -15,6 +17,7 @@ ggrepel 0.9.6.9999
 
 [marquee]: https://github.com/r-lib/marquee/
 [pull request 263]: https://github.com/slowkow/ggrepel/pull/263
+[pull request 266]: https://github.com/slowkow/ggrepel/pull/266
 [pull request 272]: https://github.com/slowkow/ggrepel/pull/272
 
 ## Bug fixes
