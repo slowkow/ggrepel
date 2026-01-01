@@ -246,6 +246,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
     segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
     segment.inflect = FALSE, segment.debug = FALSE,
+    arrow.fill = NULL,
     bg.colour = NA, bg.r = 0.1
   ),
 
@@ -283,11 +284,24 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       this_orig <- sprintf("%s_orig", this_dim)
       this_nudge <- sprintf("nudge_%s", this_dim)
       if (!this_nudge %in% colnames(data)) {
+        # No nudge column exists - use current position as nudge target
         data[[this_nudge]] <- data[[this_dim]]
         if (this_orig %in% colnames(data)) {
+          # Restore original position from _orig column (e.g., from position_nudge_repel)
           data[[this_dim]] <- data[[this_orig]]
           data[[this_orig]] <- NULL
         }
+      } else if (this_orig %in% colnames(data)) {
+        # nudge column exists AND _orig exists (from position_nudge_repel)
+        # Set nudge to the current (nudged) position, restore original
+        data[[this_nudge]] <- data[[this_dim]]
+        data[[this_dim]] <- data[[this_orig]]
+        data[[this_orig]] <- NULL
+      } else if (all(data[[this_nudge]] == 0)) {
+        # nudge column exists but is all zeros and no _orig column
+        # This happens with ggplot2's position_nudge() which sets nudge_x/y = 0
+        # In this case, use current position as nudge target (no nudge offset)
+        data[[this_nudge]] <- data[[this_dim]]
       }
     }
 
@@ -303,6 +317,10 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     data$nudge_y <- nudges$y - data$y
 
     # Transform limits to panel scales.
+    # Store original NA status before transformation, because coord$transform
+    # may convert NA to a valid value (e.g., when NA is a factor level).
+    xlim_na <- is.na(xlim)
+    ylim_na <- is.na(ylim)
     limits <- data.frame(x = xlim, y = ylim)
     limits <- coord$transform(limits, panel_scales)
 
@@ -314,9 +332,9 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       limits$y[is.infinite(ylim)] <- ylim[is.infinite(ylim)]
     }
 
-    # Fill NAs with defaults.
-    limits$x[is.na(limits$x)] <- c(0, 1)[is.na(limits$x)]
-    limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
+    # Fill NAs with defaults (use original NA status, not post-transform).
+    limits$x[xlim_na] <- c(0, 1)[xlim_na]
+    limits$y[ylim_na] <- c(0, 1)[ylim_na]
 
     # Convert hjust and vjust to numeric if character
     if (is.character(data$vjust)) {
@@ -491,7 +509,8 @@ makeContent.textrepeltree <- function(x) {
         segment.gp = gpar(
           col = scales::alpha(row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha),
           lwd = row$segment.size * .pt,
-          lty = row$segment.linetype %||% 1
+          lty = row$segment.linetype %||% 1,
+          fill = scales::alpha(row$arrow.fill %||% row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha)
         ),
         arrow = x$arrow,
         min.segment.length = x$min.segment.length,

@@ -1,39 +1,28 @@
 #' @rdname geom_text_repel
-#' @param label.padding Amount of padding around label, as unit or number.
-#'   Defaults to 0.25. (Default unit is lines, but other units can be specified
-#'   by passing \code{unit(x, "units")}).
-#' @param label.r Radius of rounded corners, as unit or number. Defaults
-#'   to 0.15. (Default unit is lines, but other units can be specified by
-#'   passing \code{unit(x, "units")}).
-#' @param label.size Size of label border, in mm.
 #' @export
-geom_label_repel <- function(
-  mapping = NULL, data = NULL, stat = "identity", position = "identity",
-  parse = FALSE,
-  ...,
-  box.padding = 0.25,
-  label.padding = 0.25,
-  point.padding = 1e-6,
-  label.r = 0.15,
-  label.size = 0.25,
-  min.segment.length = 0.5,
-  arrow = NULL,
-  force = 1,
-  force_pull = 1,
-  max.time = 0.5,
-  max.iter = 10000,
-  max.overlaps = getOption("ggrepel.max.overlaps", default = 10),
-  nudge_x = 0,
-  nudge_y = 0,
-  xlim = c(NA, NA),
-  ylim = c(NA, NA),
-  na.rm = FALSE,
-  show.legend = NA,
-  direction = c("both","y","x"),
-  seed = NA,
-  verbose = getOption("verbose", default = FALSE),
-  inherit.aes = TRUE
+geom_marquee_repel <- function(
+    mapping = NULL, data = NULL, stat = "identity", position = "identity",
+    ...,
+    box.padding = 0.25, point.padding = 1e-6,
+    min.segment.length = 0.5,
+    arrow = NULL,
+    force = 1,
+    force_pull = 1,
+    max.time = 0.5,
+    max.iter = 10000,
+    max.overlaps = getOption("ggrepel.max.overlaps", default = 10),
+    nudge_x = 0,
+    nudge_y = 0,
+    xlim = c(NA, NA),
+    ylim = c(NA, NA),
+    na.rm = FALSE,
+    show.legend = NA,
+    direction = c("both","y","x"),
+    seed = NA,
+    verbose = getOption("verbose", default = FALSE),
+    inherit.aes = TRUE
 ) {
+  rlang::check_installed("marquee", "for rendering rich text.")
   if (!missing(nudge_x) || !missing(nudge_y)) {
     if (!missing(position)) {
       stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
@@ -50,17 +39,13 @@ geom_label_repel <- function(
     data = data,
     mapping = mapping,
     stat = stat,
-    geom = GeomLabelRepel,
+    geom = GeomMarqueeRepel,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(
-      parse = parse,
-      box.padding  = to_unit(box.padding),
-      label.padding = to_unit(label.padding),
-      point.padding  = to_unit(point.padding),
-      label.r = to_unit(label.r),
-      label.size = label.size,
+      box.padding   = to_unit(box.padding),
+      point.padding = to_unit(point.padding),
       min.segment.length = to_unit(min.segment.length),
       arrow = arrow,
       na.rm = na.rm,
@@ -81,61 +66,71 @@ geom_label_repel <- function(
   )
 }
 
-#' GeomLabelRepel
+#' GeomMarqueeRepel
 #' @rdname ggrepel
 #' @format NULL
 #' @usage NULL
-#' @seealso \link[ggplot2]{GeomLabel} from the ggplot2 package.
 #' @keywords internal
 #' @export
-GeomLabelRepel <- ggproto(
-  "GeomLabelRepel", Geom,
+GeomMarqueeRepel <- ggproto(
+  "GeomMarqueeRepel", Geom,
+
   required_aes = c("x", "y", "label"),
 
   default_aes = aes(
-    colour = "black", fill = "white", size = 3.88, angle = 0,
-    alpha = NA, family = "", fontface = 1, lineheight = 1.2,
-    hjust = 0.5, vjust = 0.5, point.size = 1,
-    linewidth = 0.25, linetype = 1,
-    segment.linetype = 1, segment.colour = NULL, segment.size = 0.5, segment.alpha = NULL,
-    segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
-    segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
-    segment.inflect = FALSE, segment.debug = FALSE,
-    arrow.fill = NULL
+    colour = "black", fill = NA, size = 3.88, angle = 0,
+    hjust = 0.5, vjust = 0.5, alpha = NA, family = "", lineheight = 1.2,
+    # marquee specific
+    style = NULL, width = NA,
+    # repel specific
+    point.size = 1, segment.linetype = 1, segment.colour = NULL,
+    segment.size = 0.5, segment.alpha = NULL, segment.curvature = 0,
+    segment.angle = 90, segment.ncp = 1, segment.shape = 0.5,
+    segment.square = TRUE, segment.squareShape = 1, segment.inflect = FALSE,
+    segment.debug = FALSE, arrow.fill = NULL
   ),
 
   draw_panel = function(
-    data, panel_scales, coord,
-    parse = FALSE,
-    na.rm = FALSE,
-    box.padding = 0.25,
-    label.padding = 0.25,
-    point.padding = 1e-6,
-    label.r = 0.15,
-    label.size = 0.25,
-    min.segment.length = 0.5,
-    arrow = NULL,
-    force = 1,
-    force_pull = 1,
-    max.time = 0.5,
-    max.iter = 10000,
-    max.overlaps = 10,
-    nudge_x = 0,
-    nudge_y = 0,
-    xlim = c(NA, NA),
-    ylim = c(NA, NA),
-    direction = "both",
-    seed = NA,
+    data, panel_params, coord,
+    # repel specific
+    box.padding = 0.25, point.padding = 1e-6,
+    min.segment.length = 0.5, arrow = NULL,
+    force = 1, force_pull = 1,
+    max.time = 0.5, max.iter = 10000, max.overlaps = 10,
+    nudge_x = 0, nudge_y = 0,
+    xlim = c(NA, NA), ylim = c(NA, NA),
+    direction = "both", seed = NA,
     verbose = getOption("verbose", default = FALSE)
   ) {
-
-    if (parse) {
-      data$label <- parse_safe(as.character(data$label))
-    }
     if (!length(data$label) || !length(which(not_empty(data$label)))) {
       return()
     }
 
+    # Marquee specific processing
+    styles <- data$style
+    if (is.null(styles)) {
+      default <- marquee::modify_style(
+        marquee::classic_style(), "body",
+        margin = marquee::trbl(marquee::rem(0.1))
+      )
+      styles <- rep(default, nrow(data))
+    }
+    if (!inherits(styles, "marquee_style_set")) {
+      stop("`style` must be a marquee_style_set object.")
+    }
+    styles <- marquee::modify_style(styles,
+      "base",
+      family = data$family,
+      size   = data$size * .pt,
+      lineheight = data$lineheight,
+      color = alpha(data$colour, data$alpha)
+    )
+    styles <- marquee::modify_style(styles,
+      "body",
+      background = marquee::skip_inherit(data$fill),
+    )
+
+    # ggrepel specific processing
     # if needed rename columns using our convention
     for (this_dim in c("x", "y")) {
       this_orig <- sprintf("%s_orig", this_dim)
@@ -164,10 +159,10 @@ GeomLabelRepel <- ggproto(
 
     # Transform the nudges to the panel scales.
     nudges <- data.frame(x = data$nudge_x, y = data$nudge_y)
-    nudges <- coord$transform(nudges, panel_scales)
+    nudges <- coord$transform(nudges, panel_params)
 
     # Transform the raw data to the panel scales.
-    data <- coord$transform(data, panel_scales)
+    data <- coord$transform(data, panel_params)
 
     # The nudge is relative to the data.
     data$nudge_x <- nudges$x - data$x
@@ -179,7 +174,7 @@ GeomLabelRepel <- ggproto(
     xlim_na <- is.na(xlim)
     ylim_na <- is.na(ylim)
     limits <- data.frame(x = xlim, y = ylim)
-    limits <- coord$transform(limits, panel_scales)
+    limits <- coord$transform(limits, panel_params)
 
     # Allow Inf.
     if (length(limits$x) == length(xlim)) {
@@ -201,40 +196,40 @@ GeomLabelRepel <- ggproto(
       data$hjust <- compute_just(data$hjust, data$x)
     }
 
-    ggname("geom_label_repel", gTree(
-      limits = limits,
-      data = data,
-      lab = data$label,
+    grobs <- vector("list", nrow(data))
+    for (i in which(not_empty(data$label))) {
+      grobs[[i]] <- marquee::marquee_grob(
+        text = data$label[i], style = styles[i], force_body_margin = TRUE,
+        x = 0.5, y = 0.5, width = data$width[i],
+        hjust = data$hjust[i], vjust = data$vjust[i],
+        angle = data$angle[i]
+      )
+    }
+
+    ggname("geom_marquee_repel", gTree(
+      limits = limits, data = data,
+      grobs = grobs,
       box.padding = to_unit(box.padding),
-      label.padding = to_unit(label.padding),
       point.padding = to_unit(point.padding),
-      label.r = to_unit(label.r),
-      label.size = label.size,
       min.segment.length = to_unit(min.segment.length),
-      arrow = arrow,
-      force = force,
-      force_pull = force_pull,
-      max.time = max.time,
-      max.iter = max.iter,
-      max.overlaps = max.overlaps,
-      direction = direction,
-      seed = seed,
-      verbose = verbose,
-      cl = "labelrepeltree"
+      arrow = arrow, force = force, force_pull = force_pull,
+      max.time = max.time, max.iter = max.iter, max.overlaps = max.overlaps,
+      direction = direction, seed = seed, verbose = verbose,
+      cl = "marqueerepeltree"
     ))
   },
 
   draw_key = draw_key_label
 )
 
-#' grid::makeContent function for the grobTree of textRepelGrob objects
+#' grid::makeContent function for the grobTree of marqueeRepelGrob objects
 #' @param x A grid grobTree.
 #' @export
 #' @noRd
-makeContent.labelrepeltree <- function(x) {
+makeContent.marqueerepeltree <- function(x) {
 
   # The padding around each bounding box.
-  box_padding_x <- convertWidth(x$box.padding, "npc", valueOnly = TRUE)
+  box_padding_x <- convertWidth( x$box.padding, "npc", valueOnly = TRUE)
   box_padding_y <- convertHeight(x$box.padding, "npc", valueOnly = TRUE)
 
   # The padding around each point.
@@ -242,38 +237,17 @@ makeContent.labelrepeltree <- function(x) {
     x$point.padding = unit(0, "lines")
   }
 
-  # Do not create text labels for empty strings.
-  valid_strings <- which(not_empty(x$lab))
-  invalid_strings <- which(!not_empty(x$lab))
-  ix <- c(valid_strings, invalid_strings)
-  x$data <- x$data[ix,]
-  x$lab <- x$lab[ix]
+  valid_strings   <- which(lengths(x$grobs) > 0)
+  invalid_strings <- which(lengths(x$grobs) < 1)
+  ord <- c(valid_strings, invalid_strings)
+  x$data  <- x$data[ord, , drop = FALSE]
+  x$grobs <- x$grobs[ord]
 
-  # Create a dataframe with x1 y1 x2 y2
   boxes <- lapply(seq_along(valid_strings), function(i) {
     row <- x$data[i, , drop = FALSE]
-    t <- textGrob(
-      x$lab[i],
-      unit(row$x, "native") + x$label.padding,
-      unit(row$y, "native") + x$label.padding,
-      gp = gpar(
-        fontsize   = row$size * .pt,
-        fontfamily = row$family,
-        fontface   = row$fontface,
-        lineheight = row$lineheight
-      ),
-      name = "text"
-    )
-    r <- roundrectGrob(
-      row$x, row$y, default.units = "native",
-      width = grobWidth(t) + 2 * x$label.padding,
-      height = grobHeight(t) + 2 * x$label.padding,
-      r = x$label.r,
-      gp = gpar(lwd = row$linewidth * .pt),
-      name = "box"
-    )
-    gw <- convertWidth(grobWidth(r), "native", TRUE)
-    gh <- convertHeight(grobHeight(r), "native", TRUE)
+    grob <- x$grobs[[i]]
+    gw <- convertWidth( grobWidth(grob),  "native", TRUE)
+    gh <- convertHeight(grobHeight(grob), "native", TRUE)
     c(
       "x1" = row$x - gw *       row$hjust - box_padding_x + row$nudge_x,
       "y1" = row$y - gh *       row$vjust - box_padding_y + row$nudge_y,
@@ -340,12 +314,17 @@ makeContent.labelrepeltree <- function(x) {
     return(setChildren(x, grobs))
   }
 
+  width  <- convertWidth(unit(1, "npc"),  "cm", valueOnly = TRUE)
+  height <- convertHeight(unit(1, "npc"), "cm", valueOnly = TRUE)
+  point_size <- x$data$point.size * .pt / .stroke / 20
+  point_padding <- convertWidth(to_unit(x$point.padding), "cm", TRUE)
+
   grobs <- lapply(seq_along(valid_strings), function(i) {
     if (!repel$too_many_overlaps[i]) {
       row <- x$data[i, , drop = FALSE]
-      makeLabelRepelGrobs(
+      makeMarqueeRepelGrobs(
         i,
-        x$lab[i],
+        x$grobs[[i]],
         # Position of text bounding boxes.
         x = unit(repel$x[i], "native"),
         y = unit(repel$y[i], "native"),
@@ -356,31 +335,16 @@ makeContent.labelrepeltree <- function(x) {
         box.width = boxes[[i]]["x2"] - boxes[[i]]["x1"],
         box.height = boxes[[i]]["y2"] - boxes[[i]]["y1"],
         box.padding = x$box.padding,
-        label.padding = x$label.padding,
         point.size = point_size[i],
-        point.padding = x$point.padding,
+        point.padding = point_padding,
         segment.curvature = row$segment.curvature,
-        segment.angle     = row$segment.angle,
-        segment.ncp       = row$segment.ncp,
+        segment.angle = row$segment.angle,
+        segment.ncp = row$segment.ncp,
         segment.shape = row$segment.shape,
         segment.square = row$segment.square,
         segment.squareShape = row$segment.squareShape,
         segment.inflect = row$segment.inflect,
         segment.debug = row$segment.debug,
-        r = x$label.r,
-        text.gp = gpar(
-          col = row$colour,
-          fontsize = row$size * .pt,
-          fontfamily = row$family,
-          fontface = row$fontface,
-          lineheight = row$lineheight
-        ),
-        rect.gp = gpar(
-          col = if (row$linewidth == 0) NA else row$colour,
-          fill = scales::alpha(row$fill, row$alpha),
-          lwd = row$linewidth * .pt,
-          lty = row$linetype
-        ),
         segment.gp = gpar(
           col = scales::alpha(row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha),
           lwd = row$segment.size * .pt,
@@ -390,59 +354,49 @@ makeContent.labelrepeltree <- function(x) {
         arrow = x$arrow,
         min.segment.length = x$min.segment.length,
         hjust = row$hjust,
-        vjust = row$vjust
+        vjust = row$vjust,
+        dim = c(width, height)
       )
     }
   })
-  # Put segment grobs before text grobs, rect grobs before text grobs.
-  grobs <- c(
-    Filter(Negate(is.null), lapply(grobs, "[[", "segment")),
-    unlist(
-      Filter(Negate(is.null), lapply(grobs, "[[", "textbox")),
-      recursive = FALSE, use.names = FALSE
-    )
-  )
+  grobs <- unlist(grobs, recursive = FALSE)
   class(grobs) <- "gList"
 
   setChildren(x, grobs)
 }
 
-makeLabelRepelGrobs <- function(
-  i,
-  label,
-  x = unit(0.5, "npc"),
-  y = unit(0.5, "npc"),
-  # Position of original data points.
-  x.orig = 0.5,
-  y.orig = 0.5,
-  # Width and height of text boxes.
-  box.width = 0,
-  box.height = 0,
-  default.units = "npc",
-  box.padding = 0.25,
-  label.padding = 0.25,
-  point.size = 1,
-  point.padding = 1e-6,
-  segment.curvature = 0,
-  segment.angle = 90,
-  segment.ncp = 1,
-  segment.shape = 0.5,
-  segment.square = TRUE,
-  segment.squareShape = 1,
-  segment.inflect = FALSE,
-  segment.debug = FALSE,
-  name = NULL,
-  text.gp = gpar(),
-  rect.gp = gpar(fill = "white"),
-  r = unit(0.1, "snpc"),
-  segment.gp = gpar(),
-  vp = NULL,
-  arrow = NULL,
-  min.segment.length = 0.5,
-  hjust = 0.5,
-  vjust = 0.5
+makeMarqueeRepelGrobs <- function(
+    i,
+    label,
+    x = unit(0.5, "npc"),
+    y = unit(0.5, "npc"),
+    # Position of original data points.
+    x.orig = 0.5,
+    y.orig = 0.5,
+    # Width and height of text boxes.
+    box.width = 0,
+    box.height = 0,
+    default.units = "npc",
+    box.padding = 0.25,
+    point.size = 1,
+    point.padding = 1e-6,
+    segment.curvature = 0,
+    segment.angle = 90,
+    segment.ncp = 1,
+    segment.shape = 0.5,
+    segment.square = TRUE,
+    segment.squareShape = 1,
+    segment.inflect = FALSE,
+    segment.debug = FALSE,
+    name = NULL,
+    segment.gp = gpar(),
+    vp = NULL,
+    arrow = NULL,
+    min.segment.length = 0.5,
+    hjust = 0.5,
+    vjust = 0.5,
+    dim = c(5, 5)
 ) {
-  stopifnot(length(label) == 1)
 
   if (!is.unit(x))
     x <- unit(x, default.units)
@@ -453,32 +407,14 @@ makeLabelRepelGrobs <- function(
   if (!is.unit(box.height))
     box.height <- unit(box.height, default.units)
 
-  t <- textGrob(
-    label,
-    x - box.width * (0.5 - hjust),
-    y - box.height * (0.5 - vjust),
-    hjust = hjust,
-    vjust = vjust,
-    gp = text.gp,
-    name = sprintf("textrepelgrob%s", i)
-  )
+  # browser()
 
-  r <- roundrectGrob(
-    x - box.width * (0.5 - hjust) - label.padding * (0.5 - hjust),
-    y - box.height * (0.5 - vjust) - label.padding * (0.5 - vjust),
-    default.units = "native",
-    width = grobWidth(t) + 2 * label.padding,
-    height = grobHeight(t) + 2 * label.padding,
-    just = c(hjust, vjust),
-    r = r,
-    gp = rect.gp,
-    name = sprintf("rectrepelgrob%s", i)
-  )
+  label <- grid::editGrob(label, x = x, y = y)
 
-  x1 <- convertWidth(x - 0.5 * grobWidth(r), "native", TRUE)
-  x2 <- convertWidth(x + 0.5 * grobWidth(r), "native", TRUE)
-  y1 <- convertHeight(y - 0.5 * grobHeight(r), "native", TRUE)
-  y2 <- convertHeight(y + 0.5 * grobHeight(r), "native", TRUE)
+  x1 <- convertWidth(x - 0.5 * grobWidth(label), "native", TRUE)
+  x2 <- convertWidth(x + 0.5 * grobWidth(label), "native", TRUE)
+  y1 <- convertHeight(y - 0.5 * grobHeight(label), "native", TRUE)
+  y2 <- convertHeight(y + 0.5 * grobHeight(label), "native", TRUE)
 
   point_pos <- c(x.orig, y.orig)
 
@@ -498,7 +434,8 @@ makeLabelRepelGrobs <- function(
   # This seems just fine.
   point.padding <- convertWidth(to_unit(point.padding), "native", TRUE) / 2
 
-  point_int <- intersect_line_circle(int, point_pos, (point.size + point.padding))
+  point_int <- intersect_line_circle(int * dim, point_pos * dim, (point.size + point.padding))
+  point_int <- point_int / dim
 
   # Compute the distance between the data point and the edge of the text box.
   dx <- abs(int[1] - point_pos[1])
@@ -512,7 +449,7 @@ makeLabelRepelGrobs <- function(
     min.segment.length <- sqrt((mx * dx / d) ^ 2 + (my * dy / d) ^ 2)
   }
 
-  grobs <- list(textbox = list(rect = r, text = t))
+  grobs <- list(textbox = label)
 
   if (
     !point_inside_text &&
@@ -522,7 +459,7 @@ makeLabelRepelGrobs <- function(
     # Distance from label to point edge is less than from label to point center.
     euclid(int, point_int) < euclid(int, point_pos) &&
     # Distance from label to point center is greater than point size.
-    euclid(int, point_pos) > point.size &&
+    euclid(int * dim, point_pos * dim) > point.size &&
     # Distance from label to point center is greater than from point edge to point center.
     euclid(int, point_pos) > euclid(point_int, point_pos)
   ) {

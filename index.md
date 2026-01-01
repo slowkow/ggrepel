@@ -37,8 +37,9 @@ ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars))) +
 ```
 
 <p align="center">
-<img src="https://imgur.com/ii9ova8.gif" />
+<video src="https://slowkow.com/ggrepel/index_files/animation.mp4" style="width:100%;" type="video/mp4" muted="" autoplay="" loop=""></video>
 </p>
+
 
 Installation
 ------------
@@ -63,13 +64,13 @@ and more.
 If you have an issue with ggrepel or ggplot2, someone might already have
 experienced it. Try searching the web, or create a new post:
 
-1. The [RStudio community] is an active forum with RStudio and R users.
+1. The [Posit community] is an active forum with R users.
 
 2. [Stack Overflow] has lots of questions and answers about ggplot2 and ggrepel.
 
 [examples]: articles/examples.html
 [related work]: articles/related-work.html
-[Rstudio community]: https://community.rstudio.com/
+[Posit community]: https://forum.posit.co
 [Stack Overflow]: https://stackoverflow.com/questions/tagged/ggrepel?sort=frequent&pageSize=50
 
 Examples
