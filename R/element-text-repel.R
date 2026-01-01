@@ -112,7 +112,27 @@ element_grob.element_text_repel <- function(
 ) {
   if (is.null(x %||% y)) {
     # Nothing to repel from, might be a legend or title
-    out <- NextMethod()
+    # Fall back to standard element_text rendering (replicating ggplot2's titleGrob)
+    if (is.null(label)) {
+      return(zeroGrob())
+    }
+    vj <- vjust %||% element$vjust
+    hj <- hjust %||% element$hjust
+    margin <- margin %||% element$margin
+    angle <- angle %||% element$angle %||% 0
+    
+    gp <- gpar(
+      fontsize = size %||% element$size,
+      col = colour %||% element$colour,
+      fontfamily = family %||% element$family,
+      fontface = face %||% element$face,
+      lineheight = lineheight %||% element$lineheight
+    )
+    
+    out <- ggplot2:::titleGrob(
+      label, x, y, hjust = hj, vjust = vj, angle = angle,
+      gp = gp, margin = margin, margin_x = margin_x, margin_y = margin_y, ...
+    )
     return(out)
   }
   if (is.null(label) || sum(nzchar(label) & !is.na(label)) < 1) {
