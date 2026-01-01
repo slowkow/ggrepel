@@ -14,7 +14,9 @@ reference:
     contents:
       - geom_text_repel
       - geom_label_repel
+      - geom_marquee_repel
       - position_nudge_repel
+      - element_text_repel
 
 
 home:
