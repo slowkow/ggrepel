@@ -284,11 +284,24 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       this_orig <- sprintf("%s_orig", this_dim)
       this_nudge <- sprintf("nudge_%s", this_dim)
       if (!this_nudge %in% colnames(data)) {
+        # No nudge column exists - use current position as nudge target
         data[[this_nudge]] <- data[[this_dim]]
         if (this_orig %in% colnames(data)) {
+          # Restore original position from _orig column (e.g., from position_nudge_repel)
           data[[this_dim]] <- data[[this_orig]]
           data[[this_orig]] <- NULL
         }
+      } else if (this_orig %in% colnames(data)) {
+        # nudge column exists AND _orig exists (from position_nudge_repel)
+        # Set nudge to the current (nudged) position, restore original
+        data[[this_nudge]] <- data[[this_dim]]
+        data[[this_dim]] <- data[[this_orig]]
+        data[[this_orig]] <- NULL
+      } else if (all(data[[this_nudge]] == 0)) {
+        # nudge column exists but is all zeros and no _orig column
+        # This happens with ggplot2's position_nudge() which sets nudge_x/y = 0
+        # In this case, use current position as nudge target (no nudge offset)
+        data[[this_nudge]] <- data[[this_dim]]
       }
     }
 
