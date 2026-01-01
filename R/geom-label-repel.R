@@ -159,6 +159,10 @@ GeomLabelRepel <- ggproto(
     data$nudge_y <- nudges$y - data$y
 
     # Transform limits to panel scales.
+    # Store original NA status before transformation, because coord$transform
+    # may convert NA to a valid value (e.g., when NA is a factor level).
+    xlim_na <- is.na(xlim)
+    ylim_na <- is.na(ylim)
     limits <- data.frame(x = xlim, y = ylim)
     limits <- coord$transform(limits, panel_scales)
 
@@ -170,9 +174,9 @@ GeomLabelRepel <- ggproto(
       limits$y[is.infinite(ylim)] <- ylim[is.infinite(ylim)]
     }
 
-    # Fill NAs with defaults.
-    limits$x[is.na(limits$x)] <- c(0, 1)[is.na(limits$x)]
-    limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
+    # Fill NAs with defaults (use original NA status, not post-transform).
+    limits$x[xlim_na] <- c(0, 1)[xlim_na]
+    limits$y[ylim_na] <- c(0, 1)[ylim_na]
 
     # Convert hjust and vjust to numeric if character
     if (is.character(data$vjust)) {

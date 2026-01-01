@@ -7,6 +7,7 @@
 #include <Rcpp/Benchmark/Timer.h>
 #endif
 #include <deque>
+#include <cmath>
 using namespace Rcpp;
 
 // Exported convenience functions ---------------------------------------------
@@ -324,6 +325,14 @@ bool approximately_equal(double x1, double x2) {
 
 bool line_intersect(Point p1, Point q1, Point p2, Point q2) {
 
+  // Return false if any coordinate is NaN (e.g., from NA factor levels)
+  if (std::isnan(p1.x) || std::isnan(p1.y) ||
+      std::isnan(q1.x) || std::isnan(q1.y) ||
+      std::isnan(p2.x) || std::isnan(p2.y) ||
+      std::isnan(q2.x) || std::isnan(q2.y)) {
+    return false;
+  }
+
   // Special exception, where q1 and q2 are equal (do intersect)
   if (q1.x == q2.x && q1.y == q2.y)
     return false;
@@ -446,6 +455,11 @@ Point centroid(Box b, double hjust, double vjust) {
 //' @param b A box like \code{c(x1, y1, x2, y2)}
 //' @noRd
 bool overlaps(Box a, Box b) {
+  // Return false if any coordinate is NaN (e.g., from NA factor levels)
+  if (std::isnan(a.x1) || std::isnan(a.y1) || std::isnan(a.x2) || std::isnan(a.y2) ||
+      std::isnan(b.x1) || std::isnan(b.y1) || std::isnan(b.x2) || std::isnan(b.y2)) {
+    return false;
+  }
   return
     b.x1 <= a.x2 &&
     b.y1 <= a.y2 &&
@@ -453,11 +467,16 @@ bool overlaps(Box a, Box b) {
     b.y2 >= a.y1;
 }
 
-//' Test if a box overlaps another box.
-//' @param a A box like \code{c(x1, y1, x2, y2)}
-//' @param b A box like \code{c(x1, y1, x2, y2)}
+//' Test if a circle overlaps a box.
+//' @param c A circle like \code{c(x, y, r)}
+//' @param r A box like \code{c(x1, y1, x2, y2)}
 //' @noRd
 bool overlaps(Circle c, Box r) {
+  // Return false if any coordinate is NaN (e.g., from NA factor levels)
+  if (std::isnan(c.x) || std::isnan(c.y) || std::isnan(c.r) ||
+      std::isnan(r.x1) || std::isnan(r.y1) || std::isnan(r.x2) || std::isnan(r.y2)) {
+    return false;
+  }
   // Center of the circle.
   double c_x = c.x;
   double c_radius = c.r;
@@ -561,6 +580,11 @@ Point repel_force_x(
 Point repel_force(
     Point a, Point b, double force = 0.000001, std::string direction = "both"
 ) {
+  // Return zero force if any coordinate is NaN (e.g., from NA factor levels)
+  if (std::isnan(a.x) || std::isnan(a.y) || std::isnan(b.x) || std::isnan(b.y)) {
+    Point zero = {0, 0};
+    return zero;
+  }
   Point out;
   if (direction == "x") {
     out = repel_force_x(a, b, force);
@@ -614,6 +638,11 @@ Point spring_force_x(
 Point spring_force(
     Point a, Point b, double force = 0.000001, std::string direction = "both"
 ) {
+  // Return zero force if any coordinate is NaN (e.g., from NA factor levels)
+  if (std::isnan(a.x) || std::isnan(a.y) || std::isnan(b.x) || std::isnan(b.y)) {
+    Point zero = {0, 0};
+    return zero;
+  }
   Point out;
   if (direction == "x") {
     out = spring_force_x(a, b, force);
