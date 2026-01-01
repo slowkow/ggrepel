@@ -39,13 +39,19 @@ element_text_repel(
 )
 }
 \arguments{
-\item{family}{Font family}
+\item{family}{The typeface to use. The validity of this value will depend on
+the graphics device being used for rendering the plot. See
+\href{https://systemfonts.r-lib.org/articles/systemfonts.html}{the systemfonts vignette}
+for guidance on the best way to access fonts installed on your computer.
+The values \code{"sans"}, \code{"serif"}, and \code{"mono"} should always be valid and
+will select the default typeface for the respective styles. However, what
+is considered default is dependant on the graphics device and the operating
+system.}
 
 \item{face}{Font face ("plain", "italic", "bold", "bold.italic")}
 
-\item{colour, color}{Line/border colour. Color is an alias for colour.}
-
-\item{size}{text size in pts.}
+\item{colour, color}{Line/border colour. Color is an alias for colour.
+\code{alpha()} can be used to set the transparency of the colour.}
 
 \item{hjust}{Horizontal justification (in \eqn{[0, 1]})}
 
