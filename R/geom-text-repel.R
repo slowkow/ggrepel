@@ -246,6 +246,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
     segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
     segment.inflect = FALSE, segment.debug = FALSE,
+    arrow.fill = NULL,
     bg.colour = NA, bg.r = 0.1
   ),
 
@@ -495,7 +496,8 @@ makeContent.textrepeltree <- function(x) {
         segment.gp = gpar(
           col = scales::alpha(row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha),
           lwd = row$segment.size * .pt,
-          lty = row$segment.linetype %||% 1
+          lty = row$segment.linetype %||% 1,
+          fill = scales::alpha(row$arrow.fill %||% row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha)
         ),
         arrow = x$arrow,
         min.segment.length = x$min.segment.length,

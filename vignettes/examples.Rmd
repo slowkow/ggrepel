@@ -548,6 +548,41 @@ ggplot(dat, aes(wt, mpg, label = ifelse(car %in% cars, car, ""))) +
   )
 ```
 
+### Closed arrows with custom fill color
+
+Use the `arrow.fill` aesthetic to set the fill color for closed arrow heads
+independently from `segment.colour`. By default, `arrow.fill` matches the
+segment color.
+
+```{r arrow_fill, echo=TRUE, fig.width=9, fig.height=4}
+df <- mtcars[1:8,]
+df$car <- rownames(df)
+
+p1 <- ggplot(df, aes(wt, mpg, label = car)) +
+  geom_point(color = "red") +
+  geom_text_repel(
+    min.segment.length = 0,
+    segment.linetype = 1,
+    arrow = arrow(length = unit(0.05, "npc"), type = "closed"),
+    box.padding = 1.5
+  ) +
+  labs(title = "default: arrow.fill matches segment")
+
+p2 <- ggplot(df, aes(wt, mpg, label = car)) +
+  geom_point(color = "red") +
+  geom_text_repel(
+    min.segment.length = 0,
+    segment.colour = "blue",
+    segment.linetype = 1,
+    arrow = arrow(length = unit(0.05, "npc"), type = "closed"),
+    box.padding = 1.5,
+    arrow.fill = "green"
+  ) +
+  labs(title = "arrow.fill = 'yellow'")
+
+gridExtra::grid.arrange(p1, p2, ncol = 2)
+```
+
 ### Repel labels from data points with different sizes {.tabset}
 
 We can use the [continuous_scale()](https://ggplot2.tidyverse.org/reference/continuous_scale.html)
