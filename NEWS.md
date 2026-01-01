@@ -1,10 +1,23 @@
 ggrepel 0.9.6.9999
 ========================
 
+## Changes
+
 - Set `verbose = getOption("verbose", default = FALSE)` by default, and use messages instead of warnings. Thanks to @jpquast for suggesting this change in [pull request 263]. This should prevent unexpected warning messages in packages that depend on ggrepel.
 
-[pull request 263]: https://github.com/slowkow/ggrepel/pull/263
+- Thanks to @teunbrand in [pull request 272], we ggrepel now works with the [marquee] package! There is a new function `geom_marquee_repel()` that we can use to plot rich text and images.
 
+- Note that the new function `geom_marquee_repel()` requires us to increase the minimum required version of R from 3.0.0 to 4.5.1
+
+[marquee]: https://github.com/r-lib/marquee/
+[pull request 263]: https://github.com/slowkow/ggrepel/pull/263
+[pull request 272]: https://github.com/slowkow/ggrepel/pull/272
+
+## Bug fixes
+
+- Correctly handle `NA` in the x or y position. Thanks to @kirushka for reporting this in [issue 274].
+
+[issue 274]: https://github.com/slowkow/ggrepel/issues/274
 
 ggrepel 0.9.6
 ========================

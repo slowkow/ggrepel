@@ -34,9 +34,9 @@ NULL
 #' @noRd
 NULL
 
-#' Test if a box overlaps another box.
-#' @param a A box like \code{c(x1, y1, x2, y2)}
-#' @param b A box like \code{c(x1, y1, x2, y2)}
+#' Test if a circle overlaps a box.
+#' @param c A circle like \code{c(x, y, r)}
+#' @param r A box like \code{c(x1, y1, x2, y2)}
 #' @noRd
 NULL
 

@@ -8,41 +8,6 @@ output:
 ---
 
 ```{r setup, echo=FALSE, results='hide', warning=FALSE, error=FALSE, message=FALSE, cache=FALSE}
-#output:
-#  html_document:
-#    css: style.css
-#    highlight: pygments
-#    mathjax: null
-#    self_contained: true
-#    toc: true
-#    toc_float:
-#      collapsed: false
-#      smooth_scroll: false
-#vignette: >
-#  %\VignetteIndexEntry{ggrepel examples}
-#  %\VignetteEncoding{UTF-8}
-#  %\VignetteEngine{knitr::rmarkdown}
-#editor_options: 
-#  chunk_output_type: console
-
-# output:
-#   prettydoc::html_pretty:
-#     theme: hpstr
-#     highlight: github
-#     toc: true
-#     mathjax: null
-#     self_contained: true
-
-# output:
-#   html_document:
-#     css: style.css
-#     highlight: pygments
-#     mathjax: null
-#     self_contained: true
-#     toc: true
-#     toc_float:
-#       collapsed: false
-#       smooth_scroll: false
 library(knitr)
 opts_chunk$set(
   cache       = TRUE,
@@ -55,8 +20,6 @@ opts_chunk$set(
   fig.width   = 12,
   fig.height  = 8,
   dpi         = 300,
-  #cache.path  = "cache/ggrepel/",
-  #fig.path    = "figures/ggrepel/",
   pngquant    = "--speed=1 --quality=0-10",
   concordance = TRUE
 )
@@ -66,8 +29,6 @@ knit_hooks$set(
 library(gridExtra)
 library(ggplot2)
 theme_set(theme_classic(base_size = 18) %+replace% theme(
-  # axis.line.y = element_line(colour = "black", size = 0.2),
-  # axis.line.x = element_line(colour = "black", size = 0.2),
   axis.ticks   = element_line(colour = "black", size = 0.3),
   panel.background = element_rect(size = 0.3, fill = NA),
   axis.line    = element_blank(),
@@ -83,6 +44,7 @@ ggrepel provides geoms for [ggplot2] to repel overlapping text labels:
 
 - `geom_text_repel()`
 - `geom_label_repel()`
+- `geom_marquee_repel()`
 
 [ggplot2]: https://ggplot2.tidyverse.org/
 
@@ -107,14 +69,6 @@ p2 <- p + geom_text_repel() + labs(title = "geom_text_repel()")
 
 gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
-
-## Advanced examples
-
-For more advanced ggrepel examples, check out [this article][ggpp-examples] by
-Pedro Aphalo. In that article, Pedro shows how to use nudging functions from
-the [ggpp] package to achieve greater control over label positions.
-
-[ggpp-examples]: https://docs.r4photobiology.info/ggpp/articles/nudge-examples.html
 
 ## Installation
 
@@ -171,6 +125,8 @@ All of them are listed below. See the [ggplot2 documentation about aesthetic spe
 
 [aes]: https://ggplot2.tidyverse.org/articles/ggplot2-specs.html
 
+The following aesthetics are the same for all functions (`geom_text()`, `geom_text_repel()`, etc.):
+
 |Aesthetic       | Default      | Description
 |--------------- | ------------ | ------------------------------------------------
 |`color` | `"black"`    | text and label border color
@@ -182,6 +138,11 @@ All of them are listed below. See the [ggplot2 documentation about aesthetic spe
 |`lineheight` | `1.2`    | line height for text labels
 |`hjust` | `0.5`    | horizontal justification
 |`vjust` | `0.5`    | vertical justification
+
+These aesthetics are specific to ggrepel functions, but not applicable to ggplot2 functions:
+
+|Aesthetic       | Default      | Description
+|--------------- | ------------ | ------------------------------------------------
 |`point.size` | `1`    | size of each point for each text label
 |`segment.linetype` | `1`    | line segment solid, dashed, etc.
 |`segment.color` | `"black"`    | line segment color
@@ -195,6 +156,33 @@ All of them are listed below. See the [ggplot2 documentation about aesthetic spe
 |`segment.squareShape` | `1`          | shape of the curve relative to additional control points inserted if square is `TRUE`
 |`segment.inflect` | `FALSE`      | curve inflection at the midpoint
 |`segment.debug` | `FALSE`      | display the curve debug information
+
+And the following aesthetics are specific to `geom_marquee_repel()`:
+
+|Aesthetic       | Default      | Description
+|--------------- | ------------ | ------------------------------------------------
+|`style` | `NULL`    | a `marquee_style` object specifying the styling, see `marquee::style()`
+|`width` | `NA`    | a `grid::unit()` object specifying the width of each marquee element, e.g., `unit(2, "cm")`
+
+
+## Advanced examples
+
+The ggrepel package works well with the [ggpp] package!
+
+For more advanced ggrepel examples, check out the [ggpp examples] by
+Pedro Aphalo. In that article, Pedro shows how to use nudging functions from
+the [ggpp] package to achieve greater control over label positions.
+
+The [ggpp examples] page describes how to use many advanced functions,
+including:
+
+- `position_nudge_to()`
+- `position_nudge_center()`
+- `position_nudge_line()`
+- `position_nudge_keep()`
+- and many more!
+
+[ggpp examples]: https://docs.r4photobiology.info/ggpp/articles/nudge-examples.html
 
 ## Examples
 
@@ -912,6 +900,69 @@ p + geom_label_repel(
 
 ```
 
+### marquee: Markdown with rich text styles and images
+
+ggrepel now works with the [marquee] package!
+
+See the [marquee documentation] for more information about how to control the
+styles.
+
+We can use the function `geom_marquee_repel()` to plot rich text and images with
+automatic positioning, as shown in this example below:
+
+[marquee]: https://github.com/r-lib/marquee/
+[marquee documentation]: https://marquee.r-lib.org/
+
+```{r marquee, echo=TRUE, fig.width=6, fig.height=5, dev="ragg_png"}
+logo <- "https://cran.r-project.org/Rlogo.svg"
+
+# Note: width values are in "npc" units (proportion of panel width).
+# Use values between 0 and 1 (e.g., 0.3 = 30% of panel width).
+df <- data.frame(
+  x = c(0, 4.9, 5, 5.1, 10),
+  y = c(0, 4.9, 5, 5.1, 10),
+  labels = c(
+    "Some {.blue *italic blue*} text",
+    "Other {.red **bold red**} text",
+    "More {.purple ~strikethrough~} text",
+    "# Title\nBody text",
+    paste0("![](", logo, ")")
+  ),
+  widths = c(0.3, 0.3, 0.3, 0.3, 0.3) # npc units, so 0.3 = 30% of panel width
+)
+
+# In this knitr chunk, we are using dev="ragg_png" like so:
+# {r marquee, echo=TRUE, fig.width=6, fig.height=5, dev="ragg_png"}
+ggplot(df, aes(x, y, label = labels, width = widths)) +
+  geom_marquee_repel(
+    box.padding = unit(5, "mm"), seed = 1
+  ) +
+  labs(title = 'dev="ragg_png"')
+```
+
+<div class="alert alert-info" role="alert">
+  **Note:** When using `geom_marquee_repel()`, you may want to use **[ragg]**
+  instead of the default renderer. This can improve the display of your plot.
+</div>
+
+[ragg]: https://ragg.r-lib.org/articles/ragg_quality.html
+
+If we use `geom_marquee_repel()` with `dev="png"` instead of `dev="ragg_png"`,
+then the result is more pixelated:
+
+```{r marquee-pixelated, echo=TRUE, fig.width=6, fig.height=5, dev="png"}
+# In this knitr chunk, we are using dev="png" like so:
+# {r marquee-pixelated, echo=TRUE, fig.width=6, fig.height=5, dev="png"}
+ggplot(df, aes(x, y, label = labels, width = widths)) +
+  geom_marquee_repel(
+    box.padding = unit(5, "mm"), seed = 1
+  ) +
+  labs(title = 'dev="png"')
+```
+
+To learn more, see the [ragg] documentation and read about the `device`
+argument for the `ggplot2::ggsave()` function.
+
 ### Label jittered points
 
 ```{r jitter, echo=TRUE, fig.width=6, fig.height=5}
@@ -1239,7 +1290,7 @@ saveGIF(
 )
 ```
 
-<img src="https://imgur.com/ii9ova8.gif" />
+<video src="https://slowkow.com/ggrepel/index_files/animation.mp4" style="width:100%;" type="video/mp4" muted="" autoplay="" loop=""></video>
 
 ## Source code
 

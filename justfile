@@ -1,10 +1,10 @@
 # Build the examples
 examples:
-  R -e 'rmarkdown::render("vignettes/examples.Rmd"); beepr::beep()'
+  R --vanilla -e 'devtools::load_all("."); rmarkdown::render("vignettes/examples.Rmd")' && notify "rendered vignettes/examples.Rmd"
 
 # Build the documentation files
 man:
-  R -e 'devtools::document()'
+  R --vanilla -e 'devtools::load_all("."); devtools::document()'
 
 # Install the package
 install:
@@ -12,5 +12,5 @@ install:
 
 # Build the documentation website
 site:
-  R -e 'pkgdown::build_site(); beepr::beep()'
+  R --vanilla -e 'devtools::load_all("."); pkgdown::build_site()' && notify "pkgdown::build_site() finished"
 
