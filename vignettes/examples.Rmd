@@ -876,7 +876,7 @@ p <- ggplot(mtcars, aes(factor(cyl), mpg)) +
   )
 
 p1 <- p + stat_summary(
-    aes(label = round(stat(y))), 
+    aes(label = round(after_stat(y))), 
     fun = "mean",
     geom = "text_repel",
     min.segment.length = 0, # always draw segments
@@ -885,7 +885,7 @@ p1 <- p + stat_summary(
   labs(title = "position_nudge()")
 
 p2 <- p + stat_summary(
-    aes(label = round(stat(y))), 
+    aes(label = round(after_stat(y))), 
     fun = "mean",
     geom = "text_repel",
     min.segment.length = 0, # always draw segments
