@@ -583,6 +583,64 @@ p2 <- ggplot(df, aes(wt, mpg, label = car)) +
 gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
 
+### Customize label border with linetype and linewidth
+
+Use `linetype` and `linewidth` to customize the border of `geom_label_repel()`.
+Set `linewidth = 0` to hide the border entirely.
+
+```{r label_border, echo=TRUE, fig.width=9, fig.height=4}
+df <- mtcars[1:8,]
+df$car <- rownames(df)
+
+p1 <- ggplot(df, aes(wt, mpg, label = car)) +
+  geom_point(color = "red") +
+  geom_label_repel(
+    fill = "white",
+    linewidth = 2,
+    linetype = "dashed"
+  ) +
+  labs(title = "linewidth = 2, linetype = 'dashed'")
+
+p2 <- ggplot(df, aes(wt, mpg, label = car)) +
+  geom_point(color = "red") +
+  geom_label_repel(
+    fill = "lightblue",
+    linewidth = 0
+  ) +
+  labs(title = "linewidth = 0 (no border)")
+
+gridExtra::grid.arrange(p1, p2, ncol = 2)
+```
+
+### Adjust line spacing with lineheight
+
+Use `lineheight` to control the spacing between lines in multi-line labels.
+
+```{r label_lineheight, echo=TRUE, fig.width=9, fig.height=4}
+df <- data.frame(
+  x = c(1, 2, 3),
+  y = c(1, 2, 3),
+  label = c("Compact\nline\nspacing", "Default\nline\nspacing", "Spacious\nline\nspacing")
+)
+
+p1 <- ggplot(df, aes(x, y, label = label)) +
+  geom_point(color = "red", size = 3) +
+  geom_label_repel(lineheight = 0.8, fill = "lightblue") +
+  labs(title = "lineheight = 0.8")
+
+p2 <- ggplot(df, aes(x, y, label = label)) +
+  geom_point(color = "red", size = 3) +
+  geom_label_repel(lineheight = 1.2, fill = "lightgreen") +
+  labs(title = "lineheight = 1.2 (default)")
+
+p3 <- ggplot(df, aes(x, y, label = label)) +
+  geom_point(color = "red", size = 3) +
+  geom_label_repel(lineheight = 2.0, fill = "lightyellow") +
+  labs(title = "lineheight = 2.0")
+
+gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
+```
+
 ### Repel labels from data points with different sizes {.tabset}
 
 We can use the [continuous_scale()](https://ggplot2.tidyverse.org/reference/continuous_scale.html)

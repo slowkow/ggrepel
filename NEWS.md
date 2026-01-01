@@ -5,6 +5,8 @@ ggrepel 0.9.6.9999
 
 - Add `arrow.fill` aesthetic to customize the fill color of closed arrow heads. By default, `arrow.fill` matches the segment color. Thanks to @hertg for requesting this in [issue 273].
 
+- Document `linewidth` and `linetype` aesthetics for `geom_label_repel()` to customize the label border. Set `linewidth = 0` to hide the border entirely.
+
 - Set `verbose = getOption("verbose", default = FALSE)` by default, and use messages instead of warnings. Thanks to @jpquast for suggesting this change in [pull request 263]. This should prevent unexpected warning messages in packages that depend on ggrepel.
 
 - Thanks to @teunbrand in [pull request 272], we ggrepel now works with the [marquee] package! There is a new function `geom_marquee_repel()` that we can use to plot rich text and images.
@@ -21,6 +23,9 @@ ggrepel 0.9.6.9999
 
 - Fix compatibility with ggplot2's `position_nudge()`. Labels were incorrectly positioned at the panel corner when using `position = position_nudge()`. Note: for best results with ggrepel, use `position_nudge_repel()` which also draws segments connecting labels to their original data points.
 
+- Fix `alpha` behavior in `geom_label_repel()` to match `ggplot2::geom_label()`. Now `alpha` only affects the fill color, not the text or border. Thanks to @camille-s for reporting this in [issue 269].
+
+[issue 269]: https://github.com/slowkow/ggrepel/issues/269
 [issue 273]: https://github.com/slowkow/ggrepel/issues/273
 [issue 274]: https://github.com/slowkow/ggrepel/issues/274
 

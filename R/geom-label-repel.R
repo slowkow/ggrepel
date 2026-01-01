@@ -96,6 +96,7 @@ GeomLabelRepel <- ggproto(
     colour = "black", fill = "white", size = 3.88, angle = 0,
     alpha = NA, family = "", fontface = 1, lineheight = 1.2,
     hjust = 0.5, vjust = 0.5, point.size = 1,
+    linewidth = 0.25, linetype = 1,
     segment.linetype = 1, segment.colour = NULL, segment.size = 0.5, segment.alpha = NULL,
     segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
     segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
@@ -268,7 +269,7 @@ makeContent.labelrepeltree <- function(x) {
       width = grobWidth(t) + 2 * x$label.padding,
       height = grobHeight(t) + 2 * x$label.padding,
       r = x$label.r,
-      gp = gpar(lwd = x$label.size * .pt),
+      gp = gpar(lwd = row$linewidth * .pt),
       name = "box"
     )
     gw <- convertWidth(grobWidth(r), "native", TRUE)
@@ -368,16 +369,17 @@ makeContent.labelrepeltree <- function(x) {
         segment.debug = row$segment.debug,
         r = x$label.r,
         text.gp = gpar(
-          col = scales::alpha(row$colour, row$alpha),
+          col = row$colour,
           fontsize = row$size * .pt,
           fontfamily = row$family,
           fontface = row$fontface,
           lineheight = row$lineheight
         ),
         rect.gp = gpar(
-          col = scales::alpha(row$colour, row$alpha),
+          col = if (row$linewidth == 0) NA else row$colour,
           fill = scales::alpha(row$fill, row$alpha),
-          lwd = x$label.size * .pt
+          lwd = row$linewidth * .pt,
+          lty = row$linetype
         ),
         segment.gp = gpar(
           col = scales::alpha(row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha),
