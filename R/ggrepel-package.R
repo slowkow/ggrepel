@@ -51,3 +51,13 @@
 #' @useDynLib ggrepel
 #' @keywords internal
 "_PACKAGE"
+
+.onLoad <- function(libname, pkgname) {
+  # Register S3 method for element_grob with namespaced S7 class name
+  registerS3method(
+    "element_grob",
+    "ggrepel::element_text_repel",
+    element_grob.element_text_repel,
+    envir = asNamespace(pkgname)
+  )
+}

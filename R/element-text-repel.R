@@ -1,3 +1,25 @@
+#' @importFrom S7 new_class new_property class_any S7_class prop
+NULL
+
+# Cache environment for the S7 class
+.element_text_repel_cache <- new.env(parent = emptyenv())
+
+get_element_text_repel_class <- function() {
+  if (is.null(.element_text_repel_cache$class)) {
+    element_text_class <- S7::S7_class(ggplot2::element_text())
+    # Simple approach: just add ONE property to store all repel settings
+    # This avoids merge conflicts with element_text
+    .element_text_repel_cache$class <- S7::new_class(
+      name = "element_text_repel",
+      parent = element_text_class,
+      properties = list(
+        repel = S7::new_property(S7::class_any, default = list())
+      )
+    )
+  }
+  .element_text_repel_cache$class
+}
+
 #' Repulsive text element
 #'
 #' This text element is a replacement for \code{\link[ggplot2]{element_text}}
@@ -91,15 +113,55 @@ element_text_repel <- function(
   position = c("bottom", "top", "left", "right"),
   inherit.blank = FALSE
 ) {
-  # Capture arguments in list
-  args <- setdiff(rlang::fn_fmls_names(element_text_repel), c("color", "colour"))
-  vals <- mget(args, envir = rlang::current_env())
-  vals["colour"] <- list(color %||% colour)
+  colour <- color %||% colour
 
-  structure(
-    vals,
-    class = c("element_text_repel", "element_text", "element")
+  # Store all repel-specific settings in a list
+  repel_settings <- list(
+    box.padding = box.padding,
+    force = force,
+    force_pull = force_pull,
+    max.time = max.time,
+    max.iter = max.iter,
+    max.overlaps = max.overlaps,
+    min.segment.length = min.segment.length,
+    segment.colour = segment.colour,
+    segment.linetype = segment.linetype,
+    segment.size = segment.size,
+    segment.curvature = segment.curvature,
+    segment.angle = segment.angle,
+    segment.ncp = segment.ncp,
+    segment.shape = segment.shape,
+    segment.square = segment.square,
+    segment.squareShape = segment.squareShape,
+    segment.inflect = segment.inflect,
+    arrow = arrow,
+    seed = seed,
+    position = position[1]
   )
+
+  # Get the S7 class constructor
+  class_constructor <- get_element_text_repel_class()
+
+  # Create the S7 object with standard element_text properties + repel list
+  class_constructor(
+    family = family,
+    face = face,
+    colour = colour,
+    size = size,
+    hjust = hjust,
+    vjust = vjust,
+    angle = angle,
+    lineheight = lineheight,
+    margin = margin,
+    inherit.blank = inherit.blank,
+    repel = repel_settings
+  )
+}
+
+# Helper to get repel settings from element
+get_repel_setting <- function(element, name, default = NULL) {
+  repel <- S7::prop(element, "repel")
+  repel[[name]] %||% default
 }
 
 #' @export
@@ -113,81 +175,56 @@ element_grob.element_text_repel <- function(
 ) {
   if (is.null(x %||% y)) {
     # Nothing to repel from, might be a legend or title
-    # Fall back to standard element_text rendering (replicating ggplot2's titleGrob)
-    if (is.null(label)) {
-      return(zeroGrob())
-    }
-    vj <- vjust %||% element$vjust
-    hj <- hjust %||% element$hjust
-    margin <- margin %||% element$margin
-    angle <- angle %||% element$angle %||% 0
-    
-    gp <- gpar(
-      fontsize = size %||% element$size,
-      col = colour %||% element$colour,
-      fontfamily = family %||% element$family,
-      fontface = face %||% element$face,
-      lineheight = lineheight %||% element$lineheight
-    )
-    
-    out <- ggplot2:::titleGrob(
-      label, x, y, hjust = hj, vjust = vj, angle = angle,
-      gp = gp, margin = margin, margin_x = margin_x, margin_y = margin_y, ...
-    )
-    return(out)
+    # S7 inheritance makes NextMethod() work!
+    return(NextMethod())
   }
   if (is.null(label) || sum(nzchar(label) & !is.na(label)) < 1) {
-    # No labels to render
     return(zeroGrob())
   }
 
-  # Resolve position.
-  # Axes often have only x *or* y defined but not both.
-  # So if we have `x` but not `y`, we're probably in a top or bottom axis.
-  # Likewise, if we have `y` but not `x`, we're a left or right axis.
-  # In some rare cases we might have both, which will get the `"none"` position.
-  position <- element$position
+  # Determine position based on which coordinate is provided
+  position <- get_repel_setting(element, "position", "bottom")
   if (is.null(x)) {
-    position <- intersect(position, c("left", "right"))
-  }
-  if (is.null(y)) {
-    position <- intersect(position, c("top", "bottom"))
-  }
-  if (length(position) < 1 || (!is.null(x) && !is.null(y))) {
-    position <- "none"
+    # Vertical axis: need left/right position
+    valid_pos <- intersect(position, c("left", "right"))
+    position <- if (length(valid_pos) > 0) valid_pos[1] else "left"
+  } else if (is.null(y)) {
+    # Horizontal axis: need top/bottom position
+    valid_pos <- intersect(position, c("top", "bottom"))
+    position <- if (length(valid_pos) > 0) valid_pos[1] else "bottom"
   } else {
-    position <- position[1]
+    # Both coordinates provided - no specific positioning needed
+    position <- "none"
   }
 
-  vjust  <- vjust %||% element$vjust
-  hjust  <- hjust %||% element$hjust
+  vjust <- vjust %||% S7::prop(element, "vjust")
+  hjust <- hjust %||% S7::prop(element, "hjust")
 
-  # Setup text-related graphical paramters
+  # Setup text-related graphical parameters
   gp <- gpar(
     fontsize = size, fontfamily = family,
     fontface = face, lineheight = lineheight
   )
   element_gp <- gpar(
-    fontsize = element$size, fontfamily = element$family,
-    fontface = element$face, lineheight = element$lineheight
+    fontsize = S7::prop(element, "size"),
+    fontfamily = S7::prop(element, "family"),
+    fontface = S7::prop(element, "face"),
+    lineheight = S7::prop(element, "lineheight")
   )
   for (i in names(gp)) element_gp[i] <- gp[i]
   gp <- element_gp
 
-  # We set a temporary viewport so that text-related sizes are calculated
-  # correctly relative to the font size
   grid::pushViewport(grid::viewport(gp = gp), recording = FALSE)
   on.exit(grid::popViewport(recording = FALSE))
 
-  margin   <- margin %||% element$margin
+  margin <- margin %||% S7::prop(element, "margin")
   x_margin <- if (margin_x) width_cm(margin[c(2, 4)])  else c(0, 0)
   y_margin <- if (margin_y) height_cm(margin[c(1, 3)]) else c(0, 0)
 
-  box.padding <- height_cm(to_unit(element$box.padding %||% 0.25))
+  box.padding <- height_cm(to_unit(get_repel_setting(element, "box.padding", 0.25)))
   max_width   <- max(width_cm(stringWidth(label)))   + sum(x_margin) + box.padding
   max_height  <- max(height_cm(stringHeight(label))) + sum(y_margin) + box.padding
 
-  # Set position dependent defaults
   direction <- switch(position, left = , right = "y", top = , bottom = "x", "both")
   vp <- switch(
     direction,
@@ -203,32 +240,49 @@ element_grob.element_text_repel <- function(
   x_nudge <- x_nudge / max_width
   y_nudge <- y_nudge / max_height
 
-  # Set defaults
+  # Set defaults from GeomTextRepel
   arg_names <- rlang::fn_fmls_names(element_grob.element_text_repel)
   defaults <- GeomTextRepel$use_defaults(NULL)
   defaults <- defaults[setdiff(names(defaults), c(arg_names, "fontface"))]
-  both <- intersect(names(defaults), names(element)[lengths(element) > 0])
-  defaults[both] <- element[both]
+
+  # Override with repel settings from element
+  repel <- S7::prop(element, "repel")
+  repel_props <- c(
+    "box.padding", "force", "force_pull", "max.time", "max.iter", "max.overlaps",
+    "min.segment.length", "segment.colour", "segment.linetype", "segment.size",
+    "segment.curvature", "segment.angle", "segment.ncp", "segment.shape",
+    "segment.square", "segment.squareShape", "segment.inflect", "seed"
+  )
+  for (prop_name in repel_props) {
+    if (!is.null(repel[[prop_name]])) {
+      defaults[[prop_name]] <- repel[[prop_name]]
+    }
+  }
+  # Remove arrow from defaults - it can't be stored in a data.frame
+  arrow_setting <- repel[["arrow"]] %||% defaults[["arrow"]]
+  defaults[["arrow"]] <- NULL
+
+  element_colour <- S7::prop(element, "colour")
+  element_angle <- S7::prop(element, "angle")
+  segment_colour <- get_repel_setting(element, "segment.colour")
 
   data <- rlang::inject(data.frame(
     label = label,
-    colour     = colour %||% element$colour,
-    angle      = angle  %||% element$angle,
+    colour     = colour %||% element_colour,
+    angle      = angle  %||% element_angle,
     size       = gp$fontsize / .pt,
     family     = gp$fontfamily,
     fontface   = names(gp$font),
     lineheight = gp$lineheight,
     hjust      = hjust,
     vjust      = vjust,
-    segment.colour = element$segment.colour %||% colour %||% element$colour,
+    segment.colour = segment_colour %||% colour %||% element_colour,
     point.size = 0,
     !!!defaults,
     nudge_x = x_nudge,
     nudge_y = y_nudge
   ))
 
-  # We cannot declare x/y in the data.frame directly because if they are units,
-  # data.frame might because of the lack of an as.data.frame.unit method.
   data$x <- x
   data$y <- y
 
@@ -240,13 +294,13 @@ element_grob.element_text_repel <- function(
     box.padding = unit(box.padding, "cm"),
     point.padding = to_unit(sqrt(.Machine$double.eps)),
     min.segment.length = to_unit(0),
-    arrow = element$arrow,
-    force = element$force %||% 1,
-    force_pull = element$force_pull %||% 1,
-    max.time = element$max.time %||% 0.5,
-    max.iter = element$max.iter %||% 1000,
-    max.overlaps = element$max.overlaps %||% getOption("ggrepel.max.overlaps", default = 10),
-    seed = element$seed %||% NA,
+    arrow = arrow_setting,
+    force = get_repel_setting(element, "force", 1),
+    force_pull = get_repel_setting(element, "force_pull", 1),
+    max.time = get_repel_setting(element, "max.time", 0.5),
+    max.iter = get_repel_setting(element, "max.iter", 1000),
+    max.overlaps = get_repel_setting(element, "max.overlaps", getOption("ggrepel.max.overlaps", default = 10)),
+    seed = get_repel_setting(element, "seed", NA),
     verbose = FALSE,
     width  = unit(max_width, "cm"),
     height = unit(max_height, "cm"),
@@ -255,7 +309,7 @@ element_grob.element_text_repel <- function(
   )
 }
 
-# Helper funcions
+# Helper functions
 width_cm  <- function(x) convertWidth(x, "cm", valueOnly = TRUE)
 height_cm <- function(x) convertHeight(x, "cm", valueOnly = TRUE)
 

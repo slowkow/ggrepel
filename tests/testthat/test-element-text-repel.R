@@ -26,13 +26,17 @@ test_that("element_text_repel positions are interpreted correctly", {
   data <- unlist(grob$data[columns], use.names = FALSE)
   expect_equal(data, c(1, 0.25, 0, 0))
 
-  el$position <- "right"
-  grob <- element_grob(el, label = "foo", y = 0.25)
+  # Create new element with position = "right" (can't modify S7 repel property)
+  el_right <- element_text_repel(margin = margin(1, 1, 1, 1, "cm"), position = "right")
+  el_right <- merge_element(el_right, examplar)
+  grob <- element_grob(el_right, label = "foo", y = 0.25)
   data <- unlist(grob$data[columns], use.names = FALSE)
   expect_equal(data, c(0, 0.25, 0, 0))
 
-  el$position <- "top"
-  grob <- element_grob(el, label = "foo", x = 0.25)
+  # Create new element with position = "top"
+  el_top <- element_text_repel(margin = margin(1, 1, 1, 1, "cm"), position = "top")
+  el_top <- merge_element(el_top, examplar)
+  grob <- element_grob(el_top, label = "foo", x = 0.25)
   data <- unlist(grob$data[columns], use.names = FALSE)
   expect_equal(data, c(0.25, 0, 0, 0))
 
