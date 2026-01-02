@@ -5,6 +5,7 @@
 #'
 #' @inheritParams ggplot2::element_text
 #' @inheritParams geom_text_repel
+#' @param size Font size in points.
 #' @param segment.colour,segment.linetype,segment.size Graphical parameters for
 #'   the line connecting the text to points of origin.
 #' @param segment.curvature,segment.angle,segment.ncp,segment.shape,segment.square,segment.squareShape,segment.inflect
