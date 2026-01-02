@@ -17,3 +17,17 @@ site:
 test:
   R --vanilla -e 'devtools::load_all(); devtools::test()'
 
+check:
+  [ -e build ] || mkdir build
+  rm -rf build/*
+  rsync -a --exclude build --exclude .git --exclude scripts --exclude doc --exclude docs \
+           --exclude movies --exclude .github --exclude pkgdown --exclude revdep --exclude '*.pdf' \
+           --exclude tests --exclude vignettes/*_cache --exclude vignettes/*_files --exclude '*.html' \
+           --exclude '*.css' --exclude .DS_Store --exclude '*.so' --exclude '*.o' --exclude '*.Rproj' \
+           --exclude vignettes/figures --exclude .gitignore --exclude .Rbuildignore --exclude .Rhistory \
+           --exclude .Rproj.user --exclude build_site.R --exclude index.md --exclude justfile \
+           --exclude '*.swp' \
+           . build
+  R --vanilla -q -e "devtools::check('build', check_dir='build/check')"
+
+

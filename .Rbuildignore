@@ -10,6 +10,7 @@
 ^revdep
 ^issues
 ^scripts
+^build
 ^vignettes/cache
 ^vignettes/examples_cache
 ^vignettes/figures

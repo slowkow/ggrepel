@@ -42,3 +42,5 @@ Rplots.pdf
 
 *.Rcheck/
 *.tar.gz
+
+build/
