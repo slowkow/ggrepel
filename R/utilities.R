@@ -24,7 +24,7 @@ with_seed_null <- function(seed, code) {
 #' Return a boolean vector of non-empty items.
 #'
 #' @param xs Vector with a mix of "expression" items, "character" items,
-#'  and items from other classes.
+#'  and items from other classes (e.g., Date, POSIXt).
 #' @return Boolean vector indicating which items are not empty.
 #' @noRd
 not_empty <- function(xs) {
@@ -32,7 +32,9 @@ not_empty <- function(xs) {
     if (is.expression(xs[i])) {
       return(length(nchar(xs[i])) > 0)
     } else {
-      return(xs[i] != "")
+      # Convert to character to handle Date and other types
+      # that would return NA when compared to ""
+      return(as.character(xs[i]) != "" & !is.na(xs[i]))
     }
   })
 }

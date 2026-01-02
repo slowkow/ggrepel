@@ -22,6 +22,8 @@ ggrepel 0.9.6.9999
 
 ## Bug fixes
 
+- Fix Date and POSIXt labels not displaying. Labels of class Date, POSIXct, or POSIXlt now render correctly instead of being silently dropped. Thanks to @vhpietil for reporting this in [issue 189].
+
 - Correctly handle `NA` in the x or y position. Thanks to @kirushka for reporting this in [issue 274].
 
 - Fix compatibility with ggplot2's `position_nudge()`. Labels were incorrectly positioned at the panel corner when using `position = position_nudge()`. Note: for best results with ggrepel, use `position_nudge_repel()` which also draws segments connecting labels to their original data points.
@@ -34,6 +36,7 @@ ggrepel 0.9.6.9999
  for reporting this in [issue 171].
 
 [issue 171]: https://github.com/slowkow/ggrepel/issues/171
+[issue 189]: https://github.com/slowkow/ggrepel/issues/189
 [issue 269]: https://github.com/slowkow/ggrepel/issues/269
 [issue 273]: https://github.com/slowkow/ggrepel/issues/273
 [issue 274]: https://github.com/slowkow/ggrepel/issues/274
