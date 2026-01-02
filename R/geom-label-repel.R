@@ -470,22 +470,32 @@ makeLabelRepelGrobs <- function(
     name = sprintf("textrepelgrob%s", i)
   )
 
+  # Compute the grob anchor position (where the grob is placed)
+  grob_x <- x - box.width * (0.5 - hjust) - label.padding * (0.5 - hjust)
+  grob_y <- y - box.height * (0.5 - vjust) - label.padding * (0.5 - vjust)
+  grob_width <- grobWidth(t) + 2 * label.padding
+  grob_height <- grobHeight(t) + 2 * label.padding
+
   r <- roundrectGrob(
-    x - box.width * (0.5 - hjust) - label.padding * (0.5 - hjust),
-    y - box.height * (0.5 - vjust) - label.padding * (0.5 - vjust),
+    grob_x,
+    grob_y,
     default.units = "native",
-    width = grobWidth(t) + 2 * label.padding,
-    height = grobHeight(t) + 2 * label.padding,
+    width = grob_width,
+    height = grob_height,
     just = c(hjust, vjust),
     r = r,
     gp = rect.gp,
     name = sprintf("rectrepelgrob%s", i)
   )
 
-  x1 <- convertWidth(x - 0.5 * grobWidth(r), "native", TRUE)
-  x2 <- convertWidth(x + 0.5 * grobWidth(r), "native", TRUE)
-  y1 <- convertHeight(y - 0.5 * grobHeight(r), "native", TRUE)
-  y2 <- convertHeight(y + 0.5 * grobHeight(r), "native", TRUE)
+  # Compute bounding box edges accounting for hjust/vjust
+  # With just = c(hjust, vjust), the anchor point is at:
+  #   hjust=0: left edge, hjust=0.5: center, hjust=1: right edge
+  # So: x1 = grob_x - hjust * width, x2 = grob_x + (1 - hjust) * width
+  x1 <- convertWidth(grob_x - hjust * grob_width, "native", TRUE)
+  x2 <- convertWidth(grob_x + (1 - hjust) * grob_width, "native", TRUE)
+  y1 <- convertHeight(grob_y - vjust * grob_height, "native", TRUE)
+  y2 <- convertHeight(grob_y + (1 - vjust) * grob_height, "native", TRUE)
 
   point_pos <- c(x.orig, y.orig)
 

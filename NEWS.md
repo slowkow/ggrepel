@@ -30,6 +30,10 @@ ggrepel 0.9.6.9999
 
 - Improve `point.size` calculations to properly account for viewport aspect ratio. Segments now correctly connect to point edges regardless of plot dimensions. Thanks to @teunbrand in [pull request 265].
 
+- Fix segment endpoint calculation for `hjust`/`vjust` in `geom_label_repel()`. Previously, segments would penetrate into the label box when `hjust=0` or stop short when `hjust=1`. Thanks to @DasHammett
+ for reporting this in [issue 171].
+
+[issue 171]: https://github.com/slowkow/ggrepel/issues/171
 [issue 269]: https://github.com/slowkow/ggrepel/issues/269
 [issue 273]: https://github.com/slowkow/ggrepel/issues/273
 [issue 274]: https://github.com/slowkow/ggrepel/issues/274
