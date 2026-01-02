@@ -29,3 +29,4 @@ _snaps/
 ^build_site.R$
 ^\.github$
 ^justfile$
+^Rplots.pdf$
