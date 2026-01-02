@@ -39,3 +39,6 @@ docs/dev/
 
 test*.png
 Rplots.pdf
+
+*.Rcheck/
+*.tar.gz
