@@ -30,10 +30,10 @@ movies
 docs/articles/ggrepel.html
 revdep
 
-vignettes/examples_cache/
-vignettes/examples_files/
-vignettes/gallery.html
-vignettes/examples.html
+vignettes/*_cache/
+vignettes/*_files/
+vignettes/*.html
+
 
 docs/dev/
 
@@ -44,3 +44,5 @@ Rplots.pdf
 *.tar.gz
 
 build/
+
+*.gif
