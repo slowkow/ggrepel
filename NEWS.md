@@ -28,9 +28,12 @@ ggrepel 0.9.6.9999
 
 - Fix `alpha` behavior in `geom_label_repel()` to match `ggplot2::geom_label()`. Now `alpha` only affects the fill color, not the text or border. Thanks to @camille-s for reporting this in [issue 269].
 
+- Improve `point.size` calculations to properly account for viewport aspect ratio. Segments now correctly connect to point edges regardless of plot dimensions. Thanks to @teunbrand in [pull request 265].
+
 [issue 269]: https://github.com/slowkow/ggrepel/issues/269
 [issue 273]: https://github.com/slowkow/ggrepel/issues/273
 [issue 274]: https://github.com/slowkow/ggrepel/issues/274
+[pull request 265]: https://github.com/slowkow/ggrepel/pull/265
 
 ggrepel 0.9.6
 ========================

@@ -340,6 +340,11 @@ makeContent.labelrepeltree <- function(x) {
     return(setChildren(x, grobs))
   }
 
+  width  <- convertWidth(unit(1, "npc"), "cm", valueOnly = TRUE)
+  height <- convertHeight(unit(1, "npc"), "cm", valueOnly = TRUE)
+  point_size <- x$data$point.size * .pt / .stroke / 20
+  point_padding <- convertWidth(to_unit(x$point.padding), "cm", TRUE)
+
   grobs <- lapply(seq_along(valid_strings), function(i) {
     if (!repel$too_many_overlaps[i]) {
       row <- x$data[i, , drop = FALSE]
@@ -358,7 +363,7 @@ makeContent.labelrepeltree <- function(x) {
         box.padding = x$box.padding,
         label.padding = x$label.padding,
         point.size = point_size[i],
-        point.padding = x$point.padding,
+        point.padding = point_padding,
         segment.curvature = row$segment.curvature,
         segment.angle     = row$segment.angle,
         segment.ncp       = row$segment.ncp,
@@ -390,7 +395,8 @@ makeContent.labelrepeltree <- function(x) {
         arrow = x$arrow,
         min.segment.length = x$min.segment.length,
         hjust = row$hjust,
-        vjust = row$vjust
+        vjust = row$vjust,
+        dim = c(width, height)
       )
     }
   })
@@ -440,7 +446,8 @@ makeLabelRepelGrobs <- function(
   arrow = NULL,
   min.segment.length = 0.5,
   hjust = 0.5,
-  vjust = 0.5
+  vjust = 0.5,
+  dim = c(5, 5)
 ) {
   stopifnot(length(label) == 1)
 
@@ -495,10 +502,10 @@ makeLabelRepelGrobs <- function(
     point_inside_text <- TRUE
   }
 
-  # This seems just fine.
-  point.padding <- convertWidth(to_unit(point.padding), "native", TRUE) / 2
-
-  point_int <- intersect_line_circle(int, point_pos, (point.size + point.padding))
+  # We multiply with `dim` here to compute this in centimetres, in which
+  # the point size/padding are given.
+  point_int <- intersect_line_circle(int * dim, point_pos * dim, (point.size + point.padding))
+  point_int <- point_int / dim
 
   # Compute the distance between the data point and the edge of the text box.
   dx <- abs(int[1] - point_pos[1])
@@ -522,7 +529,7 @@ makeLabelRepelGrobs <- function(
     # Distance from label to point edge is less than from label to point center.
     euclid(int, point_int) < euclid(int, point_pos) &&
     # Distance from label to point center is greater than point size.
-    euclid(int, point_pos) > point.size &&
+    euclid(int * dim, point_pos * dim) > point.size &&
     # Distance from label to point center is greater than from point edge to point center.
     euclid(int, point_pos) > euclid(point_int, point_pos)
   ) {
