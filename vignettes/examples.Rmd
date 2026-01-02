@@ -616,7 +616,7 @@ gridExtra::grid.arrange(p1, p2, ncol = 2)
 
 Use `lineheight` to control the spacing between lines in multi-line labels.
 
-```{r label_lineheight, echo=TRUE, fig.width=9, fig.height=4}
+```{r label_lineheight, echo=TRUE, fig.width=12, fig.height=4}
 df <- data.frame(
   x = c(1, 2, 3),
   y = c(1, 2, 3),
@@ -1249,7 +1249,7 @@ were completed
 - how much time has elapsed, in seconds
 - how many overlaps remain unresolved in the final figure
 
-```{r timing, echo = TRUE, fig.width=7, fig.height=5}
+```{r timing, echo = TRUE, message=TRUE, fig.width=7, fig.height=5}
 p <- ggplot(mtcars,
   aes(wt, mpg, label = rownames(mtcars), colour = factor(cyl))) +
   geom_point()
@@ -1257,7 +1257,7 @@ p <- ggplot(mtcars,
 p + geom_text_repel(
   verbose = TRUE,
   seed = 123,
-  max.time = 1,
+  max.time = 0.1,
   max.iter = Inf,
   size = 3
 )
