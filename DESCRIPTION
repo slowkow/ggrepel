@@ -1,5 +1,5 @@
 Package: ggrepel
-Version: 0.9.6.9999
+Version: 0.9.7
 Authors@R: c(
     person("Kamil", "Slowikowski", email = "kslowikowski@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2843-6370")),
     person("Teun", "van den Brand", role = "ctb", comment = c(ORCID = "0000-0002-9335-7468")),

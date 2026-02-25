@@ -10,7 +10,7 @@
 ^revdep
 ^issues
 ^scripts
-^build
+^_build
 ^vignettes/cache
 ^vignettes/examples_cache
 ^vignettes/figures
@@ -31,3 +31,4 @@ _snaps/
 ^\.github$
 ^justfile$
 ^Rplots.pdf$
+^\.claude$

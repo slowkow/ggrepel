@@ -43,6 +43,6 @@ Rplots.pdf
 *.Rcheck/
 *.tar.gz
 
-build/
+_build/
 
 *.gif
