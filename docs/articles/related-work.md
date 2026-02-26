@@ -1,0 +1,133 @@
+# Related work
+
+## R
+
+### [ggforce](https://cran.r-project.org/package=ggforce)
+
+> Annotation is important for storytelling, and ggforce provides a
+> family of geoms that makes it easy to draw attention to, and describe,
+> features of the plot. They all work in the same way, but differ in the
+> way they enclose the area you want to draw attention to.
+
+### [directlabels](https://cran.r-project.org/package=directlabels)
+
+> An extensible framework for automatically placing direct labels onto
+> multicolor ‘lattice’ or ‘ggplot2’ plots. Label positions are described
+> using Positioning Methods which can be re-used across several
+> different plots. There are heuristics for examining “trellis” and
+> “ggplot” objects and inferring an appropriate Positioning Method.
+
+### [ggwordcloud](https://cran.r-project.org/package=ggwordcloud)
+
+> ggwordcloud provides a word cloud text geom for ggplot2. The placement
+> algorithm implemented in C++ is an hybrid between the one of wordcloud
+> and the one of wordcloud2.js. The cloud can grow according to a shape
+> and stay within a mask. The size aesthetic is used either to control
+> the font size or the printed area of the words. ggwordcloud also
+> supports arbitrary text rotation. The faceting scheme of ggplot2 can
+> also be used.
+
+The `ggwordcloud` package implements a spiraling algorithm to prevent
+text labels from overlapping each other.
+
+### [wordcloud](https://cran.r-project.org/package=wordcloud)
+
+> Pretty word clouds.
+
+The `wordcloud` package implements a spiraling algorithm to prevent text
+labels from overlapping each other.
+
+### [FField](https://cran.r-project.org/package=FField)
+
+> Force field simulation of interaction of set of points. Very useful
+> for placing text labels on graphs, such as scatterplots.
+
+I found that functions in the `FField` package were not ideal for
+repelling overlapping rectangles, so I wrote my own.
+
+See [this gist](https://gist.github.com/slowkow/003b4d9f3f59cee8551c)
+for examples of how to use the `wordcloud` and `FField` packages with
+`ggplot2`.
+
+## Javascript
+
+### [vega-label](https://github.com/vega/vega/tree/master/packages/vega-label)
+
+**Fast and Flexible Overlap Detection for Chart Labeling with Occupancy
+Bitmaps**
+
+Chanwut Kittivorawang, Dominik Moritz, Kanit Wongsuphasawat, Jeffrey
+Heer
+
+<http://idl.cs.washington.edu/papers/fast-labels/>
+
+### [D3-Labeler](https://github.com/tinker10/D3-Labeler)
+
+> A D3 plug-in for automatic label placement using simulated annealing
+
+[Evan Wang](https://github.com/tinker10)’s plugin that extends
+[D3](https://github.com/d3/d3) v3. He also described the approach in his
+[paper](http://vis.berkeley.edu/courses/cs294-10-fa13/wiki/images/5/55/FP_EvanWang_paper.pdf).
+
+### [d3fc-label-layout](https://github.com/d3fc/d3fc-label-layout)
+
+> A D3 layout that places labels avoiding overlaps, with strategies
+> including simulated annealing, greedy and a strategy that removes
+> overlapping labels.
+
+[Colin Eberhardt](https://github.com/ColinEberhardt)’s implementation
+for [D3](https://github.com/d3/d3) v4.
+
+### [d3-voronoi-labels](https://beta.observablehq.com/@mbostock/d3-voronoi-labels)
+
+> A Voronoi tessellation can assist in labeling scatterplots. The area
+> of the Voronoi cell associated with each point determines whether the
+> point is labeled: points with larger cells tend to have room to
+> accommodate labels.
+
+## Python
+
+### [adjustText](https://github.com/Phlya/adjustText)
+
+> A small library for automatically adjusting text position in
+> matplotlib plots to minimize overlaps.
+
+[Ilya Flyamer](https://github.com/Phlya)’s Python library that extends
+[matplotlib](https://matplotlib.org/).
+
+## Academic Papers
+
+### [An Efficient Algorithm for Scatter Chart Labeling](https://www.aaai.org/Papers/AAAI/2006/AAAI06-167.pdf)
+
+Sebastian Theophil, Arno Schödl
+
+> This paper presents an efficient algorithm for a new variation of the
+> point feature labeling problem. The goal is to position the largest
+> number of point labels such that they do not intersect each other or
+> their points. First we present an algorithm using a greedy algorithm
+> with limited lookahead. We then present an algorithm that iteratively
+> regroups labels, calling the first algorithm on each group, thereby
+> identifying a close to optimal labeling order. The presented algorithm
+> is being used in a commercial product to label charts, and our
+> evaluation shows that it produces results far superior to those of
+> other labeling algorithms.
+
+This might be a good start for a revision of ggrepel.
+
+### [Chapter 15. Labeling Algorithms](https://cs.brown.edu/people/rtamassi/gdhandbook/chapters/labeling.pdf)
+
+Konstantinos G. Kakoulis, Ioannis G. Tollis
+
+> An important aspect of information visualization is the automatic
+> placement of text or symbol labels corresponding to graphical features
+> of drawings and maps. Labels are textual descriptions that convey
+> information or clarify the meaning of complex structures presented in
+> a graphical form. The automatic label placement problem is identified
+> as an important research area by the ACM Computational Geometry Task
+> Force \[C +99\]. It has applications in many areas including
+> cartography \[RMM+95\], geographic information systems \[Fre91\], and
+> graph drawing \[DETT99\].
+
+[Handbook of Graph Drawing and
+Visualization](https://cs.brown.edu/people/rtamassi/gdhandbook/),
+Roberto Tamassia (Editor), CRC Press, June 24, 2013.

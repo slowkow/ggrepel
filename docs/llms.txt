@@ -1,0 +1,132 @@
+![](https://user-images.githubusercontent.com/209714/200123867-db9bd406-54d7-4ce0-aa09-1ec30740a87a.jpg)
+
+## Overview
+
+ggrepel provides geoms for [ggplot2](https://ggplot2.tidyverse.org/) to
+repel overlapping text labels:
+
+- [`geom_text_repel()`](https://ggrepel.slowkow.com/reference/geom_text_repel.md)
+- [`geom_label_repel()`](https://ggrepel.slowkow.com/reference/geom_text_repel.md)
+
+Text labels repel away from each other, away from data points, and away
+from edges of the plotting area.
+
+``` r
+library(ggrepel)
+ggplot(mtcars, aes(wt, mpg, label = rownames(mtcars))) +
+  geom_text_repel() +
+  geom_point(color = 'red') +
+  theme_classic(base_size = 16)
+```
+
+## Installation
+
+``` r
+# The easiest way to get ggrepel is to install it from CRAN:
+install.packages("ggrepel")
+
+# Or get the latest development version from GitHub:
+# install.packages("devtools")
+devtools::install_github("slowkow/ggrepel")
+```
+
+## Getting help
+
+Check out the
+[examples](https://ggrepel.slowkow.com/articles/examples.md) to learn
+how to use ggrepel in your project.
+
+See our collection of [related
+work](https://ggrepel.slowkow.com/articles/related-work.md) for similar
+R packages, Python packages, and more.
+
+If you have an issue with ggrepel or ggplot2, someone might already have
+experienced it. Try searching the web, or create a new post:
+
+1.  The [Posit community](https://forum.posit.co) is an active forum
+    with R users.
+
+2.  [Stack
+    Overflow](https://stackoverflow.com/questions/tagged/ggrepel?sort=frequent&pageSize=50)
+    has lots of questions and answers about ggplot2 and ggrepel.
+
+## Examples
+
+Click one of the images below to view the source code for that figure:
+
+[![Hide some of the
+labels](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/empty_string-1.png)](https://ggrepel.slowkow.com/articles/examples.html#hide-some-of-the-labels)
+[![Always show all labels, even when they have too many
+overlaps](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/show_all_labels-1.png)](https://ggrepel.slowkow.com/articles/examples.html#always-show-all-labels-even-when-they-have-too-many-overlaps)
+[![Do not repel labels from data
+points](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/point_size_na-1.png)](https://ggrepel.slowkow.com/articles/examples.html#do-not-repel-labels-from-data-points)
+[![Do not repel labels from plot (panel)
+edges](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/plot_edges-1.png)](https://ggrepel.slowkow.com/articles/examples.html#do-not-repel-labels-from-plot-panel-edges)
+[![Expand the scale to make room for
+labels](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/expand_scale-1.png)](https://ggrepel.slowkow.com/articles/examples.html#expand-the-scale-to-make-room-for-labels)
+[![Always (or never) draw line
+segments](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/all_segments-1.png)](https://ggrepel.slowkow.com/articles/examples.html#always-or-never-draw-line-segments)
+[![Make curved line segments or
+arrows](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/line_curve-1.png)](https://ggrepel.slowkow.com/articles/examples.html#make-curved-line-segments-or-arrows)
+[![Repel labels from data points with different
+sizes](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/point_size_cars-1.png)](https://ggrepel.slowkow.com/articles/examples.html#repel-labels-from-data-points-with-different-sizes)
+[![Limit labels to a specific
+area](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/xlim-1.png)](https://ggrepel.slowkow.com/articles/examples.html#limit-labels-to-a-specific-area)
+[![Remove “a” from the
+legend](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/remove_a_2-1.png)](https://ggrepel.slowkow.com/articles/examples.html#remove-a-from-the-legend)
+[![Align labels on the top or bottom
+edge](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/direction_x-1.png)](https://ggrepel.slowkow.com/articles/examples.html#align-labels-on-the-top-or-bottom-edge)
+[![Align labels on the left or right
+edge](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/direction_y-1.png)](https://ggrepel.slowkow.com/articles/examples.html#align-labels-on-the-left-or-right-edge)
+[![Using ggrepel with
+stat_summary()](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/stat_summary-1.png)](https://ggrepel.slowkow.com/articles/examples.html#using-ggrepel-with-stat_summary)
+[![Justify multiple lines of text with
+hjust](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/geom_text_repel-hjust-1.png)](https://ggrepel.slowkow.com/articles/examples.html#justify-multiple-lines-of-text-with-hjust)
+[![Label jittered
+points](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/jitter-1.png)](https://ggrepel.slowkow.com/articles/examples.html#label-jittered-points)
+[![Nudge labels in different directions with
+ggpp](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/position_nudge_center-1.png)](https://ggrepel.slowkow.com/articles/examples.html#nudge-labels-in-different-directions-with-ggpp)
+[![Label sf
+objects](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/label-sf-objects-1.png)](https://ggrepel.slowkow.com/articles/examples.html#label-sf-objects)
+[![Shadows (or glow) under text
+labels](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/shadowtext-1.png)](https://ggrepel.slowkow.com/articles/examples.html#shadows-or-glow-under-text-labels)
+[![Verbose timing
+information](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/timing-1.png)](https://ggrepel.slowkow.com/articles/examples.html#verbose-timing-information)
+[![Word
+cloud](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/wordcloud-1.png)](https://ggrepel.slowkow.com/articles/examples.html#word-cloud)
+[![Polar
+coordinates](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/polar-1.png)](https://ggrepel.slowkow.com/articles/examples.html#polar-coordinates)
+[![Unicode characters
+(Japanese)](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/japanese-1.png)](https://ggrepel.slowkow.com/articles/examples.html#unicode-characters-japanese)
+[![Mathematical
+expressions](https://raw.githubusercontent.com/slowkow/ggrepel/master/docs/articles/examples_files/figure-html/math-1.png)](https://ggrepel.slowkow.com/articles/examples.html#mathematical-expressions)
+
+## Thanks
+
+Thanks to everyone who has contributed pull requests, opened issues,
+asked questions, and shared examples!
+
+And thanks to [Allison Horst](https://github.com/allisonhorst) for the
+beautiful artwork!
+
+# Package index
+
+## Reference
+
+- [`geom_label_repel()`](https://ggrepel.slowkow.com/reference/geom_text_repel.md)
+  [`geom_marquee_repel()`](https://ggrepel.slowkow.com/reference/geom_text_repel.md)
+  [`geom_text_repel()`](https://ggrepel.slowkow.com/reference/geom_text_repel.md)
+  : Repulsive textual annotations.
+- [`position_nudge_repel()`](https://ggrepel.slowkow.com/reference/position_nudge_repel.md)
+  : Nudge labels a fixed distance from points
+- [`element_text_repel()`](https://ggrepel.slowkow.com/reference/element_text_repel.md)
+  : Repulsive text element
+
+# Articles
+
+### All vignettes
+
+- [Examples](https://ggrepel.slowkow.com/articles/examples.md):
+- [Getting started with
+  ggrepel](https://ggrepel.slowkow.com/articles/ggrepel.md):
+- [Related work](https://ggrepel.slowkow.com/articles/related-work.md):
