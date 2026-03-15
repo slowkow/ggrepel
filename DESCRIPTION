@@ -1,5 +1,5 @@
 Package: ggrepel
-Version: 0.9.7
+Version: 0.9.8
 Authors@R: c(
     person("Kamil", "Slowikowski", email = "kslowikowski@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2843-6370")),
     person("Teun", "van den Brand", role = "ctb", comment = c(ORCID = "0000-0002-9335-7468")),
@@ -26,7 +26,7 @@ Description: Provides text and label geoms for 'ggplot2' that help to avoid
     overlapping text labels. Labels repel away from each other and away from the
     data points.
 Depends:
-    R (>= 4.5.0),
+    R (>= 4.1.0),
     ggplot2 (>= 3.5.2)
 Imports:
     grid,

@@ -1,4 +1,12 @@
-ggrepel 0.9.6.9999
+ggrepel 0.9.8
+========================
+
+## Changes
+
+- The minimum required version of R has decreased from 4.5.0 to 4.1.0 to avoid issues with reverse dependencies.
+
+
+ggrepel 0.9.7
 ========================
 
 ## Changes
@@ -13,7 +21,7 @@ ggrepel 0.9.6.9999
 
 - Thanks to @teunbrand in [pull request 272], we ggrepel now works with the [marquee] package! There is a new function `geom_marquee_repel()` that we can use to plot rich text and images.
 
-- Note that the new function `geom_marquee_repel()` requires us to increase the minimum required version of R from 3.0.0 to 4.5.1
+- Note that the minimum required version of R has increased from 3.0.0 to 4.5.0 to match ggplot2's own requirement.
 
 [marquee]: https://github.com/r-lib/marquee/
 [pull request 263]: https://github.com/slowkow/ggrepel/pull/263
