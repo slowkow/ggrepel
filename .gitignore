@@ -34,6 +34,10 @@ vignettes/*_cache/
 vignettes/*_files/
 vignettes/*.html
 
+pkgdown/articles/*_cache/
+pkgdown/articles/*_files/
+pkgdown/articles/*.html
+
 
 docs/dev/
 

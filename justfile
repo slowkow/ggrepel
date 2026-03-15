@@ -1,6 +1,6 @@
 # Build the examples
 examples:
-  R --vanilla -e 'devtools::load_all(); rmarkdown::render("vignettes/examples.Rmd")' && notify "rendered vignettes/examples.Rmd"
+  R --vanilla -e 'devtools::load_all(); rmarkdown::render("pkgdown/articles/examples.Rmd")' && notify "rendered pkgdown/articles/examples.Rmd"
 
 # Build the documentation files
 man:
@@ -22,9 +22,9 @@ check:
   rm -rf _build/*
   rsync -a --exclude _build --exclude .git --exclude scripts --exclude doc --exclude docs \
            --exclude movies --exclude .github --exclude pkgdown --exclude revdep --exclude '*.pdf' \
-           --exclude tests --exclude vignettes/*_cache --exclude vignettes/*_files --exclude '*.html' \
+           --exclude tests --exclude pkgdown/articles/*_cache --exclude pkgdown/articles/*_files --exclude '*.html' \
            --exclude '*.css' --exclude .DS_Store --exclude '*.so' --exclude '*.o' --exclude '*.Rproj' \
-           --exclude vignettes/figures --exclude .gitignore --exclude .Rbuildignore --exclude .Rhistory \
+           --exclude pkgdown/articles/figures --exclude .gitignore --exclude .Rbuildignore --exclude .Rhistory \
            --exclude .Rproj.user --exclude build_site.R --exclude index.md --exclude justfile \
            --exclude '*.swp' \
            . _build

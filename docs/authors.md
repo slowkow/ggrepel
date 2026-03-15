@@ -61,13 +61,13 @@ Source:
 [`DESCRIPTION`](https://github.com/slowkow/ggrepel/blob/HEAD/DESCRIPTION)
 
 Slowikowski K (2026). *ggrepel: Automatically Position Non-Overlapping
-Text Labels with 'ggplot2'*. R package version 0.9.7,
+Text Labels with 'ggplot2'*. R package version 0.9.8,
 <https://ggrepel.slowkow.com/>.
 
     @Manual{,
       title = {ggrepel: Automatically Position Non-Overlapping Text Labels with 'ggplot2'},
       author = {Kamil Slowikowski},
       year = {2026},
-      note = {R package version 0.9.7},
+      note = {R package version 0.9.8},
       url = {https://ggrepel.slowkow.com/},
     }

@@ -1,6 +1,15 @@
 # Changelog
 
-## ggrepel 0.9.6.9999
+## ggrepel 0.9.8
+
+### Changes
+
+- The minimum required version of R has decreased from 4.5.0 to 4.1.0 to
+  avoid issues with reverse dependencies.
+
+## ggrepel 0.9.7
+
+CRAN release: 2026-02-25
 
 ### Changes
 
@@ -37,10 +46,8 @@
   [`geom_marquee_repel()`](https://ggrepel.slowkow.com/reference/geom_text_repel.md)
   that we can use to plot rich text and images.
 
-- Note that the new function
-  [`geom_marquee_repel()`](https://ggrepel.slowkow.com/reference/geom_text_repel.md)
-  requires us to increase the minimum required version of R from 3.0.0
-  to 4.5.1
+- Note that the minimum required version of R has increased from 3.0.0
+  to 4.5.0 to match ggplot2’s own requirement.
 
 ### Bug fixes
 

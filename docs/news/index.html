@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggrepel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,18 +41,25 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.9.6.9999" id="ggrepel-0969999">ggrepel 0.9.6.9999<a class="anchor" aria-label="anchor" href="#ggrepel-0969999"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.9.8" id="ggrepel-098">ggrepel 0.9.8<a class="anchor" aria-label="anchor" href="#ggrepel-098"></a></h2>
 <div class="section level3">
-<h3 id="changes-0-9-6-9999">Changes<a class="anchor" aria-label="anchor" href="#changes-0-9-6-9999"></a></h3>
+<h3 id="changes-0-9-8">Changes<a class="anchor" aria-label="anchor" href="#changes-0-9-8"></a></h3>
+<ul><li>The minimum required version of R has decreased from 4.5.0 to 4.1.0 to avoid issues with reverse dependencies.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.9.7" id="ggrepel-097">ggrepel 0.9.7<a class="anchor" aria-label="anchor" href="#ggrepel-097"></a></h2><p class="text-muted">CRAN release: 2026-02-25</p>
+<div class="section level3">
+<h3 id="changes-0-9-7">Changes<a class="anchor" aria-label="anchor" href="#changes-0-9-7"></a></h3>
 <ul><li><p>Add <code><a href="../reference/element_text_repel.html">element_text_repel()</a></code>, a theme element that brings text repelling to non-geom text such as axis labels and legend text. This is useful when axis labels are crowded and overlap. Thanks to <a href="https://github.com/teunbrand" class="external-link">@teunbrand</a> for this amazing contribution in <a href="https://github.com/slowkow/ggrepel/pull/266" class="external-link">pull request 266</a>.</p></li>
 <li><p>Add <code>arrow.fill</code> aesthetic to customize the fill color of closed arrow heads. By default, <code>arrow.fill</code> matches the segment color. Thanks to <a href="https://github.com/hertg" class="external-link">@hertg</a> for requesting this in <a href="https://github.com/slowkow/ggrepel/issues/273" class="external-link">issue 273</a>.</p></li>
 <li><p>Document <code>linewidth</code> and <code>linetype</code> aesthetics for <code><a href="../reference/geom_text_repel.html">geom_label_repel()</a></code> to customize the label border. Set <code>linewidth = 0</code> to hide the border entirely.</p></li>
 <li><p>Set <code>verbose = getOption("verbose", default = FALSE)</code> by default, and use messages instead of warnings. Thanks to <a href="https://github.com/jpquast" class="external-link">@jpquast</a> for suggesting this change in <a href="https://github.com/slowkow/ggrepel/pull/263" class="external-link">pull request 263</a>. This should prevent unexpected warning messages in packages that depend on ggrepel.</p></li>
 <li><p>Thanks to <a href="https://github.com/teunbrand" class="external-link">@teunbrand</a> in <a href="https://github.com/slowkow/ggrepel/pull/272" class="external-link">pull request 272</a>, we ggrepel now works with the <a href="https://github.com/r-lib/marquee/" class="external-link">marquee</a> package! There is a new function <code><a href="../reference/geom_text_repel.html">geom_marquee_repel()</a></code> that we can use to plot rich text and images.</p></li>
-<li><p>Note that the new function <code><a href="../reference/geom_text_repel.html">geom_marquee_repel()</a></code> requires us to increase the minimum required version of R from 3.0.0 to 4.5.1</p></li>
+<li><p>Note that the minimum required version of R has increased from 3.0.0 to 4.5.0 to match ggplot2’s own requirement.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-0-9-6-9999">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-9-6-9999"></a></h3>
+<h3 id="bug-fixes-0-9-7">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-9-7"></a></h3>
 <ul><li><p>Fix Date and POSIXt labels not displaying. Labels of class Date, POSIXct, or POSIXlt now render correctly instead of being silently dropped. Thanks to <a href="https://github.com/vhpietil" class="external-link">@vhpietil</a> for reporting this in <a href="https://github.com/slowkow/ggrepel/issues/189" class="external-link">issue 189</a>.</p></li>
 <li><p>Correctly handle <code>NA</code> in the x or y position. Thanks to <a href="https://github.com/kirushka" class="external-link">@kirushka</a> for reporting this in <a href="https://github.com/slowkow/ggrepel/issues/274" class="external-link">issue 274</a>.</p></li>
 <li><p>Fix compatibility with ggplot2’s <code><a href="https://ggplot2.tidyverse.org/reference/position_nudge.html" class="external-link">position_nudge()</a></code>. Labels were incorrectly positioned at the panel corner when using <code>position = position_nudge()</code>. Note: for best results with ggrepel, use <code><a href="../reference/position_nudge_repel.html">position_nudge_repel()</a></code> which also draws segments connecting labels to their original data points.</p></li>

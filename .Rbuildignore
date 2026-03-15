@@ -24,8 +24,7 @@ _snaps/
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-^vignettes/examples.Rmd$
-^vignettes/related-work.Rmd$
+^pkgdown/articles$
 ^index.md$
 ^build_site.R$
 ^\.github$
