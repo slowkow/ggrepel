@@ -37,8 +37,8 @@ geom_marquee_repel <- function(
   }
   # Warn about limitations of the algorithm
   if (verbose && any(abs(data$angle %% 90) > 5)) {
-    rlang::inform(
-      c("i" = "Repulsion works correctly only for rotation angles that are multiples of 90 degrees.")
+    rlang::warn(
+      c("ggrepel: Repulsion works correctly only for rotation angles that are multiples of 90 degrees.")
     )
   }
   layer(
@@ -315,7 +315,7 @@ makeContent.marqueerepeltree <- function(x) {
     n_unlabeled <- sum(repel$too_many_overlaps)
     rlang::inform(
       c(
-        paste0(n_unlabeled, " unlabeled data point(s) (too many overlaps)."),
+        paste0("ggrepel: ", n_unlabeled, " unlabeled data point(s) (too many overlaps)."),
         "i" = "Consider increasing `max.overlaps`."
       )
     )
