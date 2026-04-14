@@ -14,7 +14,9 @@ reference:
     contents:
       - geom_text_repel
       - geom_label_repel
+      - geom_marquee_repel
       - position_nudge_repel
+      - element_text_repel
 
 
 home:
@@ -29,10 +31,6 @@ template:
     image:
       src: reference/figures/ggrepel-allison_horst.jpg
       alt: "ggrepel: wonderfully repulsive labels"
-    twitter:
-      creator: "@slowkow"
-      site: "@slowkow"
-      card: summary_large_image
   params:
     ganalytics: UA-15531613-2
 
@@ -47,10 +45,6 @@ navbar:
     - text: "News"
       menu:
       - text: "Release notes"
-      - text: "Version 0.9.0"
-        href: https://twitter.com/slowkow/status/1339364391377092609
-      - text: "------------------"
-      - text: "Change log"
         href: news/index.html
     - text: "Related work"
       href: articles/related-work.html

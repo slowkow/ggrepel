@@ -181,7 +181,7 @@ geom_text_repel <- function(
   show.legend = NA,
   direction = c("both","y","x"),
   seed = NA,
-  verbose = FALSE,
+  verbose = getOption("verbose", default = FALSE),
   inherit.aes = TRUE
 ) {
   if (!missing(nudge_x) || !missing(nudge_y)) {
@@ -189,6 +189,12 @@ geom_text_repel <- function(
       stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
     }
     position <- position_nudge_repel(nudge_x, nudge_y)
+  }
+  # Warn about limitations of the algorithm
+  if (verbose && any(abs(data$angle %% 90) > 5)) {
+    message(
+      "ggrepel: Repulsion works correctly only for rotation angles multiple of 90 degrees"
+    )
   }
   layer(
     data = data,
@@ -240,6 +246,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
     segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
     segment.inflect = FALSE, segment.debug = FALSE,
+    arrow.fill = NULL,
     bg.colour = NA, bg.r = 0.1, side = 0
   ),
 
@@ -262,7 +269,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     ylim = c(NA, NA),
     direction = "both",
     seed = NA,
-    verbose = FALSE
+    verbose = getOption("verbose", default = FALSE)
   ) {
 
     if (parse) {
@@ -277,11 +284,24 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       this_orig <- sprintf("%s_orig", this_dim)
       this_nudge <- sprintf("nudge_%s", this_dim)
       if (!this_nudge %in% colnames(data)) {
+        # No nudge column exists - use current position as nudge target
         data[[this_nudge]] <- data[[this_dim]]
         if (this_orig %in% colnames(data)) {
+          # Restore original position from _orig column (e.g., from position_nudge_repel)
           data[[this_dim]] <- data[[this_orig]]
           data[[this_orig]] <- NULL
         }
+      } else if (this_orig %in% colnames(data)) {
+        # nudge column exists AND _orig exists (from position_nudge_repel)
+        # Set nudge to the current (nudged) position, restore original
+        data[[this_nudge]] <- data[[this_dim]]
+        data[[this_dim]] <- data[[this_orig]]
+        data[[this_orig]] <- NULL
+      } else if (all(data[[this_nudge]] == 0)) {
+        # nudge column exists but is all zeros and no _orig column
+        # This happens with ggplot2's position_nudge() which sets nudge_x/y = 0
+        # In this case, use current position as nudge target (no nudge offset)
+        data[[this_nudge]] <- data[[this_dim]]
       }
     }
 
@@ -297,6 +317,10 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     data$nudge_y <- nudges$y - data$y
 
     # Transform limits to panel scales.
+    # Store original NA status before transformation, because coord$transform
+    # may convert NA to a valid value (e.g., when NA is a factor level).
+    xlim_na <- is.na(xlim)
+    ylim_na <- is.na(ylim)
     limits <- data.frame(x = xlim, y = ylim)
     limits <- coord$transform(limits, panel_scales)
 
@@ -308,14 +332,9 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
       limits$y[is.infinite(ylim)] <- ylim[is.infinite(ylim)]
     }
 
-    # Fill NAs with defaults.
-    limits$x[is.na(limits$x)] <- c(0, 1)[is.na(limits$x)]
-    limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
-
-    # Warn about limitations of the algorithm
-    if (any(abs(data$angle %% 90) > 5)) {
-      warn("ggrepel: Repulsion works correctly only for rotation angles multiple of 90 degrees")
-    }
+    # Fill NAs with defaults (use original NA status, not post-transform).
+    limits$x[xlim_na] <- c(0, 1)[xlim_na]
+    limits$y[ylim_na] <- c(0, 1)[ylim_na]
 
     # Convert hjust and vjust to numeric if character
     if (is.character(data$vjust)) {
@@ -446,10 +465,10 @@ makeContent.textrepeltree <- function(x) {
     verbose         = x$verbose
   ))
 
-  if (any(repel$too_many_overlaps)) {
-    warn(
+  if (x$verbose && any(repel$too_many_overlaps)) {
+    message(
       sprintf(
-        "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing max.overlaps",
+        "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing 'max.overlaps'",
         sum(repel$too_many_overlaps)
       )
     )
@@ -460,6 +479,11 @@ makeContent.textrepeltree <- function(x) {
     class(grobs) <- "gList"
     return(setChildren(x, grobs))
   }
+
+  width  <- convertWidth(unit(1, "npc"), "cm", valueOnly = TRUE)
+  height <- convertHeight(unit(1, "npc"), "cm", valueOnly = TRUE)
+  point_size <- x$data$point.size * .pt / .stroke / 20
+  point_padding <- convertWidth(to_unit(x$point.padding), "cm", TRUE)
 
   grobs <- lapply(seq_along(valid_strings), function(i) {
     if (!repel$too_many_overlaps[i]) {
@@ -476,7 +500,7 @@ makeContent.textrepeltree <- function(x) {
         rot = row$angle,
         box.padding = x$box.padding,
         point.size = point_size[i],
-        point.padding = x$point.padding,
+        point.padding = point_padding,
         segment.curvature = row$segment.curvature,
         segment.angle     = row$segment.angle,
         segment.ncp       = row$segment.ncp,
@@ -495,7 +519,8 @@ makeContent.textrepeltree <- function(x) {
         segment.gp = gpar(
           col = scales::alpha(row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha),
           lwd = row$segment.size * .pt,
-          lty = row$segment.linetype %||% 1
+          lty = row$segment.linetype %||% 1,
+          fill = scales::alpha(row$arrow.fill %||% row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha)
         ),
         arrow = x$arrow,
         min.segment.length = x$min.segment.length,
@@ -503,6 +528,7 @@ makeContent.textrepeltree <- function(x) {
         vjust = row$vjust,
         bg.colour = alpha(row$bg.colour, row$alpha),
         bg.r = row$bg.r,
+        dim = c(width, height),
         side = row$side
       )
     }
@@ -550,6 +576,7 @@ makeTextRepelGrobs <- function(
   vjust = 0.5,
   bg.colour = NA,
   bg.r = .1,
+  dim = c(5, 5),
   side = 0
 ) {
   stopifnot(length(label) == 1)
@@ -618,10 +645,10 @@ makeTextRepelGrobs <- function(
     point_inside_text <- TRUE
   }
 
-  # This seems just fine.
-  point.padding <- convertWidth(to_unit(point.padding), "native", TRUE) / 2
-
-  point_int <- intersect_line_circle(int, point_pos, (point.size + point.padding))
+  # We multiply with `dim` here to compute this in centimetres, in which
+  # the point size/padding are given.
+  point_int <- intersect_line_circle(int * dim, point_pos * dim, (point.size + point.padding))
+  point_int <- point_int / dim
 
   # Compute the distance between the data point and the edge of the text box.
   dx <- abs(int[1] - point_int[1])
@@ -643,7 +670,7 @@ makeTextRepelGrobs <- function(
     # Distance from label to point edge is less than from label to point center.
     euclid(int, point_int) < euclid(int, point_pos) &&
     # Distance from label to point center is greater than point size.
-    euclid(int, point_pos) > point.size &&
+    euclid(int * dim, point_pos * dim) > point.size &&
     # Distance from label to point center is greater than from point edge to point center.
     euclid(int, point_pos) > euclid(point_int, point_pos)
   ) {

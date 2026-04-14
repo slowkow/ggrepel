@@ -30,9 +30,23 @@ movies
 docs/articles/ggrepel.html
 revdep
 
-vignettes/examples_cache/
-vignettes/examples_files/
-vignettes/gallery.html
-vignettes/examples.html
+vignettes/*_cache/
+vignettes/*_files/
+vignettes/*.html
+
+pkgdown/articles/*_cache/
+pkgdown/articles/*_files/
+pkgdown/articles/*.html
+
 
 docs/dev/
+
+test*.png
+Rplots.pdf
+
+*.Rcheck/
+*.tar.gz
+
+_build/
+
+*.gif

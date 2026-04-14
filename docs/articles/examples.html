@@ -5,30 +5,19 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="ggrepel">
 <title>Examples • ggrepel</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Examples">
-<meta property="og:description" content="ggrepel">
-<meta property="og:image" content="https://ggrepel.slowkow.com/reference/figures/ggrepel-allison_horst.jpg">
-<meta property="og:image:alt" content="ggrepel: wonderfully repulsive labels">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:creator" content="@slowkow">
-<meta name="twitter:site" content="@slowkow">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-15531613-2"></script><script>
+<!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-15531613-2"></script><script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -38,56 +27,37 @@
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">ggrepel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.7</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="active nav-item">
-  <a class="nav-link" href="../articles/examples.html">Examples</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
+<li class="active nav-item"><a class="nav-link" href="../articles/examples.html">Examples</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-news">News</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-news">
-    <h6 class="dropdown-header" data-toc-skip>Release notes</h6>
-    <a class="external-link dropdown-item" href="https://twitter.com/slowkow/status/1339364391377092609">Version 0.9.0</a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="../news/index.html">Change log</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-news" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">News</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-news">
+<li><a class="dropdown-item" href="../news/index.html">Release notes</a></li>
+  </ul>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../articles/related-work.html">Related work</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../articles/related-work.html">Related work</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/slowkow/ggrepel">
-    <span class="fa fa-github"></span>
-     
-    GitHub
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/slowkow/ggrepel"><span class="fa fa-github"></span> GitHub</a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -100,7 +70,7 @@
                         <h4 data-toc-skip class="author">Kamil
 Slowikowski</h4>
             
-            <h4 data-toc-skip class="date">2024-01-10</h4>
+            <h4 data-toc-skip class="date">2026-02-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/slowkow/ggrepel/blob/HEAD/vignettes/examples.Rmd" class="external-link"><code>vignettes/examples.Rmd</code></a></small>
       <div class="d-none name"><code>examples.Rmd</code></div>
@@ -116,6 +86,7 @@ text labels:</p>
 <ul>
 <li><code><a href="../reference/geom_text_repel.html">geom_text_repel()</a></code></li>
 <li><code><a href="../reference/geom_text_repel.html">geom_label_repel()</a></code></li>
+<li><code><a href="../reference/geom_text_repel.html">geom_marquee_repel()</a></code></li>
 </ul>
 <p>Text labels repel away from each other, away from data points, and
 away from edges of the plotting area (panel).</p>
@@ -136,7 +107,7 @@ away from edges of the plotting area (panel).</p>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"geom_text_repel()"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/comparison-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/comparison-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -252,6 +223,8 @@ but it also provides a few more that are unique to ggrepel.</p>
 <p>All of them are listed below. See the <a href="https://ggplot2.tidyverse.org/articles/ggplot2-specs.html" class="external-link">ggplot2
 documentation about aesthetic specifications</a> for more details and
 examples.</p>
+<p>The following aesthetics are the same for all functions
+(<code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text()</a></code>, <code><a href="../reference/geom_text_repel.html">geom_text_repel()</a></code>, etc.):</p>
 <table class="table">
 <colgroup>
 <col width="20%">
@@ -309,79 +282,144 @@ examples.</p>
 <td><code>0.5</code></td>
 <td>vertical justification</td>
 </tr>
-<tr class="even">
+</tbody>
+</table>
+<p>These aesthetics are specific to ggrepel functions, but not
+applicable to ggplot2 functions:</p>
+<table class="table">
+<colgroup>
+<col width="20%">
+<col width="16%">
+<col width="64%">
+</colgroup>
+<thead><tr class="header">
+<th>Aesthetic</th>
+<th>Default</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
 <td><code>point.size</code></td>
 <td><code>1</code></td>
 <td>size of each point for each text label</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>segment.linetype</code></td>
 <td><code>1</code></td>
 <td>line segment solid, dashed, etc.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>segment.color</code></td>
 <td><code>"black"</code></td>
 <td>line segment color</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>segment.size</code></td>
 <td><code>0.5 mm</code></td>
 <td>line segment thickness</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>segment.alpha</code></td>
 <td><code>1.0</code></td>
 <td>line segment transparency</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>segment.curvature</code></td>
 <td><code>0</code></td>
 <td>numeric, negative for left-hand and positive for right-hand curves,
 0 for straight lines</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>segment.angle</code></td>
 <td><code>90</code></td>
 <td>0-180, less than 90 skews control points toward the start point</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>segment.ncp</code></td>
 <td><code>1</code></td>
 <td>number of control points to make a smoother curve</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>segment.shape</code></td>
 <td><code>0.5</code></td>
 <td>curve shape by control points approximation/interpolation (1 for
 cubic B-spline, -1 for Catmull-Rom spline)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>segment.square</code></td>
 <td><code>TRUE</code></td>
 <td>
 <code>TRUE</code> to place control points in city-block fashion,
 <code>FALSE</code> for oblique placement</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>segment.squareShape</code></td>
 <td><code>1</code></td>
 <td>shape of the curve relative to additional control points inserted if
 square is <code>TRUE</code>
 </td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>segment.inflect</code></td>
 <td><code>FALSE</code></td>
 <td>curve inflection at the midpoint</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>segment.debug</code></td>
 <td><code>FALSE</code></td>
 <td>display the curve debug information</td>
 </tr>
 </tbody>
 </table>
+<p>And the following aesthetics are specific to
+<code><a href="../reference/geom_text_repel.html">geom_marquee_repel()</a></code>:</p>
+<table class="table">
+<colgroup>
+<col width="20%">
+<col width="16%">
+<col width="64%">
+</colgroup>
+<thead><tr class="header">
+<th>Aesthetic</th>
+<th>Default</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>style</code></td>
+<td><code>NULL</code></td>
+<td>a <code>marquee_style</code> object specifying the styling, see
+<code><a href="https://marquee.r-lib.org/reference/style.html" class="external-link">marquee::style()</a></code>
+</td>
+</tr>
+<tr class="even">
+<td><code>width</code></td>
+<td><code>NA</code></td>
+<td>a <code><a href="https://rdrr.io/r/grid/unit.html" class="external-link">grid::unit()</a></code> object specifying the width of each
+marquee element, e.g., <code>unit(2, "cm")</code>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="advanced-examples">Advanced examples<a class="anchor" aria-label="anchor" href="#advanced-examples"></a>
+</h2>
+<p>The ggrepel package works well with the <a href="https://docs.r4photobiology.info/ggpp/" class="external-link">ggpp</a> package!</p>
+<p>For more advanced ggrepel examples, check out the <a href="https://docs.r4photobiology.info/ggpp/articles/nudge-examples.html" class="external-link">ggpp
+examples</a> by Pedro Aphalo. In that article, Pedro shows how to use
+nudging functions from the <a href="https://docs.r4photobiology.info/ggpp/" class="external-link">ggpp</a> package to
+achieve greater control over label positions.</p>
+<p>The <a href="https://docs.r4photobiology.info/ggpp/articles/nudge-examples.html" class="external-link">ggpp
+examples</a> page describes how to use many advanced functions,
+including:</p>
+<ul>
+<li><code><a href="https://docs.r4photobiology.info/ggpp/reference/position_nudge_to.html" class="external-link">position_nudge_to()</a></code></li>
+<li><code><a href="https://docs.r4photobiology.info/ggpp/reference/position_nudge_center.html" class="external-link">position_nudge_center()</a></code></li>
+<li><code><a href="https://docs.r4photobiology.info/ggpp/reference/position_nudge_line.html" class="external-link">position_nudge_line()</a></code></li>
+<li><code><a href="https://docs.r4photobiology.info/ggpp/reference/position_nudge_keep.html" class="external-link">position_nudge_keep()</a></code></li>
+<li>and many more!</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
@@ -404,7 +442,7 @@ points repel the non-empty labels.</p>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat2</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">dat2</span><span class="op">$</span><span class="va">car</span> <span class="op">==</span> <span class="st">""</span>, <span class="st">"grey50"</span>, <span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/empty_string-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/empty_string-1.png" class="r-plt" alt="" width="700"></p>
 <p>We can quickly repel a few text labels from 10,000 data points in the
 example below.</p>
 <p>We use <code>max.overlaps = Inf</code> to ensure that no text labels
@@ -426,7 +464,7 @@ are discarded, even if a text label overlaps lots of other things
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat3</span><span class="op">[</span><span class="va">dat3</span><span class="op">$</span><span class="va">car</span> <span class="op">==</span> <span class="st">""</span>,<span class="op">]</span>, color <span class="op">=</span> <span class="st">"grey50"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span>box.padding <span class="op">=</span> <span class="fl">0.5</span>, max.overlaps <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat3</span><span class="op">[</span><span class="va">dat3</span><span class="op">$</span><span class="va">car</span> <span class="op">!=</span> <span class="st">""</span>,<span class="op">]</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/empty_string_big-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/empty_string_big-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="always-show-all-labels-even-when-they-have-too-many-overlaps">Always show all labels, even when they have too many overlaps<a class="anchor" aria-label="anchor" href="#always-show-all-labels-even-when-they-have-too-many-overlaps"></a>
@@ -467,9 +505,7 @@ providing the <code>max.overlaps</code> argument to
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"max.overlaps = Inf"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: ggrepel: 15 unlabeled data points (too many overlaps). Consider</span></span>
-<span><span class="co">## increasing max.overlaps</span></span></code></pre>
-<p><img src="examples_files/figure-html/show_all_labels-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/show_all_labels-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="do-not-repel-labels-from-data-points">Do not repel labels from data points<a class="anchor" aria-label="anchor" href="#do-not-repel-labels-from-data-points"></a>
@@ -478,12 +514,12 @@ providing the <code>max.overlaps</code> argument to
 data points.</p>
 <p>Labels will still move away from each other and away from the edges
 of the plot.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span>point.size <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/point_size_na-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/point_size_na-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="do-not-repel-labels-from-plot-panel-edges">Do not repel labels from plot (panel) edges<a class="anchor" aria-label="anchor" href="#do-not-repel-labels-from-plot-panel-edges"></a>
@@ -491,7 +527,7 @@ of the plot.</p>
 <p>Set <code>xlim</code> or <code>ylim</code> to <code>Inf</code> or
 <code>-Inf</code> to disable repulsion away from the edges of the panel.
 Use <code>NA</code> to indicate the edge of the panel.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -501,23 +537,23 @@ Use <code>NA</code> to indicate the edge of the panel.</p>
 <span>    <span class="co"># Do not repel from top or bottom edges.</span></span>
 <span>    ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="cn">Inf</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/plot_edges-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/plot_edges-1.png" class="r-plt" alt="" width="700"></p>
 <p>We can also disable clipping to allow the labels to go beyond the
 edges of the panel.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>clip <span class="op">=</span> <span class="st">"off"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="cn">Inf</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="cn">Inf</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/clipping-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/clipping-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="expand-the-scale-to-make-room-for-labels">Expand the scale to make room for labels<a class="anchor" aria-label="anchor" href="#expand-the-scale-to-make-room-for-labels"></a>
 </h3>
 <p>Since the text labels repel away from the edges of the plot panel, we
 might want to expand the scale to give them more room to fit.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  x1 <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -539,13 +575,13 @@ might want to expand the scale to give them more room to fit.</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">p</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/expand_scale-1.png" width="700"></p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<p><img src="examples_files/figure-html/expand_scale-1.png" class="r-plt" alt="" width="700"></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span></span>
 <span>  breaks <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Dimension 1"</span>, <span class="st">"Dimension 2"</span><span class="op">)</span>,</span>
 <span>  expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html" class="external-link">expansion</a></span><span class="op">(</span>mult <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/expand_scale-2.png" width="700"></p>
+<p><img src="examples_files/figure-html/expand_scale-2.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="always-or-never-draw-line-segments">Always (or never) draw line segments<a class="anchor" aria-label="anchor" href="#always-or-never-draw-line-segments"></a>
@@ -554,7 +590,7 @@ might want to expand the scale to give them more room to fit.</p>
 matter how short they are.</p>
 <p>Use <code>min.segment.length = Inf</code> to never draw any line
 segments, no matter how long they are.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span>
 <span></span>
@@ -567,7 +603,7 @@ segments, no matter how long they are.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"min.segment.length = Inf"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/all_segments-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/all_segments-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="make-curved-line-segments-or-arrows">Make curved line segments or arrows<a class="anchor" aria-label="anchor" href="#make-curved-line-segments-or-arrows"></a>
@@ -586,7 +622,7 @@ curve</li>
 <code>segment.angle = 20</code> skews the curve towards the start,
 values greater than 90 would skew toward the end</li>
 </ul>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -598,9 +634,9 @@ values greater than 90 would skew toward the end</li>
 <span>    segment.ncp <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>    segment.angle <span class="op">=</span> <span class="fl">20</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/line_curve-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/line_curve-1.png" class="r-plt" alt="" width="700"></p>
 <p>Setting the curvature to a value near zero gives a sharp angle:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">cars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Volvo 142E"</span>, <span class="st">"Merc 230"</span><span class="op">)</span></span>
 <span></span>
@@ -615,11 +651,11 @@ values greater than 90 would skew toward the end</li>
 <span>    arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.015</span>, <span class="st">"npc"</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/line_curve_annotate-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/line_curve_annotate-1.png" class="r-plt" alt="" width="700"></p>
 <p>Set <code>segment.square</code>to <code>FALSE</code> to get oblique
 curves, and <code>segment.inflect</code> to <code>TRUE</code> to
 introduce an inflection point.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cars_subset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fl">5</span><span class="op">)</span></span>
@@ -652,10 +688,10 @@ introduce an inflection point.</p>
 <span>    axis.text.x  <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    axis.title.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/line_inflect_and_square-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/line_inflect_and_square-1.png" class="r-plt" alt="" width="700"></p>
 <p>Use <code>segment.shape</code> to adjust the interpolation of the
 control points:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cars_subset_shapes</span> <span class="op">&lt;-</span> <span class="va">cars_subset</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cars_subset</span><span class="op">)</span><span class="op">)</span>, times <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, <span class="op">]</span></span>
@@ -687,13 +723,13 @@ control points:</p>
 <span>    axis.text.x  <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    axis.title.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/line_shape-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/line_shape-1.png" class="r-plt" alt="" width="700"></p>
 <p>We can use different line types (1, 2, 3, 4, 5, or 6).</p>
-<p><img src="examples_files/figure-html/all_linetypes-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/all_linetypes-1.png" class="r-plt" alt="" width="700"></p>
 <p>And different types of arrows. See <a href="https://ggplot2.tidyverse.org/reference/geom_segment.html" class="external-link">ggplot2::geom_segment()</a>
 for more details.</p>
-<p><img src="examples_files/figure-html/all_arrows-1.png" width="700"></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<p><img src="examples_files/figure-html/all_arrows-1.png" class="r-plt" alt="" width="700"></p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="va">cars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Volvo 142E"</span>, <span class="st">"Merc 230"</span><span class="op">)</span></span>
 <span></span>
@@ -707,7 +743,102 @@ for more details.</p>
 <span>    segment.curvature <span class="op">=</span> <span class="op">-</span><span class="fl">1e-20</span>,</span>
 <span>    arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.015</span>, <span class="st">"npc"</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/line_curve_annotate_linetype-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/line_curve_annotate_linetype-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="closed-arrows-with-custom-fill-color">Closed arrows with custom fill color<a class="anchor" aria-label="anchor" href="#closed-arrows-with-custom-fill-color"></a>
+</h3>
+<p>Use the <code>arrow.fill</code> aesthetic to set the fill color for
+closed arrow heads independently from <code>segment.colour</code>. By
+default, <code>arrow.fill</code> matches the segment color.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>,<span class="op">]</span></span>
+<span><span class="va">df</span><span class="op">$</span><span class="va">car</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span></span>
+<span>    min.segment.length <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>    segment.linetype <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="st">"npc"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"closed"</span><span class="op">)</span>,</span>
+<span>    box.padding <span class="op">=</span> <span class="fl">1.5</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"default: arrow.fill matches segment"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span></span>
+<span>    min.segment.length <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>    segment.colour <span class="op">=</span> <span class="st">"blue"</span>,</span>
+<span>    segment.linetype <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="st">"npc"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"closed"</span><span class="op">)</span>,</span>
+<span>    box.padding <span class="op">=</span> <span class="fl">1.5</span>,</span>
+<span>    arrow.fill <span class="op">=</span> <span class="st">"green"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"arrow.fill = 'yellow'"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/arrow_fill-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="customize-label-border-with-linetype-and-linewidth">Customize label border with linetype and linewidth<a class="anchor" aria-label="anchor" href="#customize-label-border-with-linetype-and-linewidth"></a>
+</h3>
+<p>Use <code>linetype</code> and <code>linewidth</code> to customize the
+border of <code><a href="../reference/geom_text_repel.html">geom_label_repel()</a></code>. Set
+<code>linewidth = 0</code> to hide the border entirely.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span>,<span class="op">]</span></span>
+<span><span class="va">df</span><span class="op">$</span><span class="va">car</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>    linewidth <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>    linetype <span class="op">=</span> <span class="st">"dashed"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"linewidth = 2, linetype = 'dashed'"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
+<span>    linewidth <span class="op">=</span> <span class="fl">0</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"linewidth = 0 (no border)"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/label_border-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="adjust-line-spacing-with-lineheight">Adjust line spacing with lineheight<a class="anchor" aria-label="anchor" href="#adjust-line-spacing-with-lineheight"></a>
+</h3>
+<p>Use <code>lineheight</code> to control the spacing between lines in
+multi-line labels.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Compact\nline\nspacing"</span>, <span class="st">"Default\nline\nspacing"</span>, <span class="st">"Spacious\nline\nspacing"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span>lineheight <span class="op">=</span> <span class="fl">0.8</span>, fill <span class="op">=</span> <span class="st">"lightblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"lineheight = 0.8"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span>lineheight <span class="op">=</span> <span class="fl">1.2</span>, fill <span class="op">=</span> <span class="st">"lightgreen"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"lineheight = 1.2 (default)"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span>lineheight <span class="op">=</span> <span class="fl">2.0</span>, fill <span class="op">=</span> <span class="st">"lightyellow"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"lineheight = 2.0"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/label_lineheight-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3 tabset">
 <h3 class="tabset" id="repel-labels-from-data-points-with-different-sizes">Repel labels from data points with different
@@ -738,7 +869,7 @@ labels.</p>
 <div class="tab-content">
 <div class="active  tab-pane" id="geom_text_repel" role="tabpanel" aria-labelledby="geom_text_repel-tab">
 
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_pal</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">range</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/force.html" class="external-link">force</a></span><span class="op">(</span><span class="va">range</span><span class="op">)</span></span>
 <span>  <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/rescale.html" class="external-link">rescale</a></span><span class="op">(</span><span class="va">x</span>, to <span class="op">=</span> <span class="va">range</span>, from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
@@ -760,11 +891,11 @@ labels.</p>
 <span>    box.padding <span class="op">=</span> <span class="fl">0.3</span> <span class="co"># additional padding around each text label</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/point_size_cars-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/point_size_cars-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="tab-pane" id="geom_label_repel" role="tabpanel" aria-labelledby="geom_label_repel-tab">
 
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_pal</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">range</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/force.html" class="external-link">force</a></span><span class="op">(</span><span class="va">range</span><span class="op">)</span></span>
 <span>  <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/rescale.html" class="external-link">rescale</a></span><span class="op">(</span><span class="va">x</span>, to <span class="op">=</span> <span class="va">range</span>, from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
@@ -789,7 +920,7 @@ labels.</p>
 <span>    guide <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html" class="external-link">guide_legend</a></span><span class="op">(</span>override.aes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>label <span class="op">=</span> <span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="co"># hide "a" in legend</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/point_size_cars_label-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/point_size_cars_label-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 </div>
 </div>
@@ -802,7 +933,7 @@ labels to a specific area. Limits are specified in data coordinates. Use
 direction.</p>
 <p>Here we also use <code><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">grid::arrow()</a></code> to render the segments as
 arrows.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># All labels should be to the right of 3.</span></span>
@@ -831,20 +962,20 @@ arrows.</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">p</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/xlim-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/xlim-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="remove-a-from-the-legend">Remove “a” from the legend<a class="anchor" aria-label="anchor" href="#remove-a-from-the-legend"></a>
 </h3>
 <p>Sometimes we want to remove the “a” labels in the legend.</p>
 <p>We can do that by overriding the legend aesthetics:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Don't use "color" in the legend.</span></span>
 <span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html" class="external-link">guide_legend</a></span><span class="op">(</span>override.aes <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Or set the label to the empty string "" (or any other string).</span></span>
 <span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html" class="external-link">guide_legend</a></span><span class="op">(</span>override.aes <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="st">""</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/remove_a_2-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/remove_a_2-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="align-labels-on-the-top-or-bottom-edge">Align labels on the top or bottom edge<a class="anchor" aria-label="anchor" href="#align-labels-on-the-top-or-bottom-edge"></a>
@@ -867,7 +998,7 @@ y-axis (up and down). The default is
 <a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim()</a>
 to increase the size of the plotting area so all of the labels fit
 comfortably.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="fl">1</span>, label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -889,10 +1020,10 @@ comfortably.</p>
 <span>    axis.text.y  <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    axis.title.y <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/direction_x-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/direction_x-1.png" class="r-plt" alt="" width="700"></p>
 <p>Align text vertically with <code>nudge_y</code> and allow the labels
 to move horizontally with <code>direction = "x"</code>:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="va">mtcars</span></span>
@@ -909,14 +1040,14 @@ to move horizontally with <code>direction = "x"</code>:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">mpg</span> <span class="op">&gt;</span> <span class="fl">30</span>, <span class="st">"red"</span>, <span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">36</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/neat-offset-x-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/neat-offset-x-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="align-labels-on-the-left-or-right-edge">Align labels on the left or right edge<a class="anchor" aria-label="anchor" href="#align-labels-on-the-left-or-right-edge"></a>
 </h3>
 <p>Set <code>direction</code> to “y” and try <code>hjust</code> 0.5, 0,
 and 1:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">wt</span>, x <span class="op">=</span> <span class="fl">1</span>, label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -964,11 +1095,11 @@ and 1:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"hjust = 1"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, <span class="va">p3</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/direction_y-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/direction_y-1.png" class="r-plt" alt="" width="700"></p>
 <p>Align text horizontally with <code>nudge_x</code> and
 <code>hjust</code>, and allow the labels to move vertically with
 <code>direction = "y"</code>:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">wt</span> <span class="op">&gt;</span> <span class="fl">2.75</span> <span class="op">&amp;</span> <span class="va">wt</span> <span class="op">&lt;</span> <span class="fl">3.45</span><span class="op">)</span></span>
@@ -996,7 +1127,7 @@ and 1:</p>
 <span>    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.4</span>, <span class="fl">3.8</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/neat-offset-y-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/neat-offset-y-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="using-ggrepel-with-stat_summary">Using ggrepel with stat_summary()<a class="anchor" aria-label="anchor" href="#using-ggrepel-with-stat_summary"></a>
@@ -1012,7 +1143,7 @@ and 1:</p>
 <p>The <code><a href="../reference/position_nudge_repel.html">position_nudge_repel()</a></code> function nudges the text
 label’s position, but it also remembers the original position of the
 data point.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span>, <span class="va">mpg</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html" class="external-link">stat_summary</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="st">"gray90"</span>,</span>
@@ -1022,7 +1153,7 @@ data point.</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html" class="external-link">stat_summary</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">stat</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>    fun <span class="op">=</span> <span class="st">"mean"</span>,</span>
 <span>    geom <span class="op">=</span> <span class="st">"text_repel"</span>,</span>
 <span>    min.segment.length <span class="op">=</span> <span class="fl">0</span>, <span class="co"># always draw segments</span></span>
@@ -1031,7 +1162,7 @@ data point.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"position_nudge()"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html" class="external-link">stat_summary</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">stat</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes_eval.html" class="external-link">after_stat</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>    fun <span class="op">=</span> <span class="st">"mean"</span>,</span>
 <span>    geom <span class="op">=</span> <span class="st">"text_repel"</span>,</span>
 <span>    min.segment.length <span class="op">=</span> <span class="fl">0</span>, <span class="co"># always draw segments</span></span>
@@ -1040,14 +1171,14 @@ data point.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"position_nudge_repel()"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/stat_summary-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/stat_summary-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="justify-multiple-lines-of-text-with-hjust">Justify multiple lines of text with hjust<a class="anchor" aria-label="anchor" href="#justify-multiple-lines-of-text-with-hjust"></a>
 </h3>
 <p>The <code>hjust</code> option should behave mostly the same way it
 does with <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">ggplot2::geom_text()</a></code>.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -1069,8 +1200,8 @@ does with <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html"
 <span>  nudge_x       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>, <span class="fl">0.05</span><span class="op">)</span>,</span>
 <span>  arrow         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">2</span>, <span class="st">"mm"</span><span class="op">)</span>, ends <span class="op">=</span> <span class="st">"last"</span>, type <span class="op">=</span> <span class="st">"closed"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/geom_text_repel-hjust-1.png" width="700"></p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<p><img src="examples_files/figure-html/geom_text_repel-hjust-1.png" class="r-plt" alt="" width="700"></p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_text_repel.html">geom_label_repel</a></span><span class="op">(</span></span>
 <span>  data          <span class="op">=</span> <span class="va">labelInfo</span>,</span>
 <span>  mapping       <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, label <span class="op">=</span> <span class="va">g</span><span class="op">)</span>,</span>
@@ -1079,12 +1210,120 @@ does with <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html"
 <span>  nudge_x       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>, <span class="fl">0.05</span><span class="op">)</span>,</span>
 <span>  arrow         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html" class="external-link">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">2</span>, <span class="st">"mm"</span><span class="op">)</span>, ends <span class="op">=</span> <span class="st">"last"</span>, type <span class="op">=</span> <span class="st">"closed"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/geom_text_repel-hjust-2.png" width="700"></p>
+<p><img src="examples_files/figure-html/geom_text_repel-hjust-2.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="marquee-markdown-with-rich-text-styles-and-images">marquee: Markdown with rich text styles and images<a class="anchor" aria-label="anchor" href="#marquee-markdown-with-rich-text-styles-and-images"></a>
+</h3>
+<p>ggrepel now works with the <a href="https://github.com/r-lib/marquee/" class="external-link">marquee</a> package!</p>
+<p>See the <a href="https://marquee.r-lib.org/" class="external-link">marquee
+documentation</a> for more information about how to control the
+styles.</p>
+<p>We can use the function <code><a href="../reference/geom_text_repel.html">geom_marquee_repel()</a></code> to plot
+rich text and images with automatic positioning, as shown in this
+example below:</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">logo</span> <span class="op">&lt;-</span> <span class="st">"https://cran.r-project.org/Rlogo.svg"</span></span>
+<span></span>
+<span><span class="co"># Note: width values are in "npc" units (proportion of panel width).</span></span>
+<span><span class="co"># Use values between 0 and 1 (e.g., 0.3 = 30% of panel width).</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4.9</span>, <span class="fl">5</span>, <span class="fl">5.1</span>, <span class="fl">10</span><span class="op">)</span>,</span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4.9</span>, <span class="fl">5</span>, <span class="fl">5.1</span>, <span class="fl">10</span><span class="op">)</span>,</span>
+<span>  labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Some {.blue *italic blue*} text"</span>,</span>
+<span>    <span class="st">"Other {.red **bold red**} text"</span>,</span>
+<span>    <span class="st">"More {.purple ~strikethrough~} text"</span>,</span>
+<span>    <span class="st">"# Title\nBody text"</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"![]("</span>, <span class="va">logo</span>, <span class="st">")"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fl">0.3</span><span class="op">)</span> <span class="co"># npc units, so 0.3 = 30% of panel width</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># In this knitr chunk, we are using dev="ragg_png" like so:</span></span>
+<span><span class="co"># {r marquee, echo=TRUE, fig.width=6, fig.height=5, dev="ragg_png"}</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, label <span class="op">=</span> <span class="va">labels</span>, width <span class="op">=</span> <span class="va">widths</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_marquee_repel</a></span><span class="op">(</span></span>
+<span>    box.padding <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">5</span>, <span class="st">"mm"</span><span class="op">)</span>, seed <span class="op">=</span> <span class="fl">1</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">'dev="ragg_png"'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/marquee-1.png" class="r-plt" alt="" width="700"></p>
+<div class="alert alert-info" role="alert">
+<p><strong>Note:</strong> When using <code><a href="../reference/geom_text_repel.html">geom_marquee_repel()</a></code>,
+you may want to use <strong><a href="https://ragg.r-lib.org/articles/ragg_quality.html" class="external-link">ragg</a></strong>
+instead of the default renderer. This can improve the display of your
+plot.</p>
+</div>
+<p>If we use <code><a href="../reference/geom_text_repel.html">geom_marquee_repel()</a></code> with
+<code>dev="png"</code> instead of <code>dev="ragg_png"</code>, then the
+result is more pixelated:</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># In this knitr chunk, we are using dev="png" like so:</span></span>
+<span><span class="co"># {r marquee-pixelated, echo=TRUE, fig.width=6, fig.height=5, dev="png"}</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, label <span class="op">=</span> <span class="va">labels</span>, width <span class="op">=</span> <span class="va">widths</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_marquee_repel</a></span><span class="op">(</span></span>
+<span>    box.padding <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">5</span>, <span class="st">"mm"</span><span class="op">)</span>, seed <span class="op">=</span> <span class="fl">1</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">'dev="png"'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/marquee-pixelated-1.png" class="r-plt" alt="" width="700"></p>
+<p>To learn more, see the <a href="https://ragg.r-lib.org/articles/ragg_quality.html" class="external-link">ragg</a>
+documentation and read about the <code>device</code> argument for the
+<code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html" class="external-link">ggplot2::ggsave()</a></code> function.</p>
+</div>
+<div class="section level3">
+<h3 id="repel-axis-labels-with-element_text_repel">Repel axis labels with element_text_repel()<a class="anchor" aria-label="anchor" href="#repel-axis-labels-with-element_text_repel"></a>
+</h3>
+<p>Use <code><a href="../reference/element_text_repel.html">element_text_repel()</a></code> as a theme element to repel
+crowded axis labels. This is especially useful when you have many
+categories on a categorical axis.</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># A plot with many overlapping y-axis labels</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">mpg</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"steelblue"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Expand the y-axis limits to make room for repelled labels</span></span>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">32</span>, <span class="fl">64</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text.y.left <span class="op">=</span> <span class="fu"><a href="../reference/element_text_repel.html">element_text_repel</a></span><span class="op">(</span>margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/element_text_repel_basic-1.png" class="r-plt" alt="" width="700"></p>
+<p>You can customize the connecting segments with curvature and color
+options:</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">32</span>, <span class="fl">64</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>    axis.text.y.left <span class="op">=</span> <span class="fu"><a href="../reference/element_text_repel.html">element_text_repel</a></span><span class="op">(</span></span>
+<span>      margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fl">20</span><span class="op">)</span>,</span>
+<span>      segment.curvature <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span>,</span>
+<span>      segment.inflect <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>      segment.colour <span class="op">=</span> <span class="st">"red"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    axis.ticks.y.left <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/element_text_repel_curved-1.png" class="r-plt" alt="" width="700"></p>
+<p>For secondary axes (top and right), use the <code>position</code>
+argument:</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4.9</span>, <span class="fl">5</span>, <span class="fl">5.1</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Lorem ipsum"</span>, <span class="st">"dolor amet"</span>, <span class="st">"consectetur"</span>, <span class="st">"adipiscing"</span>, <span class="st">"elit"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">x</span>, colour <span class="op">=</span> <span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="va">x</span>, labels <span class="op">=</span> <span class="va">labels</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="va">x</span>, labels <span class="op">=</span> <span class="va">labels</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_colour_viridis_c</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="va">x</span>, labels <span class="op">=</span> <span class="va">labels</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>x.sec <span class="op">=</span> <span class="st">"axis"</span>, y.sec <span class="op">=</span> <span class="st">"axis"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>    axis.text.x.bottom <span class="op">=</span> <span class="fu"><a href="../reference/element_text_repel.html">element_text_repel</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span>, margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fl">70</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    axis.text.y.left   <span class="op">=</span> <span class="fu"><a href="../reference/element_text_repel.html">element_text_repel</a></span><span class="op">(</span>margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    axis.text.x.top    <span class="op">=</span> <span class="fu"><a href="../reference/element_text_repel.html">element_text_repel</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span>,margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>b <span class="op">=</span> <span class="fl">70</span><span class="op">)</span>, position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span>,</span>
+<span>    axis.text.y.right  <span class="op">=</span> <span class="fu"><a href="../reference/element_text_repel.html">element_text_repel</a></span><span class="op">(</span>margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span>,</span>
+<span>    legend.text        <span class="op">=</span> <span class="fu"><a href="../reference/element_text_repel.html">element_text_repel</a></span><span class="op">(</span>margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>l <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/element_text_repel_secondary-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="label-jittered-points">Label jittered points<a class="anchor" aria-label="anchor" href="#label-jittered-points"></a>
 </h3>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span><span class="op">$</span><span class="va">label</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="va">mtcars</span><span class="op">$</span><span class="va">label</span><span class="op">[</span><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span> <span class="op">!=</span> <span class="fl">6</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">""</span></span>
 <span></span>
@@ -1096,11 +1335,11 @@ does with <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html"
 <span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span>position <span class="op">=</span> <span class="va">pos</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"position_jitter()"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/jitter-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/jitter-1.png" class="r-plt" alt="" width="700"></p>
 <p>You can also use other position functions, like
 <code><a href="https://rdrr.io/pkg/ggbeeswarm/man/position_quasirandom.html" class="external-link">position_quasirandom()</a></code> from the <a href="https://github.com/eclarke/ggbeeswarm" class="external-link">ggbeeswarm</a> package by
 <a href="https://github.com/eclarke" class="external-link">Erik Clarke</a>:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span><span class="op">$</span><span class="va">label</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="va">mtcars</span><span class="op">$</span><span class="va">label</span><span class="op">[</span><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span> <span class="op">!=</span> <span class="fl">6</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">""</span></span>
 <span></span>
@@ -1112,7 +1351,7 @@ does with <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html"
 <span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span>position <span class="op">=</span> <span class="va">pos</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"position_quasirandom()"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/quasirandom-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/quasirandom-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="nudge-labels-in-different-directions-with-ggpp">Nudge labels in different directions with ggpp<a class="anchor" aria-label="anchor" href="#nudge-labels-in-different-directions-with-ggpp"></a>
@@ -1121,7 +1360,7 @@ does with <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html"
 extension package for ggplot2 called <a href="https://docs.r4photobiology.info/ggpp/" class="external-link">ggpp</a> that provides
 useful functions such as <code><a href="https://docs.r4photobiology.info/ggpp/reference/position_nudge_center.html" class="external-link">position_nudge_center()</a></code>, which we
 demonstrate below:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.r4photobiology.info/ggpp/" class="external-link">ggpp</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span></span>
@@ -1143,7 +1382,7 @@ demonstrate below:</p>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://docs.r4photobiology.info/ggpp/reference/position_nudge_center.html" class="external-link">position_nudge_center</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.1</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="op">(</span><span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"position_nudge_center()"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/position_nudge_center-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/position_nudge_center-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="label-sf-objects">Label <code>sf</code> objects<a class="anchor" aria-label="anchor" href="#label-sf-objects"></a>
@@ -1157,7 +1396,7 @@ plot, you will probably get an error like</p>
 plots like this - you just need to include:</p>
 <p><code>stat = "sf_coordinates"</code></p>
 <p>in the <code>geom_text|label_repel()</code> call.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># thanks to Hiroaki Yutani </span></span>
 <span><span class="co"># https://github.com/slowkow/ggrepel/issues/111#issuecomment-416853013</span></span>
 <span></span>
@@ -1174,7 +1413,7 @@ plots like this - you just need to include:</p>
 <span>    stat <span class="op">=</span> <span class="st">"sf_coordinates"</span>,</span>
 <span>    min.segment.length <span class="op">=</span> <span class="fl">0</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/label-sf-objects-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/label-sf-objects-1.png" class="r-plt" alt="" width="700"></p>
 <p>Thanks to <a href="https://github.com/slowkow/ggrepel/issues/111#issuecomment-416853013" class="external-link">Hiroaki
 Yutani</a> for the solution.</p>
 </div>
@@ -1187,7 +1426,7 @@ placed on top of other plot elements. This feature uses the same code as
 the <a href="https://github.com/GuangchuangYu/shadowtext" class="external-link">shadowtext</a>
 package by <a href="https://github.com/GuangchuangYu" class="external-link">Guangchuang
 Yu</a>.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="va">car</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -1196,18 +1435,26 @@ Yu</a>.</p>
 <span>    bg.color <span class="op">=</span> <span class="st">"grey30"</span>, <span class="co"># shadow color</span></span>
 <span>    bg.r <span class="op">=</span> <span class="fl">0.15</span>          <span class="co"># shadow radius</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/shadowtext-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/shadowtext-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="verbose-timing-information">Verbose timing information<a class="anchor" aria-label="anchor" href="#verbose-timing-information"></a>
 </h3>
+<p>By default, ggrepel will respect the global <code>verbose</code>
+option, so please check <code>getOption("verbose")</code> to see if this
+is set to TRUE or FALSE in your environment. We can set the global
+option with <code>options(verbose = TRUE)</code> or
+<code>options(verbose = FALSE)</code>.</p>
+<p>We can override the global value by using
+<code>geom_text_repel(verbose = TRUE)</code> or
+<code>geom_text_repel(verbose = FALSE)</code>.</p>
 <p>Use <code>verbose = TRUE</code> to see:</p>
 <ul>
 <li>how many iterations of the physical simulation were completed</li>
 <li>how much time has elapsed, in seconds</li>
 <li>how many overlaps remain unresolved in the final figure</li>
 </ul>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>,</span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -1215,12 +1462,12 @@ Yu</a>.</p>
 <span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span></span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">123</span>,</span>
-<span>  max.time <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  max.time <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  max.iter <span class="op">=</span> <span class="cn">Inf</span>,</span>
 <span>  size <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/timing-1.png" width="700"></p>
-<pre><code><span><span class="co">## 1.00s elapsed for 153860 iterations, 4 overlaps. Consider increasing 'max.time'.</span></span></code></pre>
+<pre><code><span><span class="co">## ggrepel: 0.100000s elapsed for 1180 iterations, 46 overlaps. Consider increasing 'max.time'.</span></span></code></pre>
+<p><img src="examples_files/figure-html/timing-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="word-cloud">Word cloud<a class="anchor" aria-label="anchor" href="#word-cloud"></a>
@@ -1236,7 +1483,7 @@ spring that pulls the text label toward its data point.</p>
 <p>To make a word cloud, we can assign all of the text labels the same
 data point at the origin (0, 0) and set <code>force_pull = 0</code> to
 disable the springs.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span></span>
@@ -1263,29 +1510,50 @@ disable the springs.</p>
 <span>    strip.text   <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    panel.border <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.2</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/wordcloud-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/wordcloud-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="polar-coordinates">Polar coordinates<a class="anchor" aria-label="anchor" href="#polar-coordinates"></a>
 </h3>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mtcars</span><span class="op">$</span><span class="va">label</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
 <span><span class="va">mtcars</span><span class="op">$</span><span class="va">label</span><span class="op">[</span><span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span> <span class="op">&lt;</span> <span class="fl">25</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">""</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">wt</span>, y <span class="op">=</span> <span class="va">mpg</span>, color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">cyl</span><span class="op">)</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_polar.html" class="external-link">coord_polar</a></span><span class="op">(</span>theta <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_radial.html" class="external-link">coord_polar</a></span><span class="op">(</span>theta <span class="op">=</span> <span class="st">"x"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_colour_discrete.html" class="external-link">scale_color_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"cyl"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span>show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> <span class="co"># Don't display "a" in the legend.</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">18</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/polar-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/polar-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="modified-coordinates">Modified coordinates<a class="anchor" aria-label="anchor" href="#modified-coordinates"></a>
+</h3>
+<p>ggrepel works with modified x and y coordinates:</p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">wt</span>, <span class="va">mpg</span>, label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Swap the x and y coordinates</span></span>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/coord_flip-1.png" class="r-plt" alt="" width="700"></p>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Limit the x-axis to values &lt;= 3</span></span>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/x_limits_na-1.png" class="r-plt" alt="" width="700"></p>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Transform the y-axis with a pseudo log transformation</span></span>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_transform.html" class="external-link">coord_trans</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/transform_log.html" class="external-link">pseudo_log_trans</a></span><span class="op">(</span>base <span class="op">=</span> <span class="fl">2</span>, sigma <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="examples_files/figure-html/pseudo_log_trans-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="unicode-characters-japanese">Unicode characters (Japanese)<a class="anchor" aria-label="anchor" href="#unicode-characters-japanese"></a>
 </h3>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggrepel.slowkow.com/">ggrepel</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
@@ -1306,12 +1574,12 @@ disable the springs.</p>
 <span>  <span class="fu"><a href="../reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">8</span>, family <span class="op">=</span> <span class="va">my_font</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"テスト"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">18</span>, base_family <span class="op">=</span> <span class="va">my_font</span><span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/japanese-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/japanese-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mathematical-expressions">Mathematical expressions<a class="anchor" aria-label="anchor" href="#mathematical-expressions"></a>
 </h3>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  x    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1.75</span>, <span class="fl">1.25</span><span class="op">)</span>,</span>
 <span>  y    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">2.65</span>, <span class="fl">1.25</span><span class="op">)</span>,</span>
@@ -1331,12 +1599,12 @@ disable the springs.</p>
 <span>    size        <span class="op">=</span> <span class="fl">6</span>,</span>
 <span>    box.padding <span class="op">=</span> <span class="fl">2</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="examples_files/figure-html/math-1.png" width="700"></p>
+<p><img src="examples_files/figure-html/math-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="animation">Animation<a class="anchor" aria-label="anchor" href="#animation"></a>
 </h3>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># This chunk of code will take a minute or two to run.</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggrepel.slowkow.com/">ggrepel</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/animation/" class="external-link">animation</a></span><span class="op">)</span></span>
@@ -1358,7 +1626,7 @@ disable the springs.</p>
 <span><span class="va">xs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">xs</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">xs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">xs</span><span class="op">)</span><span class="op">]</span>, <span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># plot(xs)</span></span>
 <span></span>
-<span><span class="fu">saveGIF</span><span class="op">(</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/animation/man/saveGIF.html" class="external-link">saveGIF</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">xs</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="fu">plot_frame</span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span>,</span>
@@ -1367,7 +1635,7 @@ disable the springs.</p>
 <span>  ani.heigth <span class="op">=</span> <span class="fl">600</span>,</span>
 <span>  movie.name <span class="op">=</span> <span class="st">"animated.gif"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="https://imgur.com/ii9ova8.gif"></p>
+<video src="https://slowkow.com/ggrepel/index_files/animation.mp4" style="width:100%;" type="video/mp4" muted autoplay loop></video>
 </div>
 </div>
 <div class="section level2">
@@ -1379,66 +1647,68 @@ code for this vignette</a> on GitHub.</p>
 <div class="section level2">
 <h2 id="r-session-info">R Session Info<a class="anchor" aria-label="anchor" href="#r-session-info"></a>
 </h2>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.2.3 (2023-03-15)</span></span>
-<span><span class="co">## Platform: aarch64-apple-darwin20 (64-bit)</span></span>
-<span><span class="co">## Running under: macOS Ventura 13.4</span></span>
+<pre><code><span><span class="co">## R version 4.5.2 (2025-10-31)</span></span>
+<span><span class="co">## Platform: aarch64-apple-darwin20</span></span>
+<span><span class="co">## Running under: macOS Sequoia 15.6.1</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
-<span><span class="co">## BLAS:   /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRblas.0.dylib</span></span>
-<span><span class="co">## LAPACK: /Library/Frameworks/R.framework/Versions/4.2-arm64/Resources/lib/libRlapack.dylib</span></span>
+<span><span class="co">## BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib </span></span>
+<span><span class="co">## LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## locale:</span></span>
 <span><span class="co">## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## time zone: America/New_York</span></span>
+<span><span class="co">## tzcode source: internal</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## attached base packages:</span></span>
 <span><span class="co">## [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] patchwork_1.1.2  ggpp_0.5.5       sf_1.0-12        ggbeeswarm_0.7.2</span></span>
-<span><span class="co">## [5] ggrepel_0.9.5    ggplot2_3.4.4    gridExtra_2.3    knitr_1.43      </span></span>
+<span><span class="co">## [1] sf_1.0-23        patchwork_1.3.2  ggpp_0.5.9       ggbeeswarm_0.7.3</span></span>
+<span><span class="co">## [5] ggrepel_0.9.7    testthat_3.3.1   ggplot2_4.0.1    gridExtra_2.3   </span></span>
+<span><span class="co">## [9] knitr_1.51      </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] Rcpp_1.0.11        lubridate_1.9.2    class_7.3-21       rprojroot_2.0.3   </span></span>
-<span><span class="co">##  [5] digest_0.6.31      utf8_1.2.4         R6_2.5.1           evaluate_0.21     </span></span>
-<span><span class="co">##  [9] e1071_1.7-13       highr_0.10         pillar_1.9.0       rlang_1.1.2       </span></span>
-<span><span class="co">## [13] jquerylib_0.1.4    rmarkdown_2.23     pkgdown_2.0.7      textshaping_0.3.6 </span></span>
-<span><span class="co">## [17] desc_1.4.2         labeling_0.4.3     polynom_1.4-1      stringr_1.5.0     </span></span>
-<span><span class="co">## [21] munsell_0.5.0      proxy_0.4-27       compiler_4.2.3     vipor_0.4.5       </span></span>
-<span><span class="co">## [25] xfun_0.39          pkgconfig_2.0.3    systemfonts_1.0.4  htmltools_0.5.5   </span></span>
-<span><span class="co">## [29] tidyselect_1.2.0   tibble_3.2.1       codetools_0.2-19   fansi_1.0.5       </span></span>
-<span><span class="co">## [33] dplyr_1.1.2        withr_2.5.2        MASS_7.3-58.2      grid_4.2.3        </span></span>
-<span><span class="co">## [37] jsonlite_1.8.7     gtable_0.3.4       lifecycle_1.0.4    DBI_1.1.3         </span></span>
-<span><span class="co">## [41] magrittr_2.0.3     units_0.8-2        scales_1.3.0       KernSmooth_2.23-20</span></span>
-<span><span class="co">## [45] cli_3.6.1          stringi_1.7.12     cachem_1.0.8       farver_2.1.1      </span></span>
-<span><span class="co">## [49] fs_1.6.2           bslib_0.5.0        ragg_1.2.5         generics_0.1.3    </span></span>
-<span><span class="co">## [53] vctrs_0.6.5        tools_4.2.3        glue_1.6.2         beeswarm_0.4.0    </span></span>
-<span><span class="co">## [57] purrr_1.0.1        fastmap_1.1.1      yaml_2.3.7         timechange_0.2.0  </span></span>
-<span><span class="co">## [61] colorspace_2.1-0   classInt_0.4-9     memoise_2.0.1      sass_0.4.6</span></span></code></pre>
+<span><span class="co">##  [1] gtable_0.3.6       beeswarm_0.4.0     xfun_0.56          bslib_0.10.0      </span></span>
+<span><span class="co">##  [5] htmlwidgets_1.6.4  vctrs_0.7.1        tools_4.5.2        generics_0.1.4    </span></span>
+<span><span class="co">##  [9] tibble_3.3.1       proxy_0.4-27       pkgconfig_2.0.3    KernSmooth_2.23-26</span></span>
+<span><span class="co">## [13] RColorBrewer_1.1-3 S7_0.2.1           desc_1.4.3         lifecycle_1.0.5   </span></span>
+<span><span class="co">## [17] compiler_4.5.2     farver_2.1.2       textshaping_1.0.4  brio_1.1.5        </span></span>
+<span><span class="co">## [21] codetools_0.2-20   vipor_0.4.7        htmltools_0.5.9    class_7.3-23      </span></span>
+<span><span class="co">## [25] sass_0.4.10        yaml_2.3.12        pillar_1.11.1      pkgdown_2.2.0     </span></span>
+<span><span class="co">## [29] jquerylib_0.1.4    MASS_7.3-65        classInt_0.4-11    cachem_1.1.0      </span></span>
+<span><span class="co">## [33] tidyselect_1.2.1   digest_0.6.39      stringi_1.8.7      dplyr_1.1.4       </span></span>
+<span><span class="co">## [37] labeling_0.4.3     rsvg_2.7.0         fastmap_1.2.0      grid_4.5.2        </span></span>
+<span><span class="co">## [41] marquee_1.2.1      cli_3.6.5          magrittr_2.0.4     dichromat_2.0-0.1 </span></span>
+<span><span class="co">## [45] e1071_1.7-16       withr_3.0.2        scales_1.4.0       lubridate_1.9.4   </span></span>
+<span><span class="co">## [49] timechange_0.3.0   rmarkdown_2.30     otel_0.2.0         ragg_1.5.0        </span></span>
+<span><span class="co">## [53] evaluate_1.0.5     viridisLite_0.4.2  rlang_1.1.7        Rcpp_1.1.1        </span></span>
+<span><span class="co">## [57] glue_1.8.0         polynom_1.4-1      DBI_1.2.3          jsonlite_2.0.0    </span></span>
+<span><span class="co">## [61] R6_2.6.1           systemfonts_1.3.1  fs_1.6.6           units_1.0-0</span></span></code></pre>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p>
-<p>Developed by <a href="https://slowkow.com" class="external-link">Kamil Slowikowski</a>.</p>
+  <p>Developed by <a href="https://slowkow.com" class="external-link">Kamil Slowikowski</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>

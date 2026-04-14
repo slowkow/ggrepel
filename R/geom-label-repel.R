@@ -31,7 +31,7 @@ geom_label_repel <- function(
   show.legend = NA,
   direction = c("both","y","x"),
   seed = NA,
-  verbose = FALSE,
+  verbose = getOption("verbose", default = FALSE),
   inherit.aes = TRUE
 ) {
   if (!missing(nudge_x) || !missing(nudge_y)) {
@@ -39,6 +39,12 @@ geom_label_repel <- function(
       stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
     }
     position <- position_nudge_repel(nudge_x, nudge_y)
+  }
+  # Warn about limitations of the algorithm
+  if (verbose && any(abs(data$angle %% 90) > 5)) {
+    message(
+      "ggrepel: Repulsion works correctly only for rotation angles multiple of 90 degrees"
+    )
   }
   layer(
     data = data,
@@ -90,10 +96,13 @@ GeomLabelRepel <- ggproto(
     colour = "black", fill = "white", size = 3.88, angle = 0,
     alpha = NA, family = "", fontface = 1, lineheight = 1.2,
     hjust = 0.5, vjust = 0.5, point.size = 1,
+    linewidth = 0.25, linetype = 1,
     segment.linetype = 1, segment.colour = NULL, segment.size = 0.5, segment.alpha = NULL,
     segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
     segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
-    segment.inflect = FALSE, segment.debug = FALSE, side = 0
+    segment.inflect = FALSE, segment.debug = FALSE,
+    arrow.fill = NULL, 
+    side = 0
   ),
 
   draw_panel = function(
@@ -118,7 +127,7 @@ GeomLabelRepel <- ggproto(
     ylim = c(NA, NA),
     direction = "both",
     seed = NA,
-    verbose = FALSE
+    verbose = getOption("verbose", default = FALSE)
   ) {
 
     if (parse) {
@@ -133,11 +142,24 @@ GeomLabelRepel <- ggproto(
       this_orig <- sprintf("%s_orig", this_dim)
       this_nudge <- sprintf("nudge_%s", this_dim)
       if (!this_nudge %in% colnames(data)) {
+        # No nudge column exists - use current position as nudge target
         data[[this_nudge]] <- data[[this_dim]]
         if (this_orig %in% colnames(data)) {
+          # Restore original position from _orig column (e.g., from position_nudge_repel)
           data[[this_dim]] <- data[[this_orig]]
           data[[this_orig]] <- NULL
         }
+      } else if (this_orig %in% colnames(data)) {
+        # nudge column exists AND _orig exists (from position_nudge_repel)
+        # Set nudge to the current (nudged) position, restore original
+        data[[this_nudge]] <- data[[this_dim]]
+        data[[this_dim]] <- data[[this_orig]]
+        data[[this_orig]] <- NULL
+      } else if (all(data[[this_nudge]] == 0)) {
+        # nudge column exists but is all zeros and no _orig column
+        # This happens with ggplot2's position_nudge() which sets nudge_x/y = 0
+        # In this case, use current position as nudge target (no nudge offset)
+        data[[this_nudge]] <- data[[this_dim]]
       }
     }
 
@@ -153,6 +175,10 @@ GeomLabelRepel <- ggproto(
     data$nudge_y <- nudges$y - data$y
 
     # Transform limits to panel scales.
+    # Store original NA status before transformation, because coord$transform
+    # may convert NA to a valid value (e.g., when NA is a factor level).
+    xlim_na <- is.na(xlim)
+    ylim_na <- is.na(ylim)
     limits <- data.frame(x = xlim, y = ylim)
     limits <- coord$transform(limits, panel_scales)
 
@@ -164,9 +190,9 @@ GeomLabelRepel <- ggproto(
       limits$y[is.infinite(ylim)] <- ylim[is.infinite(ylim)]
     }
 
-    # Fill NAs with defaults.
-    limits$x[is.na(limits$x)] <- c(0, 1)[is.na(limits$x)]
-    limits$y[is.na(limits$y)] <- c(0, 1)[is.na(limits$y)]
+    # Fill NAs with defaults (use original NA status, not post-transform).
+    limits$x[xlim_na] <- c(0, 1)[xlim_na]
+    limits$y[ylim_na] <- c(0, 1)[ylim_na]
 
     # Convert hjust and vjust to numeric if character
     if (is.character(data$vjust)) {
@@ -249,7 +275,7 @@ makeContent.labelrepeltree <- function(x) {
       width = grobWidth(t) + 2 * x$label.padding,
       height = grobHeight(t) + 2 * x$label.padding,
       r = x$label.r,
-      gp = gpar(lwd = x$label.size * .pt),
+      gp = gpar(lwd = row$linewidth * .pt),
       name = "box"
     )
     gw <- convertWidth(grobWidth(r), "native", TRUE)
@@ -305,10 +331,10 @@ makeContent.labelrepeltree <- function(x) {
     verbose         = x$verbose
   ))
 
-  if (any(repel$too_many_overlaps)) {
-    warn(
+  if (x$verbose && any(repel$too_many_overlaps)) {
+    message(
       sprintf(
-        "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing max.overlaps",
+        "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing 'max.overlaps'",
         sum(repel$too_many_overlaps)
       )
     )
@@ -319,6 +345,11 @@ makeContent.labelrepeltree <- function(x) {
     class(grobs) <- "gList"
     return(setChildren(x, grobs))
   }
+
+  width  <- convertWidth(unit(1, "npc"), "cm", valueOnly = TRUE)
+  height <- convertHeight(unit(1, "npc"), "cm", valueOnly = TRUE)
+  point_size <- x$data$point.size * .pt / .stroke / 20
+  point_padding <- convertWidth(to_unit(x$point.padding), "cm", TRUE)
 
   grobs <- lapply(seq_along(valid_strings), function(i) {
     if (!repel$too_many_overlaps[i]) {
@@ -338,7 +369,7 @@ makeContent.labelrepeltree <- function(x) {
         box.padding = x$box.padding,
         label.padding = x$label.padding,
         point.size = point_size[i],
-        point.padding = x$point.padding,
+        point.padding = point_padding,
         segment.curvature = row$segment.curvature,
         segment.angle     = row$segment.angle,
         segment.ncp       = row$segment.ncp,
@@ -349,26 +380,29 @@ makeContent.labelrepeltree <- function(x) {
         segment.debug = row$segment.debug,
         r = x$label.r,
         text.gp = gpar(
-          col = scales::alpha(row$colour, row$alpha),
+          col = row$colour,
           fontsize = row$size * .pt,
           fontfamily = row$family,
           fontface = row$fontface,
           lineheight = row$lineheight
         ),
         rect.gp = gpar(
-          col = scales::alpha(row$colour, row$alpha),
+          col = if (row$linewidth == 0) NA else row$colour,
           fill = scales::alpha(row$fill, row$alpha),
-          lwd = x$label.size * .pt
+          lwd = row$linewidth * .pt,
+          lty = row$linetype
         ),
         segment.gp = gpar(
           col = scales::alpha(row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha),
           lwd = row$segment.size * .pt,
-          lty = row$segment.linetype %||% 1
+          lty = row$segment.linetype %||% 1,
+          fill = scales::alpha(row$arrow.fill %||% row$segment.colour %||% row$colour, row$segment.alpha %||% row$alpha)
         ),
         arrow = x$arrow,
         min.segment.length = x$min.segment.length,
         hjust = row$hjust,
         vjust = row$vjust,
+        dim = c(width, height),
         side = row$side
       )
     }
@@ -420,6 +454,7 @@ makeLabelRepelGrobs <- function(
   min.segment.length = 0.5,
   hjust = 0.5,
   vjust = 0.5,
+  dim = c(5, 5),
   side = 0
 ) {
   stopifnot(length(label) == 1)
@@ -443,22 +478,32 @@ makeLabelRepelGrobs <- function(
     name = sprintf("textrepelgrob%s", i)
   )
 
+  # Compute the grob anchor position (where the grob is placed)
+  grob_x <- x - box.width * (0.5 - hjust) - label.padding * (0.5 - hjust)
+  grob_y <- y - box.height * (0.5 - vjust) - label.padding * (0.5 - vjust)
+  grob_width <- grobWidth(t) + 2 * label.padding
+  grob_height <- grobHeight(t) + 2 * label.padding
+
   r <- roundrectGrob(
-    x - box.width * (0.5 - hjust) - label.padding * (0.5 - hjust),
-    y - box.height * (0.5 - vjust) - label.padding * (0.5 - vjust),
+    grob_x,
+    grob_y,
     default.units = "native",
-    width = grobWidth(t) + 2 * label.padding,
-    height = grobHeight(t) + 2 * label.padding,
+    width = grob_width,
+    height = grob_height,
     just = c(hjust, vjust),
     r = r,
     gp = rect.gp,
     name = sprintf("rectrepelgrob%s", i)
   )
 
-  x1 <- convertWidth(x - 0.5 * grobWidth(r), "native", TRUE)
-  x2 <- convertWidth(x + 0.5 * grobWidth(r), "native", TRUE)
-  y1 <- convertHeight(y - 0.5 * grobHeight(r), "native", TRUE)
-  y2 <- convertHeight(y + 0.5 * grobHeight(r), "native", TRUE)
+  # Compute bounding box edges accounting for hjust/vjust
+  # With just = c(hjust, vjust), the anchor point is at:
+  #   hjust=0: left edge, hjust=0.5: center, hjust=1: right edge
+  # So: x1 = grob_x - hjust * width, x2 = grob_x + (1 - hjust) * width
+  x1 <- convertWidth(grob_x - hjust * grob_width, "native", TRUE)
+  x2 <- convertWidth(grob_x + (1 - hjust) * grob_width, "native", TRUE)
+  y1 <- convertHeight(grob_y - vjust * grob_height, "native", TRUE)
+  y2 <- convertHeight(grob_y + (1 - vjust) * grob_height, "native", TRUE)
 
   point_pos <- c(x.orig, y.orig)
 
@@ -475,10 +520,10 @@ makeLabelRepelGrobs <- function(
     point_inside_text <- TRUE
   }
 
-  # This seems just fine.
-  point.padding <- convertWidth(to_unit(point.padding), "native", TRUE) / 2
-
-  point_int <- intersect_line_circle(int, point_pos, (point.size + point.padding))
+  # We multiply with `dim` here to compute this in centimetres, in which
+  # the point size/padding are given.
+  point_int <- intersect_line_circle(int * dim, point_pos * dim, (point.size + point.padding))
+  point_int <- point_int / dim
 
   # Compute the distance between the data point and the edge of the text box.
   dx <- abs(int[1] - point_pos[1])
@@ -502,7 +547,7 @@ makeLabelRepelGrobs <- function(
     # Distance from label to point edge is less than from label to point center.
     euclid(int, point_int) < euclid(int, point_pos) &&
     # Distance from label to point center is greater than point size.
-    euclid(int, point_pos) > point.size &&
+    euclid(int * dim, point_pos * dim) > point.size &&
     # Distance from label to point center is greater than from point edge to point center.
     euclid(int, point_pos) > euclid(point_int, point_pos)
   ) {

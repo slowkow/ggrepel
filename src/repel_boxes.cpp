@@ -7,6 +7,7 @@
 #include <Rcpp/Benchmark/Timer.h>
 #endif
 #include <deque>
+#include <cmath>
 using namespace Rcpp;
 
 // Exported convenience functions ---------------------------------------------
@@ -431,7 +432,15 @@ using namespace Rcpp;
    return std::abs(x2 - x1) < (std::numeric_limits<double>::epsilon() * 100);
  }
 
- bool line_intersect(Point p1, Point q1, Point p2, Point q2) {
+bool line_intersect(Point p1, Point q1, Point p2, Point q2) {
+
+  // Return false if any coordinate is NaN (e.g., from NA factor levels)
+  if (std::isnan(p1.x) || std::isnan(p1.y) ||
+      std::isnan(q1.x) || std::isnan(q1.y) ||
+      std::isnan(p2.x) || std::isnan(p2.y) ||
+      std::isnan(q2.x) || std::isnan(q2.y)) {
+    return false;
+  }
 
    // Special exception, where q1 and q2 are equal (do intersect)
    if (q1.x == q2.x && q1.y == q2.y)
@@ -550,56 +559,66 @@ using namespace Rcpp;
    return p;
  }
 
- //' Test if a box overlaps another box.
- //' @param a A box like \code{c(x1, y1, x2, y2)}
- //' @param b A box like \code{c(x1, y1, x2, y2)}
- //' @noRd
- bool overlaps(Box a, Box b) {
-   return
-   b.x1 <= a.x2 &&
-     b.y1 <= a.y2 &&
-     b.x2 >= a.x1 &&
-     b.y2 >= a.y1;
- }
+//' Test if a box overlaps another box.
+//' @param a A box like \code{c(x1, y1, x2, y2)}
+//' @param b A box like \code{c(x1, y1, x2, y2)}
+//' @noRd
+bool overlaps(Box a, Box b) {
+  // Return false if any coordinate is NaN (e.g., from NA factor levels)
+  if (std::isnan(a.x1) || std::isnan(a.y1) || std::isnan(a.x2) || std::isnan(a.y2) ||
+      std::isnan(b.x1) || std::isnan(b.y1) || std::isnan(b.x2) || std::isnan(b.y2)) {
+    return false;
+  }
+  return
+    b.x1 <= a.x2 &&
+    b.y1 <= a.y2 &&
+    b.x2 >= a.x1 &&
+    b.y2 >= a.y1;
+}
 
- //' Test if a box overlaps another box.
- //' @param a A box like \code{c(x1, y1, x2, y2)}
- //' @param b A box like \code{c(x1, y1, x2, y2)}
- //' @noRd
- bool overlaps(Circle c, Box r) {
-   // Center of the circle.
-   double c_x = c.x;
-   double c_radius = c.r;
-   // Center of the rectangle.
-   double r_x = (r.x1 + r.x2) / 2;
-   double r_halfwidth = std::abs(r.x1 - r_x);
-   // Distance between centers.
-   double cx = std::abs(c_x - r_x);
-   double xDist = r_halfwidth + c_radius;
-   if (cx > xDist) {
-     return false;
-   }
-   // Center of the circle.
-   double c_y = c.y;
-   // Center of the rectangle.
-   double r_y = (r.y1 + r.y2) / 2;
-   double r_halfheight = std::abs(r.y1 - r_y);
-   // Distance between centers.
-   double cy = std::abs(c_y - r_y);
-   double yDist = r_halfheight + c_radius;
-   if (cy > yDist) {
-     return false;
-   }
-   if (cx <= r_halfwidth || cy <= r_halfheight) {
-     return true;
-   }
-   double xCornerDist = cx - r_halfwidth;
-   double yCornerDist = cy - r_halfheight;
-   double xCornerDistSq = xCornerDist * xCornerDist;
-   double yCornerDistSq = yCornerDist * yCornerDist;
-   double maxCornerDistSq = c_radius * c_radius;
-   return xCornerDistSq + yCornerDistSq <= maxCornerDistSq;
- }
+//' Test if a circle overlaps a box.
+//' @param c A circle like \code{c(x, y, r)}
+//' @param r A box like \code{c(x1, y1, x2, y2)}
+//' @noRd
+bool overlaps(Circle c, Box r) {
+  // Return false if any coordinate is NaN (e.g., from NA factor levels)
+  if (std::isnan(c.x) || std::isnan(c.y) || std::isnan(c.r) ||
+      std::isnan(r.x1) || std::isnan(r.y1) || std::isnan(r.x2) || std::isnan(r.y2)) {
+    return false;
+  }
+  // Center of the circle.
+  double c_x = c.x;
+  double c_radius = c.r;
+  // Center of the rectangle.
+  double r_x = (r.x1 + r.x2) / 2;
+  double r_halfwidth = std::abs(r.x1 - r_x);
+  // Distance between centers.
+  double cx = std::abs(c_x - r_x);
+  double xDist = r_halfwidth + c_radius;
+  if (cx > xDist) {
+    return false;
+  }
+  // Center of the circle.
+  double c_y = c.y;
+  // Center of the rectangle.
+  double r_y = (r.y1 + r.y2) / 2;
+  double r_halfheight = std::abs(r.y1 - r_y);
+  // Distance between centers.
+  double cy = std::abs(c_y - r_y);
+  double yDist = r_halfheight + c_radius;
+  if (cy > yDist) {
+    return false;
+  }
+  if (cx <= r_halfwidth || cy <= r_halfheight) {
+    return true;
+  }
+  double xCornerDist = cx - r_halfwidth;
+  double yCornerDist = cy - r_halfheight;
+  double xCornerDistSq = xCornerDist * xCornerDist;
+  double yCornerDistSq = yCornerDist * yCornerDist;
+  double maxCornerDistSq = c_radius * c_radius;
+  return xCornerDistSq + yCornerDistSq <= maxCornerDistSq;
+}
 
  Point repel_force_both(
      Point a, Point b, double force = 0.000001
@@ -657,29 +676,34 @@ using namespace Rcpp;
    return f;
  }
 
- //' Compute the repulsion force upon point \code{a} from point \code{b}.
- //'
- //' The force decays with the squared distance between the points, similar
- //' to the force of repulsion between magnets.
- //'
- //' @param a A point like \code{c(x, y)}
- //' @param b A point like \code{c(x, y)}
- //' @param force Magnitude of the force (defaults to \code{1e-6})
- //' @param direction direction in which to exert force, either "both", "x", or "y"
- //' @noRd
- Point repel_force(
-     Point a, Point b, double force = 0.000001, std::string direction = "both"
- ) {
-   Point out;
-   if (direction == "x") {
-     out = repel_force_x(a, b, force);
-   } else if (direction == "y") {
-     out = repel_force_y(a, b, force);
-   } else{
-     out = repel_force_both(a, b, force);
-   }
-   return out;
- }
+//' Compute the repulsion force upon point \code{a} from point \code{b}.
+//'
+//' The force decays with the squared distance between the points, similar
+//' to the force of repulsion between magnets.
+//'
+//' @param a A point like \code{c(x, y)}
+//' @param b A point like \code{c(x, y)}
+//' @param force Magnitude of the force (defaults to \code{1e-6})
+//' @param direction direction in which to exert force, either "both", "x", or "y"
+//' @noRd
+Point repel_force(
+    Point a, Point b, double force = 0.000001, std::string direction = "both"
+) {
+  // Return zero force if any coordinate is NaN (e.g., from NA factor levels)
+  if (std::isnan(a.x) || std::isnan(a.y) || std::isnan(b.x) || std::isnan(b.y)) {
+    Point zero = {0, 0};
+    return zero;
+  }
+  Point out;
+  if (direction == "x") {
+    out = repel_force_x(a, b, force);
+  } else if (direction == "y") {
+    out = repel_force_y(a, b, force);
+  } else{
+    out = repel_force_both(a, b, force);
+  }
+  return out;
+}
 
 
 
@@ -710,29 +734,34 @@ using namespace Rcpp;
    return f;
  }
 
- //' Compute the spring force upon point \code{a} from point \code{b}.
- //'
- //' The force increases with the distance between the points, similar
- //' to Hooke's law for springs.
- //'
- //' @param a A point like \code{c(x, y)}
- //' @param b A point like \code{c(x, y)}
- //' @param force Magnitude of the force (defaults to \code{1e-6})
- //' @param direction direction in which to exert force, either "both", "x", or "y"
- //' @noRd
- Point spring_force(
-     Point a, Point b, double force = 0.000001, std::string direction = "both"
- ) {
-   Point out;
-   if (direction == "x") {
-     out = spring_force_x(a, b, force);
-   } else if (direction == "y") {
-     out = spring_force_y(a, b, force);
-   } else{
-     out = spring_force_both(a, b, force);
-   }
-   return out;
- }
+//' Compute the spring force upon point \code{a} from point \code{b}.
+//'
+//' The force increases with the distance between the points, similar
+//' to Hooke's law for springs.
+//'
+//' @param a A point like \code{c(x, y)}
+//' @param b A point like \code{c(x, y)}
+//' @param force Magnitude of the force (defaults to \code{1e-6})
+//' @param direction direction in which to exert force, either "both", "x", or "y"
+//' @noRd
+Point spring_force(
+    Point a, Point b, double force = 0.000001, std::string direction = "both"
+) {
+  // Return zero force if any coordinate is NaN (e.g., from NA factor levels)
+  if (std::isnan(a.x) || std::isnan(a.y) || std::isnan(b.x) || std::isnan(b.y)) {
+    Point zero = {0, 0};
+    return zero;
+  }
+  Point out;
+  if (direction == "x") {
+    out = spring_force_x(a, b, force);
+  } else if (direction == "y") {
+    out = spring_force_y(a, b, force);
+  } else{
+    out = spring_force_both(a, b, force);
+  }
+  return out;
+}
 
  std::vector<double> rescale(std::vector<double> v) {
    double min_value = *std::min_element(v.begin(), v.end());
@@ -1057,24 +1086,24 @@ using namespace Rcpp;
      } // loop through all text labels
    } // while any overlaps exist and we haven't reached max iterations
 
-   if (verbose) {
-     if (elapsed_time > max_time) {
-       Rprintf(
-         "%.2fs elapsed for %d iterations, %d overlaps. Consider increasing 'max.time'.\n",
-         max_time / 1e9, iter, p_overlaps
-       );
-     } else if (iter >= max_iter) {
-       Rprintf(
-         "%d iterations in %.2fs, %d overlaps. Consider increasing 'max.iter'.\n",
-         max_iter, elapsed_time / 1e9, p_overlaps
-       );
-     } else {
-       Rprintf(
-         "text repel complete in %d iterations (%.2fs), %d overlaps\n",
-         iter, elapsed_time / 1e9, p_overlaps
-       );
-     }
-   }
+  if (verbose) {
+    if (elapsed_time > max_time) {
+      std::string msg = "ggrepel: " + std::to_string(max_time / 1e9) +
+        "s elapsed for " + std::to_string(iter) + " iterations, " +
+        std::to_string(p_overlaps) + " overlaps. Consider increasing 'max.time'.";
+      Rcpp::message(Rcpp::wrap(msg));
+    } else if (iter >= max_iter) {
+      std::string msg = "ggrepel: " + std::to_string(max_iter) + " iterations in " +
+        std::to_string(elapsed_time / 1e9) + "s, " + std::to_string(p_overlaps) +
+        " overlaps. Consider increasing 'max.iter'.";
+      Rcpp::message(Rcpp::wrap(msg));
+    } else {
+      std::string msg = "ggrepel: text repel complete in " + std::to_string(iter) +
+        " iterations (" + std::to_string(elapsed_time / 1e9) + "s), " +
+        std::to_string(p_overlaps) + " overlaps";
+      Rcpp::message(Rcpp::wrap(msg));
+    }
+  }
 
    //timer.step("end");
    //NumericVector res(timer);

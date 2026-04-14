@@ -1,12 +1,9 @@
-pandoc: 3.1.4
-pkgdown: 2.0.7
+pandoc: 3.7.0.2
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
-  examples: examples.html
   ggrepel: ggrepel.html
-  related-work: related-work.html
-last_built: 2024-01-10T16:29Z
+last_built: 2026-03-15T20:50Z
 urls:
   reference: https://ggrepel.slowkow.com/reference
   article: https://ggrepel.slowkow.com/articles
-
