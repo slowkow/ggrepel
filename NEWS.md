@@ -1,3 +1,13 @@
+ggrepel 0.9.8.9999
+========================
+
+## Changes
+
+- Replace bare `stop()`, `warning()`, and `message()` calls with `rlang::abort()`, `rlang::warn()`, and `rlang::inform()` for nicer bulleted error messages and better tracebacks pointing at the user's call site. Thanks to @iamYannC for this contribution in [pull request 280].
+
+[pull request 280]: https://github.com/slowkow/ggrepel/pull/280
+
+
 ggrepel 0.9.8
 ========================
 
