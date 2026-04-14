@@ -74,14 +74,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // select_line_connection
-NumericVector select_line_connection(NumericVector p1, NumericVector b);
-RcppExport SEXP _ggrepel_select_line_connection(SEXP p1SEXP, SEXP bSEXP) {
+NumericVector select_line_connection(NumericVector p1, NumericVector b, int side);
+RcppExport SEXP _ggrepel_select_line_connection(SEXP p1SEXP, SEXP bSEXP, SEXP sideSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type p1(p1SEXP);
     Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
-    rcpp_result_gen = Rcpp::wrap(select_line_connection(p1, b));
+    Rcpp::traits::input_parameter< int >::type side(sideSEXP);
+    rcpp_result_gen = Rcpp::wrap(select_line_connection(p1, b, side));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -130,7 +131,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ggrepel_intersect_circle_rectangle", (DL_FUNC) &_ggrepel_intersect_circle_rectangle, 2},
     {"_ggrepel_intersect_line_circle", (DL_FUNC) &_ggrepel_intersect_line_circle, 3},
     {"_ggrepel_intersect_line_rectangle", (DL_FUNC) &_ggrepel_intersect_line_rectangle, 3},
-    {"_ggrepel_select_line_connection", (DL_FUNC) &_ggrepel_select_line_connection, 2},
+    {"_ggrepel_select_line_connection", (DL_FUNC) &_ggrepel_select_line_connection, 3},
     {"_ggrepel_approximately_equal", (DL_FUNC) &_ggrepel_approximately_equal, 2},
     {"_ggrepel_repel_boxes2", (DL_FUNC) &_ggrepel_repel_boxes2, 16},
     {NULL, NULL, 0}

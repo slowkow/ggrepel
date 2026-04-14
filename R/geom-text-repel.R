@@ -253,7 +253,7 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
     segment.inflect = FALSE, segment.debug = FALSE,
     arrow.fill = NULL,
-    bg.colour = NA, bg.r = 0.1
+    bg.colour = NA, bg.r = 0.1, side = 0
   ),
 
   draw_panel = function(
@@ -348,6 +348,11 @@ GeomTextRepel <- ggproto("GeomTextRepel", Geom,
     }
     if (is.character(data$hjust)) {
       data$hjust <- compute_just(data$hjust, data$x, data$y, data$angle)
+    }
+
+    # Convert side to numeric if character
+    if (is.character(data$side)) {
+      data$side <- compute_side(data$side)
     }
 
     ggname("geom_text_repel", gTree(
@@ -530,7 +535,8 @@ makeContent.textrepeltree <- function(x) {
         vjust = row$vjust,
         bg.colour = alpha(row$bg.colour, row$alpha),
         bg.r = row$bg.r,
-        dim = c(width, height)
+        dim = c(width, height),
+        side = row$side
       )
     }
   })
@@ -577,7 +583,8 @@ makeTextRepelGrobs <- function(
   vjust = 0.5,
   bg.colour = NA,
   bg.r = .1,
-  dim = c(5, 5)
+  dim = c(5, 5),
+  side = 0
 ) {
   stopifnot(length(label) == 1)
 
@@ -636,7 +643,7 @@ makeTextRepelGrobs <- function(
     x2 + extra_padding_x, y2 + extra_padding_y
   )
   #int <- intersect_line_rectangle(point_pos, center, text_box)
-  int <- select_line_connection(point_pos, text_box)
+  int <- select_line_connection(point_pos, text_box, side = side)
 
   # Check if the data point is inside the label box.
   point_inside_text <- FALSE
@@ -727,6 +734,11 @@ compute_just <- function(just, a, b = a, angle = 0) {
 
   unname(c(left = 0, center = 0.5, right = 1,
            bottom = 0, middle = 0.5, top = 1)[just])
+}
+
+compute_side <- function(side) {
+  unname(c(top = 1, right = 2,
+           bottom = 3, left = 4)[side])
 }
 
 # copied from ggplot2
