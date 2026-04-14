@@ -186,14 +186,20 @@ geom_text_repel <- function(
 ) {
   if (!missing(nudge_x) || !missing(nudge_y)) {
     if (!missing(position)) {
-      stop("Specify either `position` or `nudge_x`/`nudge_y`", call. = FALSE)
+      rlang::abort(
+        c(
+          "Both `position` and `nudge_x`/`nudge_y` are supplied.",
+          "i" = "Use only one approach to adjust label positions."
+        ),
+        call = rlang::caller_env()
+      )
     }
     position <- position_nudge_repel(nudge_x, nudge_y)
   }
   # Warn about limitations of the algorithm
   if (verbose && any(abs(data$angle %% 90) > 5)) {
-    message(
-      "ggrepel: Repulsion works correctly only for rotation angles multiple of 90 degrees"
+    rlang::warn(
+      c("ggrepel: Repulsion works correctly only for rotation angles that are multiples of 90 degrees.")
     )
   }
   layer(
@@ -461,10 +467,11 @@ makeContent.textrepeltree <- function(x) {
   ))
 
   if (x$verbose && any(repel$too_many_overlaps)) {
-    message(
-      sprintf(
-        "ggrepel: %s unlabeled data points (too many overlaps). Consider increasing 'max.overlaps'",
-        sum(repel$too_many_overlaps)
+    n_unlabeled <- sum(repel$too_many_overlaps)
+    rlang::inform(
+      c(
+        paste0("ggrepel: ", n_unlabeled, " unlabeled data point(s) (too many overlaps)."),
+        "i" = "Consider increasing `max.overlaps`."
       )
     )
   }

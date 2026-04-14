@@ -47,7 +47,7 @@
 #'   setChildren
 #'   textGrob
 #' @importFrom rlang
-#'   warn
+#'   abort caller_env inform warn
 #' @useDynLib ggrepel
 #' @keywords internal
 "_PACKAGE"
