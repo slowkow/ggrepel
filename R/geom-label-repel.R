@@ -99,10 +99,11 @@ GeomLabelRepel <- ggproto(
   required_aes = c("x", "y", "label"),
 
   default_aes = aes(
-    colour = "black", fill = "white", size = 3.88, angle = 0,
-    alpha = NA, family = "", fontface = 1, lineheight = 1.2,
+    colour = from_theme(colour %||% ink), fill = from_theme(fill %||% paper),
+    size = from_theme(fontsize), angle = 0,
+    alpha = NA, family = from_theme(family), fontface = 1, lineheight = 1.2,
     hjust = 0.5, vjust = 0.5, point.size = 1,
-    linewidth = 0.25, linetype = 1,
+    linewidth = from_theme(borderwidth * 0.5), linetype = from_theme(bordertype),
     segment.linetype = 1, segment.colour = NULL, segment.size = 0.5, segment.alpha = NULL,
     segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
     segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,

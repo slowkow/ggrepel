@@ -35,6 +35,9 @@ theme_set(theme_classic(base_size = 18) %+replace% theme(
   plot.title   = element_text(size = 18, vjust = 2, hjust = 0.5),
   strip.text   = element_text(size = 18),
   strip.background = element_blank()
+) + theme(
+  # Keep text labels at the default size (11 pt) with the larger base_size.
+  geom = element_geom(fontsize = 11)
 ))
 ```
 
@@ -129,15 +132,17 @@ The following aesthetics are the same for all functions (`geom_text()`, `geom_te
 
 |Aesthetic       | Default      | Description
 |--------------- | ------------ | ------------------------------------------------
-|`color` | `"black"`    | text and label border color
-|`size` | `3.88`    | font size
+|`color` | `ink` from theme    | text and label border color
+|`size` | `fontsize` from theme    | font size
 |`angle` | `0`    | angle of the text label
 |`alpha` | `NA`    | transparency of the text label
-|`family` | `""`    | font name
+|`family` | `family` from theme    | font name
 |`fontface` | `1`    | "plain", "bold", "italic", "bold.italic"
 |`lineheight` | `1.2`    | line height for text labels
 |`hjust` | `0.5`    | horizontal justification
 |`vjust` | `0.5`    | vertical justification
+
+As in ggplot2 (>= 4.0.0), the defaults for `color`, `size`, and `family` come from the theme, so `theme_gray(base_family = "serif")` also changes the font of the labels. `geom_label_repel()` takes `fill`, `linewidth`, and `linetype` from the theme as well. `geom_marquee_repel()` keeps the fixed defaults `"black"`, `3.88`, and `""` to match `marquee::geom_marquee()`.
 
 These aesthetics are specific to ggrepel functions, but not applicable to ggplot2 functions:
 
@@ -145,7 +150,7 @@ These aesthetics are specific to ggrepel functions, but not applicable to ggplot
 |--------------- | ------------ | ------------------------------------------------
 |`point.size` | `1`    | size of each point for each text label
 |`segment.linetype` | `1`    | line segment solid, dashed, etc.
-|`segment.color` | `"black"`    | line segment color
+|`segment.color` | same as `color`    | line segment color
 |`segment.size`  | `0.5 mm`     | line segment thickness
 |`segment.alpha` | `1.0`        | line segment transparency
 |`segment.curvature` | `0`      | numeric, negative for left-hand and positive for right-hand curves, 0 for straight lines
