@@ -66,6 +66,9 @@ theme_set(theme_classic(base_size = 18) %+replace% theme(
   plot.title   = element_text(size = 18, vjust = 2, hjust = 0.5),
   strip.text   = element_text(size = 18),
   strip.background = element_blank()
+) + theme(
+  # Keep text labels at the default size (11 pt) with the larger base_size.
+  geom = element_geom(fontsize = 11)
 ))
 ```
 
