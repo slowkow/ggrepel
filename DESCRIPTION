@@ -28,7 +28,7 @@ Description: Provides text and label geoms for 'ggplot2' that help to avoid
     data points.
 Depends:
     R (>= 4.1.0),
-    ggplot2 (>= 3.5.2)
+    ggplot2 (>= 4.0.0)
 Imports:
     grid,
     Rcpp,

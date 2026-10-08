@@ -11,6 +11,12 @@ ggrepel 0.9.8.9999
 
 [pull request 281]: https://github.com/slowkow/ggrepel/pull/281
 
+- `geom_text_repel()` and `geom_label_repel()` now take their default `colour`, `size`, and `family` from the theme, like `geom_text()` and `geom_label()` in ggplot2 4.0.0. For example, `theme_gray(base_family = "serif")` now also changes the font of the labels. `geom_label_repel()` also takes `fill`, `linewidth`, and `linetype` from the theme. As a result, the default `size` now follows the base size of the theme: for example, `theme_classic(base_size = 18)` gives a `size` of about 6.33 instead of 3.88. With the default theme, it changes only slightly from 3.88 to about 3.87. Thanks to @cojiso for reporting this in [issue 282] and contributing the fix.
+
+[issue 282]: https://github.com/slowkow/ggrepel/issues/282
+
+- The minimum required version of ggplot2 has increased from 3.5.2 to 4.0.0 to support theme-based geom defaults.
+
 
 ggrepel 0.9.8
 ========================
