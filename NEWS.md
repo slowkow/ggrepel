@@ -7,6 +7,10 @@ ggrepel 0.9.8.9999
 
 [pull request 280]: https://github.com/slowkow/ggrepel/pull/280
 
+- Add `side` aesthetic to `geom_text_repel()` and `geom_label_repel()` to choose which side of the label the line segment attaches to: `"top"`, `"right"`, `"bottom"`, or `"left"`. The default `side = 0` chooses the side automatically, as before. This is useful for keeping segments consistent when labels are aligned in a column. Thanks to @arkriloth0 for this contribution in [pull request 281].
+
+[pull request 281]: https://github.com/slowkow/ggrepel/pull/281
+
 
 ggrepel 0.9.8
 ========================

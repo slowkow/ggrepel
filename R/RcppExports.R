@@ -106,8 +106,15 @@ intersect_line_rectangle <- function(p1, p2, b) {
     .Call('_ggrepel_intersect_line_rectangle', PACKAGE = 'ggrepel', p1, p2, b)
 }
 
-select_line_connection <- function(p1, b) {
-    .Call('_ggrepel_select_line_connection', PACKAGE = 'ggrepel', p1, b)
+#' Find the point on a box where a segment from a data point should attach.
+#' @param p1 A point like \code{c(x, y)}
+#' @param b A box like \code{c(x1, y1, x2, y2)}
+#' @param side Force the segment to attach to one side of the box:
+#'   1 = top, 2 = right, 3 = bottom, 4 = left. Any other value (the default 0)
+#'   chooses the side automatically.
+#' @noRd
+select_line_connection <- function(p1, b, side = 0L) {
+    .Call('_ggrepel_select_line_connection', PACKAGE = 'ggrepel', p1, b, side)
 }
 
 approximately_equal <- function(x1, x2) {

@@ -166,9 +166,16 @@ NumericVector intersect_line_rectangle(
 }
 
 
+//' Find the point on a box where a segment from a data point should attach.
+//' @param p1 A point like \code{c(x, y)}
+//' @param b A box like \code{c(x1, y1, x2, y2)}
+//' @param side Force the segment to attach to one side of the box:
+//'   1 = top, 2 = right, 3 = bottom, 4 = left. Any other value (the default 0)
+//'   chooses the side automatically.
+//' @noRd
 // [[Rcpp::export]]
 NumericVector select_line_connection(
-    NumericVector p1, NumericVector b
+    NumericVector p1, NumericVector b, int side = 0
 ) {
 
   NumericVector out(2);
@@ -187,7 +194,13 @@ NumericVector select_line_connection(
   bool right = false;
   bool bottom = false;
 
-  if ((p1[0] >= b[0]) && (p1[0] <= b[2])) {
+  if (side == 2) {
+    out[0] = b[2];
+    right = true;
+  } else if (side == 4) {
+    out[0] = b[0];
+    left = true;
+  } else if ((p1[0] >= b[0]) && (p1[0] <= b[2])) {
     out[0] = p1[0];
   } else if (p1[0] > b[2]) {
     out[0] = b[2];
@@ -197,7 +210,13 @@ NumericVector select_line_connection(
     left = true;
   }
 
-  if ((p1[1] >= b[1]) && (p1[1] <= b[3])) {
+  if (side == 1) {
+    out[1] = b[3];
+    top = true;
+  } else if (side == 3) {
+    out[1] = b[1];
+    bottom = true;
+  } else if ((p1[1] >= b[1]) && (p1[1] <= b[3])) {
     out[1] = p1[1];
   } else if (p1[1] > b[3]) {
     out[1] = b[3];
@@ -216,20 +235,26 @@ NumericVector select_line_connection(
   );
 
 
+  // A forced side can put the attachment point level with the data point, so
+  // guard against dividing by zero.
   if ((top || bottom) && !(left || right)) {
     // top or bottom
     double altd = std::sqrt(
       std::pow(p1[0] - midx, 2) +
       std::pow(p1[1] - out[1], 2)
     );
-    out[0] = out[0] + (midx - out[0]) * d / altd;
+    if (altd > 0) {
+      out[0] = out[0] + (midx - out[0]) * d / altd;
+    }
   } else if ((left || right) && !(top || bottom)) {
     // left or right
     double altd = std::sqrt(
       std::pow(p1[0] - out[0], 2) +
       std::pow(p1[1] - midy, 2)
     );
-    out[1] = out[1] + (midy - out[1]) * d / altd;
+    if (altd > 0) {
+      out[1] = out[1] + (midy - out[1]) * d / altd;
+    }
   } else if ((left || right) && (top || bottom)) {
     double altd1 = std::sqrt(
       std::pow(p1[0] - midx, 2) +
@@ -239,7 +264,16 @@ NumericVector select_line_connection(
       std::pow(p1[0] - out[0], 2) +
       std::pow(p1[1] - midy, 2)
     );
-    if (altd1 < altd2) {
+    // Stay on the forced side: slide along it toward the center.
+    bool slide_x;
+    if (side == 1 || side == 3) {
+      slide_x = true;
+    } else if (side == 2 || side == 4) {
+      slide_x = false;
+    } else {
+      slide_x = altd1 < altd2;
+    }
+    if (slide_x) {
       out[0] = out[0] + (midx - out[0]) * d / altd1;
     } else {
       out[1] = out[1] + (midy - out[1]) * d / altd2;
