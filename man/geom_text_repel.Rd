@@ -223,6 +223,18 @@ Alignment with \code{hjust} will be preserved if labels only move up and down
 by using \code{direction="y"}. For \code{vjust}, use \code{direction="x"}.
 }
 
+\section{Attaching line segments to one side of the label}{
+
+By default, each line segment attaches to the side of its label that is
+closest to its data point, so segments may attach to different sides of
+different labels. Set the \code{side} aesthetic to \code{"top"},
+\code{"right"}, \code{"bottom"}, or \code{"left"} (or the numbers 1 to 4)
+to attach segments to that side of the label. This is useful together with
+\code{hjust} and \code{direction} when labels are aligned in a column. The
+default \code{side = 0} chooses the side automatically. A segment may cross
+its label if the data point is on the opposite side.
+}
+
 \examples{
 
 p <- ggplot(mtcars,

@@ -156,6 +156,7 @@ These aesthetics are specific to ggrepel functions, but not applicable to ggplot
 |`segment.squareShape` | `1`          | shape of the curve relative to additional control points inserted if square is `TRUE`
 |`segment.inflect` | `FALSE`      | curve inflection at the midpoint
 |`segment.debug` | `FALSE`      | display the curve debug information
+|`side` | `0`          | side of the label where the line segment attaches: "top", "right", "bottom", "left", or 0 to choose automatically
 
 And the following aesthetics are specific to `geom_marquee_repel()`:
 
@@ -911,6 +912,56 @@ ggplot(dat, aes(wt, mpg, label = car)) +
     limits = c(2.4, 3.8)
   ) +
   geom_point(color = "red")
+```
+
+### Attach line segments to one side of the label
+
+By default, each line segment attaches to the side of its label that is closest
+to its data point. When labels are stacked in a column, that can mean some
+segments attach to the bottom of their labels and others to the side. Set the
+`side` aesthetic to `"top"`, `"right"`, `"bottom"`, or `"left"` to attach every
+segment to the same side:
+
+```{r side, echo=TRUE, fig.width=9, fig.height=4}
+set.seed(23)
+
+dat <- data.frame(
+  x = runif(10, 70, 105),
+  y = runif(10, 5, 10),
+  label = LETTERS[1:10]
+)
+
+p <- ggplot(dat, aes(x, y, label = label)) +
+  geom_point(color = "red") +
+  xlim(70, 130) +
+  ylim(0, 50)
+
+p1 <- p +
+  geom_label_repel(
+    nudge_x      = 110 - dat$x,
+    nudge_y      = 25,
+    direction    = "y",
+    hjust        = 0,
+    segment.size = 0.2,
+    min.segment.length = 0,
+    seed         = 42
+  ) +
+  ggtitle("side = 0 (default)")
+
+p2 <- p +
+  geom_label_repel(
+    nudge_x      = 110 - dat$x,
+    nudge_y      = 25,
+    direction    = "y",
+    hjust        = 0,
+    side         = "left",
+    segment.size = 0.2,
+    min.segment.length = 0,
+    seed         = 42
+  ) +
+  ggtitle('side = "left"')
+
+gridExtra::grid.arrange(p1, p2, ncol = 2)
 ```
 
 ### Using ggrepel with stat_summary()

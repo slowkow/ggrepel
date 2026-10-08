@@ -107,8 +107,7 @@ GeomLabelRepel <- ggproto(
     segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
     segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
     segment.inflect = FALSE, segment.debug = FALSE,
-    arrow.fill = NULL, 
-    side = 0
+    arrow.fill = NULL, side = 0
   ),
 
   draw_panel = function(
@@ -208,8 +207,7 @@ GeomLabelRepel <- ggproto(
       data$hjust <- compute_just(data$hjust, data$x)
     }
 
-    # Convert side to numeric if character
-    if (is.character(data$side)) {
+    if (is.character(data$side) || is.factor(data$side)) {
       data$side <- compute_side(data$side)
     }
 
