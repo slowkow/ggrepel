@@ -31,3 +31,4 @@ _snaps/
 ^justfile$
 ^Rplots.pdf$
 ^\.claude$
+^\.lintr\.R$
