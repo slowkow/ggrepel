@@ -53,9 +53,9 @@ Other contributors:
   \item Saulius Lukauskas [contributor]
   \item Jean-Olivier Irisson (\href{https://orcid.org/0000-0003-4920-3880}{ORCID}) [contributor]
   \item Zhian N Kamvar (\href{https://orcid.org/0000-0003-1458-7108}{ORCID}) [contributor]
-  \item Thompson Ryan (\href{https://orcid.org/0000-0002-0450-8181}{ORCID}) [contributor]
-  \item Dervieux Christophe (\href{https://orcid.org/0000-0003-4474-2498}{ORCID}) [contributor]
-  \item Yutani Hiroaki [contributor]
+  \item Ryan Thompson (\href{https://orcid.org/0000-0002-0450-8181}{ORCID}) [contributor]
+  \item Christophe Dervieux (\href{https://orcid.org/0000-0003-4474-2498}{ORCID}) [contributor]
+  \item Hiroaki Yutani [contributor]
   \item Pierre Gramme [contributor]
   \item Amir Masoud Abdol [contributor]
   \item Malcolm Barrett (\href{https://orcid.org/0000-0003-0299-5825}{ORCID}) [contributor]
@@ -64,6 +64,8 @@ Other contributors:
   \item Michael Chirico (\href{https://orcid.org/0000-0003-0787-087X}{ORCID}) [contributor]
   \item Pedro Aphalo (\href{https://orcid.org/0000-0003-3385-972X}{ORCID}) [contributor]
   \item Francis Barton [contributor]
+  \item Yann Cohen (\href{https://orcid.org/0009-0009-0509-3609}{ORCID}) [contributor]
+  \item cojiso [contributor]
 }
 
 }
