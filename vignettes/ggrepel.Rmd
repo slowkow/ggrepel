@@ -58,10 +58,8 @@ knit_hooks$set(
 library(gridExtra)
 library(ggplot2)
 theme_set(theme_classic(base_size = 18) %+replace% theme(
-  # axis.line.y = element_line(colour = "black", size = 0.2),
-  # axis.line.x = element_line(colour = "black", size = 0.2),
-  axis.ticks   = element_line(colour = "black", size = 0.3),
-  panel.background = element_rect(size = 0.3, fill = NA),
+  axis.ticks   = element_line(colour = "black", linewidth = 0.3),
+  panel.background = element_rect(linewidth = 0.3, fill = NA),
   axis.line    = element_blank(),
   plot.title   = element_text(size = 18, vjust = 2, hjust = 0.5),
   strip.text   = element_text(size = 18),
