@@ -17,6 +17,10 @@ ggrepel 0.9.8.9999
 
 - The minimum required version of ggplot2 has increased from 3.5.2 to 4.0.0 to support theme-based geom defaults.
 
+- The line segments drawn by `geom_text_repel()`, `geom_label_repel()`, and `geom_marquee_repel()` now take their default `segment.size` and `segment.linetype` from the theme's `linewidth` and `linetype`, like `geom_segment()` in ggplot2 4.0.0. With the default theme, segments look the same as before. With a larger `base_size`, they are thicker: for example, `theme_classic(base_size = 18)` gives a `segment.size` of about 0.82 instead of 0.5. Thanks to @cojiso for pointing this out in [pull request 283].
+
+[pull request 283]: https://github.com/slowkow/ggrepel/pull/283
+
 
 ggrepel 0.9.8
 ========================

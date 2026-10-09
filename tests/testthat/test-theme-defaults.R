@@ -26,3 +26,19 @@ test_that("geom_label_repel() uses the same theme defaults as geom_label()", {
     layer_data(p + geom_label())[cols]
   )
 })
+
+test_that("repel segments use the same theme defaults as geom_segment()", {
+  seg_theme <- custom_theme + theme(geom = element_geom(linetype = 2))
+  q <- ggplot(mtcars[1, ], aes(wt, mpg, xend = wt, yend = mpg, label = "a")) +
+    seg_theme
+  expected <- layer_data(q + geom_segment())[c("linewidth", "linetype")]
+  geoms <- list(geom_text_repel(), geom_label_repel())
+  if (requireNamespace("marquee", quietly = TRUE)) {
+    geoms <- c(geoms, list(geom_marquee_repel()))
+  }
+  for (geom in geoms) {
+    d <- layer_data(q + geom)
+    expect_equal(d$segment.size, expected$linewidth)
+    expect_equal(d$segment.linetype, expected$linetype)
+  }
+})

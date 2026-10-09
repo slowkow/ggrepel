@@ -36,8 +36,8 @@ theme_set(theme_classic(base_size = 18) %+replace% theme(
   strip.text   = element_text(size = 18),
   strip.background = element_blank()
 ) + theme(
-  # Keep text labels at the default size (11 pt) with the larger base_size.
-  geom = element_geom(fontsize = 11)
+  # Keep labels and lines at their default sizes with the larger base_size.
+  geom = element_geom(fontsize = 11, linewidth = 0.5, borderwidth = 0.5)
 ))
 ```
 
@@ -142,16 +142,16 @@ The following aesthetics are the same for all functions (`geom_text()`, `geom_te
 |`hjust` | `0.5`    | horizontal justification
 |`vjust` | `0.5`    | vertical justification
 
-As in ggplot2 (>= 4.0.0), the defaults for `color`, `size`, and `family` come from the theme, so `theme_gray(base_family = "serif")` also changes the font of the labels. `geom_label_repel()` takes `fill`, `linewidth`, and `linetype` from the theme as well. `geom_marquee_repel()` keeps the fixed defaults `"black"`, `3.88`, and `""` to match `marquee::geom_marquee()`.
+As in ggplot2 (>= 4.0.0), the defaults for `color`, `size`, and `family` come from the theme, so `theme_gray(base_family = "serif")` also changes the font of the labels. `geom_label_repel()` takes `fill`, `linewidth`, and `linetype` from the theme as well. `geom_marquee_repel()` keeps the fixed text defaults `"black"`, `3.88`, and `""` to match `marquee::geom_marquee()`. In all of them, the line segments take `segment.size` and `segment.linetype` from the theme's `linewidth` and `linetype`, like `geom_segment()`.
 
 These aesthetics are specific to ggrepel functions, but not applicable to ggplot2 functions:
 
 |Aesthetic       | Default      | Description
 |--------------- | ------------ | ------------------------------------------------
 |`point.size` | `1`    | size of each point for each text label
-|`segment.linetype` | `1`    | line segment solid, dashed, etc.
+|`segment.linetype` | `linetype` from theme    | line segment solid, dashed, etc.
 |`segment.color` | same as `color`    | line segment color
-|`segment.size`  | `0.5 mm`     | line segment thickness
+|`segment.size`  | `linewidth` from theme     | line segment thickness
 |`segment.alpha` | `1.0`        | line segment transparency
 |`segment.curvature` | `0`      | numeric, negative for left-hand and positive for right-hand curves, 0 for straight lines
 |`segment.angle` | `90`         | 0-180, less than 90 skews control points toward the start point

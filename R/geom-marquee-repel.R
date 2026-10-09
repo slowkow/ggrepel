@@ -89,8 +89,8 @@ GeomMarqueeRepel <- ggproto(
     # marquee specific
     style = NULL, width = NA,
     # repel specific
-    point.size = 1, segment.linetype = 1, segment.colour = NULL,
-    segment.size = 0.5, segment.alpha = NULL, segment.curvature = 0,
+    point.size = 1, segment.linetype = from_theme(linetype), segment.colour = NULL,
+    segment.size = from_theme(linewidth), segment.alpha = NULL, segment.curvature = 0,
     segment.angle = 90, segment.ncp = 1, segment.shape = 0.5,
     segment.square = TRUE, segment.squareShape = 1, segment.inflect = FALSE,
     segment.debug = FALSE, arrow.fill = NULL
