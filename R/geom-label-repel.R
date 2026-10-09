@@ -5,7 +5,8 @@
 #' @param label.r Radius of rounded corners, as unit or number. Defaults
 #'   to 0.15. (Default unit is lines, but other units can be specified by
 #'   passing \code{unit(x, "units")}).
-#' @param label.size Size of label border, in mm.
+#' @param label.size Deprecated. Use the \code{linewidth} aesthetic to set the
+#'   width of the label border instead.
 #' @export
 geom_label_repel <- function(
   mapping = NULL, data = NULL, stat = "identity", position = "identity",
@@ -15,7 +16,7 @@ geom_label_repel <- function(
   label.padding = 0.25,
   point.padding = 1e-6,
   label.r = 0.15,
-  label.size = 0.25,
+  label.size = NULL,
   min.segment.length = 0.5,
   arrow = NULL,
   force = 1,
@@ -52,6 +53,18 @@ geom_label_repel <- function(
       c("ggrepel: Repulsion works correctly only for rotation angles that are multiples of 90 degrees.")
     )
   }
+  extra_args <- list(...)
+  if (!is.null(label.size)) {
+    rlang::warn(
+      c(
+        "ggrepel: The `label.size` argument of `geom_label_repel()` is deprecated.",
+        "i" = "Use the `linewidth` aesthetic instead."
+      ),
+      .frequency = "regularly",
+      .frequency_id = "ggrepel_label_size"
+    )
+    extra_args$linewidth <- extra_args$linewidth %||% label.size
+  }
   layer(
     data = data,
     mapping = mapping,
@@ -60,13 +73,12 @@ geom_label_repel <- function(
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(
+    params = rlang::list2(
       parse = parse,
       box.padding  = to_unit(box.padding),
       label.padding = to_unit(label.padding),
       point.padding  = to_unit(point.padding),
       label.r = to_unit(label.r),
-      label.size = label.size,
       min.segment.length = to_unit(min.segment.length),
       arrow = arrow,
       na.rm = na.rm,
@@ -82,7 +94,7 @@ geom_label_repel <- function(
       direction = match.arg(direction),
       seed = seed,
       verbose = verbose,
-      ...
+      !!!extra_args
     )
   )
 }
@@ -120,7 +132,6 @@ GeomLabelRepel <- ggproto(
     label.padding = 0.25,
     point.padding = 1e-6,
     label.r = 0.15,
-    label.size = 0.25,
     min.segment.length = 0.5,
     arrow = NULL,
     force = 1,
@@ -221,7 +232,6 @@ GeomLabelRepel <- ggproto(
       label.padding = to_unit(label.padding),
       point.padding = to_unit(point.padding),
       label.r = to_unit(label.r),
-      label.size = label.size,
       min.segment.length = to_unit(min.segment.length),
       arrow = arrow,
       force = force,

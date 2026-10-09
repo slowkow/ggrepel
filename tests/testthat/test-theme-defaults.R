@@ -42,3 +42,15 @@ test_that("repel segments use the same theme defaults as geom_segment()", {
     expect_equal(d$segment.linetype, expected$linetype)
   }
 })
+
+test_that("label.size is deprecated in favour of linewidth", {
+  rlang::local_options(rlib_warning_verbosity = "verbose")
+  expect_warning(
+    l <- geom_label_repel(label.size = 1),
+    "`label.size` argument of `geom_label_repel\\(\\)` is deprecated"
+  )
+  expect_equal(layer_data(p + l)$linewidth, 1)
+  # An explicit linewidth wins over label.size.
+  expect_warning(l <- geom_label_repel(label.size = 1, linewidth = 2))
+  expect_equal(layer_data(p + l)$linewidth, 2)
+})

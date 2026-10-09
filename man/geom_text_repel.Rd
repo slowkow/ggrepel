@@ -18,7 +18,7 @@ geom_label_repel(
   label.padding = 0.25,
   point.padding = 1e-06,
   label.r = 0.15,
-  label.size = 0.25,
+  label.size = NULL,
   min.segment.length = 0.5,
   arrow = NULL,
   force = 1,
@@ -139,7 +139,8 @@ specified by passing \code{unit(x, "units")}).}
 to 0.15. (Default unit is lines, but other units can be specified by
 passing \code{unit(x, "units")}).}
 
-\item{label.size}{Size of label border, in mm.}
+\item{label.size}{Deprecated. Use the \code{linewidth} aesthetic to set the
+width of the label border instead.}
 
 \item{min.segment.length}{Skip drawing segments shorter than this, as unit or
 number. Defaults to 0.5. (Default unit is lines, but other units can be
