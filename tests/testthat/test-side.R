@@ -72,3 +72,17 @@ test_that("side can be set or mapped in geom_text_repel and geom_label_repel", {
   }
   dev.off()
 })
+
+test_that("side can be set in geom_marquee_repel", {
+  skip_if_not_installed("marquee")
+  dat <- data.frame(x = 1:4, y = 1:4, label = letters[1:4])
+  png_file <- withr::local_tempfile(pattern = "testthat_test-side-marquee")
+  png(png_file)
+  p <- ggplot(dat, aes(x, y, label = label))
+  expect_silent(print(p + geom_marquee_repel(side = "left", seed = 1)))
+  expect_equal(layer_data(p + geom_marquee_repel(side = "left"))$side, rep("left", 4))
+  expect_warning(
+    print(p + geom_marquee_repel(side = "nonsense", seed = 1)), "Ignoring unknown"
+  )
+  dev.off()
+})
